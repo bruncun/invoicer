@@ -1,0 +1,5 @@
+.layout-container {
+  @include media-breakpoint-down(xs) {
+    min-height: calc(100vh - 4rem);
+  }
+}
