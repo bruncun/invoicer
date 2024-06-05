@@ -269,27 +269,6 @@ export const InvoicesShow = () => {
         ),
       ]);
 
-      // await mutateAsync(
-      //   {
-      //     resource: "items",
-      //     ids: invoice.items.map((item) => item.id),
-      //     values: items!.map((item) => ({
-      //       invoiceId: selectedInvoice.data.id,
-      //       name: item.name,
-      //       quantity: parseInt(item.quantity),
-      //       price: parseFloat(item.price),
-      //       total: parseInt(item.quantity) * parseFloat(item.price),
-      //     })),
-      //   },
-      //   {
-      //     onError: (error, variables, context) => {
-      //       return error;
-      //     },
-      //     onSuccess: (data, variables, context) => {
-      //       return data.data;
-      //     },
-      //   }
-      // );
       close();
       reset();
       setIsSubmitting(false);
@@ -354,7 +333,7 @@ export const InvoicesShow = () => {
               <div className="clearfix"></div>
               <p>{invoice.description}</p>
             </div>
-            <div>
+            <div className="text-lg-end">
               <span className="d-block">{invoice.senderAddress.street}</span>
               <span className="d-block">{invoice.senderAddress.city}</span>
               <span className="d-block">{invoice.senderAddress.postCode}</span>
@@ -773,8 +752,11 @@ export const InvoicesShow = () => {
                     className="pt-2 justify-content-end d-flex"
                   >
                     <OverlayTrigger
+                      delay={{ show: 300, hide: 0 }}
                       overlay={
-                        <Tooltip id="delete-tooltip">Delete Item</Tooltip>
+                        <Tooltip id="delete-tooltip" className="position-fixed">
+                          Delete Item
+                        </Tooltip>
                       }
                     >
                       <Button

@@ -9,27 +9,30 @@ import {
 } from "react-bootstrap";
 import { Icon } from "../icon";
 import useTheme from "~/hooks/use-theme";
-import { useLogout } from "@refinedev/core";
+import { useLogout, useNavigation, useToPath } from "@refinedev/core";
+import { Link } from "@remix-run/react";
 
 export const Menu = () => {
   const { theme, toggleTheme } = useTheme();
   const { mutate, isLoading } = useLogout();
+  const { listUrl } = useNavigation();
+  const invoicesListUrl = listUrl("invoices");
 
   return (
     <>
       <div className="d-lg-flex flex-column flex-shrink-0 d-none bg-dark z-3 vh-100 shadow-lg">
-        <a
-          href="/"
-          className="d-block px-3 py-2 link-body-emphasis text-decoration-none bg-primary text-white text-center position-relative btn-shadow border border-primary"
+        <Link
+          to={invoicesListUrl}
+          className="d-block px-3 py-2 text-decoration-none bg-primary text-white text-center position-relative btn-shadow border border-primary"
         >
-          <Icon name="receipt-cutoff" className="fs-3"></Icon>
+          <Icon name="receipt-cutoff" className="fs-2"></Icon>
 
           <span className="visually-hidden">Icon-only</span>
-        </a>
+        </Link>
         <div className="mt-auto px-3 pb-3">
           <Stack direction="vertical" gap={3}>
             <OverlayTrigger
-              delay={{ show: 250, hide: 400 }}
+              delay={{ show: 300, hide: 0 }}
               overlay={
                 <Tooltip id="theme-toggle-tooltip">Toggle Theme</Tooltip>
               }
@@ -47,7 +50,7 @@ export const Menu = () => {
               </Button>
             </OverlayTrigger>
             <OverlayTrigger
-              delay={{ show: 250, hide: 400 }}
+              delay={{ show: 300, hide: 0 }}
               overlay={<Tooltip id="logout-tooltip">Logout</Tooltip>}
             >
               <Button
@@ -68,7 +71,11 @@ export const Menu = () => {
         </div>
       </div>
       <Navbar expand="lg" bg="dark" className="d-lg-none" fixed="top">
-        <Navbar.Brand className="bg-primary text-white p-3 lh-1">
+        <Navbar.Brand
+          className="bg-primary text-white p-3 lh-1"
+          as={Link}
+          to={invoicesListUrl}
+        >
           <Icon name="receipt-cutoff" className="fs-lg-1 fs-2"></Icon>
         </Navbar.Brand>
         <Nav className="flex-row me-3">

@@ -103,18 +103,10 @@ $utilities: map-merge(
           )
         ),
     ),
-    "viewport-height":
-      map-merge(
-        map-get($utilities, "viewport-height"),
-        (
-          responsive: true,
-        )
-      ),
   )
 );
 
 @import "../node_modules/bootstrap/scss/utilities/api";
-@import "../app/components/Layout/Layout.styles.scss";
 
 html {
   font-size: 14px;

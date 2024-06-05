@@ -8,25 +8,6 @@ import { Icon } from "~/components/icon";
 import { StatusBadge } from "~/components/status-badge";
 import { formatCurrency, formatDisplayDate } from "~/utility/formatters";
 
-export const InvoicesEmptyState = () => (
-  <div
-    className="d-flex flex-grow-1 align-items-center justify-content-center h-100"
-    data-testid="empty-state"
-  >
-    <Row>
-      <Col xs={{ span: 6, offset: 3 }} className="text-center">
-        <img
-          src={emptyStateIllustration}
-          alt="An illustration of two empty clipboards"
-          className="img-fluid mb-5"
-        ></img>
-        <h2 className="fs-5 mb-3">No invoices</h2>
-        <p className="text-muted">Create a new invoice to get started.</p>
-      </Col>
-    </Row>
-  </div>
-);
-
 export const InvoicesList = ({
   invoices,
   clients,
@@ -60,6 +41,29 @@ export const InvoicesList = ({
     </>
   );
 };
+
+export const InvoicesEmptyState = () => (
+  <div
+    className="d-flex align-items-center justify-content-center flex-grow-1 mt-7 mt-lg-9"
+    data-testid="empty-state"
+  >
+    <Row className="w-100">
+      <Col
+        xs={{ span: 10, offset: 1 }}
+        lg={{ span: 5 }}
+        className="text-center mx-lg-auto"
+      >
+        <img
+          src={emptyStateIllustration}
+          alt="An illustration of two empty clipboards"
+          className="img-fluid mb-5"
+        ></img>
+        <h2 className="fs-5 mb-3">No invoices</h2>
+        <p className="text-muted mb-7">Create a new invoice to get started.</p>
+      </Col>
+    </Row>
+  </div>
+);
 
 export const InvoicesItem = ({
   invoice,
