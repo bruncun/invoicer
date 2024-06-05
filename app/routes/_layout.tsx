@@ -1,12 +1,14 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Outlet } from "@remix-run/react";
+import { Outlet, useLocation } from "@remix-run/react";
 import { authProvider } from "~/authProvider";
 import { Layout } from "~/components/layout";
 
 export default function BaseLayout() {
+  const { state } = useLocation();
+
   return (
-    <Layout>
+    <Layout state={state}>
       <Outlet />
     </Layout>
   );

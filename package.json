@@ -15,6 +15,7 @@
     "refine": "refine"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.4.2",
     "@refinedev/cli": "^2.16.22",
     "@refinedev/core": "^4.47.1",
     "@refinedev/devtools": "^1.1.32",
@@ -37,7 +38,9 @@
     "js-cookie": "^3.0.1",
     "react": "^18.0.0",
     "react-bootstrap": "^2.10.2",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "react-hook-form": "^7.51.5",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.4.1",

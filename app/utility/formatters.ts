@@ -7,6 +7,6 @@ export function formatCurrency(amount: number): string {
   }).format(amount);
 }
 
-export function formatDate(date: string): string {
+export function formatDisplayDate(date: string): string {
   return format(new Date(date), "MMM dd yyyy");
 }

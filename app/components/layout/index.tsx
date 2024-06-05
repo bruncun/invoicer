@@ -1,9 +1,11 @@
 import { Col, Container, Row } from "react-bootstrap";
 import { PropsWithChildren } from "react";
 import { Menu } from "../menu";
-import { SlideOver } from "../slide-over";
 
-export const Layout = ({ children }: PropsWithChildren) => (
+export const Layout = ({
+  children,
+  state,
+}: PropsWithChildren & { state: any }) => (
   <>
     <div className="d-lg-flex flex-nowrap vh-lg-100">
       <Menu></Menu>
@@ -17,6 +19,5 @@ export const Layout = ({ children }: PropsWithChildren) => (
         </Container>
       </div>
     </div>
-    {/* <SlideOver></SlideOver> */}
   </>
 );

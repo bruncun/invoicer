@@ -11,25 +11,25 @@ export type Database = {
     Tables: {
       addresses: {
         Row: {
-          city: string | null
-          country: string | null
+          city: string
+          country: string
           id: number
-          postCode: string | null
-          street: string | null
+          postCode: string
+          street: string
         }
         Insert: {
-          city?: string | null
-          country?: string | null
+          city: string
+          country: string
           id?: number
-          postCode?: string | null
-          street?: string | null
+          postCode: string
+          street: string
         }
         Update: {
-          city?: string | null
-          country?: string | null
+          city?: string
+          country?: string
           id?: number
-          postCode?: string | null
-          street?: string | null
+          postCode?: string
+          street?: string
         }
         Relationships: []
       }
@@ -55,56 +55,56 @@ export type Database = {
         Row: {
           clientAddressId: number
           clientId: number
-          createdAt: string
+          created_at: string
           description: string
-          id: string
+          id: number
           paymentDue: string
-          paymentTerms: number
+          paymentTerms: string
           senderAddressId: number
-          status: string | null
+          status: string
           total: number
         }
         Insert: {
           clientAddressId: number
           clientId: number
-          createdAt: string
+          created_at?: string
           description: string
-          id: string
+          id?: number
           paymentDue: string
-          paymentTerms: number
+          paymentTerms: string
           senderAddressId: number
-          status?: string | null
+          status: string
           total: number
         }
         Update: {
           clientAddressId?: number
           clientId?: number
-          createdAt?: string
+          created_at?: string
           description?: string
-          id?: string
+          id?: number
           paymentDue?: string
-          paymentTerms?: number
+          paymentTerms?: string
           senderAddressId?: number
-          status?: string | null
+          status?: string
           total?: number
         }
         Relationships: [
           {
-            foreignKeyName: "invoices_clientaddressid_fkey"
+            foreignKeyName: "invoices_clientAddressId_fkey"
             columns: ["clientAddressId"]
             isOneToOne: false
             referencedRelation: "addresses"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "invoices_clientid_fkey"
+            foreignKeyName: "invoices_clientId_fkey"
             columns: ["clientId"]
             isOneToOne: false
             referencedRelation: "clients"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "invoices_senderaddressid_fkey"
+            foreignKeyName: "invoices_senderAddressId_fkey"
             columns: ["senderAddressId"]
             isOneToOne: false
             referencedRelation: "addresses"
@@ -115,7 +115,7 @@ export type Database = {
       items: {
         Row: {
           id: number
-          invoiceId: string
+          invoiceId: number | null
           name: string
           price: number
           quantity: number
@@ -123,7 +123,7 @@ export type Database = {
         }
         Insert: {
           id?: number
-          invoiceId: string
+          invoiceId?: number | null
           name: string
           price: number
           quantity: number
@@ -131,7 +131,7 @@ export type Database = {
         }
         Update: {
           id?: number
-          invoiceId?: string
+          invoiceId?: number | null
           name?: string
           price?: number
           quantity?: number
@@ -139,7 +139,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "items_invoiceid_fkey"
+            foreignKeyName: "items_invoiceId_fkey"
             columns: ["invoiceId"]
             isOneToOne: false
             referencedRelation: "invoices"

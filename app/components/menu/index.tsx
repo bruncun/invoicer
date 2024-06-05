@@ -3,14 +3,17 @@ import {
   Nav,
   Navbar,
   OverlayTrigger,
+  Spinner,
   Stack,
   Tooltip,
 } from "react-bootstrap";
 import { Icon } from "../icon";
 import useTheme from "~/hooks/use-theme";
+import { useLogout } from "@refinedev/core";
 
 export const Menu = () => {
   const { theme, toggleTheme } = useTheme();
+  const { mutate, isLoading } = useLogout();
 
   return (
     <>
@@ -26,6 +29,7 @@ export const Menu = () => {
         <div className="mt-auto px-3 pb-3">
           <Stack direction="vertical" gap={3}>
             <OverlayTrigger
+              delay={{ show: 250, hide: 400 }}
               overlay={
                 <Tooltip id="theme-toggle-tooltip">Toggle Theme</Tooltip>
               }
@@ -43,14 +47,21 @@ export const Menu = () => {
               </Button>
             </OverlayTrigger>
             <OverlayTrigger
+              delay={{ show: 250, hide: 400 }}
               overlay={<Tooltip id="logout-tooltip">Logout</Tooltip>}
             >
               <Button
                 variant="dark"
                 className="rounded lh-1 pt-2"
                 data-testid="logout"
+                onClick={() => mutate()}
+                disabled={isLoading}
               >
-                <Icon name="box-arrow-right" className="fs-4"></Icon>
+                {isLoading ? (
+                  <Spinner size="sm" color="body-emphasis"></Spinner>
+                ) : (
+                  <Icon name="box-arrow-right" className="fs-4"></Icon>
+                )}
               </Button>
             </OverlayTrigger>
           </Stack>
