@@ -1,15 +1,8 @@
-import {
-  AuthPage,
-  useLogin,
-  useForgotPassword,
-  useNotification,
-} from "@refinedev/core";
+import { useForgotPassword, useNotification } from "@refinedev/core";
 import { Link } from "@remix-run/react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import Icon from "~/components/icon";
 import { useForm } from "react-hook-form";
-import { supabaseClient } from "~/utility";
-import { useState } from "react";
 
 type ForgotPasswordFormData = {
   email: string;
