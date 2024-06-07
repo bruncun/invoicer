@@ -1,6 +1,6 @@
 import { useNotification, useUpdatePassword } from "@refinedev/core";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { Icon } from "~/components/icon";
+import Icon from "~/components/icon";
 import { useForm } from "react-hook-form";
 
 type UpdatePasswordFormData = {

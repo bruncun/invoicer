@@ -7,7 +7,7 @@ import {
   Stack,
   Tooltip,
 } from "react-bootstrap";
-import { Icon } from "../icon";
+import Icon from "../icon";
 import useTheme from "~/hooks/use-theme";
 import { useLogout, useNavigation, useToPath } from "@refinedev/core";
 import { Link } from "@remix-run/react";

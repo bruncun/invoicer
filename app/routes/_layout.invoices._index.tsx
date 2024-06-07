@@ -18,7 +18,7 @@ import {
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap";
-import { Icon } from "~/components/icon";
+import Icon from "~/components/icon";
 import { Tables } from "~/types/supabase";
 import { formatDate } from "date-fns";
 import { formatCurrency } from "~/utility/formatters";

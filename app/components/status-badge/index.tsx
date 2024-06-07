@@ -1,5 +1,5 @@
 import { Badge } from "react-bootstrap";
-import { Icon } from "../icon";
+import Icon from "../icon";
 
 export const StatusBadge = ({ status }: { status: string }) => {
   const badgeColor = {
