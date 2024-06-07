@@ -4,9 +4,11 @@ type IconProps = {
   style?: React.CSSProperties;
 };
 
-export const Icon = ({ name, className, style }: IconProps) => (
+const Icon = ({ name, className, style }: IconProps) => (
   <i
     className={`bi bi-${name} ${className ? className : ""}`}
     style={style}
   ></i>
 );
+
+export default Icon;

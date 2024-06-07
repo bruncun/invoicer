@@ -1,6 +1,6 @@
 import { useNavigation } from "@refinedev/core";
 import { Stack, Dropdown, Form, Button } from "react-bootstrap";
-import { Icon } from "~/components/icon";
+import Icon from "~/components/icon";
 
 type InvoicesPageHeaderProps = {
   filters: string[];

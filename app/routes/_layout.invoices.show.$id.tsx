@@ -27,8 +27,8 @@ import {
   Table,
   Tooltip,
 } from "react-bootstrap";
-import { FormattedId } from "~/components/formatted-id";
-import { Icon } from "~/components/icon";
+import FormattedId from "~/components/formatted-id";
+import Icon from "~/components/icon";
 import { StatusBadge } from "~/components/status-badge";
 import { Tables } from "~/types/supabase";
 import { formatDisplayDate, formatCurrency } from "~/utility/formatters";

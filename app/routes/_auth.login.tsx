@@ -1,7 +1,7 @@
 import { AuthPage, useLogin } from "@refinedev/core";
 import { Link } from "@remix-run/react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { Icon } from "~/components/icon";
+import Icon from "~/components/icon";
 import { useForm } from "react-hook-form";
 
 type LoginFormData = {
