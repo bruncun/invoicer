@@ -32,11 +32,11 @@ import Icon from "~/components/icon";
 import { StatusBadge } from "~/components/status-badge";
 import { Tables } from "~/types/supabase";
 import { formatDisplayDate, formatCurrency } from "~/utility/formatters";
-import { InvoiceType } from "./_layout.invoices._index";
 import { formatDate } from "date-fns";
 import { useFieldArray } from "react-hook-form";
 import { useEffect, useState } from "react";
 import FullScreenSpinner from "~/components/full-screen-spinner";
+import { InvoiceDto } from "~/types/invoices";
 
 export const InvoicesShow = () => {
   const { edit, list } = useNavigation();
@@ -60,7 +60,7 @@ export const InvoicesShow = () => {
     watch,
     register,
     saveButtonProps,
-  } = useModalForm<InvoiceType, HttpError, InvoiceType>({
+  } = useModalForm<InvoiceDto, HttpError, InvoiceDto>({
     refineCoreProps: { autoSave: { enabled: true } },
     syncWithLocation: true,
   });
@@ -169,7 +169,7 @@ export const InvoicesShow = () => {
     }
   };
 
-  const onFinishHandler = async (formData: InvoiceType) => {
+  const onFinishHandler = async (formData: InvoiceDto) => {
     setIsSubmitting(true);
     const newItems = formData.items.filter((item) => !item.id);
     const deletedItems = invoice?.items.filter((item) => {
