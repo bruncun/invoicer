@@ -107,6 +107,28 @@ $utilities: map-merge(
 );
 
 @import "../node_modules/bootstrap/scss/utilities/api";
+@import "../node_modules/react-toastify/scss/variables";
+
+:root {
+  --toastify-toast-width: 378px;
+  --toastify-toast-offset: 1.5rem;
+  --toastify-font-family: $font-family-sans-serif;
+}
+
+@import "../node_modules/react-toastify/scss/toastContainer";
+@import "../node_modules/react-toastify/scss/toast";
+@import "../node_modules/react-toastify/scss/animations/bounce.scss";
+
+.Toastify__toast-icon {
+  @extend .d-none;
+}
+
+.Toastify__toast {
+  @extend .mb-0;
+  @extend .py-0;
+
+  box-shadow: none;
+}
 
 html {
   font-size: 14px;

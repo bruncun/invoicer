@@ -5,10 +5,8 @@ import { authProvider } from "~/authProvider";
 import { Layout } from "~/components/layout";
 
 export default function BaseLayout() {
-  const { state } = useLocation();
-
   return (
-    <Layout state={state}>
+    <Layout>
       <Outlet />
     </Layout>
   );

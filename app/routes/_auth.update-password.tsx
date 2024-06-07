@@ -1,31 +1,23 @@
-import {
-  AuthPage,
-  useLogin,
-  useForgotPassword,
-  useNotification,
-} from "@refinedev/core";
-import { Link } from "@remix-run/react";
+import { useNotification, useUpdatePassword } from "@refinedev/core";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { Icon } from "~/components/icon";
 import { useForm } from "react-hook-form";
-import { supabaseClient } from "~/utility";
-import { useState } from "react";
 
-type ForgotPasswordFormData = {
-  email: string;
+type UpdatePasswordFormData = {
+  password: string;
 };
 
-export default function ForgotPassword() {
-  const { handleSubmit, register } = useForm<ForgotPasswordFormData>();
-  const { mutate, isLoading } = useForgotPassword();
+export default function UpdatePassword() {
+  const { handleSubmit, register } = useForm<UpdatePasswordFormData>();
+  const { mutate, isLoading } = useUpdatePassword();
   const { open } = useNotification();
 
-  const onSubmit = (data: ForgotPasswordFormData) =>
+  const onSubmit = async (data: UpdatePasswordFormData) =>
     mutate(data, {
       onSuccess: () => {
         open?.({
           type: "success",
-          message: "Instructions sent to your email.",
+          message: "Password updated.",
         });
       },
     });
@@ -39,15 +31,15 @@ export default function ForgotPassword() {
               <Icon name="receipt-cutoff" className="fs-1 text-primary"></Icon>
             </div>
             <Card.Title className="fs-4 fs-lg-3 mb-3 d-block lh-1">
-              Forgot Password
+              Update Password
             </Card.Title>
             <Form onSubmit={handleSubmit(onSubmit)}>
               <Form.Group className="mb-3">
-                <Form.Label htmlFor="email">Email</Form.Label>
+                <Form.Label htmlFor="password">New Password</Form.Label>
                 <Form.Control
-                  id="email"
-                  type="email"
-                  {...register("email", { required: true })}
+                  id="password"
+                  type="password"
+                  {...register("password", { required: true })}
                 />
               </Form.Group>
               <Button
@@ -56,11 +48,8 @@ export default function ForgotPassword() {
                 className="w-100"
                 disabled={isLoading}
               >
-                {isLoading ? "Sending..." : "Send Reset Instructions"}
+                {isLoading ? "Updating..." : "Update"}
               </Button>
-              <Link to="/login" className="d-block mt-3 text-center">
-                Already have an account? Login
-              </Link>
             </Form>
           </Card.Body>
         </Card>

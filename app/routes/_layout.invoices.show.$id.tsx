@@ -3,7 +3,9 @@ import {
   useBack,
   useCreate,
   useDelete,
+  useDeleteMany,
   useNavigation,
+  useNotification,
   useOne,
   useResource,
   useShow,
@@ -34,6 +36,7 @@ import { InvoiceType } from "./_layout.invoices._index";
 import { formatDate } from "date-fns";
 import { useFieldArray } from "react-hook-form";
 import { useEffect, useState } from "react";
+import FullScreenSpinner from "~/components/full-screen-spinner";
 
 export const InvoicesShow = () => {
   const { edit, list } = useNavigation();
@@ -45,12 +48,6 @@ export const InvoicesShow = () => {
     },
   });
   const { data: invoiceData, isLoading: isInvoicesLoading } = queryResult;
-  const invoice = invoiceData?.data as Tables<"invoices"> & {
-    clientAddress: Tables<"addresses">;
-    senderAddress: Tables<"addresses">;
-    client: Tables<"clients">;
-    items: Array<Tables<"items">>;
-  };
 
   const {
     control,
@@ -77,38 +74,105 @@ export const InvoicesShow = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const data = invoiceData?.data;
+
   useEffect(() => {
-    console.log("invoice", invoice);
-    if (!isInvoicesLoading) {
+    if (!isInvoicesLoading && data) {
       reset({
-        senderStreet: invoice.senderAddress.street,
-        senderCity: invoice.senderAddress.city,
-        senderPostCode: invoice.senderAddress.postCode,
-        senderCountry: invoice.senderAddress.country,
-        clientName: invoice.client.name,
-        clientEmail: invoice.client.email,
-        clientStreet: invoice.clientAddress.street,
-        clientCity: invoice.clientAddress.city,
-        clientPostCode: invoice.clientAddress.postCode,
-        clientCountry: invoice.clientAddress.country,
+        senderStreet: data.senderAddress.street,
+        senderCity: data.senderAddress.city,
+        senderPostCode: data.senderAddress.postCode,
+        senderCountry: data.senderAddress.country,
+        clientName: data.client.name,
+        clientEmail: data.client.email,
+        clientStreet: data.clientAddress.street,
+        clientCity: data.clientAddress.city,
+        clientPostCode: data.clientAddress.postCode,
+        clientCountry: data.clientAddress.country,
         paymentDue: formatDate(new Date(), "yyyy-MM-dd"),
         paymentTerms: "30",
-        description: invoice.description,
-        items: invoice.items,
+        description: data.description,
+        items: data.items,
       });
     }
-  }, [invoice]);
+  }, [data]);
 
   const { mutateAsync: mutateDeleteAsync } = useDelete();
+  const { mutateAsync: mutateDeleteManyAsync } = useDeleteMany();
   const { mutateAsync: mutateCreateAsync } = useCreate();
   const { mutateAsync: mutateUpdateAsync } = useUpdate();
-  const { mutateAsync: mutateUpdateManyAsync } = useUpdateMany();
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const { open } = useNotification();
+
+  const onUpdateStatus = (status: "paid" | "pending") => {
+    mutateUpdateAsync(
+      {
+        resource: "invoices",
+        id: invoice?.id,
+        values: {
+          status,
+        },
+      },
+      {
+        onError: (error, variables, context) => {
+          return error;
+        },
+        onSuccess: (data, variables, context) => {
+          if (open)
+            open({
+              type: "success",
+              message: `Invoice marked as ${status}`,
+            });
+        },
+      }
+    );
+  };
+
+  const onDeleteHandler = async () => {
+    try {
+      await Promise.all([
+        await mutateDeleteManyAsync({
+          resource: "items",
+          ids: invoice?.items.map((item) => item.id),
+        }),
+        await mutateDeleteAsync(
+          {
+            resource: "invoices",
+            id: invoice?.id,
+          },
+          {
+            onError: (error, variables, context) => {
+              return error;
+            },
+            onSuccess: (data, variables, context) => {
+              if (open)
+                open({
+                  type: "success",
+                  message: "Invoice deleted successfully",
+                });
+            },
+          }
+        ),
+        await mutateDeleteAsync({
+          resource: "addresses",
+          id: invoice?.clientAddressId,
+        }),
+        await mutateDeleteAsync({
+          resource: "addresses",
+          id: invoice?.senderAddressId,
+        }),
+      ]);
+      list("invoices");
+      setShowConfirmationModal(false);
+    } catch (error) {
+      console.error("Delete failed", error);
+    }
+  };
 
   const onFinishHandler = async (formData: InvoiceType) => {
-    console.log("formData", formData);
     setIsSubmitting(true);
     const newItems = formData.items.filter((item) => !item.id);
-    const deletedItems = invoice.items.filter((item) => {
+    const deletedItems = invoice?.items.filter((item) => {
       return !formData.items.some((newItem) => newItem.id === item.id);
     });
     const updatedItems = formData.items.filter((item) => item.id) as Array<
@@ -120,7 +184,7 @@ export const InvoicesShow = () => {
         mutateUpdateAsync(
           {
             resource: "clients",
-            id: invoice.clientId,
+            id: invoice?.clientId,
             values: {
               name: formData.clientName,
               email: formData.clientEmail,
@@ -138,7 +202,7 @@ export const InvoicesShow = () => {
         mutateUpdateAsync(
           {
             resource: "addresses",
-            id: invoice.senderAddressId,
+            id: invoice?.senderAddressId,
             values: {
               street: formData.senderStreet,
               city: formData.senderCity,
@@ -158,7 +222,7 @@ export const InvoicesShow = () => {
         mutateUpdateAsync(
           {
             resource: "addresses",
-            id: invoice.clientAddressId,
+            id: invoice?.clientAddressId,
             values: {
               street: formData.clientStreet,
               city: formData.clientCity,
@@ -192,7 +256,7 @@ export const InvoicesShow = () => {
       await mutateUpdateAsync(
         {
           resource: "invoices",
-          id: invoice.id,
+          id: invoice?.id,
           values: newInvoice,
         },
         {
@@ -212,7 +276,7 @@ export const InvoicesShow = () => {
               resource: "items",
               id: item.id,
               values: {
-                invoiceId: invoice.id,
+                invoiceId: invoice?.id,
                 name: item.name,
                 quantity: item.quantity,
                 price: item.price,
@@ -234,7 +298,7 @@ export const InvoicesShow = () => {
             {
               resource: "items",
               values: {
-                invoiceId: invoice.id,
+                invoiceId: invoice?.id,
                 name: item.name,
                 quantity: item.quantity,
                 price: item.price,
@@ -277,9 +341,14 @@ export const InvoicesShow = () => {
     }
   };
 
-  if (isInvoicesLoading) {
-    return <Spinner></Spinner>;
-  }
+  if (isInvoicesLoading) return <FullScreenSpinner />;
+
+  const invoice = invoiceData?.data as Tables<"invoices"> & {
+    clientAddress: Tables<"addresses">;
+    senderAddress: Tables<"addresses">;
+    client: Tables<"clients">;
+    items: Array<Tables<"items">>;
+  };
 
   return (
     <>
@@ -295,26 +364,40 @@ export const InvoicesShow = () => {
             <div className="d-flex align-items-center justify-content-between w-100 justify-content-lg-start w-lg-auto">
               <dt className="me-3 mb-0">Status</dt>
               <dd>
-                {invoice.status && (
-                  <StatusBadge status={invoice.status}></StatusBadge>
+                {invoice?.status && (
+                  <StatusBadge status={invoice?.status}></StatusBadge>
                 )}
               </dd>
             </div>
             <Stack direction="horizontal" gap={2} className="d-none d-lg-flex">
-              <Button variant="secondary" onClick={() => modalShow(invoice.id)}>
+              <Button
+                variant="secondary"
+                onClick={() => modalShow(invoice?.id)}
+              >
                 Edit
               </Button>
-              <Button variant="danger">Delete</Button>
-              {invoice.status === "pending" && (
-                <Button variant="primary">
+              <Button
+                variant="danger"
+                onClick={() => setShowConfirmationModal(!showConfirmationModal)}
+              >
+                Delete
+              </Button>
+              {invoice?.status === "pending" && (
+                <Button
+                  variant="primary"
+                  onClick={() => onUpdateStatus("paid")}
+                >
                   Mark
                   <span className="d-none d-lg-inline-block">
                     &nbsp;as Paid
                   </span>
                 </Button>
               )}
-              {invoice.status === "draft" && (
-                <Button variant="primary">
+              {invoice?.status === "draft" && (
+                <Button
+                  variant="primary"
+                  onClick={() => onUpdateStatus("pending")}
+                >
                   Send
                   <span className="d-none d-lg-inline-block">
                     &nbsp;Invoice
@@ -329,16 +412,16 @@ export const InvoicesShow = () => {
         <Card.Body className="p-lg-5">
           <div className="d-lg-flex justify-content-between">
             <div>
-              <FormattedId id={invoice.id}></FormattedId>
+              <FormattedId id={invoice?.id}></FormattedId>
               <div className="clearfix"></div>
-              <p>{invoice.description}</p>
+              <p>{invoice?.description}</p>
             </div>
             <div className="text-lg-end">
-              <span className="d-block">{invoice.senderAddress.street}</span>
-              <span className="d-block">{invoice.senderAddress.city}</span>
-              <span className="d-block">{invoice.senderAddress.postCode}</span>
+              <span className="d-block">{invoice?.senderAddress.street}</span>
+              <span className="d-block">{invoice?.senderAddress.city}</span>
+              <span className="d-block">{invoice?.senderAddress.postCode}</span>
               <span className="d-block mb-3">
-                {invoice.senderAddress.country}
+                {invoice?.senderAddress.country}
               </span>
             </div>
           </div>
@@ -347,28 +430,28 @@ export const InvoicesShow = () => {
               <Col xs={{ span: 6 }} lg={{ span: 4 }}>
                 <dt>Invoice Date</dt>
                 <dd className="mb-4 text-body-emphasis fw-semibold">
-                  {invoice && formatDisplayDate(invoice.created_at)}
+                  {invoice && formatDisplayDate(invoice?.created_at)}
                 </dd>
                 <dt>Payment Due</dt>
                 <dd className="text-body-emphasis fw-semibold">
-                  {invoice && formatDisplayDate(invoice.paymentDue)}
+                  {invoice && formatDisplayDate(invoice?.paymentDue)}
                 </dd>
               </Col>
               <Col xs={{ span: 6 }} lg={{ span: 4 }}>
                 <dt>Bill To</dt>
                 <dd>
                   <span className="text-body-emphasis fw-semibold">
-                    {invoice.client.name}
+                    {invoice?.client.name}
                   </span>
                   <span className="d-block">
-                    {invoice.clientAddress.street}
+                    {invoice?.clientAddress.street}
                   </span>
-                  <span className="d-block">{invoice.clientAddress.city}</span>
+                  <span className="d-block">{invoice?.clientAddress.city}</span>
                   <span className="d-block">
-                    {invoice.clientAddress.postCode}
+                    {invoice?.clientAddress.postCode}
                   </span>
                   <span className="d-block">
-                    {invoice.clientAddress.country}
+                    {invoice?.clientAddress.country}
                   </span>
                 </dd>
               </Col>
@@ -376,7 +459,7 @@ export const InvoicesShow = () => {
                 <dt>Sent To</dt>
                 <dd>
                   <span className="fw-semibold text-body-emphasis">
-                    {invoice.client.email}
+                    {invoice?.client.email}
                   </span>
                 </dd>
               </Col>
@@ -394,7 +477,7 @@ export const InvoicesShow = () => {
                   </tr>
                 </thead>
                 <tbody className="fw-semibold">
-                  {invoice.items.map((item, index) => (
+                  {invoice?.items.map((item, index) => (
                     <tr key={index}>
                       <td className="text-body-emphasis fw-semibold">
                         {item.name}
@@ -409,7 +492,7 @@ export const InvoicesShow = () => {
                 </tbody>
               </Table>
               <Stack direction="vertical" gap={3} className="d-lg-none">
-                {invoice.items.map((item, index) => (
+                {invoice?.items.map((item, index) => (
                   <div
                     key={index}
                     className="d-flex justify-content-between align-items-center"
@@ -436,7 +519,7 @@ export const InvoicesShow = () => {
               <dl className="d-flex justify-content-between align-items-center">
                 <dt>Amount Due</dt>
                 <dd className="fw-semibold fs-4">
-                  {formatCurrency(invoice.total)}
+                  {formatCurrency(invoice?.total)}
                 </dd>
               </dl>
             </Card.Body>
@@ -451,7 +534,12 @@ export const InvoicesShow = () => {
         <Button variant="secondary">Back</Button>
         <Stack direction="horizontal" gap={2}>
           <Button variant="secondary">Edit</Button>
-          <Button variant="danger">Delete</Button>
+          <Button
+            variant="danger"
+            onClick={() => setShowConfirmationModal(!showConfirmationModal)}
+          >
+            Delete
+          </Button>
           <Button variant="primary">
             Mark<span className="d-none d-lg-inline-block">&nbsp;as Paid</span>
           </Button>
@@ -466,9 +554,9 @@ export const InvoicesShow = () => {
         contentClassName="rounded-start-0"
         scrollable
       >
-        <Modal.Header className="px-4">
+        <Modal.Header className="px-4 my-2">
           <Modal.Title className="lh-1 border-top border-transparent">
-            Edit #{invoice.id}
+            Edit #{invoice?.id}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-4">
@@ -752,7 +840,7 @@ export const InvoicesShow = () => {
                     className="pt-2 justify-content-end d-flex"
                   >
                     <OverlayTrigger
-                      delay={{ show: 300, hide: 0 }}
+                      delay={{ show: 500, hide: 0 }}
                       overlay={
                         <Tooltip id="delete-tooltip" className="position-fixed">
                           Delete Item
@@ -796,6 +884,25 @@ export const InvoicesShow = () => {
               {isSubmitting ? "Sending" : "Save & Send"}
             </Button>
           </Stack>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showConfirmationModal} centered>
+        <Modal.Header>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Are you sure you want to delete invoice #{invoice?.id}?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="link"
+            onClick={() => setShowConfirmationModal(false)}
+          >
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={onDeleteHandler}>
+            Delete
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

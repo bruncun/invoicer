@@ -124,6 +124,75 @@ export const authProvider: AuthBindings = {
       redirectTo: `/login?to=${pathname}`,
     };
   },
+  forgotPassword: async ({ email }) => {
+    try {
+      const { data, error } = await supabaseClient.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo: `${window.location.origin}/update-password`,
+        }
+      );
+
+      if (error) {
+        return {
+          success: false,
+          error,
+        };
+      }
+
+      if (data) {
+        return {
+          success: true,
+        };
+      }
+    } catch (error: any) {
+      return {
+        success: false,
+        error,
+      };
+    }
+
+    return {
+      success: false,
+      error: {
+        message: "Forgot password failed",
+        name: "Invalid email",
+      },
+    };
+  },
+  updatePassword: async ({ password }) => {
+    try {
+      const { data, error } = await supabaseClient.auth.updateUser({
+        password,
+      });
+
+      if (error) {
+        return {
+          success: false,
+          error,
+        };
+      }
+
+      if (data) {
+        return {
+          success: true,
+          redirectTo: "/",
+        };
+      }
+    } catch (error: any) {
+      return {
+        success: false,
+        error,
+      };
+    }
+    return {
+      success: false,
+      error: {
+        message: "Update password failed",
+        name: "Invalid password",
+      },
+    };
+  },
   getPermissions: async () => {
     const user = await supabaseClient.auth.getUser();
 
