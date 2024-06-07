@@ -1,10 +1,11 @@
-import { useNavigation } from "@refinedev/core";
 import { Stack, Dropdown, Form, Button } from "react-bootstrap";
 import Icon from "~/components/icon";
+import { statuses } from "~/constants";
+import { Status } from "~/types/invoices";
 
 type InvoicesPageHeaderProps = {
-  filters: string[];
-  setFilters: React.Dispatch<React.SetStateAction<string[]>>;
+  filters: Status[];
+  setFilters: React.Dispatch<React.SetStateAction<Status[]>>;
   modalShow: () => void;
 };
 
@@ -13,9 +14,7 @@ export const InvoicesPageHeader = ({
   setFilters,
   modalShow,
 }: InvoicesPageHeaderProps) => {
-  const { createUrl } = useNavigation();
-
-  const handleStatusChange = (status: string, checked: boolean) => {
+  const handleStatusChange = (status: Status, checked: boolean) => {
     if (checked) {
       setFilters([...filters, status]);
     } else {
@@ -35,7 +34,7 @@ export const InvoicesPageHeader = ({
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Form className="px-3 py-2">
-              {["draft", "pending", "paid"].map((status) => (
+              {statuses.map((status) => (
                 <Form.Check
                   key={status}
                   label={status.charAt(0).toUpperCase() + status.slice(1)}
