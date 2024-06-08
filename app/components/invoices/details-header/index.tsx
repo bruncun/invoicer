@@ -18,9 +18,9 @@ export const InvoicesDetailsHeader = ({
   showConfirmationModal,
 }: InvoicesDetailsHeaderProps) => (
   <Card className="mb-2">
-    <Card.Body className="px-lg-5 py-3">
+    <Card.Body className="px-sm-5 py-3">
       <dl className="d-flex justify-content-between align-items-center">
-        <div className="d-flex align-items-center justify-content-between w-100 justify-content-lg-start w-lg-auto">
+        <div className="d-flex align-items-center justify-content-between w-100 justify-content-sm-start w-sm-auto">
           <dt className="me-3 mb-0">Status</dt>
           <dd>
             {invoice?.status && (
@@ -28,7 +28,7 @@ export const InvoicesDetailsHeader = ({
             )}
           </dd>
         </div>
-        <Stack direction="horizontal" gap={2} className="d-none d-lg-flex">
+        <Stack direction="horizontal" gap={2} className="d-none d-sm-flex">
           {invoice && invoice.id && (
             <Button variant="secondary" onClick={() => modalShow(invoice.id)}>
               Edit
@@ -43,13 +43,13 @@ export const InvoicesDetailsHeader = ({
           {invoice?.status === "pending" && (
             <Button variant="primary" onClick={() => onUpdateStatus("paid")}>
               Mark
-              <span className="d-none d-lg-inline-block">&nbsp;as Paid</span>
+              <span className="d-none d-sm-inline-block">&nbsp;as Paid</span>
             </Button>
           )}
           {invoice?.status === "draft" && (
             <Button variant="primary" onClick={() => onUpdateStatus("pending")}>
               Send
-              <span className="d-none d-lg-inline-block">&nbsp;Invoice</span>
+              <span className="d-none d-sm-inline-block">&nbsp;Invoice</span>
             </Button>
           )}
         </Stack>

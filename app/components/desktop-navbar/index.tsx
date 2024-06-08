@@ -24,7 +24,7 @@ const DesktopNav = ({
   invoicesListUrl,
 }: DesktopNav) => {
   return (
-    <div className="d-lg-flex flex-column flex-shrink-0 d-none bg-dark z-3 vh-100 shadow-lg">
+    <div className="d-lg-flex flex-column flex-shrink-0 d-none bg-dark z-3 vh-100 shadow-lg position-fixed start-0 top-0">
       <Link
         to={invoicesListUrl}
         className="d-block px-3 py-2 text-decoration-none bg-primary text-white text-center position-relative btn-shadow border border-primary"

@@ -20,7 +20,7 @@ const InvoicesMobileNavbar = ({
     <Navbar
       fixed="bottom"
       bg="body"
-      className="shadow-lg justify-content-between px-4 py-3 d-lg-none rounded-top-5"
+      className="shadow-lg justify-content-between px-4 py-3 d-sm-none rounded-top-5"
     >
       <Button variant="link" onClick={goBack}>
         Go Back

@@ -37,7 +37,7 @@ export const InvoicesShow = () => {
 
   return (
     <>
-      <div className="mb-3 d-none d-lg-block">
+      <div className="mb-3 d-none d-sm-block">
         <Button variant="link" onClick={goBack}>
           <Icon name="chevron-left" className="text-primary me-2"></Icon>
           Go back

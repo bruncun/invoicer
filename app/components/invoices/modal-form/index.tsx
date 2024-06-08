@@ -53,14 +53,13 @@ const InvoicesModalForm = ({
 }: InvoicesModalFormProps) => (
   <Modal
     show={visible}
-    fullscreen="sm-down"
+    fullscreen="md-down"
     onHide={close}
-    className="slide-over-modal z-2"
-    dialogClassName="mt-0 ms-lg-6 ps-lg-2 mb-0 min-vh-100"
+    dialogClassName="ms-lg-6 ms-sm-0 mt-0 ps-lg-2 mb-0 min-vh-100"
     contentClassName="rounded-start-0"
     scrollable
   >
-    <Modal.Header className="px-4 my-2">
+    <Modal.Header className="px-4 my-2 z-2">
       <Modal.Title className="lh-1 border-top border-transparent">
         {title}
       </Modal.Title>
@@ -360,11 +359,11 @@ const InvoicesModalForm = ({
         </Button>
       </form>
     </Modal.Body>
-    <Modal.Footer className="px-4 py-3">
+    <Modal.Footer className="px-4 py-3 justify-content-between">
+      <Button variant="link" onClick={close}>
+        Cancel
+      </Button>
       <Stack direction="horizontal" gap={2} className="m-0">
-        <Button variant="link" onClick={close}>
-          Cancel
-        </Button>
         <Button
           variant="dark"
           form="invoice-form"
