@@ -3,9 +3,9 @@ import { useModalForm } from "@refinedev/react-hook-form";
 import { useFieldArray } from "react-hook-form";
 import { formatDate } from "date-fns";
 import { useCreate, useCreateMany, HttpError } from "@refinedev/core";
-import { InvoiceDto } from "~/types/invoices";
+import { InvoiceDto, Status } from "~/types/invoices";
 
-const useInvoicesModalForm = () => {
+const useInvoicesCreateModalForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mutateAsync } = useCreate();
   const { mutateAsync: mutateManyAsync } = useCreateMany();
@@ -48,7 +48,7 @@ const useInvoicesModalForm = () => {
 
   const items = watch("items");
 
-  const onSubmit = (status: string) => {
+  const onSubmit = (status: Status) => {
     setValue("status", status);
     handleSubmit(onFinishHandler);
   };
@@ -110,8 +110,8 @@ const useInvoicesModalForm = () => {
           price: item.price,
           total: item.quantity * item.price,
         })),
-      }),
-        close();
+      });
+      close();
       reset();
       setIsSubmitting(false);
     } catch (error) {
@@ -136,4 +136,4 @@ const useInvoicesModalForm = () => {
   };
 };
 
-export default useInvoicesModalForm;
+export default useInvoicesCreateModalForm;

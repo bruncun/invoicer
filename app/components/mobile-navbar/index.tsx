@@ -2,12 +2,12 @@ import { Button, Nav, Navbar } from "react-bootstrap";
 import Icon from "../icon";
 import { Link } from "@remix-run/react";
 
-type TopNavProps = {
+type MobileNavbarProps = {
   theme: string;
   invoicesListUrl: string;
 };
 
-const TopNav = ({ theme, invoicesListUrl }: TopNavProps) => (
+const MobileNavbar = ({ theme, invoicesListUrl }: MobileNavbarProps) => (
   <Navbar expand="lg" bg="dark" className="d-lg-none" fixed="top">
     <Navbar.Brand
       className="bg-primary text-white p-3 lh-1"
@@ -42,4 +42,4 @@ const TopNav = ({ theme, invoicesListUrl }: TopNavProps) => (
   </Navbar>
 );
 
-export default TopNav;
+export default MobileNavbar;

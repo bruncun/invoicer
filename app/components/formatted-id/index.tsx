@@ -1,5 +1,5 @@
 type FormattedIdProps = {
-  id: number;
+  id?: number;
   className?: string;
 };
 

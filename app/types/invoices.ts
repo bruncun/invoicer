@@ -1,3 +1,5 @@
+import { Tables } from "./supabase";
+
 export type InvoiceDto = {
   clientId: string;
   total: number;
@@ -28,3 +30,10 @@ export type Item = {
 };
 
 export type Status = "draft" | "pending" | "paid";
+
+export type InvoiceWithRelated = Tables<"invoices"> & {
+  clientAddress: Tables<"addresses">;
+  senderAddress: Tables<"addresses">;
+  client: Tables<"clients">;
+  items: Array<Tables<"items">>;
+};

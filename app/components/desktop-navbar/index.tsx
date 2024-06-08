@@ -1,7 +1,5 @@
 import {
   Button,
-  Nav,
-  Navbar,
   OverlayTrigger,
   Spinner,
   Stack,
@@ -10,7 +8,7 @@ import {
 import Icon from "../icon";
 import { Link } from "@remix-run/react";
 
-type SideNavProps = {
+type DesktopNav = {
   theme: string;
   toggleTheme: () => void;
   logout: () => void;
@@ -18,13 +16,13 @@ type SideNavProps = {
   invoicesListUrl: string;
 };
 
-const SideNav = ({
+const DesktopNav = ({
   theme,
   toggleTheme,
   logout,
   isLoading,
   invoicesListUrl,
-}: SideNavProps) => {
+}: DesktopNav) => {
   return (
     <div className="d-lg-flex flex-column flex-shrink-0 d-none bg-dark z-3 vh-100 shadow-lg">
       <Link
@@ -77,4 +75,4 @@ const SideNav = ({
   );
 };
 
-export default SideNav;
+export default DesktopNav;

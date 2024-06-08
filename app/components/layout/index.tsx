@@ -2,8 +2,8 @@ import { Col, Container, Row } from "react-bootstrap";
 import { PropsWithChildren } from "react";
 import { useLogout, useNavigation } from "@refinedev/core";
 import useTheme from "~/hooks/use-theme";
-import SideNav from "../side-nav";
-import TopNav from "../top-nav";
+import DesktopNav from "../desktop-navbar";
+import MobileNavbar from "../mobile-navbar";
 
 const Layout = ({ children }: PropsWithChildren) => {
   const { theme, toggleTheme } = useTheme();
@@ -13,14 +13,17 @@ const Layout = ({ children }: PropsWithChildren) => {
 
   return (
     <div className="d-lg-flex flex-nowrap">
-      <TopNav theme={theme} invoicesListUrl={invoicesListUrl}></TopNav>
-      <SideNav
+      <MobileNavbar
+        theme={theme}
+        invoicesListUrl={invoicesListUrl}
+      ></MobileNavbar>
+      <DesktopNav
         theme={theme}
         toggleTheme={toggleTheme}
         logout={mutate}
         isLoading={isLoading}
         invoicesListUrl={invoicesListUrl}
-      ></SideNav>
+      ></DesktopNav>
       <div className="py-3 py-lg-4 w-100 overflow-y-scroll vh-100 position-relative">
         <Container className="d-flex flex-column flex-grow-1">
           <Row className="h-100">
