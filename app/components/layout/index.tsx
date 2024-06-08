@@ -12,9 +12,12 @@ const Layout = ({ children }: PropsWithChildren) => {
   const invoicesListUrl = listUrl("invoices");
 
   return (
-    <div className="d-lg-flex flex-nowrap">
+    <>
       <MobileNavbar
         theme={theme}
+        toggleTheme={toggleTheme}
+        logout={mutate}
+        isLoading={isLoading}
         invoicesListUrl={invoicesListUrl}
       ></MobileNavbar>
       <DesktopNav
@@ -24,16 +27,12 @@ const Layout = ({ children }: PropsWithChildren) => {
         isLoading={isLoading}
         invoicesListUrl={invoicesListUrl}
       ></DesktopNav>
-      <div className="py-3 py-lg-4 w-100 overflow-y-scroll vh-100 position-relative">
-        <Container className="d-flex flex-column flex-grow-1">
-          <Row className="h-100">
-            <Col sm={{ span: 8, offset: 2 }} className="h-100 mt-lg-3">
-              {children}
-            </Col>
-          </Row>
-        </Container>
-      </div>
-    </div>
+      <Container className="py-3 py-lg-4 w-100 position-lg-relative mt-lg-3">
+        <Row>
+          <Col lg={{ span: 8, offset: 2 }}>{children}</Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

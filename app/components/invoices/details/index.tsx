@@ -9,14 +9,14 @@ export const InvoicesDetails = ({
   invoice?: InvoiceWithRelated;
 }) => (
   <Card>
-    <Card.Body className="p-lg-5">
-      <div className="d-lg-flex justify-content-between">
+    <Card.Body className="p-md-5">
+      <div className="d-md-flex justify-content-between">
         <div>
           <FormattedId id={invoice?.id}></FormattedId>
           <div className="clearfix"></div>
           <p>{invoice?.description}</p>
         </div>
-        <div className="text-lg-end">
+        <div className="text-md-end">
           <span className="d-block">{invoice?.senderAddress.street}</span>
           <span className="d-block">{invoice?.senderAddress.city}</span>
           <span className="d-block">{invoice?.senderAddress.postCode}</span>
@@ -25,7 +25,7 @@ export const InvoicesDetails = ({
       </div>
       <dl className="mb-5">
         <Row>
-          <Col xs={{ span: 6 }} lg={{ span: 4 }}>
+          <Col xs={{ span: 6 }} md={{ span: 4 }}>
             <dt>Invoice Date</dt>
             <dd className="mb-4 text-body-emphasis fw-semibold">
               {invoice && formatDisplayDate(invoice?.created_at)}
@@ -35,7 +35,7 @@ export const InvoicesDetails = ({
               {invoice && formatDisplayDate(invoice?.paymentDue)}
             </dd>
           </Col>
-          <Col xs={{ span: 6 }} lg={{ span: 4 }}>
+          <Col xs={{ span: 6 }} md={{ span: 4 }}>
             <dt>Bill To</dt>
             <dd>
               <span className="text-body-emphasis fw-semibold">
@@ -59,7 +59,7 @@ export const InvoicesDetails = ({
       </dl>
       <Card bg="body-secondary" className="rounded-bottom-0">
         <Card.Body>
-          <Table className="d-none d-lg-table text-body-tertiary">
+          <Table className="d-none d-md-table text-body-tertiary">
             <thead>
               <tr>
                 <th>Item Name</th>
@@ -83,7 +83,7 @@ export const InvoicesDetails = ({
               ))}
             </tbody>
           </Table>
-          <Stack direction="vertical" gap={3} className="d-lg-none">
+          <Stack direction="vertical" gap={3} className="d-md-none">
             {invoice?.items.map((item, index) => (
               <div
                 key={index}
@@ -103,7 +103,7 @@ export const InvoicesDetails = ({
           </Stack>
         </Card.Body>
       </Card>
-      <Card bg="secondary" className="rounded-top-0 mb-6 mb-lg-0 text-white">
+      <Card bg="secondary" className="rounded-top-0 mb-6 mb-md-0 text-white">
         <Card.Body>
           <dl className="d-flex justify-content-between align-items-center">
             <dt>Amount Due</dt>
