@@ -1,18 +1,19 @@
-import { useState } from "react";
-import { InvoicesPageHeader } from "~/components/invoices/page-header";
-import { InvoicesListGroup } from "~/components/invoices/list";
+import { InvoicesListHeader } from "~/components/invoices/list-header";
+import { InvoicesListGroup } from "~/components/invoices/list-group";
 import FullScreenSpinner from "~/components/full-screen-spinner";
 import InvoicesPager from "~/components/invoices/pager";
-import { useInvoices } from "~/hooks/invoices/use-invoices";
-import useInvoicesModalForm from "~/hooks/invoices/use-invoices-modal-form";
 import InvoicesModalForm from "~/components/invoices/modal-form";
+import { useInvoicesList } from "~/hooks/invoices/use-list";
+import useInvoicesCreateModalForm from "~/hooks/invoices/use-create-modal-form";
+import { useState } from "react";
 import { Status } from "~/types/invoices";
-import { statuses } from "~/constants";
 
 export const InvoiceList = () => {
+  const [filters, setFilters] = useState<Status[]>([]);
+  const pageSize = 10;
   const { invoices, clients, total, isLoading, current, setCurrent } =
-    useInvoices(10, statuses);
-  const invoiceModalForm = useInvoicesModalForm();
+    useInvoicesList(pageSize, filters);
+  const invoiceModalForm = useInvoicesCreateModalForm();
   const {
     visible,
     close,
@@ -28,18 +29,16 @@ export const InvoiceList = () => {
     errors,
     register,
   } = invoiceModalForm;
-  const [filters, setFilters] = useState<Status[]>([]);
-  const pageSize = 10;
 
   if (isLoading) return <FullScreenSpinner />;
 
   return (
     <>
-      <InvoicesPageHeader
-        filters={filters}
-        setFilters={setFilters}
+      <InvoicesListHeader
         modalShow={modalShow}
-      ></InvoicesPageHeader>
+        setFilters={setFilters}
+        filters={filters}
+      ></InvoicesListHeader>
       <InvoicesListGroup
         invoices={invoices}
         clients={clients}
@@ -54,6 +53,7 @@ export const InvoiceList = () => {
       ) : null}
       <InvoicesModalForm
         visible={visible}
+        title="New Invoice"
         close={close}
         items={items}
         append={append}

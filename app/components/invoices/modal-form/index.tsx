@@ -17,14 +17,14 @@ import {
   UseFormRegister,
 } from "react-hook-form";
 import Icon from "~/components/icon";
-import { InvoiceDto, Item } from "~/types/invoices";
+import { InvoiceDto, Item, Status } from "~/types/invoices";
 import { formatCurrency } from "~/utility/formatters";
 
 type InvoicesModalFormProps = {
   close: () => void;
   visible: boolean;
   handleSubmit: UseFormHandleSubmit<InvoiceDto, undefined>;
-  onSubmit: (status: string) => void;
+  onSubmit: (status: Status) => void;
   onFinishHandler: (formData: InvoiceDto) => Promise<void>;
   fields: FieldArrayWithId<InvoiceDto, "items", "id">[];
   append: UseFieldArrayAppend<InvoiceDto, "items">;
@@ -32,6 +32,7 @@ type InvoicesModalFormProps = {
   remove: UseFieldArrayRemove;
   register: UseFormRegister<InvoiceDto>;
   items: Item[];
+  title: string;
   errors: FieldErrors<InvoiceDto>;
 };
 
@@ -45,6 +46,7 @@ const InvoicesModalForm = ({
   append,
   isSubmitting,
   register,
+  title,
   items,
   remove,
   errors,
@@ -60,11 +62,11 @@ const InvoicesModalForm = ({
   >
     <Modal.Header className="px-4 my-2">
       <Modal.Title className="lh-1 border-top border-transparent">
-        New Invoice
+        {title}
       </Modal.Title>
     </Modal.Header>
     <Modal.Body className="p-4">
-      <form id="create-form" onSubmit={handleSubmit(onFinishHandler)}>
+      <form id="invoice-form" onSubmit={handleSubmit(onFinishHandler)}>
         <h6 className="text-primary mb-2">Bill From</h6>
         <Stack gap={3} className="mb-4">
           <Form.Group>
@@ -365,7 +367,7 @@ const InvoicesModalForm = ({
         </Button>
         <Button
           variant="dark"
-          form="create-form"
+          form="invoice-form"
           type="submit"
           onSubmit={() => onSubmit("draft")}
           disabled={isSubmitting}
@@ -374,7 +376,7 @@ const InvoicesModalForm = ({
         </Button>
         <Button
           variant="primary"
-          form="create-form"
+          form="invoice-form"
           type="submit"
           onSubmit={() => onSubmit("pending")}
           disabled={isSubmitting}

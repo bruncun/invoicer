@@ -3,17 +3,17 @@ import Icon from "~/components/icon";
 import { statuses } from "~/constants";
 import { Status } from "~/types/invoices";
 
-type InvoicesPageHeaderProps = {
-  filters: Status[];
-  setFilters: React.Dispatch<React.SetStateAction<Status[]>>;
+type InvoiceListHeaderProps = {
   modalShow: () => void;
+  setFilters: (filters: Status[]) => void;
+  filters: Status[];
 };
 
-export const InvoicesPageHeader = ({
-  filters,
-  setFilters,
+export const InvoicesListHeader = ({
   modalShow,
-}: InvoicesPageHeaderProps) => {
+  setFilters,
+  filters,
+}: InvoiceListHeaderProps) => {
   const handleStatusChange = (status: Status, checked: boolean) => {
     if (checked) {
       setFilters([...filters, status]);
