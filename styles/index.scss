@@ -119,9 +119,7 @@ $utilities: map-merge(
 @import "../node_modules/react-toastify/scss/toast";
 @import "../node_modules/react-toastify/scss/animations/bounce.scss";
 
-@import "../app/components/invoices//modal-form/invoices-modal-form";
-
-.Toastify__toast-icon {
+invoices-modal-form .Toastify__toast-icon {
   @extend .d-none;
 }
 
@@ -145,6 +143,11 @@ body {
 
   @include media-breakpoint-up(lg) {
     padding-top: 0;
+  }
+}
+
+.layout-container {
+  @include media-breakpoint-up(lg) {
     padding-left: 5.125rem;
   }
 }

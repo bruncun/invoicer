@@ -7352,7 +7352,7 @@ textarea.form-control-lg {
   display: inline-flex !important;
 }
 
-.d-none, .Toastify__toast-icon {
+.d-none, invoices-modal-form .Toastify__toast-icon {
   display: none !important;
 }
 
@@ -13935,10 +13935,6 @@ td {
   animation-name: Toastify__bounceOutDown;
 }
 
-.invoices-modal-form.scss {
-  margin-top: 5.125rem;
-}
-
 .Toastify__toast {
   box-shadow: none;
 }
@@ -13958,6 +13954,11 @@ body {
 @media (min-width: 992px) {
   body {
     padding-top: 0;
+  }
+}
+
+@media (min-width: 992px) {
+  .layout-container {
     padding-left: 5.125rem;
   }
 }
