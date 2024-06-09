@@ -1,6 +1,6 @@
 import { Stack, Dropdown, Form, Button } from "react-bootstrap";
 import Icon from "~/components/icon";
-import { statuses } from "~/constants";
+import { STATUSES } from "~/constants";
 import { Status } from "~/types/invoices";
 
 type InvoiceListHeaderProps = {
@@ -34,7 +34,7 @@ export const InvoicesListHeader = ({
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Form className="px-3 py-2">
-              {statuses.map((status) => (
+              {STATUSES.map((status) => (
                 <Form.Check
                   key={status}
                   label={status.charAt(0).toUpperCase() + status.slice(1)}

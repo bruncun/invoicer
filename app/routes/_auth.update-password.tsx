@@ -1,59 +1,61 @@
 import { useNotification, useUpdatePassword } from "@refinedev/core";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import Icon from "~/components/icon";
+import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { credentialsSchema } from "~/constants";
+import { yupResolver } from "@hookform/resolvers/yup";
+import AuthLayout from "~/components/auth-layout";
 
 type UpdatePasswordFormData = {
   password: string;
 };
 
 export default function UpdatePassword() {
-  const { handleSubmit, register } = useForm<UpdatePasswordFormData>();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<UpdatePasswordFormData>({
+    resolver: yupResolver(credentialsSchema.omit(["email"])),
+  });
   const { mutate, isLoading } = useUpdatePassword();
   const { open } = useNotification();
 
   const onSubmit = async (data: UpdatePasswordFormData) =>
     mutate(data, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        if (!data.success) return;
         open?.({
           type: "success",
-          message: "Password updated.",
+          message: "success",
+          description: "Password updated. Login with your new password.",
         });
       },
     });
 
   return (
-    <Row className="vh-100 align-items-center">
-      <Col lg={{ span: 4 }} className="mx-auto">
-        <Card className="shadow rounded-4 rounded">
-          <Card.Body className="p-4">
-            <div className="mb-4 d-flex align-items-center">
-              <Icon name="receipt-cutoff" className="fs-1 text-primary"></Icon>
-            </div>
-            <Card.Title className="fs-4 fs-lg-3 mb-3 d-block lh-1">
-              Update Password
-            </Card.Title>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-              <Form.Group className="mb-3">
-                <Form.Label htmlFor="password">New Password</Form.Label>
-                <Form.Control
-                  id="password"
-                  type="password"
-                  {...register("password", { required: true })}
-                />
-              </Form.Group>
-              <Button
-                variant="primary"
-                type="submit"
-                className="w-100"
-                disabled={isLoading}
-              >
-                {isLoading ? "Updating..." : "Update"}
-              </Button>
-            </Form>
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+    <AuthLayout title="Update Password">
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form.Group className="mb-3">
+          <Form.Label htmlFor="password">New Password</Form.Label>
+          <Form.Control
+            id="password"
+            type="password"
+            isInvalid={!!errors.password}
+            {...register("password")}
+          />
+          <Form.Control.Feedback type="invalid">
+            {(errors as any)?.password?.message}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Button
+          variant="primary"
+          type="submit"
+          className="w-100"
+          disabled={isLoading}
+        >
+          {isLoading ? "Updating..." : "Update"}
+        </Button>
+      </Form>
+    </AuthLayout>
   );
 }

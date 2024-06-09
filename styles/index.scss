@@ -119,7 +119,7 @@ $utilities: map-merge(
 @import "../node_modules/react-toastify/scss/toast";
 @import "../node_modules/react-toastify/scss/animations/bounce.scss";
 
-invoices-modal-form .Toastify__toast-icon {
+.Toastify__toast-icon {
   @extend .d-none;
 }
 

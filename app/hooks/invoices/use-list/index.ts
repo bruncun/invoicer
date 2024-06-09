@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useList, useMany, HttpError } from "@refinedev/core";
 import { Tables } from "~/types/supabase";
 import { Status } from "~/types/invoices";
-import { statuses } from "~/constants";
+import { STATUSES } from "~/constants";
 
 export const useInvoicesList = (pageSize: number, filters: Status[]) => {
   const [current, setCurrent] = useState(1);
@@ -15,7 +15,7 @@ export const useInvoicesList = (pageSize: number, filters: Status[]) => {
       {
         field: "status",
         operator: "in",
-        value: filters.length > 0 ? filters : statuses,
+        value: filters.length > 0 ? filters : STATUSES,
       },
     ],
     pagination: {
