@@ -9,7 +9,11 @@ export const None = cssTransition({
   collapseDuration: 0,
 });
 
-export const Msg = ({ message, type, closeToast }: MyProps & ToastOptions) => {
+export const Msg = ({
+  description,
+  type,
+  closeToast,
+}: ToastProps & ToastOptions) => {
   const color = type === "error" ? "danger" : "success";
   return (
     <Toast onClose={closeToast} bg={color} className="text-sans-serif">
@@ -18,27 +22,31 @@ export const Msg = ({ message, type, closeToast }: MyProps & ToastOptions) => {
       >
         {type && type.charAt(0).toUpperCase() + type.slice(1)}
       </Toast.Header>
-      <Toast.Body>{message}</Toast.Body>
+      <Toast.Body>{description}</Toast.Body>
     </Toast>
   );
 };
 
-type MyProps = {
-  message: string;
+type ToastProps = {
+  description: string;
   closeToast?: () => void;
 };
 
-const toaster = (myProps: MyProps, toastProps: ToastOptions): Id => {
+const toaster = (myProps: ToastProps, toastProps: ToastOptions): Id => {
   return toast(<Msg {...myProps} type={toastProps.type} />, { ...toastProps });
 };
 
 export const notificationProvider: NotificationProvider = {
-  open: ({ key, message, type }) => {
+  open: (params) => {
+    console.log(params);
+    const { key, description, type } = params;
     if (type !== "progress") {
+      const toastId = `${key}_${Date.now()}`;
+
       toaster(
-        { message },
+        { description: description ?? "" },
         {
-          toastId: key,
+          toastId,
           type,
         }
       );

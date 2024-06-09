@@ -889,7 +889,7 @@ $form-label-margin-bottom: 0.5rem;
 $form-label-font-size: null;
 $form-label-font-style: null;
 $form-label-font-weight: null;
-$form-label-color: $gray-600;
+$form-label-color: $gray-500;
 // scss-docs-end form-label-variables
 
 // scss-docs-start form-input-variables
@@ -965,7 +965,7 @@ $form-check-input-width: 1em;
 $form-check-min-height: $font-size-base * $line-height-base;
 $form-check-padding-start: $form-check-input-width + 0.5em;
 $form-check-margin-bottom: 0.125rem;
-$form-check-label-color: $body-color;
+$form-check-label-color: $gray-500;
 $form-check-label-cursor: null;
 $form-check-transition: null;
 

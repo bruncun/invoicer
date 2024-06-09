@@ -1,8 +1,10 @@
-import { AuthPage, useLogin, useRegister } from "@refinedev/core";
+import { useNotification, useRegister } from "@refinedev/core";
 import { Link } from "@remix-run/react";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import Icon from "~/components/icon";
+import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { credentialsSchema } from "~/constants";
+import AuthLayout from "~/components/auth-layout";
 
 type RegisterFormData = {
   email: string;
@@ -12,59 +14,66 @@ type RegisterFormData = {
 export default function Register() {
   const { mutate: mutateRegister, isLoading: isRegisterLoading } =
     useRegister();
-  const { mutate: mutateLogin, isLoading: isLoginLoading } = useLogin();
-  const { handleSubmit, register } = useForm<RegisterFormData>();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<RegisterFormData>({
+    resolver: yupResolver(credentialsSchema),
+  });
+  const { open } = useNotification();
 
   const onSubmit = (data: RegisterFormData) =>
     mutateRegister(data, {
-      onSuccess: () => mutateLogin(data),
+      onSuccess: (data) => {
+        if (!data.success) return;
+        open?.({
+          type: "success",
+          message: "success",
+          description: "Account created successfully. You can now login.",
+        });
+      },
     });
 
   return (
-    <Row className="vh-100 align-items-center">
-      <Col lg={{ span: 4 }} className="mx-auto">
-        <Card className="shadow rounded-4 rounded">
-          <Card.Body className="p-4">
-            <div className="mb-4 d-flex align-items-center">
-              <Icon name="receipt-cutoff" className="fs-1 text-primary"></Icon>
-            </div>
-            <Card.Title className="fs-4 fs-lg-3 mb-3 d-block lh-1">
-              Register
-            </Card.Title>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-              <Form.Group className="mb-3">
-                <Form.Label htmlFor="email">Email</Form.Label>
-                <Form.Control
-                  id="email"
-                  type="email"
-                  {...register("email", { required: true })}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label htmlFor="password">Password</Form.Label>
-                <Form.Control
-                  id="password"
-                  type="password"
-                  {...register("password", { required: true })}
-                />
-              </Form.Group>
-              <Button
-                variant="primary"
-                type="submit"
-                className="w-100"
-                disabled={isRegisterLoading || isLoginLoading}
-              >
-                {isRegisterLoading || isLoginLoading
-                  ? "Registering..."
-                  : "Register"}
-              </Button>
-              <Link to="/login" className="d-block mt-3 text-center">
-                Already have an account? Login
-              </Link>
-            </Form>
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+    <AuthLayout title="Register">
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form.Group className="mb-3">
+          <Form.Label htmlFor="email">Email</Form.Label>
+          <Form.Control
+            id="email"
+            type="email"
+            isInvalid={!!errors.email}
+            {...register("email")}
+          />
+          <Form.Control.Feedback type="invalid">
+            {(errors as any)?.email?.message}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label htmlFor="password">Password</Form.Label>
+          <Form.Control
+            id="password"
+            type="password"
+            isInvalid={!!errors.password}
+            {...register("password")}
+          />
+          <Form.Control.Feedback type="invalid">
+            {(errors as any)?.password?.message}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Button
+          variant="primary"
+          type="submit"
+          className="w-100"
+          disabled={isRegisterLoading}
+        >
+          {isRegisterLoading ? "Registering..." : "Register"}
+        </Button>
+        <Link to="/login" className="d-block mt-3 text-center">
+          Already have an account? Login
+        </Link>
+      </Form>
+    </AuthLayout>
   );
 }
