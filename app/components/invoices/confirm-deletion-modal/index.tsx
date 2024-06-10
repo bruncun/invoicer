@@ -4,14 +4,14 @@ type InvoicesConfirmDeletionModal = {
   show: boolean;
   invoiceId: number;
   setShowConfirmationModal: (value: boolean) => void;
-  onDeleteHandler: () => void;
+  onDelete: () => void;
 };
 
 const InvoicesConfirmDeletionModal = ({
   show,
   invoiceId,
   setShowConfirmationModal,
-  onDeleteHandler,
+  onDelete,
 }: InvoicesConfirmDeletionModal) => (
   <Modal show={show} centered>
     <Modal.Header>
@@ -24,7 +24,7 @@ const InvoicesConfirmDeletionModal = ({
       <Button variant="link" onClick={() => setShowConfirmationModal(false)}>
         Cancel
       </Button>
-      <Button variant="danger" onClick={onDeleteHandler}>
+      <Button variant="danger" onClick={onDelete}>
         Delete
       </Button>
     </Modal.Footer>

@@ -15,6 +15,7 @@ import {
   UseFieldArrayRemove,
   UseFormHandleSubmit,
   UseFormRegister,
+  UseFormReset,
 } from "react-hook-form";
 import Icon from "~/components/icon";
 import { InvoiceDto, Item, Status } from "~/types/invoices";
@@ -25,7 +26,7 @@ type InvoicesModalFormProps = {
   visible: boolean;
   handleSubmit: UseFormHandleSubmit<InvoiceDto, undefined>;
   onSubmit: (status: Status) => void;
-  onFinishHandler: (formData: InvoiceDto) => Promise<void>;
+  onFinish: (formData: InvoiceDto) => Promise<void>;
   fields: FieldArrayWithId<InvoiceDto, "items", "id">[];
   append: UseFieldArrayAppend<InvoiceDto, "items">;
   isSubmitting: boolean;
@@ -33,15 +34,17 @@ type InvoicesModalFormProps = {
   register: UseFormRegister<InvoiceDto>;
   items: Item[];
   title: string;
+  reset?: UseFormReset<InvoiceDto>;
   errors: FieldErrors<InvoiceDto>;
 };
 
 const InvoicesModalForm = ({
   close,
+  reset,
   visible,
   handleSubmit,
   onSubmit,
-  onFinishHandler,
+  onFinish,
   fields,
   append,
   isSubmitting,
@@ -54,18 +57,21 @@ const InvoicesModalForm = ({
   <Modal
     show={visible}
     fullscreen="md-down"
-    onHide={close}
+    onHide={() => {
+      if (reset) reset();
+      close();
+    }}
     dialogClassName="ms-lg-6 ms-sm-0 mt-0 ps-lg-2 mb-0 min-vh-100"
     contentClassName="rounded-start-0"
     scrollable
   >
-    <Modal.Header className="px-4 my-2 z-2">
-      <Modal.Title className="lh-1 border-top border-transparent">
+    <Modal.Header className="px-4 py-3">
+      <Modal.Title className="lh-1 border-top border-transparent py-1">
         {title}
       </Modal.Title>
     </Modal.Header>
     <Modal.Body className="p-4">
-      <form id="invoice-form" onSubmit={handleSubmit(onFinishHandler)}>
+      <form id="invoice-form" onSubmit={handleSubmit(onFinish)}>
         <h6 className="text-primary mb-2">Bill From</h6>
         <Stack gap={3} className="mb-4">
           <Form.Group>
@@ -227,27 +233,27 @@ const InvoicesModalForm = ({
           <Row className="gx-3">
             <Col>
               <Form.Group>
-                <Form.Label htmlFor="paymentDue">Invoice Date</Form.Label>
+                <Form.Label htmlFor="payment_due">Invoice Date</Form.Label>
                 <Form.Control
-                  id="paymentDue"
-                  isInvalid={!!errors.paymentDue}
-                  {...register("paymentDue", {
+                  id="payment_due"
+                  isInvalid={!!errors.payment_due}
+                  {...register("payment_due", {
                     required: "This field is required",
                   })}
                   type="date"
                 />
                 <Form.Control.Feedback type="invalid">
-                  {(errors as any)?.paymentDue?.message as string}
+                  {(errors as any)?.payment_due?.message as string}
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Label htmlFor="paymentTerms">Payment Terms</Form.Label>
+                <Form.Label htmlFor="payment_terms">Payment Terms</Form.Label>
                 <Form.Select
-                  id="paymentTerms"
-                  isInvalid={!!errors.paymentTerms}
-                  {...register("paymentTerms", {
+                  id="payment_terms"
+                  isInvalid={!!errors.payment_terms}
+                  {...register("payment_terms", {
                     required: "This field is required",
                   })}
                 >
@@ -367,8 +373,7 @@ const InvoicesModalForm = ({
         <Button
           variant="dark"
           form="invoice-form"
-          type="submit"
-          onSubmit={() => onSubmit("draft")}
+          onClick={() => onSubmit("draft")}
           disabled={isSubmitting}
         >
           {isSubmitting ? "Saving" : "Save as Draft"}
@@ -376,8 +381,7 @@ const InvoicesModalForm = ({
         <Button
           variant="primary"
           form="invoice-form"
-          type="submit"
-          onSubmit={() => onSubmit("pending")}
+          onClick={() => onSubmit("pending")}
           disabled={isSubmitting}
         >
           {isSubmitting ? "Sending" : "Save & Send"}

@@ -16,6 +16,7 @@ export type Database = {
           id: number
           postCode: string
           street: string
+          user_id: string
         }
         Insert: {
           city: string
@@ -23,6 +24,7 @@ export type Database = {
           id?: number
           postCode: string
           street: string
+          user_id: string
         }
         Update: {
           city?: string
@@ -30,84 +32,114 @@ export type Database = {
           id?: number
           postCode?: string
           street?: string
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "addresses_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       clients: {
         Row: {
           email: string
           id: number
           name: string
+          user_id: string
         }
         Insert: {
           email: string
           id?: number
           name: string
+          user_id: string
         }
         Update: {
           email?: string
           id?: number
           name?: string
-        }
-        Relationships: []
-      }
-      invoices: {
-        Row: {
-          clientAddressId: number
-          clientId: number
-          created_at: string
-          description: string
-          id: number
-          paymentDue: string
-          paymentTerms: string
-          senderAddressId: number
-          status: string
-          total: number
-        }
-        Insert: {
-          clientAddressId: number
-          clientId: number
-          created_at?: string
-          description: string
-          id?: number
-          paymentDue: string
-          paymentTerms: string
-          senderAddressId: number
-          status: string
-          total: number
-        }
-        Update: {
-          clientAddressId?: number
-          clientId?: number
-          created_at?: string
-          description?: string
-          id?: number
-          paymentDue?: string
-          paymentTerms?: string
-          senderAddressId?: number
-          status?: string
-          total?: number
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "invoices_clientAddressId_fkey"
-            columns: ["clientAddressId"]
+            foreignKeyName: "clients_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          client_address_id: number
+          client_id: number
+          created_at: string
+          description: string
+          id: number
+          payment_due: string
+          payment_terms: string
+          sender_address_id: number
+          status: string
+          total: number
+          user_id: string
+        }
+        Insert: {
+          client_address_id: number
+          client_id: number
+          created_at?: string
+          description: string
+          id?: number
+          payment_due: string
+          payment_terms: string
+          sender_address_id: number
+          status: string
+          total: number
+          user_id: string
+        }
+        Update: {
+          client_address_id?: number
+          client_id?: number
+          created_at?: string
+          description?: string
+          id?: number
+          payment_due?: string
+          payment_terms?: string
+          sender_address_id?: number
+          status?: string
+          total?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_client_address_id_fkey"
+            columns: ["client_address_id"]
             isOneToOne: false
             referencedRelation: "addresses"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "invoices_clientId_fkey"
-            columns: ["clientId"]
+            foreignKeyName: "invoices_client_id_fkey"
+            columns: ["client_id"]
             isOneToOne: false
             referencedRelation: "clients"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "invoices_senderAddressId_fkey"
-            columns: ["senderAddressId"]
+            foreignKeyName: "invoices_sender_address_id_fkey"
+            columns: ["sender_address_id"]
             isOneToOne: false
             referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -120,6 +152,7 @@ export type Database = {
           price: number
           quantity: number
           total: number
+          user_id: string
         }
         Insert: {
           id?: number
@@ -128,6 +161,7 @@ export type Database = {
           price: number
           quantity: number
           total: number
+          user_id: string
         }
         Update: {
           id?: number
@@ -136,6 +170,7 @@ export type Database = {
           price?: number
           quantity?: number
           total?: number
+          user_id?: string
         }
         Relationships: [
           {
@@ -143,6 +178,13 @@ export type Database = {
             columns: ["invoiceId"]
             isOneToOne: false
             referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "items_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]

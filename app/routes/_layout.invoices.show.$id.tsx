@@ -9,10 +9,11 @@ import useInvoicesEditModalForm from "~/hooks/invoices/use-edit-modal-form";
 import InvoicesConfirmDeletionModal from "~/components/invoices/confirm-deletion-modal";
 import InvoicesMobileNavbar from "~/components/invoices/mobile-navbar";
 import useInvoicesShow from "~/hooks/invoices/use-show";
+import FullScreenError from "~/components/full-screen-error";
 
 export const InvoicesShow = () => {
   const goBack = useBack();
-  const { invoice, isInvoicesLoading } = useInvoicesShow();
+  const { invoice, isLoading: isInvoicesLoading, isError } = useInvoicesShow();
   const {
     modalShow,
     close,
@@ -29,11 +30,13 @@ export const InvoicesShow = () => {
     showConfirmationModal,
     onSubmit,
     onUpdateStatus,
-    onDeleteHandler,
-    onFinishHandler,
+    onDelete,
+    onFinish,
   } = useInvoicesEditModalForm(invoice, isInvoicesLoading);
 
   if (isInvoicesLoading) return <FullScreenSpinner />;
+
+  if (isError) return <FullScreenError />;
 
   return (
     <>
@@ -69,7 +72,7 @@ export const InvoicesShow = () => {
         isSubmitting={isSubmitting}
         remove={remove}
         fields={fields}
-        onFinishHandler={onFinishHandler}
+        onFinish={onFinish}
         handleSubmit={handleSubmit}
         errors={errors}
         register={register}
@@ -78,7 +81,7 @@ export const InvoicesShow = () => {
         show={showConfirmationModal}
         invoiceId={invoice.id}
         setShowConfirmationModal={setShowConfirmationModal}
-        onDeleteHandler={onDeleteHandler}
+        onDelete={onDelete}
       ></InvoicesConfirmDeletionModal>
     </>
   );
