@@ -17,13 +17,13 @@ const MobileNavbar = ({
   logout,
   isLoading,
 }: MobileNavbarProps) => (
-  <Navbar expand="lg" bg="dark" className="d-lg-none" fixed="top">
+  <Navbar expand="xl" bg="dark" className="d-xl-none" fixed="top">
     <Navbar.Brand
       className="bg-primary text-white p-3 lh-1"
       as={Link}
       to={invoicesListUrl}
     >
-      <Icon name="receipt-cutoff" className="fs-lg-1 fs-2"></Icon>
+      <Icon name="receipt-cutoff" className="fs-xl-1 fs-2"></Icon>
     </Navbar.Brand>
     <Nav className="flex-row me-3">
       <Nav.Item>

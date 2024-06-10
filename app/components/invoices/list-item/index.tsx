@@ -24,7 +24,7 @@ const InvoicesListItem = ({
       to={showUrl("invoices", invoice.id)}
       className="border border-transparent border-primary-hover cursor-pointer shadow-sm"
     >
-      <Card.Body className="d-lg-flex justify-content-between align-items-center px-lg-4 py-2 d-none">
+      <Card.Body className="d-xl-flex justify-content-between align-items-center px-xl-4 py-2 d-none">
         <div className="me-3 ms-3 w-7">
           <FormattedId id={invoice.id}></FormattedId>
         </div>
@@ -40,8 +40,8 @@ const InvoicesListItem = ({
           <Icon name="chevron-right"></Icon>
         </Button>
       </Card.Body>
-      <Card.Body className="d-lg-none justify-content-between align-items-center">
-        <div className="d-flex justify-content-between mb-3 d-lg-none">
+      <Card.Body className="d-xl-none justify-content-between align-items-center">
+        <div className="d-flex justify-content-between mb-3 d-xl-none">
           <Card.Title className="fs-6">
             #<span className="text-body-emphasis">{invoice.id}</span>
           </Card.Title>

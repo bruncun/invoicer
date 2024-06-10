@@ -21,13 +21,13 @@ export const InvoicesPager = ({
 
   return (
     <div className="d-flex justify-content-between align-items-center mt-2 ">
-      <span className="text-muted fs-6 d-none d-lg-inline-block">
+      <span className="text-muted fs-6 d-none d-xl-inline-block">
         Showing{" "}
         <span className="fw-medium">{(current - 1) * pageSize + 1}</span> to{" "}
         <span className="fw-medium">{current * pageSize}</span> of{" "}
         <span className="fw-medium">{formattedTotal}</span> invoices
       </span>
-      <div className="d-flex justify-content-between w-100 d-lg-inline-block w-lg-auto">
+      <div className="d-flex justify-content-between w-100 d-xl-inline-block w-xl-auto">
         <Button
           variant="link"
           className="rounded-3"

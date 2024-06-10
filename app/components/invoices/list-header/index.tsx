@@ -24,12 +24,12 @@ export const InvoicesListHeader = ({
 
   return (
     <div className="d-flex justify-content-between align-items-center">
-      <h1 className="fs-4 fs-lg-3 mb-0 lh-1">Invoices</h1>
+      <h1 className="fs-4 fs-xl-3 mb-0 lh-1">Invoices</h1>
       <Stack direction="horizontal" gap={2}>
         <Dropdown>
           <Dropdown.Toggle variant="link">
             Filter
-            <span className="d-none d-lg-inline-block">&nbsp;by Status</span>
+            <span className="d-none d-xl-inline-block">&nbsp;by Status</span>
             <Icon name="chevron-down text-primary ms-2"></Icon>
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -51,7 +51,7 @@ export const InvoicesListHeader = ({
         </Dropdown>
         <Button onClick={() => modalShow()}>
           <Icon name="plus-circle-fill" className="me-2"></Icon>New{" "}
-          <span className="d-none d-lg-inline-block">Invoice</span>
+          <span className="d-none d-xl-inline-block">Invoice</span>
         </Button>
       </Stack>
     </div>
