@@ -341,6 +341,7 @@ const InvoicesModalForm = ({
               </Col>
               <Col xs={{ span: 1 }} className="pt-2 justify-content-end d-flex">
                 <OverlayTrigger
+                  delay={{ show: 500, hide: 0 }}
                   overlay={<Tooltip id="delete-tooltip">Delete Item</Tooltip>}
                 >
                   <Button

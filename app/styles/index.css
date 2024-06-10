@@ -7416,7 +7416,7 @@ textarea.form-control-lg {
   position: absolute !important;
 }
 
-.position-fixed {
+.position-fixed, .tooltip {
   position: fixed !important;
 }
 

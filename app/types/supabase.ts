@@ -84,6 +84,7 @@ export type Database = {
           name: string
           price: number
           quantity: number
+          user_id: string
         }
         Insert: {
           id?: number
@@ -91,6 +92,7 @@ export type Database = {
           name: string
           price: number
           quantity: number
+          user_id?: string
         }
         Update: {
           id?: number
@@ -98,6 +100,7 @@ export type Database = {
           name?: string
           price?: number
           quantity?: number
+          user_id?: string
         }
         Relationships: [
           {
@@ -107,6 +110,13 @@ export type Database = {
             referencedRelation: "invoices"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "items_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
         ]
       }
     }
@@ -114,36 +124,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_invoice_data: {
-        Args: {
-          invoice_id: string
-        }
-        Returns: Json
-      }
-      random_address_id: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
-      random_client_id: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
-      random_client_id_or_null: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
-      random_invoice_id: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
-      random_payment_terms: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
-      random_status: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never

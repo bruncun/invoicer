@@ -97,6 +97,7 @@ const useInvoicesCreateModalForm = () => {
           name: item.name,
           quantity: item.quantity,
           price: item.price,
+          user_id: identity?.id,
         })),
         successNotification: false,
       });
