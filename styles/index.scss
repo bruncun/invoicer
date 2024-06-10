@@ -119,6 +119,10 @@ $utilities: map-merge(
 @import "../node_modules/react-toastify/scss/toast";
 @import "../node_modules/react-toastify/scss/animations/bounce.scss";
 
+.tooltip {
+  @extend .position-fixed;
+}
+
 .Toastify__toast-icon {
   @extend .d-none;
 }
