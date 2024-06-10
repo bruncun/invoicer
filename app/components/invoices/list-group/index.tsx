@@ -3,14 +3,10 @@ import InvoicesListItem from "../list-item";
 import InvoicesEmptyState from "../empty-state";
 
 type InvoicesListGroupProps = {
-  invoices: Array<Tables<"invoices">>;
-  clients: Array<Tables<"clients">>;
+  invoices: Array<Tables<"invoices"> & { items: Array<Tables<"items">> }>;
 };
 
-export const InvoicesListGroup = ({
-  invoices,
-  clients,
-}: InvoicesListGroupProps) => (
+export const InvoicesListGroup = ({ invoices }: InvoicesListGroupProps) => (
   <>
     {invoices.length > 0 ? (
       <ul data-testid="invoices-list" className="list-unstyled mt-4">
@@ -19,14 +15,7 @@ export const InvoicesListGroup = ({
             key={invoice.id}
             className={idx !== invoices.length - 1 ? "mb-2" : ""}
           >
-            <InvoicesListItem
-              invoice={invoice}
-              client={
-                clients.find(
-                  ({ id }) => invoice.client_id === id
-                ) as Tables<"clients">
-              }
-            ></InvoicesListItem>
+            <InvoicesListItem invoice={invoice}></InvoicesListItem>
           </li>
         ))}
       </ul>

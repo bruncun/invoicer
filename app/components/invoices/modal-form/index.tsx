@@ -75,67 +75,67 @@ const InvoicesModalForm = ({
         <h6 className="text-primary mb-2">Bill From</h6>
         <Stack gap={3} className="mb-4">
           <Form.Group>
-            <Form.Label htmlFor="senderStreet">Street Address</Form.Label>
+            <Form.Label htmlFor="sender_street">Street Address</Form.Label>
             <Form.Control
               autoComplete="address"
               autoFocus={true}
-              isInvalid={!!errors.senderStreet}
-              id="senderStreet"
-              {...register("senderStreet", {
+              isInvalid={!!errors.sender_street}
+              id="sender_street"
+              {...register("sender_street", {
                 required: "This field is required",
               })}
             />
             <Form.Control.Feedback type="invalid">
-              {(errors as any)?.senderStreet?.message}
+              {(errors as any)?.sender_street?.message}
             </Form.Control.Feedback>
           </Form.Group>
           <Row className="gx-3">
             <Col>
               <Form.Group>
-                <Form.Label htmlFor="senderCity">City</Form.Label>
+                <Form.Label htmlFor="sender_city">City</Form.Label>
                 <Form.Control
                   autoComplete="address-level2"
-                  isInvalid={!!errors.senderCity}
-                  id="senderCity"
-                  {...register("senderCity", {
+                  isInvalid={!!errors.sender_city}
+                  id="sender_city"
+                  {...register("sender_city", {
                     required: "This field is required",
                   })}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {(errors as any)?.senderStreet?.message as string}
+                  {(errors as any)?.sender_street?.message as string}
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Label htmlFor="senderPostcode">Post Code</Form.Label>
+                <Form.Label htmlFor="sender_postcode">Post Code</Form.Label>
                 <Form.Control
                   type="tel"
                   autoComplete="postal-code"
-                  isInvalid={!!errors.senderPostCode}
-                  id="senderPostcode"
-                  {...register("senderPostCode", {
+                  isInvalid={!!errors.sender_postcode}
+                  id="sender_postcode"
+                  {...register("sender_postcode", {
                     required: "This field is required",
                   })}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {(errors as any)?.senderPostCode?.message as string}
+                  {(errors as any)?.sender_postcode?.message as string}
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Label htmlFor="senderCountry">Country</Form.Label>
+                <Form.Label htmlFor="sender_country">Country</Form.Label>
                 <Form.Control
                   autoComplete="country"
-                  isInvalid={!!errors.senderCountry}
-                  id="senderCountry"
-                  {...register("senderCountry", {
+                  isInvalid={!!errors.sender_country}
+                  id="sender_country"
+                  {...register("sender_country", {
                     required: "This field is required",
                   })}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {(errors as any)?.senderCountry?.message as string}
+                  {(errors as any)?.sender_country?.message as string}
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
@@ -144,88 +144,88 @@ const InvoicesModalForm = ({
         <h6 className="text-primary mb-2">Bill To</h6>
         <Stack gap={3} className="mb-5">
           <Form.Group>
-            <Form.Label htmlFor="clientName">Client's Name</Form.Label>
+            <Form.Label htmlFor="client_name">Client's Name</Form.Label>
             <Form.Control
-              {...register("clientName", {
+              {...register("client_name", {
                 required: "This field is required",
               })}
-              id="clientName"
-              isInvalid={!!errors.clientName}
+              id="client_name"
+              isInvalid={!!errors.client_name}
             />
             <Form.Control.Feedback type="invalid">
-              {(errors as any)?.clientName?.message as string}
+              {(errors as any)?.client_name?.message as string}
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group>
-            <Form.Label htmlFor="clientEmail">Client's Email</Form.Label>
+            <Form.Label htmlFor="client_email">Client's Email</Form.Label>
             <Form.Control
-              {...register("clientEmail", {
+              {...register("client_email", {
                 required: "This field is required",
               })}
-              id="clientEmail"
-              isInvalid={!!errors.clientEmail}
+              id="client_email"
+              isInvalid={!!errors.client_email}
             />
             <Form.Control.Feedback type="invalid">
-              {(errors as any)?.clientEmail?.message as string}
+              {(errors as any)?.client_email?.message as string}
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group>
-            <Form.Label htmlFor="clientStreet">Street Address</Form.Label>
+            <Form.Label htmlFor="client_street">Street Address</Form.Label>
             <Form.Control
-              {...register("clientStreet", {
+              {...register("client_street", {
                 required: "This field is required",
               })}
-              id="clientStreet"
-              isInvalid={!!errors.clientStreet}
+              id="client_street"
+              isInvalid={!!errors.client_street}
             />
             <Form.Control.Feedback type="invalid">
-              {(errors as any)?.clientStreet?.message as string}
+              {(errors as any)?.client_street?.message as string}
             </Form.Control.Feedback>
           </Form.Group>
           <Row className="gx-3">
             <Col>
               <Form.Group>
-                <Form.Label htmlFor="clientCity">City</Form.Label>
+                <Form.Label htmlFor="client_city">City</Form.Label>
                 <Form.Control
-                  {...register("clientCity", {
+                  {...register("client_city", {
                     required: "This field is required",
                   })}
-                  id="clientCity"
-                  isInvalid={!!errors.clientCity}
+                  id="client_city"
+                  isInvalid={!!errors.client_city}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {(errors as any)?.clientCity?.message as string}
+                  {(errors as any)?.client_city?.message as string}
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Label htmlFor="clientPostCode">Post Code</Form.Label>
+                <Form.Label htmlFor="client_postcode">Post Code</Form.Label>
                 <Form.Control
                   type="tel"
-                  id="clientPostCode"
-                  isInvalid={!!errors.clientPostCode}
-                  {...register("clientPostCode", {
+                  id="client_postcode"
+                  isInvalid={!!errors.client_postcode}
+                  {...register("client_postcode", {
                     required: "This field is required",
                   })}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {(errors as any)?.clientPostCode?.message as string}
+                  {(errors as any)?.client_postcode?.message as string}
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
             <Col>
               <Form.Group>
-                <Form.Label htmlFor="clientCountry">Country</Form.Label>
+                <Form.Label htmlFor="client_country">Country</Form.Label>
                 <Form.Control
-                  id="clientCountry"
-                  isInvalid={!!errors.clientCountry}
-                  {...register("clientCountry", {
+                  id="client_country"
+                  isInvalid={!!errors.client_country}
+                  {...register("client_country", {
                     required: "This field is required",
                   })}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {(errors as any)?.clientCountry?.message as string}
+                  {(errors as any)?.client_country?.message as string}
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>

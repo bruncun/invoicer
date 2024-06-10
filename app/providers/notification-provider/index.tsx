@@ -38,7 +38,6 @@ const toaster = (myProps: ToastProps, toastProps: ToastOptions): Id => {
 
 export const notificationProvider: NotificationProvider = {
   open: (params) => {
-    console.log(params);
     const { key, description, type } = params;
     if (type !== "progress") {
       const toastId = `${key}_${Date.now()}`;

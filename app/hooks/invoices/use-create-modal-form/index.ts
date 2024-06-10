@@ -34,16 +34,16 @@ const useInvoicesCreateModalForm = () => {
       action: "create",
     },
     defaultValues: {
-      senderStreet: "",
-      senderCity: "",
-      senderPostCode: "",
-      senderCountry: "",
-      clientName: "",
-      clientEmail: "",
-      clientStreet: "",
-      clientCity: "",
-      clientPostCode: "",
-      clientCountry: "",
+      sender_street: "",
+      sender_city: "",
+      sender_postcode: "",
+      sender_country: "",
+      client_name: "",
+      client_email: "",
+      client_street: "",
+      client_city: "",
+      client_postcode: "",
+      client_country: "",
       payment_due: formatDate(new Date(), "yyyy-MM-dd"),
       payment_terms: "30",
       description: "",
@@ -68,53 +68,21 @@ const useInvoicesCreateModalForm = () => {
   const onFinish = async (formData: InvoiceDto) => {
     setIsSubmitting(true);
     try {
-      const client = await mutateAsync({
-        resource: "clients",
-        values: {
-          name: formData.clientName,
-          email: formData.clientEmail,
-          user_id: identity?.id,
-        },
-        successNotification: false,
-      });
-      const responseData = await Promise.all([
-        mutateAsync({
-          resource: "addresses",
-          values: {
-            street: formData.senderStreet,
-            city: formData.senderCity,
-            postCode: formData.senderPostCode,
-            country: formData.senderCountry,
-            user_id: identity?.id,
-          },
-          successNotification: false,
-        }),
-        mutateAsync({
-          resource: "addresses",
-          values: {
-            street: formData.clientStreet,
-            city: formData.clientCity,
-            postCode: formData.clientPostCode,
-            country: formData.clientCountry,
-            user_id: identity?.id,
-            client_id: client.data.id,
-          },
-          successNotification: false,
-        }),
-      ]);
-
       const newInvoice = {
-        client_id: client.data.id,
-        sender_address_id: responseData[0].data.id,
-        client_address_id: responseData[1].data.id,
+        sender_street: formData.sender_street,
+        sender_city: formData.sender_city,
+        sender_postcode: formData.sender_postcode,
+        sender_country: formData.sender_country,
+        client_name: formData.client_name,
+        client_email: formData.client_email,
+        client_street: formData.client_street,
+        client_city: formData.client_city,
+        client_country: formData.client_country,
+        client_postcode: formData.client_postcode,
         payment_due: formData.payment_due,
         payment_terms: parseInt(formData.payment_terms),
         description: formData.description,
         status: formData.status,
-        total: items.reduce(
-          (acc: number, item) => acc + item.quantity * item.price,
-          0
-        ),
         user_id: identity?.id,
       };
       const invoice = await mutateAsync({
@@ -125,12 +93,10 @@ const useInvoicesCreateModalForm = () => {
       await mutateManyAsync({
         resource: "items",
         values: items.map((item) => ({
-          invoiceId: invoice.data.id,
+          invoice_id: invoice.data.id,
           name: item.name,
           quantity: item.quantity,
           price: item.price,
-          total: item.quantity * item.price,
-          user_id: identity?.id,
         })),
         successNotification: false,
       });

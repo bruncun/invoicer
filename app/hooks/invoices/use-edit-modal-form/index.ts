@@ -3,6 +3,7 @@ import {
   useCreate,
   useDelete,
   useDeleteMany,
+  useGetIdentity,
   useNavigation,
   useNotification,
   useUpdate,
@@ -28,7 +29,9 @@ const useInvoicesEditModalForm = (
     register,
     setValue,
   } = useModalForm<InvoiceDto, HttpError, InvoiceDto>({
-    refineCoreProps: { autoSave: { enabled: true } },
+    refineCoreProps: {
+      autoSave: { enabled: true },
+    },
     syncWithLocation: true,
   });
   const { list } = useNavigation();
@@ -44,16 +47,16 @@ const useInvoicesEditModalForm = (
   useEffect(() => {
     if (!isInvoicesLoading && invoice) {
       reset({
-        senderStreet: invoice.senderAddress.street,
-        senderCity: invoice.senderAddress.city,
-        senderPostCode: invoice.senderAddress.postCode,
-        senderCountry: invoice.senderAddress.country,
-        clientName: invoice.client.name,
-        clientEmail: invoice.client.email,
-        clientStreet: invoice.clientAddress.street,
-        clientCity: invoice.clientAddress.city,
-        clientPostCode: invoice.clientAddress.postCode,
-        clientCountry: invoice.clientAddress.country,
+        sender_street: invoice.sender_street,
+        sender_city: invoice.sender_city,
+        sender_postcode: invoice.sender_postcode,
+        sender_country: invoice.sender_country,
+        client_name: invoice.client_name,
+        client_email: invoice.client_email,
+        client_street: invoice.client_street,
+        client_city: invoice.client_city,
+        client_postcode: invoice.client_postcode,
+        client_country: invoice.client_country,
         payment_due: formatDate(new Date(), "yyyy-MM-dd"),
         payment_terms: "30",
         description: invoice.description,
@@ -68,14 +71,21 @@ const useInvoicesEditModalForm = (
   const { mutateAsync: mutateUpdateAsync } = useUpdate();
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const { open } = useNotification();
+  const { data: identity } = useGetIdentity<{ id: string }>();
+
+  const status = watch("status");
 
   const onSubmit = (status: Status) => {
+    console.log("status", status);
     setValue("status", status);
-    handleSubmit(onFinish);
   };
 
+  useEffect(() => {
+    console.log("effect", status);
+    if (status) handleSubmit(onFinish)();
+  }, [status]);
+
   const onUpdateStatus = (status: "paid" | "pending") => {
-    console.log(status);
     mutateUpdateAsync({
       resource: "invoices",
       id: invoice?.id,
@@ -103,16 +113,6 @@ const useInvoicesEditModalForm = (
           id: invoice?.id,
           successNotification: false,
         }),
-        mutateDeleteAsync({
-          resource: "addresses",
-          id: invoice?.client_address_id,
-          successNotification: false,
-        }),
-        mutateDeleteAsync({
-          resource: "addresses",
-          id: invoice?.sender_address_id,
-          successNotification: false,
-        }),
       ]);
       open?.({
         description: "Invoice deleted",
@@ -127,6 +127,7 @@ const useInvoicesEditModalForm = (
   };
 
   const onFinish = async (formData: InvoiceDto) => {
+    console.log("finish");
     setIsSubmitting(true);
     const newItems = formData.items.filter((item) => !item.id);
     const deletedItems = invoice?.items.filter((item: Item) => {
@@ -137,56 +138,23 @@ const useInvoicesEditModalForm = (
     >;
 
     try {
-      const responseData = await Promise.all([
-        mutateUpdateAsync({
-          resource: "clients",
-          id: invoice?.client_id,
-          values: {
-            name: formData.clientName,
-            email: formData.clientEmail,
-          },
-        }),
-        mutateUpdateAsync({
-          resource: "addresses",
-          id: invoice?.sender_address_id,
-          values: {
-            street: formData.senderStreet,
-            city: formData.senderCity,
-            postCode: formData.senderPostCode,
-            country: formData.senderCountry,
-          },
-        }),
-        mutateUpdateAsync({
-          resource: "addresses",
-          id: invoice?.client_address_id,
-          values: {
-            street: formData.clientStreet,
-            city: formData.clientCity,
-            postCode: formData.clientPostCode,
-            country: formData.clientCountry,
-          },
-        }),
-      ]);
-
       const newInvoice = {
-        client_id: responseData[0].data.id,
-        sender_address_id: responseData[1].data.id,
-        client_address_id: responseData[2].data.id,
+        sender_street: formData.sender_street,
+        sender_city: formData.sender_city,
+        sender_postcode: formData.sender_postcode,
+        sender_country: formData.sender_country,
+        client_name: formData.client_name,
+        client_email: formData.client_email,
+        client_street: formData.client_street,
+        client_city: formData.client_city,
+        client_country: formData.client_country,
+        client_postcode: formData.client_postcode,
         payment_due: formData.payment_due,
         payment_terms: parseInt(formData.payment_terms),
         description: formData.description,
-        status: "draft",
-        total: items!.reduce(
-          (acc: number, item) => acc + item.quantity * item.price,
-          0
-        ),
+        status: formData.status,
+        user_id: identity?.id,
       };
-
-      await mutateUpdateAsync({
-        resource: "invoices",
-        id: invoice?.id,
-        values: newInvoice,
-      });
 
       await Promise.all([
         ...updatedItems.map((item) =>
@@ -194,33 +162,47 @@ const useInvoicesEditModalForm = (
             resource: "items",
             id: item.id,
             values: {
-              invoiceId: invoice?.id,
+              invoice_id: invoice?.id,
               name: item.name,
               quantity: item.quantity,
               price: item.price,
-              total: item.quantity * item.price,
             },
+            successNotification: false,
           })
         ),
         ...newItems.map((item) =>
           mutateCreateAsync({
             resource: "items",
             values: {
-              invoiceId: invoice?.id,
+              invoice_id: invoice?.id,
               name: item.name,
               quantity: item.quantity,
               price: item.price,
-              total: item.quantity * item.price,
             },
+            successNotification: false,
           })
         ),
         ...deletedItems.map((item) =>
           mutateDeleteAsync({
             resource: "items",
             id: item.id,
+            successNotification: false,
           })
         ),
+        mutateUpdateAsync({
+          resource: "invoices",
+          id: invoice?.id,
+          values: newInvoice,
+          successNotification: false,
+        }),
       ]);
+      open?.({
+        description: `Invoice successfully updated${
+          formData.status === "draft" ? "" : " and sent"
+        }.`,
+        message: "success",
+        type: "success",
+      });
 
       close();
       reset();

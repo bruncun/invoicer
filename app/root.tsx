@@ -92,7 +92,6 @@ export function links() {
 export function ErrorBoundary() {
   const error = useRouteError() as ErrorResponse;
   useTheme();
-  console.log(error);
   return (
     <html>
       <head>
