@@ -23,7 +23,7 @@ export const InvoicesListGroup = ({
               invoice={invoice}
               client={
                 clients.find(
-                  ({ id }) => invoice.clientId === id
+                  ({ id }) => invoice.client_id === id
                 ) as Tables<"clients">
               }
             ></InvoicesListItem>

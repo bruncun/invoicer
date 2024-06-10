@@ -2,7 +2,7 @@ import { Row, Col, Spinner } from "react-bootstrap";
 
 const FullScreenSpinner = () => (
   <div
-    className="position-absolute top-50 start-50 translate-middle full-screen-spinner w-100"
+    className="position-absolute top-50 start-50 translate-middle w-100"
     data-testid="loading"
   >
     <Row>

@@ -20,15 +20,17 @@ const InvoicesMobileNavbar = ({
     <Navbar
       fixed="bottom"
       bg="body"
-      className="shadow-lg justify-content-between px-4 py-3 d-sm-none rounded-top-5"
+      className="shadow-lg justify-content-between px-4 py-3 d-sm-none rounded-top-5 z-1"
     >
       <Button variant="link" onClick={goBack}>
         Go Back
       </Button>
       <Stack direction="horizontal" gap={2}>
-        <Button variant="secondary" onClick={() => modalShow(invoice.id)}>
-          Edit
-        </Button>
+        {invoice && invoice.id && invoice.status === "draft" && (
+          <Button variant="secondary" onClick={() => modalShow(invoice.id)}>
+            Edit
+          </Button>
+        )}
         <Button
           variant="danger"
           onClick={() => setShowConfirmationModal(!showConfirmationModal)}

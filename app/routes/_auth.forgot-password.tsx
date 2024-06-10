@@ -28,14 +28,14 @@ export default function ForgotPassword() {
         open?.({
           type: "success",
           message: "success",
-          description: "Instructions have been sent to your email.",
+          description: "Instructions sent to your email.",
         });
       },
     });
 
   return (
     <AuthLayout title="Forgot Password">
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Form.Group className="mb-3">
           <Form.Label htmlFor="email">Email</Form.Label>
           <Form.Control

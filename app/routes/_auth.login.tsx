@@ -26,7 +26,7 @@ export default function Login() {
 
   return (
     <AuthLayout title="Login">
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Form.Group className="mb-3">
           <Form.Label htmlFor="email">Email</Form.Label>
           <Form.Control

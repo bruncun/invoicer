@@ -29,7 +29,7 @@ export const useInvoicesList = (pageSize: number, filters: Status[]) => {
     HttpError
   >({
     resource: "clients",
-    ids: invoicesData?.data?.map((item) => item?.clientId) ?? [],
+    ids: invoicesData?.data?.map((item) => item?.client_id) ?? [],
     queryOptions: {
       enabled: !!invoicesData?.data,
     },

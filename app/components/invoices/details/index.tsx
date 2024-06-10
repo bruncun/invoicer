@@ -32,7 +32,7 @@ export const InvoicesDetails = ({
             </dd>
             <dt>Payment Due</dt>
             <dd className="text-body-emphasis fw-semibold">
-              {invoice && formatDisplayDate(invoice?.paymentDue)}
+              {invoice && formatDisplayDate(invoice?.payment_due)}
             </dd>
           </Col>
           <Col xs={{ span: 6 }} md={{ span: 4 }}>
@@ -63,7 +63,7 @@ export const InvoicesDetails = ({
             <thead>
               <tr>
                 <th>Item Name</th>
-                <th className="text-center">QTY.</th>
+                <th className="text-end">QTY.</th>
                 <th className="text-end">Price</th>
                 <th className="text-end">Total</th>
               </tr>
@@ -74,7 +74,7 @@ export const InvoicesDetails = ({
                   <td className="text-body-emphasis fw-semibold">
                     {item.name}
                   </td>
-                  <td className="text-center">{item.quantity}</td>
+                  <td className="text-end">{item.quantity}</td>
                   <td className="text-end">{formatCurrency(item.price)}</td>
                   <td className="text-body-emphasis fw-semibold text-end">
                     {formatCurrency(item.total)}
@@ -104,7 +104,7 @@ export const InvoicesDetails = ({
         </Card.Body>
       </Card>
       <Card bg="secondary" className="rounded-top-0 mb-6 mb-md-0 text-white">
-        <Card.Body>
+        <Card.Body className="px-lg-4 mx-lg-2">
           <dl className="d-flex justify-content-between align-items-center">
             <dt>Amount Due</dt>
             <dd className="fw-semibold fs-4">

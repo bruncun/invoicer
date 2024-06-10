@@ -7,6 +7,7 @@ import {
 } from "react-bootstrap";
 import Icon from "../icon";
 import { Link } from "@remix-run/react";
+import logoIcon from "~/assets/logo.svg";
 
 type DesktopNav = {
   theme: string;
@@ -30,8 +31,7 @@ const DesktopNav = ({
         className="d-block px-3 py-2 text-decoration-none bg-primary text-white text-center position-relative btn-shadow border border-primary"
       >
         <Icon name="receipt-cutoff" className="fs-2"></Icon>
-
-        <span className="visually-hidden">Icon-only</span>
+        <span className="visually-hidden">Home</span>
       </Link>
       <div className="mt-auto px-3 pb-3">
         <Stack direction="vertical" gap={3}>

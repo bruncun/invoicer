@@ -5,14 +5,21 @@ const useInvoicesShow = () => {
   const { queryResult } = useShow({
     meta: {
       select:
-        "*, client:clientId(*), senderAddress:senderAddressId(*), clientAddress:clientAddressId(*), items(*)",
+        "*, client:client_id(*), senderAddress:sender_address_id(*), clientAddress:client_address_id(*), items(*)",
     },
   });
-  const { data: invoiceData, isLoading: isInvoicesLoading } = queryResult;
+  const { data, isLoading, isError } = queryResult;
 
-  const invoice = invoiceData?.data as InvoiceWithRelated;
+  const invoice = data?.data as InvoiceWithRelated;
 
-  return { invoice, isInvoicesLoading };
+  if (!invoice && !isLoading) {
+    throw new Response(null, {
+      status: 404,
+      statusText: "Invoice not found",
+    });
+  }
+
+  return { invoice, isLoading, isError };
 };
 
 export default useInvoicesShow;

@@ -1,10 +1,10 @@
 import { Tables } from "./supabase";
 
 export type InvoiceDto = {
-  clientId: string;
+  client_id: string;
   total: number;
-  senderAddressId: string;
-  clientAddressId: string;
+  sender_address_id: string;
+  client_address_id: string;
   senderStreet?: string;
   senderCity?: string;
   senderPostCode?: string;
@@ -15,8 +15,8 @@ export type InvoiceDto = {
   clientCity?: string;
   clientPostCode?: string;
   clientCountry?: string;
-  paymentDue: string;
-  paymentTerms: string;
+  payment_due: string;
+  payment_terms: string;
   description: string;
   status: Status;
   items: Item[];

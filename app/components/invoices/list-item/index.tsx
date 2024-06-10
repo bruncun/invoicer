@@ -16,7 +16,7 @@ const InvoicesListItem = ({
   client: Tables<"clients">;
 }) => {
   const formattedTotal = formatCurrency(invoice.total);
-  const formattedDate = formatDisplayDate(invoice.paymentDue);
+  const formattedDate = formatDisplayDate(invoice.payment_due);
   const { showUrl } = useNavigation();
 
   return (
@@ -44,7 +44,7 @@ const InvoicesListItem = ({
       <Card.Body className="d-lg-none justify-content-between align-items-center">
         <div className="d-flex justify-content-between mb-3 d-lg-none">
           <Card.Title className="fs-6">
-            #<span className="text-dark">{invoice.id}</span>
+            #<span className="text-body-emphasis">{invoice.id}</span>
           </Card.Title>
           {client?.name ?? ""}
         </div>
@@ -52,7 +52,7 @@ const InvoicesListItem = ({
           <div>
             <span className="d-block mb-2">Due {formattedDate}</span>
             <Card.Title className="fs-6">
-              $<span className="text-dark">{formattedTotal}</span>
+              <span className="text-body-emphasis">{formattedTotal}</span>
             </Card.Title>
           </div>
           <div>{invoice.status && <StatusBadge status={invoice.status} />}</div>

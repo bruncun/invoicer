@@ -29,7 +29,7 @@ export const InvoicesDetailsHeader = ({
           </dd>
         </div>
         <Stack direction="horizontal" gap={2} className="d-none d-sm-flex">
-          {invoice && invoice.id && (
+          {invoice && invoice.id && invoice.status === "draft" && (
             <Button variant="secondary" onClick={() => modalShow(invoice.id)}>
               Edit
             </Button>

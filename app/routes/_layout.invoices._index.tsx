@@ -24,7 +24,7 @@ export const InvoiceList = () => {
     isSubmitting,
     remove,
     fields,
-    onFinishHandler,
+    onFinish,
     handleSubmit,
     errors,
     register,
@@ -61,7 +61,7 @@ export const InvoiceList = () => {
         isSubmitting={isSubmitting}
         remove={remove}
         fields={fields}
-        onFinishHandler={onFinishHandler}
+        onFinish={onFinish}
         handleSubmit={handleSubmit}
         errors={errors}
         register={register}
