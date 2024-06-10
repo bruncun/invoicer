@@ -61,7 +61,7 @@ const InvoicesModalForm = ({
       if (reset) reset();
       close();
     }}
-    dialogClassName="ms-lg-6 ms-sm-0 mt-0 ps-lg-2 mb-0 min-vh-100"
+    dialogClassName="ms-xl-6 ms-sm-0 mt-0 ps-xl-2 mb-0 min-vh-100"
     contentClassName="rounded-start-0"
     scrollable
   >
@@ -362,7 +362,7 @@ const InvoicesModalForm = ({
           className="w-100"
           onClick={() => append({ name: "", quantity: 0, price: 0 })}
         >
-          <Icon name="plus-lg" className="me-2"></Icon>Add New Item
+          <Icon name="plus-xl" className="me-2"></Icon>Add New Item
         </Button>
       </form>
     </Modal.Body>

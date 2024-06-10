@@ -20,7 +20,7 @@ const InvoicesMobileNavbar = ({
     <Navbar
       fixed="bottom"
       bg="body"
-      className="shadow-lg justify-content-between px-4 py-3 d-sm-none rounded-top-5 z-1"
+      className="shadow-xl justify-content-between px-4 py-3 d-sm-none rounded-top-5 z-1"
     >
       <Button variant="link" onClick={goBack}>
         Go Back
@@ -40,13 +40,13 @@ const InvoicesMobileNavbar = ({
         {invoice?.status === "pending" && (
           <Button variant="primary" onClick={() => onUpdateStatus("paid")}>
             Mark
-            <span className="d-none d-lg-inline-block">&nbsp;as Paid</span>
+            <span className="d-none d-xl-inline-block">&nbsp;as Paid</span>
           </Button>
         )}
         {invoice?.status === "draft" && (
           <Button variant="primary" onClick={() => onUpdateStatus("pending")}>
             Send
-            <span className="d-none d-lg-inline-block">&nbsp;Invoice</span>
+            <span className="d-none d-xl-inline-block">&nbsp;Invoice</span>
           </Button>
         )}
       </Stack>

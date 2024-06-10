@@ -12,13 +12,13 @@ const AuthLayout = ({ children, title }: AuthLayoutProps) => {
 
   return (
     <Row className="vh-100 align-items-center">
-      <Col lg={{ span: 4 }} className="mx-auto">
+      <Col xl={{ span: 4 }} className="mx-auto">
         <Card className="shadow rounded-4 rounded">
           <Card.Body className="p-4">
             <div className="mb-4 d-flex align-items-center">
               <Icon name="receipt-cutoff" className="fs-1 text-primary"></Icon>
             </div>
-            <Card.Title className="fs-4 fs-lg-3 mb-3 d-block lh-1">
+            <Card.Title className="fs-4 fs-xl-3 mb-3 d-block lh-1">
               {title}
             </Card.Title>
             {children}

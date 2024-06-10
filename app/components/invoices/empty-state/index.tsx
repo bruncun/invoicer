@@ -3,14 +3,14 @@ import emptyStateIllustration from "~/assets/illustration-empty-state.svg";
 
 const InvoicesEmptyState = () => (
   <div
-    className="d-flex align-items-center justify-content-center flex-grow-1 mt-7 mt-lg-9"
+    className="d-flex align-items-center justify-content-center flex-grow-1 mt-7 mt-xl-9"
     data-testid="empty-state"
   >
     <Row className="w-100">
       <Col
         xs={{ span: 10, offset: 1 }}
-        lg={{ span: 5 }}
-        className="text-center mx-lg-auto"
+        xl={{ span: 5 }}
+        className="text-center mx-xl-auto"
       >
         <img
           src={emptyStateIllustration}

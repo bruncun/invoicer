@@ -110,7 +110,7 @@ export const InvoicesDetails = ({
           </Card.Body>
         </Card>
         <Card bg="secondary" className="rounded-top-0 mb-6 mb-md-0 text-white">
-          <Card.Body className="px-lg-4 mx-lg-2">
+          <Card.Body className="px-xl-4 mx-xl-2">
             <dl className="d-flex justify-content-between align-items-center">
               <dt>Amount Due</dt>
               <dd className="fw-semibold fs-4">
