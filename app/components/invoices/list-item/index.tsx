@@ -1,6 +1,5 @@
 import { Tables } from "~/types/supabase";
-import { Button, Card, Col, Row } from "react-bootstrap";
-import emptyStateIllustration from "~/assets/illustration-empty-state.svg";
+import { Button, Card } from "react-bootstrap";
 import { useNavigation } from "@refinedev/core";
 import { Link } from "@remix-run/react";
 import FormattedId from "~/components/formatted-id";
@@ -10,12 +9,12 @@ import { formatCurrency, formatDisplayDate } from "~/utility/formatters";
 
 const InvoicesListItem = ({
   invoice,
-  client,
 }: {
-  invoice: Tables<"invoices">;
-  client: Tables<"clients">;
+  invoice: Tables<"invoices"> & { items: Array<Tables<"items">> };
 }) => {
-  const formattedTotal = formatCurrency(invoice.total);
+  const formattedTotal = formatCurrency(
+    invoice.items.reduce((acc, item) => acc + item.quantity * item.price, 0)
+  );
   const formattedDate = formatDisplayDate(invoice.payment_due);
   const { showUrl } = useNavigation();
 
@@ -30,7 +29,7 @@ const InvoicesListItem = ({
           <FormattedId id={invoice.id}></FormattedId>
         </div>
         <span className="me-5 pe-4 w-10 text-muted">Due {formattedDate}</span>
-        <span className="flex-grow-1 text-muted">{client?.name ?? ""}</span>
+        <span className="flex-grow-1 text-muted">{invoice.client_name}</span>
         <span className="flex-grow-1 justify-content-end d-flex fw-semibold text-body-emphasis">
           {formattedTotal}
         </span>
@@ -46,7 +45,7 @@ const InvoicesListItem = ({
           <Card.Title className="fs-6">
             #<span className="text-body-emphasis">{invoice.id}</span>
           </Card.Title>
-          {client?.name ?? ""}
+          {invoice.client_name}
         </div>
         <div className="d-flex justify-content-between align-items-center">
           <div>

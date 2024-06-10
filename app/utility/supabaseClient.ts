@@ -1,8 +1,8 @@
 import { createClient } from "@refinedev/supabase";
 
-const SUPABASE_URL = "https://lrqtnqvcexgpyihlurfp.supabase.co";
+const SUPABASE_URL = "https://vwyfptctuwjdqmnoskhr.supabase.co";
 const SUPABASE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxycXRucXZjZXhncHlpaGx1cmZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU5MDExMjcsImV4cCI6MjAzMTQ3NzEyN30.0Tk9l-0VfVg3eVHn4bv-0kJpudIhdbMjYcD_i6pNkd8";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ3eWZwdGN0dXdqZHFtbm9za2hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc2Mjg2OTAsImV4cCI6MjAzMzIwNDY5MH0.kndzFB58_9gsJdmsLFSViUZgyDKbwPmHnqnnQQA7-SI";
 
 export const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY, {
   db: {

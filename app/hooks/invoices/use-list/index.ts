@@ -22,24 +22,15 @@ export const useInvoicesList = (pageSize: number, filters: Status[]) => {
       current,
       pageSize,
     },
-  });
-
-  const { data: clientsData, isLoading: isClientsLoading } = useMany<
-    Tables<"clients">,
-    HttpError
-  >({
-    resource: "clients",
-    ids: invoicesData?.data?.map((item) => item?.client_id) ?? [],
-    queryOptions: {
-      enabled: !!invoicesData?.data,
+    meta: {
+      select: "*, items(*)",
     },
   });
 
   return {
     invoices: invoicesData?.data ?? [],
     total: invoicesData?.total ?? 0,
-    clients: clientsData?.data ?? [],
-    isLoading: isInvoicesLoading || isClientsLoading,
+    isLoading: isInvoicesLoading,
     current,
     setCurrent,
   };

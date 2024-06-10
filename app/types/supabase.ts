@@ -9,132 +9,65 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      addresses: {
-        Row: {
-          city: string
-          country: string
-          id: number
-          postCode: string
-          street: string
-          user_id: string
-        }
-        Insert: {
-          city: string
-          country: string
-          id?: number
-          postCode: string
-          street: string
-          user_id: string
-        }
-        Update: {
-          city?: string
-          country?: string
-          id?: number
-          postCode?: string
-          street?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "addresses_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      clients: {
-        Row: {
-          email: string
-          id: number
-          name: string
-          user_id: string
-        }
-        Insert: {
-          email: string
-          id?: number
-          name: string
-          user_id: string
-        }
-        Update: {
-          email?: string
-          id?: number
-          name?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "clients_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       invoices: {
         Row: {
-          client_address_id: number
-          client_id: number
+          client_city: string
+          client_country: string
+          client_email: string
+          client_name: string
+          client_postcode: string
+          client_street: string
           created_at: string
           description: string
           id: number
           payment_due: string
           payment_terms: string
-          sender_address_id: number
+          sender_city: string
+          sender_country: string
+          sender_postcode: string
+          sender_street: string
           status: string
-          total: number
           user_id: string
         }
         Insert: {
-          client_address_id: number
-          client_id: number
+          client_city: string
+          client_country: string
+          client_email: string
+          client_name: string
+          client_postcode: string
+          client_street: string
           created_at?: string
           description: string
           id?: number
           payment_due: string
           payment_terms: string
-          sender_address_id: number
+          sender_city: string
+          sender_country: string
+          sender_postcode: string
+          sender_street: string
           status: string
-          total: number
           user_id: string
         }
         Update: {
-          client_address_id?: number
-          client_id?: number
+          client_city?: string
+          client_country?: string
+          client_email?: string
+          client_name?: string
+          client_postcode?: string
+          client_street?: string
           created_at?: string
           description?: string
           id?: number
           payment_due?: string
           payment_terms?: string
-          sender_address_id?: number
+          sender_city?: string
+          sender_country?: string
+          sender_postcode?: string
+          sender_street?: string
           status?: string
-          total?: number
           user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "invoices_client_address_id_fkey"
-            columns: ["client_address_id"]
-            isOneToOne: false
-            referencedRelation: "addresses"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "invoices_client_id_fkey"
-            columns: ["client_id"]
-            isOneToOne: false
-            referencedRelation: "clients"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "invoices_sender_address_id_fkey"
-            columns: ["sender_address_id"]
-            isOneToOne: false
-            referencedRelation: "addresses"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "invoices_user_id_fkey"
             columns: ["user_id"]
@@ -147,44 +80,31 @@ export type Database = {
       items: {
         Row: {
           id: number
-          invoiceId: number | null
+          invoice_id: number | null
           name: string
           price: number
           quantity: number
-          total: number
-          user_id: string
         }
         Insert: {
           id?: number
-          invoiceId?: number | null
+          invoice_id?: number | null
           name: string
           price: number
           quantity: number
-          total: number
-          user_id: string
         }
         Update: {
           id?: number
-          invoiceId?: number | null
+          invoice_id?: number | null
           name?: string
           price?: number
           quantity?: number
-          total?: number
-          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "items_invoiceId_fkey"
-            columns: ["invoiceId"]
+            foreignKeyName: "items_invoice_id_fkey"
+            columns: ["invoice_id"]
             isOneToOne: false
             referencedRelation: "invoices"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "items_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -199,6 +119,30 @@ export type Database = {
           invoice_id: string
         }
         Returns: Json
+      }
+      random_address_id: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      random_client_id: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      random_client_id_or_null: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      random_invoice_id: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      random_payment_terms: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      random_status: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
     }
     Enums: {

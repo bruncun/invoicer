@@ -48,6 +48,7 @@ export const InvoiceList = () => {
           invoices={invoices}
           pageSize={pageSize}
           current={current}
+          total={total}
           setCurrent={setCurrent}
         ></InvoicesPager>
       ) : null}

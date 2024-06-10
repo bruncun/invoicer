@@ -4,8 +4,7 @@ import { InvoiceWithRelated } from "~/types/invoices";
 const useInvoicesShow = () => {
   const { queryResult } = useShow({
     meta: {
-      select:
-        "*, client:client_id(*), senderAddress:sender_address_id(*), clientAddress:client_address_id(*), items(*)",
+      select: "*, items(*)",
     },
   });
   const { data, isLoading, isError } = queryResult;
