@@ -11,8 +11,10 @@ import { Status } from "~/types/invoices";
 export const InvoiceList = () => {
   const [filters, setFilters] = useState<Status[]>([]);
   const pageSize = 10;
-  const { invoices, clients, total, isLoading, current, setCurrent } =
-    useInvoicesList(pageSize, filters);
+  const { invoices, total, isLoading, current, setCurrent } = useInvoicesList(
+    pageSize,
+    filters
+  );
   const invoiceModalForm = useInvoicesCreateModalForm();
   const {
     visible,
@@ -39,10 +41,7 @@ export const InvoiceList = () => {
         setFilters={setFilters}
         filters={filters}
       ></InvoicesListHeader>
-      <InvoicesListGroup
-        invoices={invoices}
-        clients={clients}
-      ></InvoicesListGroup>
+      <InvoicesListGroup invoices={invoices}></InvoicesListGroup>
       {invoices && total > 0 ? (
         <InvoicesPager
           invoices={invoices}

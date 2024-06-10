@@ -11,6 +11,7 @@ export const useInvoicesList = (pageSize: number, filters: Status[]) => {
     Tables<"invoices">,
     HttpError
   >({
+    resource: "invoices",
     filters: [
       {
         field: "status",
@@ -28,7 +29,9 @@ export const useInvoicesList = (pageSize: number, filters: Status[]) => {
   });
 
   return {
-    invoices: invoicesData?.data ?? [],
+    invoices: (invoicesData?.data ?? []) as Array<
+      Tables<"invoices"> & { items: Array<Tables<"items">> }
+    >,
     total: invoicesData?.total ?? 0,
     isLoading: isInvoicesLoading,
     current,
