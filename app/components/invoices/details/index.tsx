@@ -1,13 +1,11 @@
-import { Card, Col, Row, Stack, Table } from "react-bootstrap";
+import { Badge, Card, Col, Row, Stack, Table } from "react-bootstrap";
 import FormattedId from "~/components/formatted-id";
 import { formatDisplayDate, formatCurrency } from "~/utility/formatters";
-import { InvoiceWithRelated } from "~/types/invoices";
+import useInvoicesShow from "~/hooks/invoices/use-show";
+import Skeleton from "~/components/skeleton";
 
-export const InvoicesDetails = ({
-  invoice,
-}: {
-  invoice?: InvoiceWithRelated;
-}) => {
+export const InvoicesDetails = () => {
+  const { invoice } = useInvoicesShow();
   const total = invoice?.items.reduce(
     (acc, item) => acc + item.quantity * item.price,
     0
@@ -20,13 +18,21 @@ export const InvoicesDetails = ({
           <div>
             <FormattedId id={invoice?.id}></FormattedId>
             <div className="clearfix"></div>
-            <p>{invoice?.description}</p>
+            <p>{invoice?.description ?? <Skeleton />}</p>
           </div>
           <div className="text-md-end">
-            <span className="d-block">{invoice?.sender_street}</span>
-            <span className="d-block">{invoice?.sender_city}</span>
-            <span className="d-block">{invoice?.sender_postcode}</span>
-            <span className="d-block mb-3">{invoice?.sender_country}</span>
+            <span className="d-block">
+              {invoice?.sender_street ?? <Skeleton />}
+            </span>
+            <span className="d-block">
+              {invoice?.sender_city ?? <Skeleton />}
+            </span>
+            <span className="d-block">
+              {invoice?.sender_postcode ?? <Skeleton />}
+            </span>
+            <span className="d-block mb-3">
+              {invoice?.sender_country ?? <Skeleton />}
+            </span>
           </div>
         </div>
         <dl className="mb-5">
@@ -34,30 +40,42 @@ export const InvoicesDetails = ({
             <Col xs={{ span: 6 }} md={{ span: 4 }}>
               <dt>Invoice Date</dt>
               <dd className="mb-4 text-body-emphasis fw-semibold">
-                {invoice && formatDisplayDate(invoice?.created_at)}
+                {(invoice && formatDisplayDate(invoice?.created_at)) ?? (
+                  <Skeleton />
+                )}
               </dd>
               <dt>Payment Due</dt>
               <dd className="text-body-emphasis fw-semibold">
-                {invoice && formatDisplayDate(invoice?.payment_due)}
+                {(invoice && formatDisplayDate(invoice?.payment_due)) ?? (
+                  <Skeleton />
+                )}
               </dd>
             </Col>
             <Col xs={{ span: 6 }} md={{ span: 4 }}>
               <dt>Bill To</dt>
               <dd>
                 <span className="text-body-emphasis fw-semibold">
-                  {invoice?.client_name}
+                  {invoice?.client_name ?? <Skeleton />}
                 </span>
-                <span className="d-block">{invoice?.client_street}</span>
-                <span className="d-block">{invoice?.client_city}</span>
-                <span className="d-block">{invoice?.client_postcode}</span>
-                <span className="d-block">{invoice?.client_country}</span>
+                <span className="d-block">
+                  {invoice?.client_street ?? <Skeleton />}
+                </span>
+                <span className="d-block">
+                  {invoice?.client_city ?? <Skeleton />}
+                </span>
+                <span className="d-block">
+                  {invoice?.client_postcode ?? <Skeleton />}
+                </span>
+                <span className="d-block">
+                  {invoice?.client_country ?? <Skeleton />}
+                </span>
               </dd>
             </Col>
             <Col>
               <dt>Sent To</dt>
               <dd>
                 <span className="fw-semibold text-body-emphasis">
-                  {invoice?.client_email}
+                  {invoice?.client_email ?? <Skeleton />}
                 </span>
               </dd>
             </Col>
@@ -112,9 +130,15 @@ export const InvoicesDetails = ({
         <Card bg="secondary" className="rounded-top-0 mb-6 mb-md-0 text-white">
           <Card.Body className="px-xl-4 mx-xl-2">
             <dl className="d-flex justify-content-between align-items-center">
-              <dt>Amount Due</dt>
+              <dt className="mb-0">Amount Due</dt>
               <dd className="fw-semibold fs-4">
-                {invoice && total && formatCurrency(total)}
+                {(total && formatCurrency(total)) ?? (
+                  <Skeleton
+                    bg="white"
+                    className="w-6"
+                    style={{ height: "2rem" }}
+                  />
+                )}
               </dd>
             </dl>
           </Card.Body>

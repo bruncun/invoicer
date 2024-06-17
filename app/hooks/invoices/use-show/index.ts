@@ -1,15 +1,19 @@
-import { useShow } from "@refinedev/core";
+import { HttpError, useShow } from "@refinedev/core";
 import { InvoiceWithRelated } from "~/types/invoices";
 
 const useInvoicesShow = () => {
-  const { queryResult } = useShow({
+  const { queryResult } = useShow<
+    InvoiceWithRelated,
+    HttpError,
+    InvoiceWithRelated
+  >({
     meta: {
       select: "*, items(*)",
     },
   });
   const { data, isLoading, isError } = queryResult;
 
-  const invoice = data?.data as InvoiceWithRelated;
+  const invoice = data?.data;
 
   if (!invoice && !isLoading) {
     throw new Response(null, {

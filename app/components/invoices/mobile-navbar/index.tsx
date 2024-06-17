@@ -11,7 +11,7 @@ const InvoicesMobileNavbar = ({
 }: {
   goBack: () => void;
   modalShow: (id: number) => void;
-  invoice: InvoiceWithRelated;
+  invoice?: InvoiceWithRelated;
   onUpdateStatus: (status: "pending" | "paid") => void;
   setShowConfirmationModal: (value: boolean) => void;
   showConfirmationModal: boolean;
@@ -26,7 +26,7 @@ const InvoicesMobileNavbar = ({
         Go Back
       </Button>
       <Stack direction="horizontal" gap={2}>
-        {invoice && invoice.id && invoice.status === "draft" && (
+        {invoice?.id && invoice.status === "draft" && (
           <Button variant="secondary" onClick={() => modalShow(invoice.id)}>
             Edit
           </Button>
