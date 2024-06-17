@@ -103,6 +103,19 @@ $utilities: map-merge(
           )
         ),
     ),
+    "h": (
+      property: height,
+      class: h,
+      responsive: true,
+      values:
+        map-merge(
+          $spacers,
+          (
+            auto: auto,
+            "100": 100%,
+          )
+        ),
+    ),
   )
 );
 

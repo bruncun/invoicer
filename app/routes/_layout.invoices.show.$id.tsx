@@ -1,7 +1,6 @@
 import { useBack } from "@refinedev/core";
 import { Button } from "react-bootstrap";
 import Icon from "~/components/icon";
-import FullScreenSpinner from "~/components/full-screen-spinner";
 import InvoicesModalForm from "~/components/invoices/modal-form";
 import InvoicesDetails from "~/components/invoices/details";
 import InvoicesDetailsHeader from "~/components/invoices/details-header";
@@ -32,9 +31,7 @@ export const InvoicesShow = () => {
     onUpdateStatus,
     onDelete,
     onFinish,
-  } = useInvoicesEditModalForm(invoice, isInvoicesLoading);
-
-  if (isInvoicesLoading) return <FullScreenSpinner />;
+  } = useInvoicesEditModalForm(isInvoicesLoading, invoice);
 
   if (isError) return <FullScreenError />;
 
@@ -48,12 +45,11 @@ export const InvoicesShow = () => {
       </div>
       <InvoicesDetailsHeader
         modalShow={modalShow}
-        invoice={invoice}
         onUpdateStatus={onUpdateStatus}
         setShowConfirmationModal={setShowConfirmationModal}
         showConfirmationModal={showConfirmationModal}
       ></InvoicesDetailsHeader>
-      <InvoicesDetails invoice={invoice}></InvoicesDetails>
+      <InvoicesDetails />
       <InvoicesMobileNavbar
         goBack={goBack}
         modalShow={modalShow}
@@ -64,7 +60,7 @@ export const InvoicesShow = () => {
       ></InvoicesMobileNavbar>
       <InvoicesModalForm
         visible={visible}
-        title={`Edit Invoice #${invoice.id}`}
+        title={`Edit Invoice #${invoice?.id ?? ""}`}
         close={close}
         items={items}
         append={append}
@@ -79,7 +75,7 @@ export const InvoicesShow = () => {
       ></InvoicesModalForm>
       <InvoicesConfirmDeletionModal
         show={showConfirmationModal}
-        invoiceId={invoice.id}
+        invoiceId={invoice?.id}
         setShowConfirmationModal={setShowConfirmationModal}
         onDelete={onDelete}
       ></InvoicesConfirmDeletionModal>

@@ -2,7 +2,7 @@ import { Button, Modal } from "react-bootstrap";
 
 type InvoicesConfirmDeletionModal = {
   show: boolean;
-  invoiceId: number;
+  invoiceId?: number;
   setShowConfirmationModal: (value: boolean) => void;
   onDelete: () => void;
 };

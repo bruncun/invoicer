@@ -36,7 +36,7 @@ const InvoicesListItem = ({
         <div className="ms-5 me-3">
           {invoice.status && <StatusBadge status={invoice.status} />}
         </div>
-        <Button variant="link">
+        <Button variant="link" className="text-primary">
           <Icon name="chevron-right"></Icon>
         </Button>
       </Card.Body>

@@ -1,4 +1,6 @@
 import {
+  BaseKey,
+  BaseRecord,
   HttpError,
   useCreate,
   useDelete,
@@ -16,8 +18,8 @@ import { InvoiceWithRelated, InvoiceDto, Item, Status } from "~/types/invoices";
 import { Tables } from "~/types/supabase";
 
 const useInvoicesEditModalForm = (
-  invoice: InvoiceWithRelated,
-  isInvoicesLoading: boolean
+  isInvoicesLoading: boolean,
+  invoice?: InvoiceWithRelated
 ) => {
   const {
     control,
@@ -75,10 +77,7 @@ const useInvoicesEditModalForm = (
 
   const status = watch("status");
 
-  const onSubmit = (status: Status) => {
-    console.log("status", status);
-    setValue("status", status);
-  };
+  const onSubmit = (status: Status) => setValue("status", status);
 
   useEffect(() => {
     console.log("effect", status);
@@ -88,7 +87,7 @@ const useInvoicesEditModalForm = (
   const onUpdateStatus = (status: "paid" | "pending") => {
     mutateUpdateAsync({
       resource: "invoices",
-      id: invoice?.id,
+      id: invoice?.id as BaseKey,
       values: {
         status,
       },
@@ -105,12 +104,12 @@ const useInvoicesEditModalForm = (
       await Promise.all([
         mutateDeleteManyAsync({
           resource: "items",
-          ids: invoice?.items.map((item) => item.id),
+          ids: invoice?.items.map((item) => item.id) as Array<BaseKey>,
           successNotification: false,
         }),
         mutateDeleteAsync({
           resource: "invoices",
-          id: invoice?.id,
+          id: invoice?.id as BaseKey,
           successNotification: false,
         }),
       ]);
@@ -130,9 +129,10 @@ const useInvoicesEditModalForm = (
     console.log("finish");
     setIsSubmitting(true);
     const newItems = formData.items.filter((item) => !item.id);
-    const deletedItems = invoice?.items.filter((item: Item) => {
-      return !formData.items.some((newItem) => newItem.id === item.id);
-    });
+    const deletedItems =
+      invoice?.items.filter((item: Item) => {
+        return !formData.items.some((newItem) => newItem.id === item.id);
+      }) ?? [];
     const updatedItems = formData.items.filter((item) => item.id) as Array<
       Tables<"items">
     >;
@@ -193,7 +193,7 @@ const useInvoicesEditModalForm = (
         ),
         mutateUpdateAsync({
           resource: "invoices",
-          id: invoice?.id,
+          id: invoice?.id as BaseKey,
           values: newInvoice,
           successNotification: false,
         }),
