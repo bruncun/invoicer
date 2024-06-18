@@ -31,6 +31,8 @@ const useTheme = () => {
     setThemeState(newTheme);
   };
 
+  console.log(theme);
+
   return { theme, toggleTheme };
 };
 

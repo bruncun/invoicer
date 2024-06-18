@@ -116,6 +116,14 @@ $utilities: map-merge(
           )
         ),
     ),
+    "min-viewport-height": (
+      property: min-height,
+      class: min-vh,
+      responsive: true,
+      values: (
+        100: 100vh,
+      ),
+    ),
   )
 );
 
@@ -147,15 +155,7 @@ $utilities: map-merge(
   box-shadow: none;
 }
 
-html {
-  font-size: 14px;
-
-  @include media-breakpoint-up(lg) {
-    font-size: 16px;
-  }
-}
-
-body {
+.layout {
   padding-top: 4rem;
 
   @include media-breakpoint-up(lg) {
@@ -189,9 +189,19 @@ td {
   @extend .text-body;
 }
 
+@include color-mode(light) {
+  .mobile-navbar {
+    background-color: $white;
+  }
+}
+
 @include color-mode(dark) {
   .card,
   .dropdown-menu {
+    background-color: $dark;
+  }
+
+  .mobile-navbar {
     background-color: $dark;
   }
 }

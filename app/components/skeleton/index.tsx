@@ -1,5 +1,6 @@
 import { CSSProperties } from "react";
 import { Badge } from "react-bootstrap";
+import useTheme from "~/hooks/use-theme";
 
 type SkeletonProps = {
   className?: string;
@@ -8,13 +9,21 @@ type SkeletonProps = {
 };
 
 const Skeleton = ({
-  bg = "light",
   style = { height: "1.25rem" },
   className = "w-8",
-}: SkeletonProps) => (
-  <Badge bg={bg} className={`d-inline-block ${className}`} style={style}>
-    &nbsp;
-  </Badge>
-);
+  bg = "secondary",
+}: SkeletonProps) => {
+  const { theme } = useTheme();
+
+  return (
+    <Badge
+      bg={bg ?? `bg-${theme}-secondary`}
+      className={`d-inline-block ${className}`}
+      style={style}
+    >
+      &nbsp;
+    </Badge>
+  );
+};
 
 export default Skeleton;

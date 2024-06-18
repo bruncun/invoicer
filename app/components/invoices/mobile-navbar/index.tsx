@@ -2,14 +2,12 @@ import { Button, Navbar, Stack } from "react-bootstrap";
 import { InvoiceWithRelated } from "~/types/invoices";
 
 const InvoicesMobileNavbar = ({
-  goBack,
   modalShow,
   invoice,
   onUpdateStatus,
   setShowConfirmationModal,
   showConfirmationModal,
 }: {
-  goBack: () => void;
   modalShow: (id: number) => void;
   invoice?: InvoiceWithRelated;
   onUpdateStatus: (status: "pending" | "paid") => void;
@@ -19,12 +17,8 @@ const InvoicesMobileNavbar = ({
   return (
     <Navbar
       fixed="bottom"
-      bg="body"
-      className="shadow-xl justify-content-between px-4 py-3 d-sm-none rounded-top-5 z-1"
+      className="mobile-navbar shadow-xl justify-content-end px-4 py-3 d-sm-none rounded-top-3 z-1"
     >
-      <Button variant="link" onClick={goBack}>
-        Go Back
-      </Button>
       <Stack direction="horizontal" gap={2}>
         {invoice?.id && invoice.status === "draft" && (
           <Button variant="secondary" onClick={() => modalShow(invoice.id)}>
@@ -39,14 +33,12 @@ const InvoicesMobileNavbar = ({
         </Button>
         {invoice?.status === "pending" && (
           <Button variant="primary" onClick={() => onUpdateStatus("paid")}>
-            Mark
-            <span className="d-none d-xl-inline-block">&nbsp;as Paid</span>
+            Mark as Paid
           </Button>
         )}
         {invoice?.status === "draft" && (
           <Button variant="primary" onClick={() => onUpdateStatus("pending")}>
-            Send
-            <span className="d-none d-xl-inline-block">&nbsp;Invoice</span>
+            Save and Send
           </Button>
         )}
       </Stack>

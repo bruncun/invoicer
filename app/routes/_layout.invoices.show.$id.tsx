@@ -37,12 +37,10 @@ export const InvoicesShow = () => {
 
   return (
     <>
-      <div className="mb-3 d-none d-sm-block">
-        <Button variant="link" onClick={goBack}>
-          <Icon name="chevron-left" className="text-primary me-2"></Icon>
-          Go back
-        </Button>
-      </div>
+      <Button variant="link" onClick={goBack} className="mb-3">
+        <Icon name="chevron-left" className="text-primary me-2"></Icon>
+        Go back
+      </Button>
       <InvoicesDetailsHeader
         modalShow={modalShow}
         onUpdateStatus={onUpdateStatus}
@@ -51,7 +49,6 @@ export const InvoicesShow = () => {
       ></InvoicesDetailsHeader>
       <InvoicesDetails />
       <InvoicesMobileNavbar
-        goBack={goBack}
         modalShow={modalShow}
         invoice={invoice}
         onUpdateStatus={onUpdateStatus}
