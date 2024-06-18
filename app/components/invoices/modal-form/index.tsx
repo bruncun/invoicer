@@ -61,11 +61,11 @@ const InvoicesModalForm = ({
       if (reset) reset();
       close();
     }}
-    dialogClassName="ms-xl-6 ms-sm-0 mt-0 ps-xl-2 mb-0 min-vh-100"
+    dialogClassName="ms-xl-6 ms-sm-0 mt-0 ps-xl-2 mb-0 min-vh-lg-100"
     contentClassName="rounded-start-0"
     scrollable
   >
-    <Modal.Header className="px-4 py-3">
+    <Modal.Header className="px-3 py-3">
       <Modal.Title className="lh-1 border-top border-transparent py-1">
         {title}
       </Modal.Title>
@@ -78,7 +78,6 @@ const InvoicesModalForm = ({
             <Form.Label htmlFor="sender_street">Street Address</Form.Label>
             <Form.Control
               autoComplete="address"
-              autoFocus={true}
               isInvalid={!!errors.sender_street}
               id="sender_street"
               {...register("sender_street", {
@@ -366,13 +365,13 @@ const InvoicesModalForm = ({
         </Button>
       </form>
     </Modal.Body>
-    <Modal.Footer className="px-4 py-3 justify-content-between">
+    <Modal.Footer className="px-3 py-3 justify-content-between">
       <Button variant="link" onClick={close}>
         Cancel
       </Button>
       <Stack direction="horizontal" gap={2} className="m-0">
         <Button
-          variant="dark"
+          variant="secondary"
           form="invoice-form"
           onClick={() => onSubmit("draft")}
           disabled={isSubmitting}
