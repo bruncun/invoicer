@@ -169,6 +169,10 @@ $utilities: map-merge(
   }
 }
 
+.dropdown-menu label {
+  @extend .user-select-none;
+}
+
 .modal-backdrop {
   @extend .z-1;
 }

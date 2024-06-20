@@ -3,10 +3,9 @@ import Icon from "../icon";
 
 type StatusBadgeProps = {
   status?: string;
-  isLoading: boolean;
 };
 
-export const StatusBadge = ({ status, isLoading }: StatusBadgeProps) => {
+export const StatusBadge = ({ status }: StatusBadgeProps) => {
   let badgeColor;
   if (status) {
     badgeColor = {
@@ -16,12 +15,12 @@ export const StatusBadge = ({ status, isLoading }: StatusBadgeProps) => {
     }[status];
   }
 
-  if (isLoading)
+  if (!status)
     return (
       <Badge
-        bg="light"
+        bg="body-secondary"
         className="d-inline-block w-8"
-        style={{ height: "2.5rem" }}
+        style={{ height: "2.25rem" }}
       >
         &nbsp;
       </Badge>

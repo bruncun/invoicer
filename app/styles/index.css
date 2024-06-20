@@ -8951,7 +8951,7 @@ td {
   user-select: auto !important;
 }
 
-.user-select-none {
+.user-select-none, .dropdown-menu label {
   user-select: none !important;
 }
 
