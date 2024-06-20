@@ -12,7 +12,13 @@ const FormattedId = ({ id, className }: FormattedIdProps) => {
         className ? className : ""
       }`}
     >
-      #{id ? <span className="text-body-emphasis">{id}</span> : <Skeleton />}
+      {id ? (
+        <>
+          #<span className="text-body-emphasis">{id}</span>
+        </>
+      ) : (
+        <Skeleton className="w-5" />
+      )}
     </span>
   );
 };
