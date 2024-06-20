@@ -1,7 +1,6 @@
 import { Button, Card, Stack } from "react-bootstrap";
 import { StatusBadge } from "~/components/status-badge";
 import useInvoicesShow from "~/hooks/invoices/use-show";
-import { InvoiceWithRelated, Status } from "~/types/invoices";
 
 type InvoicesDetailsHeaderProps = {
   modalShow: (id: number) => void;

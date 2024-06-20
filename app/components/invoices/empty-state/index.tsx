@@ -8,7 +8,7 @@ const InvoicesEmptyState = () => (
   >
     <Row className="w-100">
       <Col
-        xs={{ span: 10, offset: 1 }}
+        xs={{ span: 6, offset: 3 }}
         xl={{ span: 5 }}
         className="text-center mx-xl-auto"
       >

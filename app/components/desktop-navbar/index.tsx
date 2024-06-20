@@ -7,9 +7,9 @@ import {
 } from "react-bootstrap";
 import Icon from "../icon";
 import { Link } from "@remix-run/react";
-import logoIcon from "~/assets/logo.svg";
+import { TOOLTIP_DELAY } from "~/constants";
 
-type DesktopNav = {
+type DesktopNavbarProps = {
   theme: string;
   toggleTheme: () => void;
   logout: () => void;
@@ -17,26 +17,26 @@ type DesktopNav = {
   invoicesListUrl: string;
 };
 
-const DesktopNav = ({
+const DesktopNavbar = ({
   theme,
   toggleTheme,
   logout,
   isLoading,
   invoicesListUrl,
-}: DesktopNav) => {
+}: DesktopNavbarProps) => {
   return (
     <div className="d-xl-flex flex-column flex-shrink-0 d-none bg-dark z-3 vh-100 shadow-xl position-fixed start-0 top-0">
       <Link
         to={invoicesListUrl}
-        className="d-block px-3 py-2 text-decoration-none bg-primary text-white text-center position-relative btn-shadow border border-primary"
+        className="d-block py-3 text-decoration-none bg-primary text-white text-center position-relative"
       >
-        <Icon name="receipt-cutoff" className="fs-2"></Icon>
-        <span className="visually-hidden">Home</span>
+        <Icon name="receipt-cutoff" className="fs-2 lh-1"></Icon>
+        <span className="visually-hidden user-select-none">Home</span>
       </Link>
-      <div className="mt-auto px-3 pb-3">
+      <div className="mt-auto px-2 pb-3">
         <Stack direction="vertical" gap={3}>
           <OverlayTrigger
-            delay={{ show: 500, hide: 0 }}
+            delay={TOOLTIP_DELAY}
             overlay={<Tooltip id="theme-toggle-tooltip">Toggle Theme</Tooltip>}
           >
             <Button
@@ -52,7 +52,7 @@ const DesktopNav = ({
             </Button>
           </OverlayTrigger>
           <OverlayTrigger
-            delay={{ show: 500, hide: 0 }}
+            delay={TOOLTIP_DELAY}
             overlay={<Tooltip id="logout-tooltip">Logout</Tooltip>}
           >
             <Button
@@ -75,4 +75,4 @@ const DesktopNav = ({
   );
 };
 
-export default DesktopNav;
+export default DesktopNavbar;

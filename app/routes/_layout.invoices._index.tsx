@@ -1,21 +1,13 @@
 import { InvoicesListHeader } from "~/components/invoices/list-header";
 import { InvoicesListGroup } from "~/components/invoices/list-group";
-import FullScreenSpinner from "~/components/full-screen-spinner";
 import InvoicesPager from "~/components/invoices/pager";
 import InvoicesModalForm from "~/components/invoices/modal-form";
-import { useInvoicesList } from "~/hooks/invoices/use-list";
 import useInvoicesCreateModalForm from "~/hooks/invoices/use-create-modal-form";
-import { useState } from "react";
-import { Status } from "~/types/invoices";
+import { useInvoicesList } from "~/hooks/invoices/use-invoices-list";
 
 export const InvoiceList = () => {
-  const [filters, setFilters] = useState<Status[]>([]);
-  const pageSize = 10;
-  const { invoices, total, isLoading, current, setCurrent } = useInvoicesList(
-    pageSize,
-    filters
-  );
-  const invoiceModalForm = useInvoicesCreateModalForm();
+  const invoicesList = useInvoicesList();
+  const invoicesModalForm = useInvoicesCreateModalForm();
   const {
     visible,
     close,
@@ -30,27 +22,13 @@ export const InvoiceList = () => {
     handleSubmit,
     errors,
     register,
-  } = invoiceModalForm;
-
-  if (isLoading) return <FullScreenSpinner />;
+  } = invoicesModalForm;
 
   return (
     <>
-      <InvoicesListHeader
-        modalShow={modalShow}
-        setFilters={setFilters}
-        filters={filters}
-      ></InvoicesListHeader>
-      <InvoicesListGroup invoices={invoices}></InvoicesListGroup>
-      {invoices && total > 0 ? (
-        <InvoicesPager
-          invoices={invoices}
-          pageSize={pageSize}
-          current={current}
-          total={total}
-          setCurrent={setCurrent}
-        ></InvoicesPager>
-      ) : null}
+      <InvoicesListHeader modalShow={modalShow} invoicesList={invoicesList} />
+      <InvoicesListGroup invoicesList={invoicesList} />
+      <InvoicesPager invoicesList={invoicesList} />
       <InvoicesModalForm
         visible={visible}
         title="New Invoice"

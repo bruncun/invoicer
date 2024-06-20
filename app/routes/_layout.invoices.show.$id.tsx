@@ -35,6 +35,8 @@ export const InvoicesShow = () => {
 
   if (isError) return <FullScreenError />;
 
+  const invoicesModalFormTitle = `Edit Invoice #${invoice?.id ?? ""}`;
+
   return (
     <>
       <Button variant="link" onClick={goBack} className="mb-3">
@@ -57,7 +59,7 @@ export const InvoicesShow = () => {
       ></InvoicesMobileNavbar>
       <InvoicesModalForm
         visible={visible}
-        title={`Edit Invoice #${invoice?.id ?? ""}`}
+        title={invoicesModalFormTitle}
         close={close}
         items={items}
         append={append}
