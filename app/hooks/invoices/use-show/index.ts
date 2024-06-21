@@ -1,7 +1,14 @@
 import { HttpError, useShow } from "@refinedev/core";
+import { Invoice } from "~/types/invoices";
 import { Tables } from "~/types/supabase";
 
-const useInvoicesShow = () => {
+export type InvoicesShow = {
+  invoice: Invoice | undefined;
+  isLoading: boolean;
+  isError: boolean;
+};
+
+const useInvoicesShow: () => InvoicesShow = () => {
   const { queryResult } = useShow<
     Tables<"invoices"> & { items: Tables<"items">[] },
     HttpError,
@@ -13,7 +20,7 @@ const useInvoicesShow = () => {
   });
   const { data, isLoading, isError } = queryResult;
 
-  const invoice = data?.data;
+  const invoice = data?.data as Invoice;
 
   if (!invoice && !isLoading) {
     throw new Response(null, {

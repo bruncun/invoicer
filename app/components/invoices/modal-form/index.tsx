@@ -7,6 +7,7 @@ import {
   Col,
   OverlayTrigger,
   Tooltip,
+  Alert,
 } from "react-bootstrap";
 import {
   FieldArrayWithId,
@@ -70,7 +71,7 @@ const InvoicesModalForm = ({
     scrollable
   >
     <Modal.Header className="px-4 py-3">
-      <Modal.Title className="lh-1 border-top border-transparent py-1 fs-xl-4">
+      <Modal.Title className="lh-1 border-top border-transparent py-1">
         {title}
       </Modal.Title>
     </Modal.Header>
@@ -78,7 +79,7 @@ const InvoicesModalForm = ({
       <form id="invoice-form" onSubmit={handleSubmit(onFinish)}>
         <input type="hidden" {...register("user_id")} />
         <h6 className="text-primary mb-2">Bill From</h6>
-        <Stack gap={3} className="mb-4">
+        <Stack gap={3} className="mb-5">
           <Form.Group>
             <Form.Label htmlFor="sender_street">Street Address</Form.Label>
             <Form.Control
@@ -214,6 +215,8 @@ const InvoicesModalForm = ({
               </Form.Group>
             </Col>
           </Row>
+        </Stack>
+        <Stack gap={3} className="mb-4">
           <Row className="gx-3">
             <Col>
               <Form.Group>
@@ -256,21 +259,28 @@ const InvoicesModalForm = ({
             </Form.Control.Feedback>
           </Form.Group>
         </Stack>
-        <h5 className="text-muted mb-3">Item List</h5>
+        <h5 className="text-muted mb-3 lh-lg">Item List</h5>
+        {errors.items && (
+          <Alert variant="danger">
+            {(errors as any)?.items?.root?.message as string}
+          </Alert>
+        )}
         {fields.map((item, index) => (
           <Stack key={item.id} gap={3} className="mb-4">
-            <Form.Group>
-              <Form.Label htmlFor="">Item Name</Form.Label>
-              <Form.Control
-                isInvalid={!!errors.items?.[index]?.name}
-                {...register(`items.${index}.name`)}
-              />
-              <Form.Control.Feedback type="invalid">
-                {(errors as any)?.items?.[index]?.name?.message as string}
-              </Form.Control.Feedback>
-            </Form.Group>
             <Row className="gx-3">
-              <Col xs={{ span: 4 }}>
+              <Col xs={{ span: 12 }} xl={{ span: 3 }}>
+                <Form.Group>
+                  <Form.Label htmlFor="">Item Name</Form.Label>
+                  <Form.Control
+                    isInvalid={!!errors.items?.[index]?.name}
+                    {...register(`items.${index}.name`)}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {(errors as any)?.items?.[index]?.name?.message as string}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col xs={{ span: 4 }} xl={{ span: 2 }}>
                 <Form.Group>
                   <Form.Label htmlFor="">Qty.</Form.Label>
                   <Form.Control
@@ -287,7 +297,7 @@ const InvoicesModalForm = ({
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
-              <Col xs={{ span: 4 }}>
+              <Col xs={{ span: 4 }} xl={{ span: 3 }}>
                 <Form.Group>
                   <Form.Label htmlFor="">Price</Form.Label>
                   <Form.Control
@@ -299,10 +309,10 @@ const InvoicesModalForm = ({
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
-              <Col xs={{ span: 3 }}>
+              <Col xs={{ span: 3 }} xl={{ span: 2 }}>
                 <Form.Group>
                   <Form.Label htmlFor="">Total</Form.Label>
-                  <span className="mt-2 border border-transparent d-block lh-1">
+                  <span className="mt-3 border border-transparent d-block lh-1 fw-semibold text-body-emphasis">
                     {items![index].quantity &&
                       items![index].price &&
                       formatCurrency(
@@ -311,7 +321,11 @@ const InvoicesModalForm = ({
                   </span>
                 </Form.Group>
               </Col>
-              <Col xs={{ span: 1 }} className="pt-2 justify-content-end d-flex">
+              <Col
+                xs={{ span: 1 }}
+                xl={{ span: 2 }}
+                className="pt-2 justify-content-end d-flex"
+              >
                 <OverlayTrigger
                   delay={TOOLTIP_DELAY}
                   overlay={<Tooltip id="delete-tooltip">Delete Item</Tooltip>}
@@ -334,22 +348,29 @@ const InvoicesModalForm = ({
           className="w-100"
           onClick={() => append({ name: "", quantity: 0, price: 0 })}
         >
-          <Icon name="plus-xl" className="me-2"></Icon>Add New Item
+          <Icon name="plus-lg" className="me-2"></Icon>Add New Item
         </Button>
       </form>
     </Modal.Body>
     <Modal.Footer className="px-4 py-3 justify-content-between">
-      <Button variant="light" onClick={close} className="ms-0 my-0 me-2">
+      <Button variant="link" onClick={close} className="ms-0 my-0 me-2">
         Cancel
       </Button>
       <Stack direction="horizontal" gap={2} className="m-0">
         <Button
-          variant="dark"
+          variant="secondary"
           form="invoice-form"
           onClick={() => onSubmit("draft")}
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Saving" : "Save as Draft"}
+          {isSubmitting ? (
+            "Saving"
+          ) : (
+            <>
+              Save
+              <span className="d-none d-xl-inline-block">&nbsp;as Draft</span>
+            </>
+          )}
         </Button>
         <Button
           variant="primary"

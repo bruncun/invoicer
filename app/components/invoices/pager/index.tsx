@@ -23,7 +23,7 @@ export const InvoicesPager = ({
     <div className="d-flex justify-content-between align-items-center">
       <span className="text-muted fs-6 d-none d-xl-inline-block lh-1">
         {isLoading ? (
-          <Skeleton className="w-11 bg-secondary" style={{ width: "15rem" }} />
+          <Skeleton className="w-11 bg-secondary" style={{ width: "18rem" }} />
         ) : (
           <>
             Showing{" "}
@@ -36,7 +36,7 @@ export const InvoicesPager = ({
       <div className="d-flex justify-content-between w-100 d-xl-inline-block w-xl-auto">
         <Button
           variant="link"
-          className="rounded-3"
+          className="rounded-3 user-select-none"
           onClick={() => setCurrent((prev) => prev - 1)}
           disabled={current === 1}
         >
@@ -45,7 +45,7 @@ export const InvoicesPager = ({
         </Button>
         <Button
           variant="link"
-          className="rounded-3"
+          className="rounded-3 user-select-none"
           onClick={() => setCurrent((prev) => prev + 1)}
           disabled={!isNextPageAvailable || isLoading}
         >

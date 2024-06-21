@@ -13,9 +13,8 @@ export const credentialsSchema = yup.object().shape({
 
 export const TOOLTIP_DELAY = { show: 350, hide: 0 };
 
-export const itemSchema = yup
+export const itemsSchema = yup
   .array()
-  .required()
   .of(
     yup.object().shape({
       id: yup.number(),
@@ -27,7 +26,8 @@ export const itemSchema = yup
       price: yup.number().min(0, "Price must be at least 0").required(REQUIRED),
     })
   )
-  .min(1, "At least one item is required");
+  .min(1, "At least one item is required.")
+  .required();
 
 export const invoiceSchema = yup.object().shape({
   sender_street: yup.string().required(REQUIRED),
@@ -49,5 +49,5 @@ export const invoiceSchema = yup.object().shape({
     .string()
     .oneOf(["draft", "pending", "paid"], "Invalid status")
     .required(REQUIRED),
-  items: itemSchema,
+  items: itemsSchema,
 });

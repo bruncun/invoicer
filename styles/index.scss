@@ -213,3 +213,8 @@ td {
 .table {
   @extend .mb-0;
 }
+
+// TODO: refactor using utilities api?
+.fs-0 {
+  font-size: 0 !important;
+}

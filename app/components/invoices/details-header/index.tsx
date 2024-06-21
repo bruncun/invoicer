@@ -1,4 +1,5 @@
 import { Button, Card, Stack } from "react-bootstrap";
+import Skeleton from "~/components/skeleton";
 import { StatusBadge } from "~/components/status-badge";
 import useInvoicesShow from "~/hooks/invoices/use-show";
 
@@ -15,7 +16,7 @@ export const InvoicesDetailsHeader = ({
   onUpdateStatus,
   showConfirmationModal,
 }: InvoicesDetailsHeaderProps) => {
-  const { invoice, isLoading: isInvoicesLoading, isError } = useInvoicesShow();
+  const { invoice } = useInvoicesShow();
 
   return (
     <Card className="mb-2">
@@ -24,38 +25,66 @@ export const InvoicesDetailsHeader = ({
           <div className="d-flex align-items-center justify-content-between w-100 justify-content-sm-start w-sm-auto">
             <dt className="me-3 mb-0">Status</dt>
             <dd>
-              <StatusBadge
-                status={invoice?.status}
-                isLoading={isInvoicesLoading}
-              ></StatusBadge>
+              <StatusBadge status={invoice?.status}></StatusBadge>
             </dd>
           </div>
           <Stack direction="horizontal" gap={2} className="d-none d-sm-flex">
-            {invoice && invoice.id && invoice.status === "draft" && (
-              <Button variant="secondary" onClick={() => modalShow(invoice.id)}>
-                Edit
-              </Button>
-            )}
-            <Button
-              variant="danger"
-              onClick={() => setShowConfirmationModal(!showConfirmationModal)}
-            >
-              Delete
-            </Button>
-            {invoice?.status === "pending" && (
-              <Button variant="primary" onClick={() => onUpdateStatus("paid")}>
-                Mark
-                <span className="d-none d-sm-inline-block">&nbsp;as Paid</span>
-              </Button>
-            )}
-            {invoice?.status === "draft" && (
-              <Button
-                variant="primary"
-                onClick={() => onUpdateStatus("pending")}
-              >
-                Send
-                <span className="d-none d-sm-inline-block">&nbsp;Invoice</span>
-              </Button>
+            {!invoice ? (
+              <>
+                <Skeleton
+                  className="w-6 rounded-pill"
+                  style={{ height: "2.625rem" }}
+                />
+                <Skeleton
+                  className="w-6 rounded-pill"
+                  style={{ height: "2.625rem" }}
+                />
+                <Skeleton
+                  className="w-9 rounded-pill"
+                  style={{ height: "2.625rem" }}
+                />
+              </>
+            ) : (
+              <>
+                {invoice && invoice.id && invoice.status === "draft" && (
+                  <Button
+                    variant="secondary"
+                    onClick={() => modalShow(invoice.id)}
+                  >
+                    Edit
+                  </Button>
+                )}
+                <Button
+                  variant="danger"
+                  onClick={() =>
+                    setShowConfirmationModal(!showConfirmationModal)
+                  }
+                >
+                  Delete
+                </Button>
+                {invoice?.status === "pending" && (
+                  <Button
+                    variant="primary"
+                    onClick={() => onUpdateStatus("paid")}
+                  >
+                    Mark
+                    <span className="d-none d-sm-inline-block">
+                      &nbsp;as Paid
+                    </span>
+                  </Button>
+                )}
+                {invoice?.status === "draft" && (
+                  <Button
+                    variant="primary"
+                    onClick={() => onUpdateStatus("pending")}
+                  >
+                    Send
+                    <span className="d-none d-sm-inline-block">
+                      &nbsp;Invoice
+                    </span>
+                  </Button>
+                )}
+              </>
             )}
           </Stack>
         </dl>

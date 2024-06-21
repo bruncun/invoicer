@@ -6,6 +6,7 @@ type IconProps = {
 
 const Icon = ({ name, className, style }: IconProps) => (
   <i
+    suppressHydrationWarning
     className={`bi bi-${name} ${className ? className : ""}`}
     style={style}
   ></i>

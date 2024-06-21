@@ -20,7 +20,7 @@ export const StatusBadge = ({ status }: StatusBadgeProps) => {
       <Badge
         bg="body-secondary"
         className="d-inline-block w-8"
-        style={{ height: "2.25rem" }}
+        style={{ height: "2.625rem" }}
       >
         &nbsp;
       </Badge>
