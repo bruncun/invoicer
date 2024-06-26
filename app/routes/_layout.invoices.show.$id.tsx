@@ -1,4 +1,12 @@
-import { useBack } from "@refinedev/core";
+import {
+  BaseKey,
+  useBack,
+  useDelete,
+  useDeleteMany,
+  useNavigation,
+  useNotification,
+  useUpdate,
+} from "@refinedev/core";
 import { Button } from "react-bootstrap";
 import Icon from "~/components/icon";
 import InvoicesModalForm from "~/components/invoices/modal-form";
@@ -9,33 +17,74 @@ import InvoicesConfirmDeletionModal from "~/components/invoices/confirm-deletion
 import InvoicesMobileNavbar from "~/components/invoices/mobile-navbar";
 import useInvoicesShow from "~/hooks/invoices/use-show";
 import FullScreenError from "~/components/full-screen-error";
+import { useState } from "react";
 
 export const InvoicesShow = () => {
   const goBack = useBack();
   const { invoice, isLoading: isInvoicesLoading, isError } = useInvoicesShow();
+  const invoicesModalForm = useInvoicesEditModalForm(
+    isInvoicesLoading,
+    invoice
+  );
   const {
-    modalShow,
-    close,
-    visible,
-    handleSubmit,
-    errors,
-    register,
-    fields,
-    append,
-    remove,
-    items,
-    isSubmitting,
-    setShowConfirmationModal,
-    showConfirmationModal,
+    invoicesEditModalForm,
+    invoicesEditModalForm: {
+      modal: { show },
+    },
     onSubmit,
-    onUpdateStatus,
-    onDelete,
     onFinish,
-  } = useInvoicesEditModalForm(isInvoicesLoading, invoice);
+    itemsFieldArray,
+  } = invoicesModalForm;
+  const { mutateAsync: mutateUpdateAsync } = useUpdate();
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const { mutateAsync: mutateDeleteManyAsync } = useDeleteMany();
+  const { mutateAsync: mutateDeleteAsync } = useDelete();
+  const { list } = useNavigation();
+  const { open } = useNotification();
 
   if (isError) return <FullScreenError />;
 
-  const invoicesModalFormTitle = `Edit Invoice #${invoice?.id ?? ""}`;
+  const onUpdateStatus = (status: "paid" | "pending") => {
+    mutateUpdateAsync({
+      resource: "invoices",
+      id: invoice?.id as BaseKey,
+      values: {
+        status,
+      },
+      successNotification: {
+        type: "success",
+        message: "success",
+        description: `Invoice marked as ${status}`,
+      },
+      mutationMode: "optimistic",
+    });
+  };
+
+  const onDelete = async () => {
+    try {
+      await Promise.all([
+        mutateDeleteManyAsync({
+          resource: "items",
+          ids: invoice?.items.map((item) => item.id) as Array<BaseKey>,
+          successNotification: false,
+        }),
+        mutateDeleteAsync({
+          resource: "invoices",
+          id: invoice?.id as BaseKey,
+          successNotification: false,
+        }),
+      ]);
+      open?.({
+        description: "Invoice deleted",
+        message: "success",
+        type: "success",
+      });
+      list("invoices");
+      setShowConfirmationModal(false);
+    } catch (error) {
+      console.error("Delete failed", error);
+    }
+  };
 
   return (
     <>
@@ -44,33 +93,24 @@ export const InvoicesShow = () => {
         Go back
       </Button>
       <InvoicesDetailsHeader
-        modalShow={modalShow}
+        modalShow={show}
         onUpdateStatus={onUpdateStatus}
         setShowConfirmationModal={setShowConfirmationModal}
         showConfirmationModal={showConfirmationModal}
       ></InvoicesDetailsHeader>
       <InvoicesDetails />
       <InvoicesMobileNavbar
-        modalShow={modalShow}
+        modalShow={show}
         invoice={invoice}
         onUpdateStatus={onUpdateStatus}
         setShowConfirmationModal={setShowConfirmationModal}
         showConfirmationModal={showConfirmationModal}
       ></InvoicesMobileNavbar>
       <InvoicesModalForm
-        visible={visible}
-        title={invoicesModalFormTitle}
-        close={close}
-        items={items}
-        append={append}
+        itemsFieldArray={itemsFieldArray}
+        invoicesCreateModalForm={invoicesEditModalForm}
         onSubmit={onSubmit}
-        isSubmitting={isSubmitting}
-        remove={remove}
-        fields={fields}
         onFinish={onFinish}
-        handleSubmit={handleSubmit}
-        errors={errors}
-        register={register}
       ></InvoicesModalForm>
       <InvoicesConfirmDeletionModal
         show={showConfirmationModal}

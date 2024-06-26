@@ -201,12 +201,13 @@ td {
 
 @include color-mode(dark) {
   .card,
-  .dropdown-menu {
+  .mobile-navbar {
     background-color: $dark;
   }
 
-  .mobile-navbar {
-    background-color: $dark;
+  .modal-content,
+  .dropdown-menu {
+    background-color: $gray-950;
   }
 }
 
@@ -217,4 +218,103 @@ td {
 // TODO: refactor using utilities api?
 .fs-0 {
   font-size: 0 !important;
+}
+
+.dropdown-item-danger {
+  color: var(--bs-red);
+}
+.dropdown-item-danger:hover,
+.dropdown-item-danger:focus {
+  color: #fff;
+  background-color: var(--bs-red);
+}
+.dropdown-item-danger.active {
+  background-color: var(--bs-red);
+}
+
+.btn-hover-light {
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+}
+.btn-hover-light:hover,
+.btn-hover-light:focus {
+  color: var(--bs-link-hover-color);
+  background-color: var(--bs-tertiary-bg);
+}
+
+.cal-month,
+.cal-days,
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  align-items: center;
+}
+.cal-month-name {
+  grid-column-start: 2;
+  grid-column-end: 7;
+  text-align: center;
+}
+
+.w-220px {
+  width: 220px;
+}
+
+.w-280px {
+  width: 280px;
+}
+
+.w-340px {
+  width: 340px;
+}
+
+.opacity-10 {
+  opacity: 0.1;
+}
+
+.rdp-caption {
+  @extend .d-flex;
+  @extend .justify-content-between;
+}
+
+.hover-bg-body-tertiary:not([aria-selected="true"]):hover {
+  @extend .bg-body-tertiary;
+}
+
+.day:not([aria-selected="true"]) {
+  @extend .text-body-emphasis;
+}
+
+.date-picker {
+  .dropdown-toggle:focus {
+    color: $input-focus-color;
+    background-color: $input-focus-bg;
+    border-color: $input-focus-border-color !important;
+    outline: 0;
+    @if $enable-shadows {
+      @include box-shadow($input-box-shadow, $input-focus-box-shadow);
+    } @else {
+      box-shadow: $input-focus-box-shadow;
+    }
+  }
+}
+
+.outline-0 {
+  outline: 0;
+}
+
+.listbox-options {
+  margin-top: 2px;
+}
+
+.input-group:focus-within {
+  @extend .rounded-2;
+
+  color: $input-focus-color;
+  background-color: $input-focus-bg;
+  border-color: $input-focus-border-color !important;
+  outline: 0;
+}
+
+.input-group:focus-within *:focus {
+  outline: 0;
 }

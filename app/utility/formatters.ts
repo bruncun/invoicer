@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, getDate, parseISO } from "date-fns";
 
 export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat("en-US", {
@@ -8,5 +8,5 @@ export function formatCurrency(amount: number): string {
 }
 
 export function formatDisplayDate(date: string): string {
-  return format(new Date(date), "MMM dd yyyy");
+  return format(parseISO(date), "MMM dd yyyy");
 }
