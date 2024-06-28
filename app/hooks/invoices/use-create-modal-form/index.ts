@@ -136,7 +136,11 @@ const useInvoicesCreateModalForm = () => {
         const { data, error } = await supabaseClient.functions.invoke(
           "send-invoice",
           {
-            body: newInvoice,
+            body: {
+              ...newInvoice,
+              items,
+              id: invoice.data.id,
+            },
           }
         );
         if (error instanceof FunctionsHttpError) {
