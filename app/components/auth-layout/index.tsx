@@ -14,7 +14,7 @@ const AuthLayout = ({ children, title }: AuthLayoutProps) => {
     <Container className="align-items-center position-absolute top-50 start-50 translate-middle w-100">
       <Row>
         <Col xl={{ span: 4 }} className="mx-auto">
-          <Card className="shadow rounded-4 rounded">
+          <Card className="rounded-4 rounded">
             <Card.Body className="p-4">
               <div className="mb-4 d-flex align-items-center">
                 <Icon

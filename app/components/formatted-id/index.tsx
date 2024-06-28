@@ -9,7 +9,7 @@ type FormattedIdProps = {
 const FormattedId = ({ id, className, size }: FormattedIdProps) => {
   return (
     <span
-      className={`fw-semibold text-muted d-flex align-items-center ${
+      className={`fw-semibold text-muted d-flex align-items-center lh-1 ${
         className ? className : ""
       } ${size === "lg" ? "fs-5" : ""}`}
     >

@@ -12,6 +12,7 @@ import {
   Tooltip,
   Alert,
   InputGroup,
+  FormGroup,
 } from "react-bootstrap";
 import { Controller, UseFieldArrayReturn } from "react-hook-form";
 import { InferType } from "yup";
@@ -53,7 +54,6 @@ const InvoicesModalForm = ({
     modal: { visible, close, title },
     handleSubmit,
     watch,
-    getValues,
     control,
     register,
     formState: { errors, isSubmitting },
@@ -73,8 +73,9 @@ const InvoicesModalForm = ({
       fullscreen="md-down"
       onHide={close}
       enforceFocus={false}
-      className="z-2"
-      dialogClassName="ms-sm-0 mt-0 mb-0 min-vh-lg-100"
+      className="z-3 z-md-2"
+      backdropClassName="z-2"
+      dialogClassName="ms-sm-0 mt-0 mb-0 min-vh-lg-100 slide-over-modal-dialog"
       contentClassName="rounded-start-0 ps-xl-6"
       scrollable
     >
@@ -101,7 +102,7 @@ const InvoicesModalForm = ({
               </Form.Control.Feedback>
             </Form.Group>
             <Row className="gx-3">
-              <Col>
+              <Col xs={{ span: 6 }} xl={{ span: 4 }} className="mb-3 mb-xl-0">
                 <Form.Group>
                   <Form.Label htmlFor="sender_city">City</Form.Label>
                   <Form.Control
@@ -115,7 +116,7 @@ const InvoicesModalForm = ({
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
-              <Col>
+              <Col xs={{ span: 6 }} xl={{ span: 4 }} className="mb-3 mb-xl-0">
                 <Form.Group>
                   <Form.Label htmlFor="sender_postcode">Post Code</Form.Label>
                   <Form.Control
@@ -182,7 +183,7 @@ const InvoicesModalForm = ({
               </Form.Control.Feedback>
             </Form.Group>
             <Row className="gx-3">
-              <Col>
+              <Col xs={{ span: 6 }} xl={{ span: 4 }} className="mb-3 mb-xl-0">
                 <Form.Group>
                   <Form.Label htmlFor="client_city">City</Form.Label>
                   <Form.Control
@@ -195,7 +196,7 @@ const InvoicesModalForm = ({
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
-              <Col>
+              <Col xs={{ span: 6 }} xl={{ span: 4 }} className="mb-3 mb-xl-0">
                 <Form.Group>
                   <Form.Label htmlFor="client_postcode">Post Code</Form.Label>
                   <Form.Control
@@ -319,7 +320,11 @@ const InvoicesModalForm = ({
           {fields.map((item, index) => (
             <Stack key={item.id} gap={3} className="mb-4">
               <Row className="gx-3">
-                <Col xs={{ span: 12 }} xl={{ span: 4 }}>
+                <Col
+                  xs={{ span: 12 }}
+                  xl={{ span: 4 }}
+                  className="mb-3 mb-xl-0"
+                >
                   <Form.Group>
                     <Form.Label htmlFor="">Item Name</Form.Label>
                     <Form.Control
@@ -331,7 +336,7 @@ const InvoicesModalForm = ({
                     </Form.Control.Feedback>
                   </Form.Group>
                 </Col>
-                <Col xs={{ span: 4 }} xl={{ span: 2 }}>
+                <Col xs={{ span: 3 }} xl={{ span: 2 }}>
                   <Form.Group>
                     <Form.Label htmlFor="">Qty.</Form.Label>
                     <Form.Control
@@ -378,23 +383,27 @@ const InvoicesModalForm = ({
                   </Form.Group>
                 </Col>
                 <Col
-                  xs={{ span: 1 }}
+                  xs={{ span: 2 }}
                   xl={{ span: 1 }}
                   className="pt-2 justify-content-end d-flex"
                 >
-                  <OverlayTrigger
-                    delay={TOOLTIP_DELAY}
-                    overlay={<Tooltip id="delete-tooltip">Delete Item</Tooltip>}
-                  >
-                    <Button
-                      variant="link"
-                      className="mt-4 border-0"
-                      onClick={() => remove(index)}
+                  <div>
+                    <OverlayTrigger
+                      delay={TOOLTIP_DELAY}
+                      overlay={
+                        <Tooltip id="delete-tooltip">Delete Item</Tooltip>
+                      }
                     >
-                      <Icon name="trash"></Icon>
-                      <span className="visually-hidden">Delete</span>
-                    </Button>
-                  </OverlayTrigger>
+                      <Button
+                        variant="link"
+                        className="mt-4 border-0"
+                        onClick={() => remove(index)}
+                      >
+                        <Icon name="trash"></Icon>
+                        <span className="visually-hidden">Delete</span>
+                      </Button>
+                    </OverlayTrigger>
+                  </div>
                 </Col>
               </Row>
             </Stack>
@@ -424,7 +433,7 @@ const InvoicesModalForm = ({
             variant="secondary"
             form="invoice-form"
             onClick={() => onSubmit("draft")}
-            disabled={isSubmitting}
+            // disabled={isSubmitting}
           >
             {isSubmitting ? (
               "Saving"
@@ -439,7 +448,7 @@ const InvoicesModalForm = ({
             variant="primary"
             form="invoice-form"
             onClick={() => onSubmit("pending")}
-            disabled={isSubmitting}
+            // disabled={isSubmitting}
           >
             {isSubmitting ? "Sending" : "Save & Send"}
           </Button>
@@ -472,32 +481,34 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
           fieldState: { error },
         }) => (
           <>
-            <InputGroup>
-              <InputGroup.Text>
-                <Icon name="currency-dollar" />
-              </InputGroup.Text>
+            <FormGroup>
               <IMaskInput
                 name={name}
-                mask={Number}
+                mask="$num"
+                blocks={{
+                  num: {
+                    mask: Number,
+                    thousandsSeparator: ",",
+                    radix: ".",
+                  },
+                }}
                 thousandsSeparator={","}
                 radix={"."}
                 mapToRadix={["."]}
                 value={value.toString()}
                 autofix={true}
                 unmask={true}
-                onAccept={(value: string) => {
-                  return onChange(value ? parseFloat(value) : "");
-                }}
+                onAccept={(value: string) =>
+                  onChange(value ? parseFloat(value) : "")
+                }
                 onBlur={(e) => {
                   const value = e.target.value;
                   if (value === "$" || !value) onChange(0);
                 }}
                 inputRef={ref}
-                className={`form-control border-start-0 ${
-                  error ? "is-invalid" : ""
-                }`}
+                className={`form-control ${error ? "is-invalid" : ""}`}
               />
-            </InputGroup>
+            </FormGroup>
             <Form.Control.Feedback type="invalid">
               {error?.message}
             </Form.Control.Feedback>

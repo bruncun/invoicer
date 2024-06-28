@@ -11,8 +11,8 @@ import {
 } from "react-day-picker";
 import { formatDisplayDate } from "~/utility/formatters";
 
-const IconLeft = () => <Icon name="chevron-left" className="text-primary" />;
-const IconRight = () => <Icon name="chevron-right" className="text-primary" />;
+const IconLeft = () => <Icon name="chevron-left" />;
+const IconRight = () => <Icon name="chevron-right" />;
 
 type DatePickerProps = {
   label: string;
@@ -41,7 +41,6 @@ function DatePicker({ selected, label, onChange }: DatePickerProps) {
       });
       onChange(event);
       setIsOpen(false);
-      console.log("isOpen", isOpen);
     }
   };
 
@@ -55,7 +54,7 @@ function DatePicker({ selected, label, onChange }: DatePickerProps) {
         {label}
       </Form.Label>
       <Dropdown.Toggle className="rounded-2 w-100 d-flex border" variant="link">
-        <Icon name="calendar" className="me-2" />
+        <Icon name="calendar" className="me-2 text-body-emphasis" />
         {selectedDate !== undefined && (
           <span className="text-body-emphasis">
             {formatDisplayDate(selectedDate.toISOString())}

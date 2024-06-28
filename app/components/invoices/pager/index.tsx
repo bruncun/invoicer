@@ -40,7 +40,7 @@ export const InvoicesPager = ({
           onClick={() => setCurrent((prev) => prev - 1)}
           disabled={current === 1}
         >
-          <Icon name="arrow-left text-primary me-2"></Icon>
+          <Icon name="arrow-left me-2"></Icon>
           Previous
         </Button>
         <Button
@@ -50,7 +50,7 @@ export const InvoicesPager = ({
           disabled={!isNextPageAvailable || isLoading}
         >
           Next
-          <Icon name="arrow-right text-primary ms-2"></Icon>
+          <Icon name="arrow-right ms-2"></Icon>
         </Button>
       </div>
     </div>

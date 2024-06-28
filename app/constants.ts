@@ -18,7 +18,7 @@ export const itemSchema = yup.object().shape({
   name: yup.string().required(REQUIRED),
   price: yup.number().min(0, "Must be > $0").required(REQUIRED),
   quantity: yup.number().min(1, "Must be > 1").required(REQUIRED),
-  user_id: yup.string().required(REQUIRED),
+  user_id: yup.string().optional(),
 });
 
 export const invoiceSchema = yup.object().shape({
@@ -52,7 +52,7 @@ export const invoiceSchema = yup.object().shape({
     .string()
     .oneOf(["draft", "pending", "paid"], "Invalid status")
     .required(REQUIRED),
-  user_id: yup.string().required(REQUIRED),
+  user_id: yup.string().optional(),
   items: yup
     .array()
     .of(itemSchema)

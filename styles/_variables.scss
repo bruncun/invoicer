@@ -442,7 +442,7 @@ $position-values: (
 // Settings for the `<body>` element.
 
 $body-text-align: null;
-$body-color: $gray-500;
+$body-color: $gray-600;
 $body-bg: $gray-100;
 
 $body-secondary-color: rgba($body-color, 0.75);
@@ -1276,9 +1276,9 @@ $dropdown-spacer: 0.125rem;
 $dropdown-font-size: $font-size-base;
 $dropdown-color: var(--#{$prefix}body-color);
 $dropdown-bg: $white;
-$dropdown-border-color: var(--#{$prefix}border-color-translucent);
+$dropdown-border-color: var(--#{$prefix}border-color);
 $dropdown-border-radius: var(--#{$prefix}border-radius);
-$dropdown-border-width: 0;
+$dropdown-border-width: $border-width;
 $dropdown-inner-border-radius: calc(
   #{$dropdown-border-radius} - #{$dropdown-border-width}
 ); // stylelint-disable-line function-disallowed-list
@@ -1539,12 +1539,12 @@ $badge-border-radius: var(--#{$prefix}border-radius);
 // Modals
 
 // scss-docs-start modal-variables
-$modal-inner-padding: nth($spacers, 4);
+$modal-inner-padding: $spacer;
 
 $modal-footer-margin-between: 0.5rem;
 
 $modal-dialog-margin: 0.5rem;
-$modal-dialog-margin-y-sm-up: 1.75rem;
+$modal-dialog-margin-y-sm-up: 2.0625rem;
 
 $modal-title-line-height: $line-height-base;
 
@@ -1575,7 +1575,7 @@ $modal-footer-border-width: $modal-header-border-width;
 
 $modal-sm: 300px;
 $modal-md: 500px;
-$modal-lg: 736px;
+$modal-lg: 700px;
 $modal-xl: 1140px;
 
 $modal-fade-transform: translate(0, -50px);

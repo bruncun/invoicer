@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useModalForm } from "@refinedev/react-hook-form";
 import { useFieldArray } from "react-hook-form";
 import { formatDate } from "date-fns";
@@ -9,22 +9,32 @@ import {
   useNotification,
   useNavigation,
   useGetIdentity,
+  useCustom,
 } from "@refinedev/core";
 import { Status } from "~/types/invoices";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { invoiceSchema } from "~/constants";
 import { InferType } from "yup";
+import { supabaseClient } from "~/utility";
+import {
+  FunctionsHttpError,
+  FunctionsRelayError,
+  FunctionsFetchError,
+} from "@supabase/supabase-js";
 
 /**
  * Custom hook for creating a new invoice.
  * @returns An object containing the form state and related functions.
  */
 const useInvoicesCreateModalForm = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  let newInvoice;
+  const [_, setIsSubmitting] = useState(false);
   const { mutateAsync } = useCreate();
   const { show } = useNavigation();
   const { mutateAsync: mutateManyAsync } = useCreateMany();
-  const { data: identity } = useGetIdentity<{ id: string }>();
+  const { data: identity, isLoading: isIdentityLoading } = useGetIdentity<{
+    id: string;
+  }>();
   const invoicesCreateModalForm = useModalForm<
     InferType<typeof invoiceSchema>,
     HttpError,
@@ -54,24 +64,42 @@ const useInvoicesCreateModalForm = () => {
       items: [{ name: "", quantity: 1, price: 0 }],
     },
   });
-  const { control, handleSubmit, watch, setValue } = invoicesCreateModalForm;
-  const { open } = useNotification();
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = invoicesCreateModalForm;
 
+  useEffect(() => {
+    if (!isIdentityLoading && identity) {
+      setValue("user_id", identity.id);
+    }
+  }, [identity]);
+
+  const { open } = useNotification();
   const itemsFieldArray = useFieldArray<InferType<typeof invoiceSchema>>({
     control,
     name: "items",
   });
   const items = watch("items");
 
-  const onSubmit = (status: Status) => {
-    setValue("status", status);
-    handleSubmit(onFinish)();
-  };
+  const status = watch("status");
+
+  const onSubmit = (status: Status) =>
+    status === "draft" ? setValue("status", status) : handleSubmit(onFinish)();
+
+  useEffect(() => {
+    console.log("status", status);
+    if (status) handleSubmit(onFinish)();
+  }, [status]);
 
   const onFinish = async (formData: InferType<typeof invoiceSchema>) => {
+    console.log("formData", formData);
     setIsSubmitting(true);
     try {
-      const newInvoice = {
+      newInvoice = {
         sender_street: formData.sender_street,
         sender_city: formData.sender_city,
         sender_postcode: formData.sender_postcode,
@@ -104,6 +132,23 @@ const useInvoicesCreateModalForm = () => {
         })),
         successNotification: false,
       });
+      if (formData.status === "pending") {
+        const { data, error } = await supabaseClient.functions.invoke(
+          "send-invoice",
+          {
+            body: newInvoice,
+          }
+        );
+        if (error instanceof FunctionsHttpError) {
+          const errorMessage = await error.context.json();
+          console.log("Function returned an error", errorMessage);
+        } else if (error instanceof FunctionsRelayError) {
+          console.log("Relay error:", error.message);
+        } else if (error instanceof FunctionsFetchError) {
+          console.log("Fetch error:", error.message);
+        }
+      }
+
       open?.({
         description: `Invoice successfully ${
           formData.status === "draft" ? "drafted" : "saved and sent"

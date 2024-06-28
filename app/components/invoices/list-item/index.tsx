@@ -38,7 +38,9 @@ const InvoicesListItem = ({ invoice }: { invoice?: Invoice }) => {
         <span className={`me-5 pe-4 w-10 text-muted ${invoice ? "" : "fs-0"}`}>
           {invoice?.description ? `Due ${formattedDate}` : <Skeleton />}
         </span>
-        <span className={`flex-grow-1 text-muted ${invoice ? "" : "fs-0"}`}>
+        <span
+          className={`flex-grow-1 text-muted lh-1 ${invoice ? "" : "fs-0"}`}
+        >
           {invoice?.client_name ?? <Skeleton className="w-7" />}
         </span>
         <span
@@ -58,22 +60,24 @@ const InvoicesListItem = ({ invoice }: { invoice?: Invoice }) => {
           <Icon name="chevron-right"></Icon>
         </Button>
       </Card.Body>
-      <Card.Body className="d-xl-none justify-content-between align-items-center">
-        <div className="d-flex justify-content-between mb-3 d-xl-none">
+      <Card.Body className="d-xl-none justify-content-between align-items-start">
+        <div className="d-flex justify-content-between mb-2 d-xl-none lh-1">
           <Card.Title className="fs-6">
-            #<span className="text-body-emphasis">{invoice?.id}</span>
+            <FormattedId id={invoice?.id}></FormattedId>
           </Card.Title>
-          {invoice?.client_name}
+          {invoice?.client_name ?? <Skeleton className="w-7" />}
         </div>
         <div className="d-flex justify-content-between align-items-center">
           <div>
-            <span className="d-block mb-2">Due {formattedDate}</span>
-            <Card.Title className="fs-6">
-              <span className="text-body-emphasis">{formattedTotal}</span>
+            <span className="d-block mb-2">
+              {invoice?.description ? `Due ${formattedDate}` : <Skeleton />}
+            </span>
+            <Card.Title className="fs-6 text-body-emphasis lh-1">
+              {invoice?.items ? formattedTotal : <Skeleton className="w-6" />}
             </Card.Title>
           </div>
           <div>
-            {invoice?.status && <StatusBadge status={invoice?.status} />}
+            <StatusBadge status={invoice?.status} />
           </div>
         </div>
       </Card.Body>

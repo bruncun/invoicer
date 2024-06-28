@@ -1,4 +1,4 @@
-import type { ErrorResponse, MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -8,23 +8,17 @@ import {
   ScrollRestoration,
   useRouteError,
 } from "@remix-run/react";
-
 import { Refine } from "@refinedev/core";
 import { RefineKbarProvider } from "@refinedev/kbar";
 import routerProvider, {
   UnsavedChangesNotifier,
 } from "@refinedev/remix-router";
-
 import { dataProvider } from "@refinedev/supabase";
 import styles from "~/styles/index.css";
 import { supabaseClient } from "~/utility";
-
 import { ToastContainer } from "react-toastify";
 import { None, notificationProvider } from "./providers/notification-provider";
 import { authProvider } from "./authProvider";
-import useTheme from "./hooks/use-theme";
-import { Row, Col, Button } from "react-bootstrap";
-import Icon from "./components/icon";
 
 export const meta: MetaFunction = () => [
   {
@@ -43,6 +37,7 @@ export default function App() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <style></style>
       </head>
       <body>
         <RefineKbarProvider>
@@ -65,14 +60,17 @@ export default function App() {
             ]}
             options={{
               useNewQueryKeys: true,
-              warnWhenUnsavedChanges: true,
               projectId: "AGpg3C-5yTuaG-cOKhCy",
             }}
           >
             <>
               <Outlet />
               <UnsavedChangesNotifier />
-              <ToastContainer hideProgressBar transition={None} />
+              <ToastContainer
+                hideProgressBar
+                transition={None}
+                autoClose={5000}
+              />
             </>
           </Refine>
         </RefineKbarProvider>
@@ -86,44 +84,4 @@ export default function App() {
 
 export function links() {
   return [{ rel: "stylesheet", href: styles }];
-}
-
-export function ErrorBoundary() {
-  const error = useRouteError() as ErrorResponse;
-  useTheme();
-  return (
-    <html>
-      <head>
-        <title>Oops!</title>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <div
-          className="position-absolute top-50 start-50 translate-middle w-100"
-          data-testid="loading"
-        >
-          <Row>
-            <Col xs={{ span: 6, offset: 3 }} className="text-center">
-              <div>
-                <span className="h6 mb-3 text-primary d-block">
-                  {error.status}
-                </span>
-                <span className="h4 mb-5 d-block">{error.statusText}</span>
-                <Button
-                  onClick={() => {
-                    window.history.back();
-                  }}
-                >
-                  <Icon name="chevron-left" className="me-2"></Icon>
-                  Go back
-                </Button>
-              </div>
-            </Col>
-          </Row>
-        </div>
-        <Scripts />
-      </body>
-    </html>
-  );
 }

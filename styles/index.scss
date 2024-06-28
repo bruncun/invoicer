@@ -14,31 +14,21 @@
 
 @import "../node_modules/bootstrap/scss/reboot";
 @import "../node_modules/bootstrap/scss/type";
-@import "../node_modules/bootstrap/scss/images";
 @import "../node_modules/bootstrap/scss/containers";
 @import "../node_modules/bootstrap/scss/grid";
 @import "../node_modules/bootstrap/scss/tables";
 @import "../node_modules/bootstrap/scss/forms";
 @import "../node_modules/bootstrap/scss/buttons";
-@import "../node_modules/bootstrap/scss/transitions";
 @import "../node_modules/bootstrap/scss/dropdown";
-@import "../node_modules/bootstrap/scss/button-group";
 @import "../node_modules/bootstrap/scss/nav";
 @import "../node_modules/bootstrap/scss/navbar";
 @import "../node_modules/bootstrap/scss/card";
-@import "../node_modules/bootstrap/scss/accordion";
-@import "../node_modules/bootstrap/scss/breadcrumb";
-@import "../node_modules/bootstrap/scss/pagination";
 @import "../node_modules/bootstrap/scss/badge";
 @import "../node_modules/bootstrap/scss/alert";
-@import "../node_modules/bootstrap/scss/progress";
-@import "../node_modules/bootstrap/scss/list-group";
 @import "../node_modules/bootstrap/scss/close";
 @import "../node_modules/bootstrap/scss/toasts";
 @import "../node_modules/bootstrap/scss/modal";
 @import "../node_modules/bootstrap/scss/tooltip";
-@import "../node_modules/bootstrap/scss/popover";
-@import "../node_modules/bootstrap/scss/carousel";
 @import "../node_modules/bootstrap/scss/spinners";
 @import "../node_modules/bootstrap/scss/offcanvas";
 @import "../node_modules/bootstrap/scss/placeholders";
@@ -124,6 +114,12 @@ $utilities: map-merge(
         100: 100vh,
       ),
     ),
+    "z-index": (
+      property: z-index,
+      responsive: true,
+      class: z,
+      values: $zindex-levels,
+    ),
   )
 );
 
@@ -138,7 +134,6 @@ $utilities: map-merge(
 
 @import "../node_modules/react-toastify/scss/toastContainer";
 @import "../node_modules/react-toastify/scss/toast";
-@import "../node_modules/react-toastify/scss/animations/bounce.scss";
 
 .tooltip {
   @extend .position-fixed;
@@ -155,8 +150,14 @@ $utilities: map-merge(
   box-shadow: none;
 }
 
+.slide-over-modal-dialog {
+  @include media-breakpoint-only(md) {
+    top: 4.125rem;
+  }
+}
+
 .layout {
-  padding-top: 4rem;
+  padding-top: 4.125rem;
 
   @include media-breakpoint-up(lg) {
     padding-top: 0;
@@ -171,10 +172,6 @@ $utilities: map-merge(
 
 .dropdown-menu label {
   @extend .user-select-none;
-}
-
-.modal-backdrop {
-  @extend .z-1;
 }
 
 dl,
