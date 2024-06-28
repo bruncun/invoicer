@@ -18,6 +18,7 @@ import InvoicesMobileNavbar from "~/components/invoices/mobile-navbar";
 import useInvoicesShow from "~/hooks/invoices/use-show";
 import FullScreenError from "~/components/full-screen-error";
 import { useState } from "react";
+import { supabaseClient } from "~/utility";
 
 export const InvoicesShow = () => {
   const goBack = useBack();
@@ -44,7 +45,15 @@ export const InvoicesShow = () => {
 
   if (isError) return <FullScreenError />;
 
-  const onUpdateStatus = (status: "paid" | "pending") => {
+  const onUpdateStatus = async (status: "paid" | "pending") => {
+    if (status === "pending") {
+      const { data, error } = await supabaseClient.functions.invoke(
+        "send-invoice",
+        {
+          body: invoice,
+        }
+      );
+    }
     mutateUpdateAsync({
       resource: "invoices",
       id: invoice?.id as BaseKey,
