@@ -66,10 +66,11 @@ const useInvoicesCreateModalForm = () => {
   });
   const {
     control,
+
     handleSubmit,
     watch,
     setValue,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = invoicesCreateModalForm;
 
   useEffect(() => {
@@ -91,8 +92,7 @@ const useInvoicesCreateModalForm = () => {
     status === "draft" ? setValue("status", status) : handleSubmit(onFinish)();
 
   useEffect(() => {
-    console.log("status", status);
-    if (status) handleSubmit(onFinish)();
+    if (status && isDirty) handleSubmit(onFinish)();
   }, [status]);
 
   const onFinish = async (formData: InferType<typeof invoiceSchema>) => {
