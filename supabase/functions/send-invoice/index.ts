@@ -8,7 +8,17 @@ import { format, parseISO } from "https://esm.sh/date-fns@3.6.0";
 // Setup type definitions for built-in Supabase Runtime APIs
 /// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
 
+export const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
+};
+
 Deno.serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
+
   const {
     id,
     sender_street,
@@ -191,23 +201,32 @@ Deno.serve(async (req) => {
     </html>
   `;
 
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${"re_Bx4GoZz1_Haeg2DVCjQjXjwTcKDf3xF8j"}`,
-    },
-    body: JSON.stringify({
-      from: "Invoicer <onboarding@resend.dev>",
-      to: ["bruncun@icloud.com"],
-      subject: `Invoice #${id}`,
-      html,
-    }),
-  });
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        ...corsHeaders,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${"re_Bx4GoZz1_Haeg2DVCjQjXjwTcKDf3xF8j"}`,
+      },
+      body: JSON.stringify({
+        from: "Invoicer <onboarding@resend.dev>",
+        to: ["bruncun@icloud.com"],
+        subject: `Invoice #${id}`,
+        html,
+      }),
+    });
 
-  return new Response(null, {
-    status: 200,
-  });
+    return new Response(JSON.stringify(res), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 200,
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error }), {
+      headers: corsHeaders,
+      status: 500,
+    });
+  }
 });
 
 /* To invoke locally:
