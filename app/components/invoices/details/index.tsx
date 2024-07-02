@@ -9,8 +9,6 @@ import { Invoice } from "~/types/invoices";
 export const InvoicesDetails = () => {
   const invoicesShow = useInvoicesShow();
   const { invoice, isLoading } = invoicesShow;
-  // const invoice = null,
-  // isLoading = false;
 
   const total = invoice?.items.reduce(
     (acc, item) => acc + item.quantity * item.price,

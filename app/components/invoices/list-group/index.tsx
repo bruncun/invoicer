@@ -18,7 +18,7 @@ export const InvoicesListGroup = ({
         data-testid="invoices-list"
         className="list-unstyled mt-3 mb-2 d-flex flex-column gap-2"
       >
-        {new Array(10).fill(null).map((invoice, idx) => (
+        {new Array(25).fill(null).map((invoice, idx) => (
           <li key={idx}>
             <InvoicesListItem invoice={invoice} />
           </li>

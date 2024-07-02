@@ -36,6 +36,7 @@ export const invoiceSchema = yup.object().shape({
     }),
   client_street: yup.string().required(REQUIRED),
   description: yup.string().required(REQUIRED),
+  invoice_date: yup.string().optional(),
   payment_due: yup.string().required(REQUIRED),
   payment_terms: yup.string().required(REQUIRED),
   sender_city: yup.string().required(REQUIRED),

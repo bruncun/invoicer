@@ -11,11 +11,7 @@ type InvoiceListHeaderProps = {
 
 export const InvoicesListHeader = ({
   modalShow,
-  invoicesList: {
-    data,
-    isLoading,
-    filterState: [filters, setFilters],
-  },
+  invoicesList: { data, isLoading, filters, setFilters },
 }: InvoiceListHeaderProps) => {
   const invoices = data?.data;
   const handleStatusChange = (status: Status, checked: boolean) =>

@@ -9,6 +9,7 @@ import {
   useUpdate,
 } from "@refinedev/core";
 import { useModalForm } from "@refinedev/react-hook-form";
+import { parseISO, formatDate, sub } from "date-fns";
 import { useEffect, useState } from "react";
 import { useFieldArray } from "react-hook-form";
 import { Asserts, InferType } from "yup";
@@ -21,15 +22,19 @@ const useInvoicesEditModalForm = (
   invoice?: Tables<"invoices"> & { items: Tables<"items">[] }
 ) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { data: identity, isLoading: isIdentityLoading } = useGetIdentity<{
+    id: string;
+  }>();
+
   const invoicesEditModalForm = useModalForm<
     InferType<typeof invoiceSchema>,
     HttpError,
     InferType<typeof invoiceSchema>
   >({
+    syncWithLocation: true,
     refineCoreProps: {
       resource: "invoices",
       action: "edit",
-      id: invoice?.id as BaseKey,
     },
     resolver: yupResolver(invoiceSchema),
   });
@@ -38,22 +43,43 @@ const useInvoicesEditModalForm = (
     reset,
     modal: { visible, close, show: modalShow },
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
     watch,
     register,
+    getValues,
     refineCore: { onFinish },
     setValue,
   } = invoicesEditModalForm;
   const { open } = useNotification();
 
+  useEffect(() => {
+    if (!isIdentityLoading && identity) {
+      setValue("user_id", identity.id);
+    }
+  }, [identity]);
+
   const itemsFieldArray = useFieldArray<InferType<typeof invoiceSchema>>({
     control,
     name: "items",
   });
+  const invoiceDate = watch("invoice_date") ?? "";
+  console.log("invoiceDate", invoiceDate);
+
+  const { mutateAsync: mutateDeleteAsync } = useDelete();
+  const { mutateAsync: mutateCreateAsync } = useCreate();
+  const { mutateAsync: mutateUpdateAsync } = useUpdate();
+
+  const status = watch("status");
 
   useEffect(() => {
     if (!isInvoicesLoading && invoice) {
-      reset({
+      const invoice_date = sub(parseISO(invoice.payment_due), {
+        days: parseInt(invoice.payment_terms),
+      });
+      const formatted_invoice_date = formatDate(invoice_date, "yyyy-MM-dd");
+      setValue("invoice_date", formatted_invoice_date);
+
+      const newInvoice = {
         sender_street: invoice.sender_street,
         sender_city: invoice.sender_city,
         sender_postcode: invoice.sender_postcode,
@@ -66,24 +92,31 @@ const useInvoicesEditModalForm = (
         client_country: invoice.client_country,
         payment_due: invoice.payment_due,
         payment_terms: "30",
+        invoice_date: formatted_invoice_date,
         description: invoice.description,
         items: invoice.items,
         user_id: invoice.user_id,
+      };
+
+      console.log(newInvoice);
+      reset(newInvoice);
+    }
+  }, [invoice, isInvoicesLoading]);
+
+  useEffect(() => {
+    if (invoice) {
+      const invoice_date = sub(parseISO(invoice.payment_due), {
+        days: parseInt(invoice.payment_terms),
       });
+      const formatted_invoice_date = formatDate(invoice_date, "yyyy-MM-dd");
+      setValue("invoice_date", formatted_invoice_date);
     }
   }, [invoice]);
-
-  const { mutateAsync: mutateDeleteAsync } = useDelete();
-  const { mutateAsync: mutateCreateAsync } = useCreate();
-  const { mutateAsync: mutateUpdateAsync } = useUpdate();
-  const { data: identity } = useGetIdentity<{ id: string }>();
-
-  const status = watch("status");
 
   const onSubmit = (status: Status) => setValue("status", status);
 
   useEffect(() => {
-    if (status) handleSubmit(onFinishHandler)();
+    if (status && isDirty) handleSubmit(onFinishHandler)();
   }, [status]);
 
   const onFinishHandler = async (formData: Asserts<typeof invoiceSchema>) => {
@@ -159,9 +192,9 @@ const useInvoicesEditModalForm = (
         }),
       ]);
       open?.({
-        description: `Invoice successfully updated${
+        description: `Invoice updated${
           formData.status === "draft" ? "" : " and sent"
-        }.`,
+        }`,
         message: "success",
         type: "success",
       });

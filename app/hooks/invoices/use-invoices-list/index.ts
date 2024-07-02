@@ -2,11 +2,15 @@ import { useState } from "react";
 import { useList, HttpError } from "@refinedev/core";
 import { Invoice, Status } from "~/types/invoices";
 import { STATUSES } from "~/constants";
+import useFilterPagination from "../use-filter-pagination";
 
 export type InvoicesList = ReturnType<typeof useList> & {
-  currentState: [number, React.Dispatch<React.SetStateAction<number>>];
-  filterState: [Status[], React.Dispatch<React.SetStateAction<Status[]>>];
-  pageSizeState: [number, React.Dispatch<React.SetStateAction<number>>];
+  currentPage: number;
+  pageSize: number;
+  filters: Status[];
+  setCurrentPage: (page: number) => void;
+  setPageSize: (size: number) => void;
+  setFilters: (filters: Status[]) => void;
 };
 
 /**
@@ -14,12 +18,15 @@ export type InvoicesList = ReturnType<typeof useList> & {
  * @returns An object containing the invoices list and related state variables.
  */
 const useInvoicesList = (): InvoicesList => {
-  const currentState = useState(1);
-  const pageSizeState = useState(10);
-  const filterState = useState<Status[]>([]);
-  const [current] = currentState;
-  const [filters] = filterState;
-  const [pageSize] = pageSizeState;
+  const {
+    currentPage,
+    pageSize,
+    filters,
+    setCurrentPage,
+    setPageSize,
+    setFilters,
+  } = useFilterPagination();
+
   const invoicesList = useList<Invoice, HttpError>({
     resource: "invoices",
     filters: [
@@ -36,7 +43,7 @@ const useInvoicesList = (): InvoicesList => {
       },
     ],
     pagination: {
-      current,
+      current: currentPage,
       pageSize,
     },
     meta: {
@@ -46,9 +53,12 @@ const useInvoicesList = (): InvoicesList => {
 
   return {
     ...invoicesList,
-    currentState,
-    filterState,
-    pageSizeState,
+    currentPage,
+    pageSize,
+    filters,
+    setCurrentPage,
+    setPageSize,
+    setFilters,
   };
 };
 
