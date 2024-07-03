@@ -98,10 +98,10 @@ const useInvoicesEditModalForm = (
         invoice_date: formatted_invoice_date,
         description: invoice.description,
         items: invoice.items,
+        id: invoice.id,
         user_id: invoice.user_id,
       };
 
-      console.log(newInvoice);
       reset(newInvoice);
     }
   }, [invoice, isInvoicesLoading]);

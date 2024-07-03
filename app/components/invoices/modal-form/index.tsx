@@ -234,13 +234,14 @@ const InvoicesModalForm = ({
                     name="invoice_date"
                     control={control}
                     render={({ field: { onChange, value } }) => {
+                      console.log("id", getValues("id"));
                       console.log("value", value);
                       return (
                         <DatePicker
                           label="Invoice Date"
                           onChange={onChange}
                           selected={value}
-                          disabled={!!getValues("payment_due")}
+                          disabled={!!getValues("id")}
                         />
                       );
                     }}
@@ -442,7 +443,7 @@ const InvoicesModalForm = ({
             ) : (
               <>
                 Save
-                <span className="d-none d-xl-inline-block">&nbsp;as Draft</span>
+                <span className="d-none d-sm-inline-block">&nbsp;as Draft</span>
               </>
             )}
           </Button>

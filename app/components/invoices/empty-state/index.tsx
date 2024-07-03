@@ -8,9 +8,12 @@ const InvoicesEmptyState = () => (
   >
     <Row className="w-100">
       <Col
-        xs={{ span: 6, offset: 3 }}
+        xs={{ span: 10 }}
+        sm={{ span: 8 }}
+        md={{ span: 6 }}
+        lg={{ span: 4 }}
         xl={{ span: 5 }}
-        className="text-center mx-xl-auto"
+        className="text-center mx-auto"
       >
         <img
           src={emptyStateIllustration}
