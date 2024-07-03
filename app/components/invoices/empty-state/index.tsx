@@ -8,9 +8,9 @@ const InvoicesEmptyState = () => (
   >
     <Row className="w-100">
       <Col
-        xs={{ span: 10 }}
-        sm={{ span: 8 }}
-        md={{ span: 6 }}
+        xs={{ span: 9 }}
+        sm={{ span: 7 }}
+        md={{ span: 5 }}
         lg={{ span: 4 }}
         xl={{ span: 5 }}
         className="text-center mx-auto"
@@ -21,7 +21,7 @@ const InvoicesEmptyState = () => (
           className="img-fluid mb-5"
         ></img>
         <h2 className="fs-5 mb-3">No invoices</h2>
-        <p className="text-muted mb-7">Create a new invoice to get started.</p>
+        <p className="text-muted mb-7">Start by creating a new invoice.</p>
       </Col>
     </Row>
   </div>
