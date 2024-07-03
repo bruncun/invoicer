@@ -18,7 +18,7 @@ export const Msg = ({
   return (
     <Toast onClose={closeToast} bg={color} className="text-sans-serif">
       <Toast.Header
-        className={`justify-content-between d-flex text-${color}-emphasis fw-semibold rounded-top`}
+        className={`justify-content-between d-flex text-${color}-emphasis fw-medium rounded-top`}
       >
         {type && type.charAt(0).toUpperCase() + type.slice(1)}
       </Toast.Header>

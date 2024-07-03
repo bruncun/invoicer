@@ -50,7 +50,7 @@ const InvoicesListItem = ({ invoice }: { invoice?: Invoice }) => {
           {invoice?.client_name ?? <Skeleton className="w-7" />}
         </span>
         <span
-          className={`flex-grow-1 justify-content-end d-flex fw-semibold text-body-emphasis ${
+          className={`flex-grow-1 justify-content-end d-flex fw-medium text-body-emphasis ${
             invoice ? "" : "fs-0"
           }`}
         >

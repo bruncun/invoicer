@@ -1,6 +1,7 @@
 import { Button, Nav, Navbar, Spinner } from "react-bootstrap";
 import Icon from "../icon";
 import { Link } from "@remix-run/react";
+import logoSvg from "~/assets/logo.svg";
 
 type MobileNavbarProps = {
   theme: string;
@@ -19,11 +20,16 @@ const MobileNavbar = ({
 }: MobileNavbarProps) => (
   <Navbar expand="xl" bg="dark" className="d-xl-none z-2" fixed="top">
     <Navbar.Brand
-      className="bg-primary text-white p-3 lh-1 border border-transparent"
+      className="bg-primary text-white p-3 lh-1 border-top border-bottom border-transparent"
       as={Link}
       to={invoicesListUrl}
     >
-      <Icon name="receipt-cutoff" className="fs-xl-1 fs-2"></Icon>
+      <img
+        src={logoSvg}
+        alt="Invoicer logo - a circle with a missing slice."
+        className="d-block"
+      />
+      <span className="visually-hidden user-select-none">Home</span>
     </Navbar.Brand>
     <Nav className="flex-row me-3">
       <Nav.Item>

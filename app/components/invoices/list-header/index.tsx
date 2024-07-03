@@ -50,8 +50,12 @@ export const InvoicesListHeader = ({
             </Form>
           </Dropdown.Menu>
         </Dropdown>
-        <Button onClick={() => modalShow()}>
-          <Icon name="plus-circle-fill" className="me-2"></Icon>New{" "}
+        <Button onClick={() => modalShow()} className="position-relative">
+          <Icon
+            name="plus-circle-fill"
+            className="me-2 position-absolute fs-4 start-0 top-0 ms-2 mt-0"
+          ></Icon>
+          <span className="ms-4 ps-1">New </span>
           <span className="d-none d-xl-inline-block">Invoice</span>
         </Button>
       </Stack>

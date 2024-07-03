@@ -40,13 +40,13 @@ export const InvoicesDetails = () => {
           <Row>
             <Col xs={{ span: 6 }} md={{ span: 4 }}>
               <dt>Invoice Date</dt>
-              <dd className="mb-4 text-body-emphasis fw-semibold">
+              <dd className="mb-4 text-body-emphasis fw-medium">
                 {(invoice && formatDisplayDate(invoice?.created_at)) ?? (
                   <Skeleton className="w-7" />
                 )}
               </dd>
               <dt>Payment Due</dt>
-              <dd className="text-body-emphasis fw-semibold">
+              <dd className="text-body-emphasis fw-medium">
                 {(invoice && formatDisplayDate(invoice?.payment_due)) ?? (
                   <Skeleton className="w-7" />
                 )}
@@ -55,7 +55,7 @@ export const InvoicesDetails = () => {
             <Col xs={{ span: 6 }} md={{ span: 4 }}>
               <dt>Bill To</dt>
               <dd>
-                <span className="text-body-emphasis fw-semibold">
+                <span className="text-body-emphasis fw-medium">
                   {invoice?.client_name ?? <Skeleton />}
                 </span>
                 <br />
@@ -77,7 +77,7 @@ export const InvoicesDetails = () => {
             <Col>
               <dt>Sent To</dt>
               <dd>
-                <span className="fw-semibold text-body-emphasis">
+                <span className="fw-medium text-body-emphasis">
                   {invoice?.client_email ?? <Skeleton className="w-9" />}
                 </span>
               </dd>
@@ -117,7 +117,7 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => {
                 <th className="text-end">Total</th>
               </tr>
             </thead>
-            <tbody className="fw-semibold">
+            <tbody className="fw-medium">
               {isLoading
                 ? new Array(10)
                     .fill(0)
@@ -136,7 +136,7 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => {
                 className="d-flex justify-content-between align-items-center"
               >
                 <div>
-                  <span className="fw-semibold text-body-emphasis d-block">
+                  <span className="fw-medium text-body-emphasis d-block">
                     {item.name}
                   </span>
                   <span>
@@ -154,7 +154,7 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => {
           <div className="d-flex justify-content-between align-items-center">
             <span className="mb-0">Amount Due</span>
             {(total && (
-              <span className="fw-semibold fs-4">{formatCurrency(total)}</span>
+              <span className="fw-medium fs-4">{formatCurrency(total)}</span>
             )) ?? (
               <Skeleton
                 bg="white"
@@ -179,7 +179,7 @@ export const ItemListItem: React.FC<ItemListItemProps> = ({ item }) => {
 
   return (
     <tr>
-      <td className="align-top text-body-emphasis fw-semibold">
+      <td className="align-top text-body-emphasis fw-medium">
         {item?.name ?? <Skeleton bg="secondary" />}
       </td>
       <td className="text-center">
@@ -188,7 +188,7 @@ export const ItemListItem: React.FC<ItemListItemProps> = ({ item }) => {
       <td className="align-top text-end">
         {formattedPrice ?? <Skeleton bg="secondary" className="w-6" />}
       </td>
-      <td className="align-top text-body-emphasis fw-semibold text-end">
+      <td className="align-top text-body-emphasis fw-medium text-end">
         {formattedTotal ?? <Skeleton bg="secondary" className="w-7" />}
       </td>
     </tr>

@@ -138,7 +138,7 @@ $utilities: map-merge(
 @import "../node_modules/react-toastify/scss/toast";
 
 .tooltip {
-  @extend .position-fixed;
+  @extend .position-absolute;
 }
 
 .Toastify__close-button {
@@ -166,8 +166,13 @@ $utilities: map-merge(
   padding-top: 4.125rem;
 
   @include media-breakpoint-up(xl) {
-    padding-left: 4.625rem;
     padding-top: 0;
+  }
+}
+
+.ps-xl-navbar {
+  @include media-breakpoint-up(xl) {
+    padding-left: 4.125rem;
   }
 }
 
@@ -323,4 +328,12 @@ td {
 
 .placeholder {
   @extend .rounded-2;
+}
+
+.rounded-top-end-radius-xl {
+  border-top-right-radius: $border-radius-xl;
+}
+
+.rounded-bottom-end-radius-xl {
+  border-bottom-right-radius: $border-radius-xl;
 }

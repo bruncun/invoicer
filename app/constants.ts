@@ -11,7 +11,7 @@ export const credentialsSchema = yup.object().shape({
   password: yup.string().required(REQUIRED),
 });
 
-export const TOOLTIP_DELAY = { show: 350, hide: 0 };
+export const TOOLTIP_DELAY = { show: 0, hide: 0 };
 
 export const itemSchema = yup.object().shape({
   id: yup.number().optional(),
