@@ -15,6 +15,7 @@ export default function AuthLayout() {
  * But, server-side redirects are more performant.
  */
 export async function loader({ request }: LoaderArgs) {
+  console.log("auth layout loader");
   const { authenticated, redirectTo } = await authProvider.check(request);
 
   if (authenticated) {

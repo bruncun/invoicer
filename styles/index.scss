@@ -141,6 +141,10 @@ $utilities: map-merge(
   @extend .position-fixed;
 }
 
+.Toastify__close-button {
+  @extend .d-none;
+}
+
 .Toastify__toast-icon {
   @extend .d-none;
 }
@@ -315,4 +319,8 @@ td {
 
 .page-item.active {
   font-weight: $font-weight-semibold;
+}
+
+.placeholder {
+  @extend .rounded-2;
 }

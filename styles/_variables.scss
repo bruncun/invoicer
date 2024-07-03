@@ -374,7 +374,7 @@ $enable-caret: false;
 $enable-rounded: true;
 $enable-shadows: false;
 $enable-gradients: false;
-$enable-transitions: false;
+$enable-transitions: true;
 $enable-reduced-motion: true;
 $enable-smooth-scroll: true;
 $enable-grid-classes: true;
@@ -1372,8 +1372,8 @@ $pagination-border-radius-lg: var(--#{$prefix}border-radius-lg);
 // Placeholders
 
 // scss-docs-start placeholders
-$placeholder-opacity-max: 0.5;
-$placeholder-opacity-min: 0.2;
+$placeholder-opacity-max: 1;
+$placeholder-opacity-min: 0.5;
 // scss-docs-end placeholders
 
 // Cards

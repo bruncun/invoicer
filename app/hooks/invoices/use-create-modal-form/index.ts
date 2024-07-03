@@ -167,7 +167,7 @@ const useInvoicesCreateModalForm = () => {
       open?.({
         description: `Invoice ${
           formData.status === "draft" ? "created" : "saved and sent"
-        }.`,
+        }`,
         message: "success",
         type: "success",
       });
@@ -175,7 +175,7 @@ const useInvoicesCreateModalForm = () => {
       setIsSubmitting(false);
     } catch (error) {
       open?.({
-        description: "Sorry, something went wrong. Please try again.",
+        description: "Sorry, something went wrong - please try again",
         message: "error",
         type: "error",
       });

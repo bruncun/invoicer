@@ -15,7 +15,7 @@ const InvoicesConfirmDeletionModal = ({
   setShowConfirmationModal,
   onDelete,
 }: InvoicesConfirmDeletionModal) => (
-  <Modal show={show} centered>
+  <Modal show={show} centered onHide={() => setShowConfirmationModal(false)}>
     <Modal.Header>
       <Modal.Title>Confirm Deletion</Modal.Title>
     </Modal.Header>

@@ -35,11 +35,17 @@ const InvoicesListItem = ({ invoice }: { invoice?: Invoice }) => {
         <div className="me-3 ms-3 w-7">
           <FormattedId id={invoice?.id}></FormattedId>
         </div>
-        <span className={`me-5 pe-4 w-10 text-muted ${invoice ? "" : "fs-0"}`}>
+        <span
+          className={`d-flex me-5 pe-4 w-10 text-muted ${
+            invoice ? "" : "fs-0"
+          }`}
+        >
           {invoice?.description ? `Due ${formattedDate}` : <Skeleton />}
         </span>
         <span
-          className={`flex-grow-1 text-muted lh-1 ${invoice ? "" : "fs-0"}`}
+          className={`d-flex flex-grow-1 text-muted lh-1 ${
+            invoice ? "" : "fs-0"
+          }`}
         >
           {invoice?.client_name ?? <Skeleton className="w-7" />}
         </span>

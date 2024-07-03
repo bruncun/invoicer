@@ -26,8 +26,10 @@ import {
 } from "@headlessui/react";
 import { Fragment } from "react/jsx-runtime";
 import CurrencyInput from "~/components/currency-input";
+import { ReactNode } from "react";
 
 type InvoicesModalFormProps = {
+  title: ReactNode;
   onSubmit: (status: Status) => void;
   invoicesCreateModalForm: UseModalFormReturnType<
     InferType<typeof invoiceSchema>,
@@ -45,11 +47,12 @@ type InvoicesModalFormProps = {
 const InvoicesModalForm = ({
   onSubmit,
   onFinish,
+  title,
   itemsFieldArray,
   invoicesCreateModalForm,
 }: InvoicesModalFormProps) => {
   const {
-    modal: { visible, close, title },
+    modal: { visible, close },
     handleSubmit,
     watch,
     control,
@@ -72,7 +75,6 @@ const InvoicesModalForm = ({
       show={visible}
       fullscreen="md-down"
       onHide={close}
-      enforceFocus={false}
       className="z-3 z-md-2"
       backdropClassName="z-2"
       dialogClassName="ms-sm-0 mt-0 mb-0 min-vh-lg-100 slide-over-modal-dialog"

@@ -8,6 +8,7 @@ import {
 import Icon from "../icon";
 import { Link } from "@remix-run/react";
 import { TOOLTIP_DELAY } from "~/constants";
+import useFilterPagination from "~/hooks/invoices/use-filter-pagination";
 
 type DesktopNavbarProps = {
   theme: string;
@@ -24,6 +25,15 @@ const DesktopNavbar = ({
   isLoading,
   invoicesListUrl,
 }: DesktopNavbarProps) => {
+  const {
+    currentPage,
+    pageSize,
+    filters,
+    setCurrentPage,
+    setPageSize,
+    setFilters,
+  } = useFilterPagination();
+
   return (
     <div className="d-xl-flex flex-column flex-shrink-0 d-none bg-dark z-3 vh-100 shadow-xl position-fixed start-0 top-0">
       <Link

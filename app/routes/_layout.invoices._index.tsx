@@ -25,6 +25,7 @@ export const InvoiceList = () => {
       <InvoicesListGroup invoicesList={invoicesList} />
       <InvoicesPager invoicesList={invoicesList} />
       <InvoicesModalForm
+        title="New Invoice"
         itemsFieldArray={itemsFieldArray}
         invoicesCreateModalForm={invoicesCreateModalForm}
         onSubmit={onSubmit}

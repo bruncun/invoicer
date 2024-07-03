@@ -116,6 +116,12 @@ export const InvoicesShow = () => {
         showConfirmationModal={showConfirmationModal}
       ></InvoicesMobileNavbar>
       <InvoicesModalForm
+        title={
+          <>
+            Edit <span className="text-muted">#</span>
+            {invoice?.id}
+          </>
+        }
         itemsFieldArray={itemsFieldArray}
         invoicesCreateModalForm={invoicesEditModalForm}
         onSubmit={onSubmit}
