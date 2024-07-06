@@ -20,16 +20,24 @@ const MobileNavbar = ({
 }: MobileNavbarProps) => (
   <Navbar expand="xl" bg="dark" className="d-xl-none z-2" fixed="top">
     <Navbar.Brand
-      className="bg-primary text-white p-3 lh-1 border-top border-bottom border-transparent"
+      className="bg-primary text-white p-3 lh-1 border-top border-bottom border-transparent position-relative overflow-hidden"
       as={Link}
       to={invoicesListUrl}
     >
       <img
         src={logoSvg}
-        alt="Invoicer logo - a circle with a missing slice."
-        className="d-block"
+        className="position-relative z-2"
+        alt="Invoicer logo - a circle with a missing slice"
       />
       <span className="visually-hidden user-select-none">Home</span>
+      <div
+        className="position-absolute start-50 top-100 translate-middle rounded-start-5 opacity-50"
+        style={{
+          width: "3.75rem",
+          height: "3.75rem",
+          backgroundColor: "#9277FF",
+        }}
+      ></div>
     </Navbar.Brand>
     <Nav className="flex-row me-3">
       <Nav.Item>
