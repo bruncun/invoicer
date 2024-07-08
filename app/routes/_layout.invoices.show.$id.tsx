@@ -1,7 +1,5 @@
 import {
   BaseKey,
-  useDelete,
-  useDeleteMany,
   useNavigation,
   useNotification,
   useUpdate,
@@ -15,10 +13,12 @@ import InvoicesMobileNavbar from "~/components/invoices/mobile-navbar";
 import useInvoicesShow from "~/hooks/invoices/use-show";
 import FullScreenError from "~/components/full-screen-error";
 import { useState } from "react";
-import { supabaseClient } from "~/utility";
+import useInvoiceDelete from "~/hooks/invoices/use-invoice-delete";
+import { supabaseClient } from "~/utility/supabase";
 
 export const InvoicesShow = () => {
   const { invoice, isLoading: isInvoicesLoading, isError } = useInvoicesShow();
+  const { deleteInvoice, isDeleteLoading } = useInvoiceDelete();
   const invoicesModalForm = useInvoicesEditModalForm(
     isInvoicesLoading,
     invoice
@@ -34,10 +34,7 @@ export const InvoicesShow = () => {
   } = invoicesModalForm;
   const { mutateAsync: mutateUpdateAsync } = useUpdate();
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const { mutateAsync: mutateDeleteManyAsync } = useDeleteMany();
-  const { mutateAsync: mutateDeleteAsync } = useDelete();
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
-  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const { list } = useNavigation();
   const { open } = useNotification();
 
@@ -70,31 +67,14 @@ export const InvoicesShow = () => {
   };
 
   const onDelete = async () => {
-    try {
-      setIsDeleteLoading(true);
-      await Promise.all([
-        mutateDeleteManyAsync({
-          resource: "items",
-          ids: invoice?.items.map((item) => item.id) as Array<BaseKey>,
-          successNotification: false,
-        }),
-        mutateDeleteAsync({
-          resource: "invoices",
-          id: invoice?.id as BaseKey,
-          successNotification: false,
-        }),
-      ]);
-      open?.({
-        description: "Invoice deleted",
-        message: "success",
-        type: "success",
-      });
-      list("invoices");
-      setIsDeleteLoading(false);
-      setShowConfirmationModal(false);
-    } catch (error) {
-      console.error("Delete failed", error);
-    }
+    deleteInvoice(invoice);
+    list("invoices");
+    open?.({
+      description: "Invoice deleted",
+      message: "success",
+      type: "success",
+    });
+    setShowConfirmationModal(false);
   };
 
   return (
