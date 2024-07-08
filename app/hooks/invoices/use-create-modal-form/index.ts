@@ -15,12 +15,13 @@ import { Status } from "~/types/invoices";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { invoiceSchema } from "~/constants";
 import { InferType } from "yup";
-import { supabaseClient } from "~/utility";
 import {
   FunctionsHttpError,
   FunctionsRelayError,
   FunctionsFetchError,
 } from "@supabase/supabase-js";
+import useInvoiceCreate from "../use-invoice-create";
+import { supabaseClient } from "~/utility/supabase";
 
 /**
  * Custom hook for creating a new invoice.
@@ -28,9 +29,10 @@ import {
  */
 const useInvoicesCreateModalForm = () => {
   let newInvoice;
+  const { createInvoice } = useInvoiceCreate();
   const [_, setIsSubmitting] = useState(false);
-  const { mutateAsync } = useCreate();
   const { show } = useNavigation();
+  const { mutateAsync } = useCreate();
   const { mutateAsync: mutateManyAsync } = useCreateMany();
   const { data: identity, isLoading: isIdentityLoading } = useGetIdentity<{
     id: string;
@@ -57,7 +59,7 @@ const useInvoicesCreateModalForm = () => {
       description: "",
       invoice_date: formatDate(new Date(), "yyyy-MM-dd"),
       payment_due: "",
-      payment_terms: "30",
+      payment_terms: 30,
       status: "pending",
       sender_city: "",
       sender_country: "",
@@ -93,7 +95,7 @@ const useInvoicesCreateModalForm = () => {
 
   useEffect(() => {
     const payment_due = add(parseISO(invoiceDate), {
-      days: parseInt(getValues("payment_terms")),
+      days: getValues("payment_terms"),
     });
     const formattedPaymentDue = formatDate(payment_due, "yyyy-MM-dd");
 
@@ -122,27 +124,13 @@ const useInvoicesCreateModalForm = () => {
         client_country: formData.client_country,
         client_postcode: formData.client_postcode,
         payment_due: formData.payment_due,
-        payment_terms: parseInt(formData.payment_terms),
+        payment_terms: formData.payment_terms,
         description: formData.description,
         status: formData.status,
         user_id: identity?.id,
+        items,
       };
-      const invoice = await mutateAsync({
-        resource: "invoices",
-        values: newInvoice,
-        successNotification: false,
-      });
-      await mutateManyAsync({
-        resource: "items",
-        values: items.map((item) => ({
-          invoice_id: invoice.data.id,
-          name: item.name,
-          quantity: item.quantity,
-          price: item.price,
-          user_id: identity?.id,
-        })),
-        successNotification: false,
-      });
+      const invoice = await createInvoice(newInvoice);
       if (formData.status === "pending") {
         const { data, error } = await supabaseClient.functions.invoke(
           "send-invoice",
