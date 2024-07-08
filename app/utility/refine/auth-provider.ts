@@ -3,7 +3,7 @@ import * as cookie from "cookie";
 import Cookies from "js-cookie";
 
 import { TOKEN_KEY } from "~/constants";
-import { supabaseClient } from "~/utility";
+import { supabaseClient } from "../supabase/client";
 
 export const authProvider: AuthBindings = {
   login: async ({ email, password }) => {

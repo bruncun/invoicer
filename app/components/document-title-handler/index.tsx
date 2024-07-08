@@ -6,7 +6,7 @@ import {
   useUserFriendlyName,
   userFriendlyResourceName,
 } from "@refinedev/core";
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 export const safeTranslate = (
@@ -94,7 +94,16 @@ type Props = {
   }) => string;
 };
 
-export function DocumentTitleHandler({ handler }: Props) {
+const DocumentTitleHandler = (props: Props) => {
+  const [showChild, setShowChild] = useState(false);
+  useEffect(() => {
+    setShowChild(true);
+  }, []);
+
+  return showChild ? <Child {...props} /> : null;
+};
+
+const Child = ({ handler }: Props) => {
   const location = useLocation();
   const { action, id, params, pathname, resource } = useParsed();
   const translate = useTranslate();
@@ -128,4 +137,6 @@ export function DocumentTitleHandler({ handler }: Props) {
   }, [location]);
 
   return <></>;
-}
+};
+
+export default DocumentTitleHandler;
