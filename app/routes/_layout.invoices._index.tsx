@@ -4,17 +4,19 @@ import InvoicesPager from "~/components/invoices/pager";
 import InvoicesModalForm from "~/components/invoices/modal-form";
 import useInvoicesCreateModalForm from "~/hooks/invoices/use-create-modal-form";
 import useInvoicesList from "~/hooks/invoices/use-invoices-list";
+import { useGetIdentity } from "@refinedev/core";
 
 export const InvoiceList = () => {
   const invoicesList = useInvoicesList();
+  const identity = useGetIdentity<{
+    id: string;
+  }>();
   const invoicesModalForm = useInvoicesCreateModalForm();
   const {
     invoicesCreateModalForm,
     invoicesCreateModalForm: {
       modal: { show },
     },
-    itemsFieldArray,
-    onSubmit,
     onFinish,
   } = invoicesModalForm;
 
@@ -25,11 +27,10 @@ export const InvoiceList = () => {
       <InvoicesPager invoicesList={invoicesList} />
       <InvoicesModalForm
         title="New Invoice"
-        itemsFieldArray={itemsFieldArray}
         invoicesCreateModalForm={invoicesCreateModalForm}
-        onSubmit={onSubmit}
+        identity={identity}
         onFinish={onFinish}
-      ></InvoicesModalForm>
+      />
     </>
   );
 };

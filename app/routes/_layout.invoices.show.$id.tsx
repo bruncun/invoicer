@@ -1,5 +1,6 @@
 import {
   BaseKey,
+  useGetIdentity,
   useNavigation,
   useNotification,
   useUpdate,
@@ -17,6 +18,9 @@ import useInvoiceDelete from "~/hooks/invoices/use-invoice-delete";
 import { supabaseClient } from "~/utility/supabase";
 
 export const InvoicesShow = () => {
+  const identity = useGetIdentity<{
+    id: string;
+  }>();
   const { invoice, isLoading: isInvoicesLoading, isError } = useInvoicesShow();
   const { deleteInvoice, isDeleteLoading } = useInvoiceDelete();
   const invoicesModalForm = useInvoicesEditModalForm(
@@ -28,9 +32,7 @@ export const InvoicesShow = () => {
     invoicesEditModalForm: {
       modal: { show },
     },
-    onSubmit,
     onFinish,
-    itemsFieldArray,
   } = invoicesModalForm;
   const { mutateAsync: mutateUpdateAsync } = useUpdate();
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -102,9 +104,8 @@ export const InvoicesShow = () => {
             {invoice?.id}
           </>
         }
-        itemsFieldArray={itemsFieldArray}
+        identity={identity}
         invoicesCreateModalForm={invoicesEditModalForm}
-        onSubmit={onSubmit}
         onFinish={onFinish}
       ></InvoicesModalForm>
       <InvoicesConfirmDeletionModal

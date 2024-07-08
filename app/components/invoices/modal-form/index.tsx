@@ -27,28 +27,29 @@ import {
 import { Fragment } from "react/jsx-runtime";
 import CurrencyInput from "~/components/currency-input";
 import { ReactNode } from "react";
+import useItemsFieldArray from "~/hooks/invoices/use-items-field-array";
+import useSyncStatus from "~/hooks/invoices/use-sync-status";
+import useSyncPaymentDue from "~/hooks/invoices/use-sync-payment-due";
+import { UseGetIdentityReturnType } from "@refinedev/core/dist/hooks/auth/useGetIdentity";
+import useSyncUserId from "~/hooks/invoices/use-sync-user-id";
 
 type InvoicesModalFormProps = {
   title: ReactNode;
-  onSubmit: (status: Status) => void;
+  identity: UseGetIdentityReturnType<{
+    id: string;
+  }>;
   invoicesCreateModalForm: UseModalFormReturnType<
     InferType<typeof invoiceSchema>,
     HttpError,
     InferType<typeof invoiceSchema>
   >;
-  itemsFieldArray: UseFieldArrayReturn<
-    InferType<typeof invoiceSchema>,
-    "items",
-    "id"
-  >;
   onFinish: (formData: InferType<typeof invoiceSchema>) => Promise<void>;
 };
 
 const InvoicesModalForm = ({
-  onSubmit,
   onFinish,
+  identity,
   title,
-  itemsFieldArray,
   invoicesCreateModalForm,
 }: InvoicesModalFormProps) => {
   const {
@@ -57,17 +58,26 @@ const InvoicesModalForm = ({
     watch,
     control,
     register,
+    setValue,
     getValues,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isDirty },
   } = invoicesCreateModalForm;
   const items = watch("items");
-  const { fields, append, remove } = itemsFieldArray;
   const paymentTerms = {
     30: "Net 30",
     60: "Net 60",
     90: "Net 90",
   };
   const { status } = getValues();
+  const itemsFieldArray = useItemsFieldArray(control);
+  const { fields, append, remove } = itemsFieldArray;
+  useSyncUserId(setValue, identity);
+  useSyncStatus(watch, handleSubmit, isDirty, onFinish);
+  useSyncPaymentDue(watch, setValue, getValues);
+
+  const onSubmit = (status: Status) =>
+    status === "draft" ? setValue("status", status) : handleSubmit(onFinish)();
+  const isIdPresent = !!getValues("id");
 
   return (
     <Modal
@@ -233,18 +243,14 @@ const InvoicesModalForm = ({
                   <Controller
                     name="invoice_date"
                     control={control}
-                    render={({ field: { onChange, value } }) => {
-                      console.log("id", getValues("id"));
-                      console.log("value", value);
-                      return (
-                        <DatePicker
-                          label="Invoice Date"
-                          onChange={onChange}
-                          selected={value}
-                          disabled={!!getValues("id")}
-                        />
-                      );
-                    }}
+                    render={({ field: { onChange, value } }) => (
+                      <DatePicker
+                        label="Invoice Date"
+                        onChange={onChange}
+                        selected={value}
+                        disabled={isIdPresent}
+                      />
+                    )}
                   />
                   <Form.Control.Feedback type="invalid">
                     {(errors as any)?.payment_due?.message as string}
