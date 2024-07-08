@@ -8,18 +8,21 @@ import {
   ScrollRestoration,
   useRouteError,
 } from "@remix-run/react";
-import { Action, IResourceItem, Refine } from "@refinedev/core";
-import routerProvider, {
-  UnsavedChangesNotifier,
-} from "@refinedev/remix-router";
+import { Refine } from "@refinedev/core";
+import routerProvider from "@refinedev/remix-router";
 import { dataProvider } from "@refinedev/supabase";
 import styles from "~/styles/index.css";
-import { supabaseClient } from "~/utility";
 import { ToastContainer } from "react-toastify";
-import { None, notificationProvider } from "./providers/notification-provider";
-import { authProvider } from "./authProvider";
+import DocumentTitleHandler from "./components/document-title-handler";
 import { FilterPaginationProvider } from "./contexts/invoices/filter-pagination";
-import { DocumentTitleHandler } from "./utility/document-title-handler";
+import {
+  authProvider,
+  notificationProvider,
+  resources,
+  options,
+  None,
+} from "./utility/refine";
+import { supabaseClient } from "./utility/supabase";
 
 export const meta: MetaFunction = () => [
   {
@@ -46,22 +49,8 @@ export default function App() {
             dataProvider={dataProvider(supabaseClient)}
             authProvider={authProvider}
             notificationProvider={notificationProvider}
-            resources={[
-              {
-                name: "invoices",
-                list: "/invoices",
-                create: "/invoices/create",
-                edit: "/invoices/edit/:id",
-                show: "/invoices/show/:id",
-                meta: {
-                  canDelete: true,
-                },
-              },
-            ]}
-            options={{
-              useNewQueryKeys: true,
-              projectId: "AGpg3C-5yTuaG-cOKhCy",
-            }}
+            resources={resources}
+            options={options}
           >
             <>
               <Outlet />

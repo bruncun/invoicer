@@ -4,4 +4,4 @@ node_modules
 /build
 /public/build
 .env
-/app/utility/supabaseClient.ts
+/app/utility/supabase/client.ts
