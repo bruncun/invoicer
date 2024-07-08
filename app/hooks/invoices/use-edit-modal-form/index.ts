@@ -16,6 +16,7 @@ import { Asserts, InferType } from "yup";
 import { invoiceSchema } from "~/constants";
 import { Status } from "~/types/invoices";
 import { Tables } from "~/types/supabase";
+import useSyncUserId from "../use-sync-user-id";
 
 const useInvoicesEditModalForm = (
   isInvoicesLoading: boolean,
@@ -55,18 +56,13 @@ const useInvoicesEditModalForm = (
   } = invoicesEditModalForm;
   const { open } = useNotification();
 
-  useEffect(() => {
-    if (!isIdentityLoading && identity) {
-      setValue("user_id", identity.id);
-    }
-  }, [identity]);
+  useSyncUserId(setValue);
 
   const itemsFieldArray = useFieldArray<InferType<typeof invoiceSchema>>({
     control,
     name: "items",
   });
   const invoiceDate = watch("invoice_date") ?? "";
-  console.log("invoiceDate", invoiceDate);
 
   const { mutateAsync: mutateDeleteAsync } = useDelete();
   const { mutateAsync: mutateCreateAsync } = useCreate();
