@@ -6,40 +6,58 @@ import {
 } from "@headlessui/react";
 import { Fragment } from "react/jsx-runtime";
 import Icon from "../icon";
-import { useState } from "react";
 
-const options = [
-  { id: 1, name: "Durward Reynolds" },
-  { id: 2, name: "Kenton Towne" },
-  { id: 3, name: "Therese Wunsch" },
-  { id: 4, name: "Benedict Kessler" },
-  { id: 5, name: "Katelyn Rohan" },
-];
+type SelectProps = {
+  value?: string | number;
+  onChange: (value: string) => void;
+  options: { value: string; label: string }[];
+  buttonClassName?: string;
+  listboxOptionsStyle?: React.CSSProperties;
+};
 
-const Select = () => {
-  const [selected, setSelected] = useState(options[0]);
+const Select = ({
+  value,
+  onChange,
+  options,
+  buttonClassName = "",
+  listboxOptionsStyle = {},
+}: SelectProps) => {
+  const optionsTable = options.reduce((acc, option) => {
+    acc[option.value] = option.label;
+    return acc;
+  }, {} as { [key: string]: string });
 
   return (
-    <Listbox value={selected} onChange={setSelected}>
-      <ListboxButton className="form-select text-start w-100">
-        {selected.name}
+    <Listbox value={value} onChange={onChange}>
+      <ListboxButton
+        className={`form-select text-start w-100 ${buttonClassName}`}
+      >
+        {optionsTable[value as unknown as keyof typeof optionsTable]}
       </ListboxButton>
       <ListboxOptions
-        anchor="bottom"
-        className="dropdown-menu show d-grid gap-1 p-2 rounded-3 border text-body-emphasis"
-        style={{ width: "var(--button-width)" }}
+        className="dropdown-menu show d-grid gap-1 p-2 rounded-3 text-body-emphasis border outline-0 listbox-options"
+        style={{ width: "var(--button-width)", ...listboxOptionsStyle }}
       >
-        {options.map((person) => (
-          <ListboxOption key={person.id} value={person} as={Fragment}>
+        {options.map((option) => (
+          <ListboxOption key={option.value} value={option.value} as={Fragment}>
             {({ focus, selected }) => (
-              <div className="dropdown-item rounded-2 px-2 text-body-emphasis">
+              <div
+                className={`dropdown-item rounded-2 px-2 ${
+                  selected ? "bg-primary text-white" : ""
+                } 
+                          ${
+                            focus && !selected
+                              ? "bg-body-tertiary text-body-emphasis"
+                              : ""
+                          }`}
+              >
                 <Icon
-                  name="check2"
+                  name="check-lg"
                   className={`text-primary me-2 ${
-                    !selected ? "opacity-0" : ""
+                    selected ? "text-white" : "opacity-0"
                   }`}
                 />
-                {person.name}
+                {option.label}
               </div>
             )}
           </ListboxOption>

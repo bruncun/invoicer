@@ -29,7 +29,6 @@ function DatePicker({ selected, label, onChange, disabled }: DatePickerProps) {
     selected ? parseISO(selected) : undefined
   );
 
-  console.log(selectedDate);
   const handleDayPickerSelect = (date?: Date) => {
     if (!date) {
       setSelectedDate(undefined);

@@ -8,7 +8,7 @@ export type InvoicesShow = {
   isError: boolean;
 };
 
-const useInvoicesShow: () => InvoicesShow = () => {
+const useInvoicesShow = () => {
   const { queryResult } = useShow<
     Tables<"invoices"> & { items: Tables<"items">[] },
     HttpError,
