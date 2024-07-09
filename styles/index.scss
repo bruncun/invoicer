@@ -163,6 +163,7 @@ $utilities: map-merge(
 }
 
 .layout {
+  background-color: $gray-100;
   padding-top: 4.125rem;
 
   @include media-breakpoint-up(xl) {
@@ -198,7 +199,7 @@ td {
 
 @include color-mode(light) {
   .mobile-navbar {
-    background-color: $white;
+    background-color: $body-bg;
   }
 }
 

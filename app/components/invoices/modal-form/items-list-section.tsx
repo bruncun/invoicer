@@ -27,7 +27,6 @@ const ItemListSection = () => {
     <ConnectForm>
       {({ control, register, formState: { errors } }) => (
         <>
-          {" "}
           <h5 className="text-muted mb-3 lh-lg">Item List</h5>
           {errors.items?.root && (
             <Alert variant="danger">

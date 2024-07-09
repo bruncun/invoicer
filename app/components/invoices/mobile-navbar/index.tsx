@@ -1,5 +1,6 @@
-import { Button, Navbar, Stack } from "react-bootstrap";
+import { Navbar } from "react-bootstrap";
 import { Tables } from "~/types/supabase";
+import InvoiceActions from "../show/actions";
 
 type InvoiceMobileNavbarProps = {
   modalShow: (id: number) => void;
@@ -20,39 +21,16 @@ const InvoicesMobileNavbar = ({
 }: InvoiceMobileNavbarProps) => (
   <Navbar
     fixed="bottom"
-    className="mobile-navbar shadow-xl justify-content-end px-4 py-3 d-sm-none z-1 border-top"
+    className="mobile-navbar shadow-xl justify-content-end px-4 py-3 d-sm-none z-1 border-top bg-body"
   >
-    <Stack direction="horizontal" gap={2}>
-      {invoice?.id && invoice.status === "draft" && (
-        <Button variant="secondary" onClick={() => modalShow(invoice.id)}>
-          Edit
-        </Button>
-      )}
-      <Button
-        variant="danger"
-        onClick={() => setShowConfirmationModal(!showConfirmationModal)}
-      >
-        Delete
-      </Button>
-      {invoice?.status === "pending" && (
-        <Button
-          variant="primary"
-          onClick={() => onUpdateStatus("paid")}
-          disabled={isUpdateLoading}
-        >
-          {isUpdateLoading ? "Marking..." : "Mark as Paid"}
-        </Button>
-      )}
-      {invoice?.status === "draft" && (
-        <Button
-          variant="primary"
-          onClick={() => onUpdateStatus("pending")}
-          disabled={isUpdateLoading}
-        >
-          {isUpdateLoading ? "Sending..." : "Send Invoice"}
-        </Button>
-      )}
-    </Stack>
+    <InvoiceActions
+      invoice={invoice}
+      modalShow={modalShow}
+      setShowConfirmationModal={setShowConfirmationModal}
+      onUpdateStatus={onUpdateStatus}
+      showConfirmationModal={showConfirmationModal}
+      isUpdateLoading={isUpdateLoading ?? false}
+    />
   </Navbar>
 );
 
