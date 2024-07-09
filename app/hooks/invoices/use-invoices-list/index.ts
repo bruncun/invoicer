@@ -9,7 +9,7 @@ export type InvoicesList = ReturnType<typeof useList> & {
   pageSize: number;
   filters: Status[];
   setCurrentPage: (page: number) => void;
-  setPageSize: (size: number) => void;
+  setPageSize: (value: number) => void;
   setFilters: (filters: Status[]) => void;
 };
 

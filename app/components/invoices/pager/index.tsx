@@ -1,16 +1,8 @@
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOptions,
-  ListboxOption,
-} from "@headlessui/react";
 import { Button, Form } from "react-bootstrap";
-import { onChange } from "react-toastify/dist/core/store";
-import { Fragment } from "react/jsx-runtime";
 import Icon from "~/components/icon";
 import Skeleton from "~/components/skeleton";
 import { InvoicesList } from "~/hooks/invoices/use-invoices-list";
-import InvoiceList from "~/routes/_layout.invoices._index";
+import Select from "~/components/select";
 
 type InvoicesPagerProps = {
   invoicesList: InvoicesList;
@@ -24,13 +16,11 @@ export const InvoicesPager = ({
     setPageSize,
     data,
     isLoading,
-    isRefetching,
   },
 }: InvoicesPagerProps) => {
   const total = data?.total ?? 0;
   const totalPages = Math.ceil(total / pageSize);
   const isNextPageAvailable = total >= pageSize * currentPage + 1;
-  const formattedTotal = new Intl.NumberFormat("en-US").format(total);
 
   if (total === 0 && !isLoading) return null;
 
@@ -55,40 +45,18 @@ export const InvoicesPager = ({
             <Form.Label className="flex-shrink-0 mb-0 me-2">
               Rows per page
             </Form.Label>
-            <Listbox value={pageSize} onChange={setPageSize}>
-              <ListboxButton className="form-select text-start w-100 border-transparent">
-                {pageSize}
-              </ListboxButton>
-              <ListboxOptions
-                className="dropdown-menu show d-grid gap-1 p-2 rounded-3 text-body-emphasis border outline-0 listbox-options"
-                style={{ width: "var(--button-width)", bottom: "2.75rem" }}
-              >
-                {[10, 20, 50, 100].map((size) => (
-                  <ListboxOption key={size} value={size}>
-                    {({ focus, selected }) => (
-                      <div
-                        className={`dropdown-item rounded-2 px-2 ${
-                          selected ? "bg-primary text-white" : ""
-                        }
-                                    ${
-                                      focus && !selected
-                                        ? "bg-body-tertiary text-body-emphasis"
-                                        : ""
-                                    }`}
-                      >
-                        <Icon
-                          name="check-lg"
-                          className={`text-primary me-2 ${
-                            selected ? "text-white" : "opacity-0"
-                          }`}
-                        />
-                        {size}
-                      </div>
-                    )}
-                  </ListboxOption>
-                ))}
-              </ListboxOptions>
-            </Listbox>
+            <Select
+              value={pageSize.toString()}
+              onChange={(value) => setPageSize(Number(value))}
+              options={[10, 20, 50, 100].map((size) => ({
+                value: size.toString(),
+                label: size.toString(),
+              }))}
+              buttonClassName="form-select text-start w-100 border-transparent"
+              listboxOptionsStyle={{
+                bottom: "2.75rem",
+              }}
+            />
           </div>
           <div className="d-flex justify-content-between w-100 d-xl-inline-block w-xl-auto">
             <Button
