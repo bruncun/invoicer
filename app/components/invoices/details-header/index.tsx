@@ -1,9 +1,9 @@
-import { useGo, useNavigation } from "@refinedev/core";
-import { Button, Card, Stack } from "react-bootstrap";
+import { useNavigation } from "@refinedev/core";
+import { Button, Card } from "react-bootstrap";
 import Icon from "~/components/icon";
-import Skeleton from "~/components/skeleton";
 import { StatusBadge } from "~/components/status-badge";
 import useInvoicesShow from "~/hooks/invoices/use-show";
+import InvoiceActions from "../show/actions";
 
 type InvoicesDetailsHeaderProps = {
   modalShow: (id: number) => void;
@@ -38,79 +38,15 @@ export const InvoicesDetailsHeader = ({
                 <StatusBadge status={invoice?.status}></StatusBadge>
               </dd>
             </div>
-            <Stack direction="horizontal" gap={2} className="d-none d-sm-flex">
-              {!invoice ? (
-                <>
-                  <Skeleton
-                    className="w-6 rounded-pill"
-                    style={{ height: "2.625rem" }}
-                  />
-                  <Skeleton
-                    className="w-6 rounded-pill"
-                    style={{ height: "2.625rem" }}
-                  />
-                  <Skeleton
-                    className="w-9 rounded-pill"
-                    style={{ height: "2.625rem" }}
-                  />
-                </>
-              ) : (
-                <>
-                  {invoice && invoice.id && invoice.status === "draft" && (
-                    <Button
-                      variant="secondary"
-                      onClick={() => modalShow(invoice.id)}
-                    >
-                      Edit
-                    </Button>
-                  )}
-                  <Button
-                    variant="danger"
-                    onClick={() =>
-                      setShowConfirmationModal(!showConfirmationModal)
-                    }
-                  >
-                    Delete
-                  </Button>
-                  {invoice?.status === "pending" && (
-                    <Button
-                      variant="primary"
-                      onClick={() => onUpdateStatus("paid")}
-                      disabled={isUpdateLoading}
-                    >
-                      {isUpdateLoading ? (
-                        "Marking..."
-                      ) : (
-                        <>
-                          Mark
-                          <span className="d-none d-sm-inline-block">
-                            &nbsp;as Paid
-                          </span>
-                        </>
-                      )}
-                    </Button>
-                  )}
-                  {invoice?.status === "draft" && (
-                    <Button
-                      variant="primary"
-                      onClick={() => onUpdateStatus("pending")}
-                      disabled={isUpdateLoading}
-                    >
-                      {isUpdateLoading ? (
-                        "Sending..."
-                      ) : (
-                        <>
-                          Send
-                          <span className="d-none d-sm-inline-block">
-                            &nbsp;Invoice
-                          </span>
-                        </>
-                      )}
-                    </Button>
-                  )}
-                </>
-              )}
-            </Stack>
+            <InvoiceActions
+              className="d-none d-sm-flex"
+              invoice={invoice}
+              modalShow={modalShow}
+              setShowConfirmationModal={setShowConfirmationModal}
+              onUpdateStatus={onUpdateStatus}
+              showConfirmationModal={showConfirmationModal}
+              isUpdateLoading={isUpdateLoading}
+            />
           </dl>
         </Card.Body>
       </Card>
