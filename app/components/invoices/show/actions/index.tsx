@@ -56,16 +56,7 @@ const InvoiceActions = ({
               onClick={() => onUpdateStatus("paid")}
               disabled={isUpdateLoading}
             >
-              {isUpdateLoading ? (
-                "Marking..."
-              ) : (
-                <>
-                  Mark
-                  <span className="d-none d-sm-inline-block">
-                    &nbsp;as Paid
-                  </span>
-                </>
-              )}
+              {isUpdateLoading ? "Marking..." : "Mark as Paid"}
             </Button>
           )}
           {invoice?.status === "draft" && (
@@ -74,7 +65,7 @@ const InvoiceActions = ({
               onClick={() => onUpdateStatus("pending")}
               disabled={isUpdateLoading}
             >
-              {isUpdateLoading ? "Sending..." : <>Send Invoice</>}
+              {isUpdateLoading ? "Sending..." : "Send Invoice"}
             </Button>
           )}
         </>

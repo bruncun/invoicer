@@ -6,11 +6,11 @@ import {
   useUpdate,
 } from "@refinedev/core";
 import InvoicesModalForm from "~/components/invoices/modal-form";
-import InvoicesDetails from "~/components/invoices/details";
-import InvoicesDetailsHeader from "~/components/invoices/details-header";
+import InvoicesDetails from "~/components/invoices/show/details";
+import InvoicesDetailsHeader from "~/components/invoices/show/details-header";
 import useInvoicesEditModalForm from "~/hooks/invoices/use-edit-modal-form";
-import InvoicesConfirmDeletionModal from "~/components/invoices/confirm-deletion-modal";
-import InvoicesMobileNavbar from "~/components/invoices/mobile-navbar";
+import InvoicesConfirmDeletionModal from "~/components/invoices/show/confirm-deletion-modal";
+import InvoicesShowMobileNavbar from "~/components/invoices/mobile-navbar";
 import useInvoicesShow from "~/hooks/invoices/use-show";
 import FullScreenError from "~/components/full-screen-error";
 import { useState } from "react";
@@ -89,14 +89,14 @@ export const InvoicesShow = () => {
         showConfirmationModal={showConfirmationModal}
       ></InvoicesDetailsHeader>
       <InvoicesDetails />
-      <InvoicesMobileNavbar
+      <InvoicesShowMobileNavbar
         modalShow={show}
         invoice={invoice}
         onUpdateStatus={onUpdateStatus}
         isUpdateLoading={isUpdateLoading}
         setShowConfirmationModal={setShowConfirmationModal}
         showConfirmationModal={showConfirmationModal}
-      ></InvoicesMobileNavbar>
+      ></InvoicesShowMobileNavbar>
       <InvoicesModalForm
         title={
           <>

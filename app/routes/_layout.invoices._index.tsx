@@ -1,10 +1,10 @@
-import { InvoicesListHeader } from "~/components/invoices/list-header";
-import { InvoicesListGroup } from "~/components/invoices/list-group";
-import InvoicesPager from "~/components/invoices/pager";
+import InvoicesPager from "~/components/invoices/list/pager";
 import InvoicesModalForm from "~/components/invoices/modal-form";
 import useInvoicesCreateModalForm from "~/hooks/invoices/use-create-modal-form";
 import useInvoicesList from "~/hooks/invoices/use-invoices-list";
 import { useGetIdentity } from "@refinedev/core";
+import { InvoicesListGroup } from "~/components/invoices/list/list-group";
+import { InvoicesListHeader } from "~/components/invoices/list/list-header";
 
 export const InvoiceList = () => {
   const invoicesList = useInvoicesList();

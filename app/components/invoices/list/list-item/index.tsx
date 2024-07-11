@@ -78,7 +78,7 @@ const InvoicesListItem = ({ invoice }: { invoice?: Invoice }) => {
             <span className="d-block mb-2">
               {invoice?.description ? `Due ${formattedDate}` : <Skeleton />}
             </span>
-            <Card.Title className="fs-6 text-body-emphasis lh-1">
+            <Card.Title className="fs-6 mb-0 text-body-emphasis lh-1">
               {invoice?.items ? formattedTotal : <Skeleton className="w-6" />}
             </Card.Title>
           </div>

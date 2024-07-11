@@ -1,8 +1,8 @@
 import { Navbar } from "react-bootstrap";
 import { Tables } from "~/types/supabase";
-import InvoiceActions from "../show/actions";
+import InvoiceActions from "../actions";
 
-type InvoiceMobileNavbarProps = {
+type InvoicesShowMobileNavbarProps = {
   modalShow: (id: number) => void;
   invoice?: Tables<"invoices">;
   onUpdateStatus: (status: "pending" | "paid") => void;
@@ -11,14 +11,14 @@ type InvoiceMobileNavbarProps = {
   isUpdateLoading?: boolean;
 };
 
-const InvoicesMobileNavbar = ({
+const InvoicesShowMobileNavbar = ({
   modalShow,
   invoice,
   onUpdateStatus,
   setShowConfirmationModal,
   isUpdateLoading,
   showConfirmationModal,
-}: InvoiceMobileNavbarProps) => (
+}: InvoicesShowMobileNavbarProps) => (
   <Navbar
     fixed="bottom"
     className="mobile-navbar shadow-xl justify-content-end px-4 py-3 d-sm-none z-1 border-top bg-body"
@@ -34,4 +34,4 @@ const InvoicesMobileNavbar = ({
   </Navbar>
 );
 
-export default InvoicesMobileNavbar;
+export default InvoicesShowMobileNavbar;
