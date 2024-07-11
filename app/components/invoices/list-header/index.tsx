@@ -2,7 +2,7 @@ import { Stack, Dropdown, Form, Button } from "react-bootstrap";
 import Icon from "~/components/icon";
 import { STATUSES } from "~/constants";
 import { InvoicesList } from "~/hooks/invoices/use-invoices-list";
-import { Status } from "~/types/invoices";
+import { Enums } from "~/types/supabase";
 
 type InvoiceListHeaderProps = {
   modalShow: () => void;
@@ -11,10 +11,10 @@ type InvoiceListHeaderProps = {
 
 export const InvoicesListHeader = ({
   modalShow,
-  invoicesList: { data, isLoading, filters, setFilters },
+  invoicesList: { data, filters, setFilters },
 }: InvoiceListHeaderProps) => {
   const invoices = data?.data;
-  const handleStatusChange = (status: Status, checked: boolean) =>
+  const handleStatusChange = (status: Enums<"status">, checked: boolean) =>
     checked
       ? setFilters([...filters, status])
       : setFilters(filters.filter((filter) => filter !== status));
@@ -26,7 +26,7 @@ export const InvoicesListHeader = ({
         <Dropdown>
           <Dropdown.Toggle
             variant="link"
-            disabled={invoices?.length === 0 || isLoading}
+            disabled={invoices?.length === 0}
             className="user-select-none"
           >
             Filter

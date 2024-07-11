@@ -63,7 +63,7 @@ export const InvoicesPager = ({
               variant="link"
               className="rounded-3 user-select-none"
               onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 1}
+              disabled={currentPage === 1 || isLoading}
             >
               <Icon name="arrow-left me-2"></Icon>
               Previous

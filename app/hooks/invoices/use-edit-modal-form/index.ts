@@ -14,8 +14,7 @@ import { useEffect, useState } from "react";
 import { useFieldArray } from "react-hook-form";
 import { Asserts, InferType } from "yup";
 import { invoiceSchema } from "~/constants";
-import { Status } from "~/types/invoices";
-import { Tables } from "~/types/supabase";
+import { Enums, Tables } from "~/types/supabase";
 import useSyncUserId from "../use-sync-user-id";
 
 const useInvoicesEditModalForm = (
@@ -112,7 +111,7 @@ const useInvoicesEditModalForm = (
     }
   }, [invoice]);
 
-  const onSubmit = (status: Status) => setValue("status", status);
+  const onSubmit = (status: Enums<"status">) => setValue("status", status);
 
   useEffect(() => {
     if (status && isDirty) handleSubmit(onFinishHandler)();

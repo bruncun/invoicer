@@ -53,7 +53,7 @@ const ItemListSection = () => {
                   <Field
                     control={control}
                     name={`items.${index}.quantity`}
-                    label="Qty."
+                    label="Quantity"
                     register={register}
                     errors={errors}
                     type="number"

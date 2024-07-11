@@ -17,10 +17,16 @@ const InvoicesConfirmDeletionModal = ({
 }: InvoicesConfirmDeletionModal) => (
   <Modal show={show} centered onHide={() => setShowConfirmationModal(false)}>
     <Modal.Header>
-      <Modal.Title>Confirm Deletion</Modal.Title>
+      <Modal.Title className="fs-5 fs-sm-4">Confirm Deletion</Modal.Title>
     </Modal.Header>
     <Modal.Body>
-      <p>Are you sure you want to delete invoice #{invoiceId}?</p>
+      <p>
+        Are you sure you want to delete invoice{" "}
+        <span className="fw-medium text-muted">
+          #<span className="text-body-emphasis">{invoiceId}</span>
+        </span>
+        ?
+      </p>
     </Modal.Body>
     <Modal.Footer>
       <Button variant="link" onClick={() => setShowConfirmationModal(false)}>

@@ -204,6 +204,10 @@ td {
 }
 
 @include color-mode(dark) {
+  .layout {
+    background-color: $gray-950;
+  }
+
   .card,
   .mobile-navbar {
     background-color: $dark;

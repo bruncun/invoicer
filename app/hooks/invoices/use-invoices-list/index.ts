@@ -1,16 +1,16 @@
-import { useState } from "react";
 import { useList, HttpError } from "@refinedev/core";
-import { Invoice, Status } from "~/types/invoices";
+import { Invoice } from "~/types/invoices";
 import { STATUSES } from "~/constants";
 import useFilterPagination from "../use-filter-pagination";
+import { Enums } from "~/types/supabase";
 
 export type InvoicesList = ReturnType<typeof useList> & {
   currentPage: number;
   pageSize: number;
-  filters: Status[];
+  filters: Enums<"status">[];
   setCurrentPage: (page: number) => void;
   setPageSize: (value: number) => void;
-  setFilters: (filters: Status[]) => void;
+  setFilters: (filters: Enums<"status">[]) => void;
 };
 
 /**

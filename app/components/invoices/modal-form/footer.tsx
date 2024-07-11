@@ -3,7 +3,7 @@ import { UseModalFormReturnType } from "@refinedev/react-hook-form";
 import { Button, Stack } from "react-bootstrap";
 import { InferType } from "yup";
 import { invoiceSchema } from "~/constants";
-import { Status } from "~/types/invoices";
+import { Enums } from "~/types/supabase";
 
 type InvoicesModalFooterProps = {
   invoicesCreateModalForm: UseModalFormReturnType<
@@ -28,11 +28,11 @@ const InvoicesModalFooter = ({
   } = methods;
   const { status } = getValues();
 
-  const onSubmit = (status: Status) =>
+  const onSubmit = (status: Enums<"status">) =>
     status === "draft" ? setValue("status", status) : handleSubmit(onFinish)();
 
   return (
-    <div className="justify-content-between d-flex">
+    <div className="justify-content-between d-flex m-0 w-100">
       <Button variant="link" onClick={close} className="ms-0 my-0 me-2">
         Cancel
       </Button>

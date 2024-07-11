@@ -3376,7 +3376,7 @@ textarea.form-control-lg {
 }
 
 .dropdown-menu {
-  --bs-dropdown-zindex: 3;
+  --bs-dropdown-zindex: 2;
   --bs-dropdown-min-width: 10rem;
   --bs-dropdown-padding-x: 0;
   --bs-dropdown-padding-y: 0.5rem;
@@ -12874,6 +12874,9 @@ td {
   background-color: #fff;
 }
 
+[data-bs-theme=dark] .layout {
+  background-color: #020617;
+}
 [data-bs-theme=dark] .card,
 [data-bs-theme=dark] .mobile-navbar {
   background-color: #0f172a;

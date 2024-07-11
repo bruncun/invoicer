@@ -22,7 +22,7 @@ const SlideOver = ({ title, body, footer, visible, close }: SlideOverProps) => (
     scrollable
   >
     <Modal.Header className="px-4">
-      <Modal.Title>{title}</Modal.Title>
+      <Modal.Title className="fs-5 fs-sm-4">{title}</Modal.Title>
     </Modal.Header>
     <Modal.Body className="p-4">{body}</Modal.Body>
     <Modal.Footer className="px-4">{footer}</Modal.Footer>

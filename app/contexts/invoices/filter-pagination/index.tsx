@@ -1,19 +1,13 @@
-import React, {
-  PropsWithChildren,
-  ReactNode,
-  createContext,
-  useContext,
-  useState,
-} from "react";
-import { Status } from "~/types/invoices";
+import { ReactNode, createContext, useState } from "react";
+import { Enums } from "~/types/supabase";
 
 export interface FilterPaginationContextType {
   currentPage: number;
   pageSize: number;
-  filters: Status[];
+  filters: Enums<"status">[];
   setCurrentPage: (page: number) => void;
   setPageSize: (value: number) => void;
-  setFilters: (filters: Status[]) => void;
+  setFilters: (filters: Enums<"status">[]) => void;
 }
 
 const FilterPaginationContext = createContext<
@@ -23,7 +17,7 @@ const FilterPaginationContext = createContext<
 const FilterPaginationProvider = ({ children }: { children: ReactNode }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [filters, setFilters] = useState<Status[]>([]);
+  const [filters, setFilters] = useState<Enums<"status">[]>([]);
 
   return (
     <FilterPaginationContext.Provider

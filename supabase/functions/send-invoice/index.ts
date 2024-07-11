@@ -108,21 +108,12 @@ Deno.serve(async (req) => {
                   <div class="col">
                     <div class="row">
                       <div class="col-6 col-md-12">
-                        <dt>Sent To</dt>
+                        <dt class="mt-1 mt-md-0">Sent To</dt>
                         <dd
                           class="mb-4 text-body-emphasis fw-semibold text-truncate"
                           title="${client_email}"
                         >
                           ${client_email}
-                        </dd>
-                      </div>
-                      <div class="col-6 col-md-12">
-                        <dd>
-                          <dt>Status</dt>
-                          <span class="text-warning-emphasis fs-6 text-capitalize d-flex align-items-center justify-content-center w-8 badge bg-warning-subtle">
-                            <span class="me-2 d-inline-block">•</span>
-                            pending
-                          </span>
                         </dd>
                       </div>
                     </div>
@@ -465,37 +456,6 @@ dd {
 dl {
   margin-top: 0;
   margin-bottom: 1rem;
-}
-.text-warning-emphasis {
-  color: #663900 !important;
-}
-
-.text-capitalize {
-  text-transform: capitalize !important;
-}
-
-.badge {
-  display: inline-block;
-  padding: 0.8125em 0.95em;
-  font-size: 0.75em;
-  font-weight: 700;
-  line-height: 1;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: baseline;
-  border-radius: 0.25rem;
-}
-
-.justify-content-center {
-  justify-content: center !important;
-}
-
-.w-8 {
-  width: 7.5rem !important;
-}
-
-.bg-warning-subtle {
-  background-color: #ffe9cc !important;
 }
 
 .gap-3 {

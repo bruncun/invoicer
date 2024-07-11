@@ -112,7 +112,7 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => {
             <thead>
               <tr>
                 <th>Item Name</th>
-                <th className="text-center">QTY.</th>
+                <th className="text-center">Quantity</th>
                 <th className="text-end">Price</th>
                 <th className="text-end">Total</th>
               </tr>
