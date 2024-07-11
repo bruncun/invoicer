@@ -22,6 +22,11 @@ export const InvoicesPager = ({
   const totalPages = Math.ceil(total / pageSize);
   const isNextPageAvailable = total >= pageSize * currentPage + 1;
 
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   if (total === 0 && !isLoading) return null;
 
   return (
@@ -62,7 +67,7 @@ export const InvoicesPager = ({
             <Button
               variant="link"
               className="rounded-3 user-select-none"
-              onClick={() => setCurrentPage(currentPage - 1)}
+              onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1 || isLoading}
             >
               <Icon name="arrow-left me-2"></Icon>
@@ -71,7 +76,7 @@ export const InvoicesPager = ({
             <Button
               variant="link"
               className="rounded-3 user-select-none"
-              onClick={() => setCurrentPage(currentPage + 1)}
+              onClick={() => handlePageChange(currentPage + 1)}
               disabled={!isNextPageAvailable || isLoading}
             >
               Next

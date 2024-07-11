@@ -10,12 +10,12 @@ import InvoicesDetails from "~/components/invoices/show/details";
 import InvoicesDetailsHeader from "~/components/invoices/show/details-header";
 import useInvoicesEditModalForm from "~/hooks/invoices/use-edit-modal-form";
 import InvoicesConfirmDeletionModal from "~/components/invoices/show/confirm-deletion-modal";
-import InvoicesShowMobileNavbar from "~/components/invoices/mobile-navbar";
 import useInvoicesShow from "~/hooks/invoices/use-show";
 import FullScreenError from "~/components/full-screen-error";
 import { useState } from "react";
 import useInvoiceDelete from "~/hooks/invoices/use-invoice-delete";
 import { supabaseClient } from "~/utility/supabase";
+import InvoicesShowMobileNavbar from "~/components/invoices/show/mobile-navbar";
 
 export const InvoicesShow = () => {
   const identity = useGetIdentity<{
