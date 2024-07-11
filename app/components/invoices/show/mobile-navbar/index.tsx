@@ -1,6 +1,6 @@
-import { Navbar } from "react-bootstrap";
 import { Tables } from "~/types/supabase";
 import InvoiceActions from "../actions";
+import MobileNavbar from "~/components/ui/mobile-navbar";
 
 type InvoicesShowMobileNavbarProps = {
   modalShow: (id: number) => void;
@@ -19,10 +19,7 @@ const InvoicesShowMobileNavbar = ({
   isUpdateLoading,
   showConfirmationModal,
 }: InvoicesShowMobileNavbarProps) => (
-  <Navbar
-    fixed="bottom"
-    className="mobile-navbar shadow-xl justify-content-end px-4 py-3 d-sm-none z-1 border-top bg-body"
-  >
+  <MobileNavbar>
     <InvoiceActions
       invoice={invoice}
       modalShow={modalShow}
@@ -31,7 +28,7 @@ const InvoicesShowMobileNavbar = ({
       showConfirmationModal={showConfirmationModal}
       isUpdateLoading={isUpdateLoading ?? false}
     />
-  </Navbar>
+  </MobileNavbar>
 );
 
 export default InvoicesShowMobileNavbar;

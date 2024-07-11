@@ -1,6 +1,7 @@
-import { Button, Navbar } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { InvoicesList } from "~/hooks/invoices/use-invoices-list";
 import Icon from "~/components/icon";
+import MobileNavbar from "~/components/ui/mobile-navbar";
 
 type InvoicesListMobileNavbarProps = {
   invoicesList: InvoicesList;
@@ -20,10 +21,7 @@ const InvoicesListMobileNavbar = ({
   if (total === 0 && !isLoading) return null;
 
   return (
-    <Navbar
-      fixed="bottom"
-      className="mobile-navbar justify-content-end px-4 py-3 d-sm-none z-1 border-top bg-body"
-    >
+    <MobileNavbar>
       <div className="d-flex justify-content-between w-100 d-xl-inline-block w-xl-auto">
         <Button
           variant="link"
@@ -31,7 +29,7 @@ const InvoicesListMobileNavbar = ({
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1 || isLoading}
         >
-          <Icon name="arrow-left me-2"></Icon>
+          <Icon name="arrow-left me-2" />
           Previous
         </Button>
         <Button
@@ -41,10 +39,10 @@ const InvoicesListMobileNavbar = ({
           disabled={!isNextPageAvailable || isLoading}
         >
           Next
-          <Icon name="arrow-right ms-2"></Icon>
+          <Icon name="arrow-right ms-2" />
         </Button>
       </div>
-    </Navbar>
+    </MobileNavbar>
   );
 };
 

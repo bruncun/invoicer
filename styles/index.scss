@@ -158,7 +158,7 @@ $utilities: map-merge(
 
 .slide-over-modal-dialog {
   @include media-breakpoint-only(md) {
-    top: 4.125rem;
+    top: 3.75rem;
   }
 }
 
@@ -167,7 +167,7 @@ $utilities: map-merge(
 }
 
 .layout {
-  padding-top: 4.125rem;
+  padding-top: 3.75rem;
 
   @include media-breakpoint-up(xl) {
     padding-top: 0;
@@ -176,7 +176,7 @@ $utilities: map-merge(
 
 .ps-xl-navbar {
   @include media-breakpoint-up(xl) {
-    padding-left: 4.125rem;
+    padding-left: 3.75rem;
   }
 }
 

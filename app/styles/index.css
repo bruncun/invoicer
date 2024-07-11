@@ -648,7 +648,7 @@ progress {
 .container-lg,
 .container-md,
 .container-sm {
-  --bs-gutter-x: 1.5rem;
+  --bs-gutter-x: 2rem;
   --bs-gutter-y: 0;
   width: 100%;
   padding-right: calc(var(--bs-gutter-x) * 0.5);
@@ -4602,7 +4602,7 @@ textarea.form-control-lg {
   --bs-toast-zindex: 1090;
   --bs-toast-padding-x: 0.75rem;
   --bs-toast-padding-y: 0.5rem;
-  --bs-toast-spacing: 1.5rem;
+  --bs-toast-spacing: 2rem;
   --bs-toast-max-width: 350px;
   --bs-toast-font-size: 0.875rem;
   --bs-toast-color: #fff;
@@ -12850,7 +12850,7 @@ td {
 
 @media (min-width: 768px) and (max-width: 991.98px) {
   .slide-over-modal-dialog {
-    top: 4.125rem;
+    top: 3.75rem;
   }
 }
 
@@ -12859,7 +12859,7 @@ td {
 }
 
 .layout {
-  padding-top: 4.125rem;
+  padding-top: 3.75rem;
 }
 @media (min-width: 1200px) {
   .layout {
@@ -12869,7 +12869,7 @@ td {
 
 @media (min-width: 1200px) {
   .ps-xl-navbar {
-    padding-left: 4.125rem;
+    padding-left: 3.75rem;
   }
 }
 

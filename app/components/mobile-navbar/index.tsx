@@ -18,7 +18,7 @@ const MobileNavbar = ({
   logout,
   isLoading,
 }: MobileNavbarProps) => (
-  <Navbar expand="xl" bg="dark" className="d-xl-none z-2" fixed="top">
+  <Navbar expand="xl" bg="dark" className="d-xl-none z-3" fixed="top">
     <Navbar.Brand
       className="bg-primary text-white p-3 lh-1 border-top border-bottom border-transparent position-relative overflow-hidden"
       as={Link}

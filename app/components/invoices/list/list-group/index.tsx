@@ -16,7 +16,7 @@ export const InvoicesListGroup = ({
     return (
       <ul
         data-testid="invoices-list"
-        className="list-unstyled mt-3 mb-2 d-flex flex-column gap-2"
+        className="list-unstyled mt-3 mb-5 mb-md-2 d-flex flex-column gap-2"
       >
         {new Array(10).fill(null).map((invoice, idx) => (
           <li key={idx}>
@@ -32,7 +32,7 @@ export const InvoicesListGroup = ({
       {invoices?.length > 0 ? (
         <ul
           data-testid="invoices-list"
-          className="list-unstyled mt-3 mb-2 d-flex flex-column gap-2"
+          className="list-unstyled mt-3 mb-5 mb-md-2 d-flex flex-column gap-2"
         >
           {invoices.map((invoice, idx) => (
             <li key={invoice.id}>
