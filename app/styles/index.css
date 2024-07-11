@@ -12854,8 +12854,11 @@ td {
   }
 }
 
-.layout {
+.bg-shell {
   background-color: #f1f5f9;
+}
+
+.layout {
   padding-top: 4.125rem;
 }
 @media (min-width: 1200px) {
@@ -12874,7 +12877,7 @@ td {
   background-color: #fff;
 }
 
-[data-bs-theme=dark] .layout {
+[data-bs-theme=dark] .bg-shell {
   background-color: #020617;
 }
 [data-bs-theme=dark] .card,
