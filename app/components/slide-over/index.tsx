@@ -21,11 +21,11 @@ const SlideOver = ({ title, body, footer, visible, close }: SlideOverProps) => (
     contentClassName="rounded-start-0 ps-xl-navbar"
     scrollable
   >
-    <Modal.Header className="px-4">
+    <Modal.Header className="px-3 px-md-4">
       <Modal.Title className="fs-5 fs-sm-4">{title}</Modal.Title>
     </Modal.Header>
-    <Modal.Body className="p-4">{body}</Modal.Body>
-    <Modal.Footer className="px-4">{footer}</Modal.Footer>
+    <Modal.Body className="p-3 p-md-4">{body}</Modal.Body>
+    <Modal.Footer className="px-3 px-md-4 py-2 py-md-3">{footer}</Modal.Footer>
   </Modal>
 );
 

@@ -21,56 +21,58 @@ const InvoiceActions = ({
   isUpdateLoading,
 }: InvoiceActionsProps) => {
   return (
-    <Stack direction="horizontal" gap={2} className={className}>
-      {!invoice ? (
-        <>
-          <Skeleton
-            className="w-6 rounded-pill"
-            style={{ height: "2.625rem" }}
-          />
-          <Skeleton
-            className="w-7 rounded-pill"
-            style={{ height: "2.625rem" }}
-          />
-          <Skeleton
-            className="w-8 rounded-pill"
-            style={{ height: "2.625rem" }}
-          />
-        </>
-      ) : (
-        <>
-          {invoice && invoice.id && invoice.status === "draft" && (
-            <Button variant="secondary" onClick={() => modalShow(invoice.id)}>
-              Edit
-            </Button>
-          )}
-          <Button
-            variant="danger"
-            onClick={() => setShowConfirmationModal(!showConfirmationModal)}
-          >
-            Delete
-          </Button>
-          {invoice?.status === "pending" && (
+    <div className="d-flex justify-content-end w-100">
+      <Stack direction="horizontal" gap={2} className={className}>
+        {!invoice ? (
+          <>
+            <Skeleton
+              className="w-6 rounded-pill"
+              style={{ height: "2.625rem" }}
+            />
+            <Skeleton
+              className="w-7 rounded-pill"
+              style={{ height: "2.625rem" }}
+            />
+            <Skeleton
+              className="w-8 rounded-pill"
+              style={{ height: "2.625rem" }}
+            />
+          </>
+        ) : (
+          <>
+            {invoice && invoice.id && invoice.status === "draft" && (
+              <Button variant="secondary" onClick={() => modalShow(invoice.id)}>
+                Edit
+              </Button>
+            )}
             <Button
-              variant="primary"
-              onClick={() => onUpdateStatus("paid")}
-              disabled={isUpdateLoading}
+              variant="danger"
+              onClick={() => setShowConfirmationModal(!showConfirmationModal)}
             >
-              {isUpdateLoading ? "Marking..." : "Mark as Paid"}
+              Delete
             </Button>
-          )}
-          {invoice?.status === "draft" && (
-            <Button
-              variant="primary"
-              onClick={() => onUpdateStatus("pending")}
-              disabled={isUpdateLoading}
-            >
-              {isUpdateLoading ? "Sending..." : "Send Invoice"}
-            </Button>
-          )}
-        </>
-      )}
-    </Stack>
+            {invoice?.status === "pending" && (
+              <Button
+                variant="primary"
+                onClick={() => onUpdateStatus("paid")}
+                disabled={isUpdateLoading}
+              >
+                {isUpdateLoading ? "Marking..." : "Mark as Paid"}
+              </Button>
+            )}
+            {invoice?.status === "draft" && (
+              <Button
+                variant="primary"
+                onClick={() => onUpdateStatus("pending")}
+                disabled={isUpdateLoading}
+              >
+                {isUpdateLoading ? "Sending..." : "Send Invoice"}
+              </Button>
+            )}
+          </>
+        )}
+      </Stack>
+    </div>
   );
 };
 
