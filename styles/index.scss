@@ -162,8 +162,11 @@ $utilities: map-merge(
   }
 }
 
-.layout {
+.bg-shell {
   background-color: $gray-100;
+}
+
+.layout {
   padding-top: 4.125rem;
 
   @include media-breakpoint-up(xl) {
@@ -204,7 +207,7 @@ td {
 }
 
 @include color-mode(dark) {
-  .layout {
+  .bg-shell {
     background-color: $gray-950;
   }
 
