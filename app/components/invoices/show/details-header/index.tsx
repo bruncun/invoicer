@@ -3,7 +3,7 @@ import { Button, Card } from "react-bootstrap";
 import Icon from "~/components/icon";
 import { StatusBadge } from "~/components/status-badge";
 import useInvoicesShow from "~/hooks/invoices/use-show";
-import InvoiceActions from "../show/actions";
+import InvoiceActions from "../actions";
 
 type InvoicesDetailsHeaderProps = {
   modalShow: (id: number) => void;

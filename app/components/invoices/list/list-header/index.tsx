@@ -31,7 +31,7 @@ export const InvoicesListHeader = ({
           >
             Filter
             <span className="d-none d-sm-inline-block">&nbsp;by Status</span>
-            <Icon name="chevron-down text-primary ms-2"></Icon>
+            <Icon name="chevron-down ms-2"></Icon>
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Form className="px-3 py-2">
