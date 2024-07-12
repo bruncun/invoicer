@@ -4808,7 +4808,7 @@ textarea.form-control-lg {
 
 @media (min-width: 576px) {
   .modal {
-    --bs-modal-margin: 2.0625rem;
+    --bs-modal-margin: 1.875rem;
     --bs-modal-box-shadow: var(--bs-box-shadow);
   }
   .modal-dialog {

@@ -36,14 +36,14 @@ const InvoicesListItem = ({ invoice }: { invoice?: Invoice }) => {
           <FormattedId id={invoice?.id}></FormattedId>
         </div>
         <span
-          className={`d-flex me-5 pe-4 w-10 text-muted ${
+          className={`me-5 pe-4 w-10 text-muted text-nowrap ${
             invoice ? "" : "fs-0"
           }`}
         >
           {invoice?.description ? `Due ${formattedDate}` : <Skeleton />}
         </span>
         <span
-          className={`d-flex flex-grow-1 text-muted lh-1 ${
+          className={`text-muted lh-1 text-truncate d-inline-block ${
             invoice ? "" : "fs-0"
           }`}
         >
