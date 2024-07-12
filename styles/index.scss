@@ -174,8 +174,8 @@ $utilities: map-merge(
   }
 }
 
-.ps-xl-navbar {
-  @include media-breakpoint-up(xl) {
+@include media-breakpoint-up(xl) {
+  .ps-xl-navbar {
     padding-left: 3.75rem;
   }
 }
