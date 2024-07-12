@@ -32,6 +32,10 @@ type SelectFieldProps = BaseFieldProps & {
   listboxOptionsStyle?: React.CSSProperties;
 };
 
+type CheckboxFieldProps = BaseFieldProps & {
+  type: "checkbox";
+};
+
 type OtherFieldProps = BaseFieldProps & {
   type?: "text" | "password" | "email" | "number";
 };
@@ -40,6 +44,7 @@ type FieldProps =
   | DateFieldProps
   | CurrencyFieldProps
   | SelectFieldProps
+  | CheckboxFieldProps
   | OtherFieldProps;
 
 const Field = ({
@@ -108,6 +113,29 @@ const Field = ({
               options={options}
               buttonClassName={buttonClassName}
               listboxOptionsStyle={listboxOptionsStyle}
+            />
+          )}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errorMessage}
+        </Form.Control.Feedback>
+      </Form.Group>
+    );
+  }
+
+  if (props.type === "checkbox") {
+    return (
+      <Form.Group>
+        <Controller
+          name={name}
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Form.Check
+              type="checkbox"
+              label={label}
+              id={name}
+              checked={value}
+              onChange={onChange}
             />
           )}
         />

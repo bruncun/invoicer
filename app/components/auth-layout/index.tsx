@@ -1,5 +1,6 @@
 import { Card, Col, Container, Row } from "react-bootstrap";
 import useTheme from "~/hooks/use-theme";
+import authLogo from "~/assets/auth-logo.svg";
 
 type AuthLayoutProps = {
   children: React.ReactNode;
@@ -10,7 +11,7 @@ const AuthLayout = ({ children, title }: AuthLayoutProps) => {
   useTheme();
 
   return (
-    <div className="layout bg-shell ps-xl-navbar position-relative min-vh-100">
+    <div className="bg-shell ps-xl-navbar position-relative min-vh-100">
       <Container className="align-items-center position-absolute top-50 start-50 translate-middle w-100">
         <Row>
           <Col
@@ -20,13 +21,10 @@ const AuthLayout = ({ children, title }: AuthLayoutProps) => {
             className="mx-auto"
           >
             <div className="d-flex align-items-center flex-column w-100">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="26">
-                <path
-                  fill="#674dcf"
-                  fillRule="evenodd"
-                  d="M20.513 0C24.965 2.309 28 6.91 28 12.21 28 19.826 21.732 26 14 26S0 19.826 0 12.21C0 6.91 3.035 2.309 7.487 0L14 12.9z"
-                />
-              </svg>
+              <img
+                src={authLogo}
+                alt="Logo for Invoicer: a purple circle with a missing top slice."
+              />
               <span className="fs-4 fs-xl-3 my-4 text-body-emphasis">
                 {title}
               </span>
