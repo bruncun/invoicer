@@ -1,26 +1,26 @@
 import { useNotification, useUpdatePassword } from "@refinedev/core";
 import { Button, Form } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { credentialsSchema } from "~/constants";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AuthLayout from "~/components/auth-layout";
-
-type UpdatePasswordFormData = {
-  password: string;
-};
+import { InferType } from "yup";
+import Field from "~/components/field";
 
 export default function UpdatePassword() {
+  const methods = useForm<InferType<typeof credentialsSchema>>({
+    resolver: yupResolver(credentialsSchema.omit(["email"])),
+  });
   const {
     handleSubmit,
     register,
+    control,
     formState: { errors },
-  } = useForm<UpdatePasswordFormData>({
-    resolver: yupResolver(credentialsSchema.omit(["email"])),
-  });
+  } = methods;
   const { mutate, isLoading } = useUpdatePassword();
   const { open } = useNotification();
 
-  const onSubmit = async (data: UpdatePasswordFormData) =>
+  const onSubmit = async (data: InferType<typeof credentialsSchema>) =>
     mutate(data, {
       onSuccess: (data) => {
         if (!data.success) return;
@@ -34,28 +34,27 @@ export default function UpdatePassword() {
 
   return (
     <AuthLayout title="Update Password">
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <Form.Group className="mb-3">
-          <Form.Label htmlFor="password">New Password</Form.Label>
-          <Form.Control
-            id="password"
+      <FormProvider {...methods}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Field
+            name="currentPassword"
             type="password"
-            isInvalid={!!errors.password}
-            {...register("password")}
+            label="Current Password"
+            control={control}
+            register={register}
+            errors={errors}
+            className="mb-3"
           />
-          <Form.Control.Feedback type="invalid">
-            {(errors as any)?.password?.message}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Button
-          variant="primary"
-          type="submit"
-          className="w-100"
-          disabled={isLoading}
-        >
-          {isLoading ? "Updating..." : "Update"}
-        </Button>
-      </Form>
+          <Button
+            variant="primary"
+            type="submit"
+            className="w-100"
+            disabled={isLoading}
+          >
+            {isLoading ? "Updating..." : "Update"}
+          </Button>
+        </Form>
+      </FormProvider>
     </AuthLayout>
   );
 }

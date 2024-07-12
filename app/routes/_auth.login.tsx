@@ -26,7 +26,7 @@ export default function Login() {
   return (
     <AuthLayout title="Login">
       <FormProvider {...methods}>
-        <Form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Stack direction="vertical" gap={3} className="mb-3">
             <Field
               name="email"
@@ -45,14 +45,14 @@ export default function Login() {
               errors={errors}
             />
             <div className="d-flex justify-content-between">
-              <Form.Group>
-                <Form.Check
-                  type="checkbox"
-                  label="Remember me"
-                  id="rememberMe"
-                  {...register("rememberMe")}
-                />
-              </Form.Group>
+              <Field
+                name="remember"
+                type="checkbox"
+                label="Remember me"
+                control={control}
+                register={register}
+                errors={errors}
+              />
               <Link to="/forgot-password">Forgot password?</Link>
             </div>
           </Stack>
