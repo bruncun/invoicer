@@ -98,8 +98,7 @@ const ItemListSection = () => {
                         className="mt-4 border-0"
                         onClick={() => remove(index)}
                       >
-                        <Icon name="trash"></Icon>
-                        <span className="visually-hidden">Delete</span>
+                        <Icon name="trash" aria-hidden="true"></Icon>
                       </Button>
                     </OverlayTrigger>
                   </div>
@@ -119,7 +118,8 @@ const ItemListSection = () => {
               })
             }
           >
-            <Icon name="plus-lg" className="me-2"></Icon>Add New Item
+            <Icon name="plus-lg" className="me-2" aria-hidden="true"></Icon>Add
+            New Item
           </Button>
         </>
       )}

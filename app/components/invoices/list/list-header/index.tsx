@@ -23,7 +23,7 @@ export const InvoicesListHeader = ({
     <div className="d-flex justify-content-between align-items-center">
       <h1 className="fs-4 mb-0 lh-1">Invoices</h1>
       <Stack direction="horizontal" gap={2}>
-        <Dropdown>
+        <Dropdown focusFirstItemOnShow>
           <Dropdown.Toggle
             variant="link"
             disabled={invoices?.length === 0}
@@ -31,7 +31,7 @@ export const InvoicesListHeader = ({
           >
             Filter
             <span className="d-none d-sm-inline-block">&nbsp;by Status</span>
-            <Icon name="chevron-down ms-2"></Icon>
+            <Icon name="chevron-down ms-2" aria-hidden="true"></Icon>
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Form className="px-3 py-2">
@@ -54,6 +54,7 @@ export const InvoicesListHeader = ({
           <Icon
             name="plus-circle-fill"
             className="me-2 position-absolute fs-4 start-0 top-0 ms-2 mt-0"
+            aria-hidden="true"
           ></Icon>
           <span className="ms-4 ps-1">New </span>
           <span className="d-none d-sm-inline-block">Invoice</span>

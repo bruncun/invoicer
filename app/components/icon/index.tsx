@@ -1,14 +1,13 @@
-type IconProps = {
+type IconProps = React.HTMLAttributes<HTMLElement> & {
   name: string;
-  className?: string;
-  style?: React.CSSProperties;
 };
 
-const Icon = ({ name, className, style }: IconProps) => (
+const Icon = ({ name, className, style, ...rest }: IconProps) => (
   <i
     suppressHydrationWarning
-    className={`bi bi-${name} ${className ? className : ""}`}
+    className={`bi bi-${name} ${className || ""}`}
     style={style}
+    {...rest}
   ></i>
 );
 

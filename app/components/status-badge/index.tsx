@@ -30,6 +30,7 @@ export const StatusBadge = ({ status }: StatusBadgeProps) => {
         name="circle-fill"
         className="me-2"
         style={{ fontSize: "0.375rem" }}
+        aria-hidden="true"
       ></Icon>
       {status}
     </Badge>

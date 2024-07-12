@@ -11,8 +11,8 @@ import {
 } from "react-day-picker";
 import { formatDisplayDate } from "~/utility/formatters";
 
-const IconLeft = () => <Icon name="chevron-left" />;
-const IconRight = () => <Icon name="chevron-right" />;
+const IconLeft = () => <Icon name="chevron-left" aria-hidden="true" />;
+const IconRight = () => <Icon name="chevron-right" aria-hidden="true" />;
 
 type DatePickerProps = {
   label: string;
