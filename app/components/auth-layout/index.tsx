@@ -24,6 +24,7 @@ const AuthLayout = ({ children, title }: AuthLayoutProps) => {
               <img
                 src={authLogo}
                 alt="Logo for Invoicer: a purple circle with a missing top slice."
+                title="Invoicer"
               />
               <span className="fs-4 fs-xl-3 my-4 text-body-emphasis">
                 {title}

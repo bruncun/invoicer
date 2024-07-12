@@ -59,6 +59,7 @@ const DesktopNavbar = ({
             <Icon
               name={theme === "dark" ? "moon-stars-fill" : "sun-fill"}
               className="fs-4"
+              aria-hidden="true"
             ></Icon>
           </Button>
         </OverlayTrigger>
@@ -76,7 +77,11 @@ const DesktopNavbar = ({
             {isLoading ? (
               <Spinner size="sm" color="body-emphasis"></Spinner>
             ) : (
-              <Icon name="box-arrow-right" className="fs-4"></Icon>
+              <Icon
+                name="box-arrow-right"
+                className="fs-4"
+                aria-hidden="true"
+              ></Icon>
             )}
           </Button>
         </OverlayTrigger>

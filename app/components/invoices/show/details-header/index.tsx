@@ -26,7 +26,7 @@ export const InvoicesDetailsHeader = ({
   return (
     <>
       <Button variant="link" onClick={goBack} className="mb-3 user-select-none">
-        <Icon name="chevron-left" className="me-2"></Icon>
+        <Icon name="chevron-left" className="me-2" aria-hidden="true" />
         Go back
       </Button>
       <Card className="mb-2">
