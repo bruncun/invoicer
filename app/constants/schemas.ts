@@ -18,7 +18,12 @@ const validPassword = yup
 export const credentialsSchema = yup.object().shape({
   email: validEmail.required("Email is required"),
   password: validString.required("Password is required"),
-  rememberMe: yup.boolean().required("Remember me is required"),
+  rememberMe: yup.boolean().optional(),
+});
+
+export const newCredentialsSchema = yup.object().shape({
+  email: validEmail.required("Email is required"),
+  password: validPassword.required("Password is required"),
 });
 
 export const itemSchema = yup.object().shape({

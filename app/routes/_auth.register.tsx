@@ -1,29 +1,28 @@
 import { useNotification, useRegister } from "@refinedev/core";
 import { Link } from "@remix-run/react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Stack } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { credentialsSchema } from "~/constants";
+import { newCredentialsSchema } from "~/constants";
 import AuthLayout from "~/components/auth-layout";
-
-type RegisterFormData = {
-  email: string;
-  password: string;
-};
+import { InferType } from "yup";
+import Field from "~/components/field";
 
 export default function Register() {
   const { mutate: mutateRegister, isLoading: isRegisterLoading } =
     useRegister();
+  const methods = useForm<InferType<typeof newCredentialsSchema>>({
+    resolver: yupResolver(newCredentialsSchema),
+  });
   const {
+    control,
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<RegisterFormData>({
-    resolver: yupResolver(credentialsSchema),
-  });
+  } = methods;
   const { open } = useNotification();
 
-  const onSubmit = (data: RegisterFormData) =>
+  const onSubmit = (data: InferType<typeof newCredentialsSchema>) =>
     mutateRegister(data, {
       onSuccess: (data) => {
         if (!data.success) return;
@@ -38,30 +37,24 @@ export default function Register() {
   return (
     <AuthLayout title="Register">
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Form.Group className="mb-3">
-          <Form.Label htmlFor="email">Email</Form.Label>
-          <Form.Control
-            id="email"
+        <Stack direction="vertical" gap={3} className="mb-3">
+          <Field
+            name="email"
             type="email"
-            isInvalid={!!errors.email}
-            {...register("email")}
+            label="Email"
+            control={control}
+            register={register}
+            errors={errors}
           />
-          <Form.Control.Feedback type="invalid">
-            {(errors as any)?.email?.message}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label htmlFor="password">Password</Form.Label>
-          <Form.Control
-            id="password"
+          <Field
+            name="password"
             type="password"
-            isInvalid={!!errors.password}
-            {...register("password")}
+            label="Password"
+            control={control}
+            register={register}
+            errors={errors}
           />
-          <Form.Control.Feedback type="invalid">
-            {(errors as any)?.password?.message}
-          </Form.Control.Feedback>
-        </Form.Group>
+        </Stack>
         <Button
           variant="primary"
           type="submit"
