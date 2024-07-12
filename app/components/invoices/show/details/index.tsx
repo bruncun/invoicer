@@ -18,24 +18,30 @@ export const InvoicesDetails = () => {
   return (
     <Card>
       <Card.Body className="p-md-5">
-        <div className="d-md-flex justify-content-between mb-3">
-          <div>
+        <Row className="d-md-flex justify-content-between mb-3">
+          <Col xl={9}>
             <FormattedId id={invoice?.id} size="lg"></FormattedId>
             <div className="clearfix mb-1"></div>
-            <p>{invoice?.description ?? <Skeleton className="w-9" />}</p>
-          </div>
-          <address className="text-md-end">
-            <span>{invoice?.sender_street ?? <Skeleton />}</span>
-            <br />
-            <span>{invoice?.sender_city ?? <Skeleton className="w-7" />}</span>
-            <br />
-            <span>
-              {invoice?.sender_postcode ?? <Skeleton className="w-6" />}
-            </span>
-            <br />
-            <span>{invoice?.sender_country ?? <Skeleton />}</span>
-          </address>
-        </div>
+            <p className="text-truncate">
+              {invoice?.description ?? <Skeleton className="w-9" />}
+            </p>
+          </Col>
+          <Col xl={3}>
+            <address className="text-md-end text-truncate">
+              <span>{invoice?.sender_street ?? <Skeleton />}</span>
+              <br />
+              <span>
+                {invoice?.sender_city ?? <Skeleton className="w-7" />}
+              </span>
+              <br />
+              <span>
+                {invoice?.sender_postcode ?? <Skeleton className="w-6" />}
+              </span>
+              <br />
+              <span>{invoice?.sender_country ?? <Skeleton />}</span>
+            </address>
+          </Col>
+        </Row>
         <dl className="mb-5">
           <Row>
             <Col xs={{ span: 6 }} md={{ span: 4 }}>
@@ -55,11 +61,11 @@ export const InvoicesDetails = () => {
             <Col xs={{ span: 6 }} md={{ span: 4 }}>
               <dt>Bill To</dt>
               <dd>
-                <span className="text-body-emphasis fw-medium">
-                  {invoice?.client_name ?? <Skeleton />}
-                </span>
-                <br />
-                <address>
+                <address className="text-truncate">
+                  <span className="text-body-emphasis fw-medium">
+                    {invoice?.client_name ?? <Skeleton />}
+                  </span>
+                  <br />
                   <span>{invoice?.client_street ?? <Skeleton />}</span>
                   <br />
                   <span>
@@ -74,10 +80,10 @@ export const InvoicesDetails = () => {
                 </address>
               </dd>
             </Col>
-            <Col>
+            <Col xl={12}>
               <dt>Sent To</dt>
               <dd>
-                <span className="fw-medium text-body-emphasis">
+                <span className="fw-medium text-body-emphasis text-truncate d-block">
                   {invoice?.client_email ?? <Skeleton className="w-9" />}
                 </span>
               </dd>
@@ -180,16 +186,24 @@ export const ItemListItem: React.FC<ItemListItemProps> = ({ item }) => {
   return (
     <tr>
       <td className="align-top text-body-emphasis fw-medium">
-        {item?.name ?? <Skeleton bg="secondary" />}
+        {<span className="text-truncate d-block">{item?.name}</span> ?? (
+          <Skeleton bg="secondary" />
+        )}
       </td>
       <td className="text-center">
-        {item?.quantity ?? <Skeleton bg="secondary" className="w-3" />}
+        {<span className="text-truncate d-block">{item?.quantity}</span> ?? (
+          <Skeleton bg="secondary" className="w-3" />
+        )}
       </td>
       <td className="align-top text-end">
-        {formattedPrice ?? <Skeleton bg="secondary" className="w-6" />}
+        {<span className="text-truncate d-block">{formattedPrice}</span> ?? (
+          <Skeleton bg="secondary" className="w-6" />
+        )}
       </td>
       <td className="align-top text-body-emphasis fw-medium text-end">
-        {formattedTotal ?? <Skeleton bg="secondary" className="w-7" />}
+        {<span className="text-truncate d-block">{formattedTotal}</span> ?? (
+          <Skeleton bg="secondary" className="w-7" />
+        )}
       </td>
     </tr>
   );
