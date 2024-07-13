@@ -8,6 +8,7 @@ import {
 import Icon from "../icon";
 import { Link } from "@remix-run/react";
 import logoSvg from "~/assets/logo.svg";
+import { TOOLTIP_SHOW } from "~/constants";
 
 type DesktopNavbarProps = {
   theme: string;
@@ -24,10 +25,10 @@ const DesktopNavbar = ({
   isLoading,
   invoicesListUrl,
 }: DesktopNavbarProps) => (
-  <div className="d-xl-flex flex-column flex-shrink-0 d-none bg-dark z-3 vh-100 shadow-xl position-fixed start-0 top-0 rounded-top-end-radius-xl rounded-bottom-end-radius-xl">
+  <div className="d-lg-flex flex-column flex-shrink-0 d-none bg-dark z-3 vh-100 position-fixed start-0 top-0 rounded-top-end-radius-lg rounded-bottom-end-radius-lg">
     <Link
       to={invoicesListUrl}
-      className="d-block py-3 text-decoration-none bg-primary text-white text-center position-relative rounded-top-end-radius-xl rounded-bottom-end-radius-xl overflow-hidden"
+      className="d-block py-3 text-decoration-none bg-primary text-white text-center position-relative rounded-top-end-radius-lg rounded-bottom-end-radius-lg overflow-hidden"
     >
       <img
         src={logoSvg}
@@ -48,6 +49,7 @@ const DesktopNavbar = ({
       <Stack direction="vertical" gap={3}>
         <OverlayTrigger
           placement="right"
+          delay={TOOLTIP_SHOW}
           overlay={<Tooltip id="theme-toggle-tooltip">Toggle Theme</Tooltip>}
         >
           <Button
@@ -65,6 +67,7 @@ const DesktopNavbar = ({
         </OverlayTrigger>
         <OverlayTrigger
           placement="right"
+          delay={TOOLTIP_SHOW}
           overlay={<Tooltip id="logout-tooltip">Logout</Tooltip>}
         >
           <Button

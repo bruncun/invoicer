@@ -1,20 +1,12 @@
 import { Form, FormControlProps } from "react-bootstrap";
-import {
-  Control,
-  Controller,
-  FieldErrors,
-  UseFormRegister,
-} from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import DatePicker from "../date-picker";
 import CurrencyInput from "../currency-input";
 import Select from "../select";
 
 type BaseFieldProps = {
   name: string;
-  label: string;
-  register: UseFormRegister<any>;
-  errors: FieldErrors<any>;
-  control: Control<any>;
+  label?: string;
 } & FormControlProps;
 
 type DateFieldProps = BaseFieldProps & {
@@ -37,7 +29,7 @@ type CheckboxFieldProps = BaseFieldProps & {
 };
 
 type OtherFieldProps = BaseFieldProps & {
-  type?: "text" | "password" | "email" | "number";
+  type?: "text" | "password" | "email" | "number" | "hidden";
 };
 
 type FieldProps =
@@ -47,14 +39,12 @@ type FieldProps =
   | CheckboxFieldProps
   | OtherFieldProps;
 
-const Field = ({
-  name,
-  label,
-  register,
-  control,
-  errors,
-  ...props
-}: FieldProps) => {
+const Field = ({ name, label, ...props }: FieldProps) => {
+  const {
+    register,
+    formState: { errors },
+    control,
+  } = useFormContext();
   const isField = name.match(/\w+\.\d+\.\w+/);
   let errorMessage = (errors as any)?.[name]?.message;
   if (isField) {
@@ -80,7 +70,7 @@ const Field = ({
           )}
         />
         <Form.Control.Feedback type="invalid">
-          {(errors as any)?.payment_due?.message as string}
+          {(errors as any)?.[name]?.message as string}
         </Form.Control.Feedback>
       </Form.Group>
     );
@@ -146,9 +136,15 @@ const Field = ({
     );
   }
 
+  if (props.type === "hidden") {
+    return (
+      <Form.Control type="hidden" id={name} {...register(name)} {...props} />
+    );
+  }
+
   return (
     <Form.Group>
-      <Form.Label htmlFor={name}>{label}</Form.Label>
+      {label && <Form.Label htmlFor={name}>{label}</Form.Label>}
       <Form.Control
         isInvalid={!!errorMessage}
         id={name}

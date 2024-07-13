@@ -5,7 +5,6 @@ import useInvoicesList from "~/hooks/invoices/use-invoices-list";
 import { useGetIdentity } from "@refinedev/core";
 import { InvoicesListGroup } from "~/components/invoices/list/list-group";
 import { InvoicesListHeader } from "~/components/invoices/list/list-header";
-import InvoicesListMobileNavbar from "~/components/invoices/list/mobile-navbar";
 
 export const InvoiceList = () => {
   const invoicesList = useInvoicesList();
@@ -26,7 +25,6 @@ export const InvoiceList = () => {
       <InvoicesListHeader modalShow={show} invoicesList={invoicesList} />
       <InvoicesListGroup invoicesList={invoicesList} />
       <InvoicesPager invoicesList={invoicesList} />
-      <InvoicesListMobileNavbar invoicesList={invoicesList} />
       <InvoicesModalForm
         title="New Invoice"
         invoicesCreateModalForm={invoicesCreateModalForm}

@@ -8,6 +8,7 @@ yup.addMethod(yup.string, "postcode", function (message: string) {
   });
 });
 
+export const TOOLTIP_SHOW = { show: 500, hide: 0 };
 export const TOKEN_KEY = "supabase-token";
 export const STATUSES: Enums<"status">[] = ["draft", "pending", "paid"];
 

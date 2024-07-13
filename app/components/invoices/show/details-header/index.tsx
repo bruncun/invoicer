@@ -32,14 +32,14 @@ export const InvoicesDetailsHeader = ({
       <Card className="mb-2">
         <Card.Body className="px-sm-5 py-3">
           <dl className="d-flex justify-content-between align-items-center">
-            <div className="d-flex align-items-center justify-content-between w-100 justify-content-sm-start w-sm-auto">
+            <div className="d-flex align-items-center justify-content-sm-between w-100 justify-content-sm-start w-sm-auto">
               <dt className="me-3 mb-0">Status</dt>
               <dd>
                 <StatusBadge status={invoice?.status}></StatusBadge>
               </dd>
             </div>
             <InvoiceActions
-              className="d-none d-sm-flex"
+              className="d-none d-md-flex"
               invoice={invoice}
               modalShow={modalShow}
               setShowConfirmationModal={setShowConfirmationModal}

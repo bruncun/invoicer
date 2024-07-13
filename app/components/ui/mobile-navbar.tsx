@@ -9,7 +9,7 @@ const MobileNavbar = ({ children }: MobileNavbarProps) => {
   return (
     <Navbar
       fixed="bottom"
-      className="mobile-navbar px-3 py-2 d-sm-none z-1 border-top bg-body"
+      className="mobile-navbar px-3 py-2 d-md-none z-1 border-top bg-body"
     >
       {children}
     </Navbar>

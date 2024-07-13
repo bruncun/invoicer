@@ -43,7 +43,7 @@ const InvoicesListItem = ({ invoice }: { invoice?: Invoice }) => {
           {invoice?.description ? `Due ${formattedDate}` : <Skeleton />}
         </span>
         <span
-          className={`text-muted lh-1 text-truncate d-inline-block ${
+          className={`text-muted lh-1 text-truncate w-10 d-inline-block ${
             invoice ? "" : "fs-0"
           }`}
         >
@@ -71,7 +71,11 @@ const InvoicesListItem = ({ invoice }: { invoice?: Invoice }) => {
           <Card.Title className="fs-6">
             <FormattedId id={invoice?.id}></FormattedId>
           </Card.Title>
-          {invoice?.client_name ?? <Skeleton className="w-7" />}
+          {(
+            <span className="text-truncate d-inline-block w-10 text-end">
+              {invoice?.client_name}
+            </span>
+          ) ?? <Skeleton className="w-7" />}
         </div>
         <div className="d-flex justify-content-between align-items-center">
           <div>

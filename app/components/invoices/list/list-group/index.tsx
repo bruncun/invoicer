@@ -8,15 +8,15 @@ type InvoicesListGroupProps = {
 };
 
 export const InvoicesListGroup = ({
-  invoicesList: { data, isLoading, isRefetching },
+  invoicesList: { data, isLoading },
 }: InvoicesListGroupProps) => {
   const invoices = data?.data as Array<Invoice>;
 
-  if (isLoading) {
+  if (isLoading)
     return (
       <ul
         data-testid="invoices-list"
-        className="list-unstyled mt-3 mb-5 mb-md-2 d-flex flex-column gap-2"
+        className="list-unstyled my-3 mb-md-2 d-flex flex-column gap-2"
       >
         {new Array(10).fill(null).map((invoice, idx) => (
           <li key={idx}>
@@ -25,16 +25,15 @@ export const InvoicesListGroup = ({
         ))}
       </ul>
     );
-  }
 
   return (
     <>
       {invoices?.length > 0 ? (
         <ul
           data-testid="invoices-list"
-          className="list-unstyled mt-3 mb-5 mb-md-2 d-flex flex-column gap-2"
+          className="list-unstyled my-3 mb-md-2 d-flex flex-column gap-2"
         >
-          {invoices.map((invoice, idx) => (
+          {invoices.map((invoice) => (
             <li key={invoice.id}>
               <InvoicesListItem invoice={invoice} />
             </li>
