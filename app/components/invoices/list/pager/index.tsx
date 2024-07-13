@@ -30,7 +30,7 @@ export const InvoicesPager = ({
   if (total === 0 && !isLoading) return null;
 
   return (
-    <div className="d-none d-md-flex justify-content-between align-items-center">
+    <div className="d-flex justify-content-between align-items-center">
       <div className="d-flex align-items-center justify-content-between w-100">
         <span className="text-muted fs-6 lh-1 d-xl-inline-block d-none">
           {isLoading ? (

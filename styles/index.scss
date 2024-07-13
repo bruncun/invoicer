@@ -169,13 +169,13 @@ $utilities: map-merge(
 .layout {
   padding-top: 3.75rem;
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     padding-top: 0;
   }
 }
 
-@include media-breakpoint-up(xl) {
-  .ps-xl-navbar {
+@include media-breakpoint-up(lg) {
+  .ps-lg-navbar {
     padding-left: 3.75rem;
   }
 }

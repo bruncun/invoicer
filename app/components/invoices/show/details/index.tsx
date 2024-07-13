@@ -142,7 +142,7 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => {
                 className="d-flex justify-content-between align-items-center"
               >
                 <div>
-                  <span className="fw-medium text-body-emphasis d-block">
+                  <span className="fw-medium text-body-emphasis d-block text-truncate w-10">
                     {item.name}
                   </span>
                   <span>
@@ -156,7 +156,7 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => {
         </Card.Body>
       </Card>
       <Card bg="secondary" className="rounded-top-0 mb-6 mb-md-0 text-white">
-        <Card.Body className="px-xl-4 mx-xl-2">
+        <Card.Body className="px-lg-4 mx-lg-2">
           <div className="d-flex justify-content-between align-items-center">
             <span className="mb-0">Amount Due</span>
             {(total && (

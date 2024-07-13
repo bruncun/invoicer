@@ -12,7 +12,7 @@ const Layout = ({ children }: PropsWithChildren) => {
   const invoicesListUrl = listUrl("invoices");
 
   return (
-    <div className="layout bg-shell ps-xl-navbar position-relative min-vh-100">
+    <div className="layout bg-shell ps-lg-navbar position-relative min-vh-100">
       <MobileNavbar
         theme={theme}
         toggleTheme={toggleTheme}
@@ -27,9 +27,11 @@ const Layout = ({ children }: PropsWithChildren) => {
         isLoading={isLoading}
         invoicesListUrl={invoicesListUrl}
       ></DesktopNavbar>
-      <Container className="py-3 py-xl-4 w-100">
+      <Container className="py-3 py-lg-4 w-100">
         <Row>
-          <Col xl={{ span: 8, offset: 2 }}>{children}</Col>
+          <Col lg={9} className="mx-auto">
+            {children}
+          </Col>
         </Row>
       </Container>
     </div>
