@@ -12,12 +12,7 @@ export default function ForgotPassword() {
   const methods = useForm<InferType<typeof credentialsSchema>>({
     resolver: yupResolver(credentialsSchema.omit(["password", "rememberMe"])),
   });
-  const {
-    handleSubmit,
-    control,
-    register,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit } = methods;
   const { mutate, isLoading } = useForgotPassword();
   const { open } = useNotification();
 
@@ -38,14 +33,7 @@ export default function ForgotPassword() {
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Stack direction="vertical" gap={3} className="mb-3">
-            <Field
-              name="email"
-              type="email"
-              label="Email"
-              control={control}
-              register={register}
-              errors={errors}
-            />
+            <Field name="email" type="email" label="Email" />
           </Stack>
           <Button
             variant="primary"

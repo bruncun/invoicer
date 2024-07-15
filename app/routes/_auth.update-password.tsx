@@ -11,12 +11,7 @@ export default function UpdatePassword() {
   const methods = useForm<InferType<typeof credentialsSchema>>({
     resolver: yupResolver(credentialsSchema.omit(["email"])),
   });
-  const {
-    handleSubmit,
-    register,
-    control,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit } = methods;
   const { mutate, isLoading } = useUpdatePassword();
   const { open } = useNotification();
 
@@ -40,9 +35,6 @@ export default function UpdatePassword() {
             name="currentPassword"
             type="password"
             label="Current Password"
-            control={control}
-            register={register}
-            errors={errors}
             className="mb-3"
           />
           <Button

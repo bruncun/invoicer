@@ -14,12 +14,7 @@ export default function Register() {
   const methods = useForm<InferType<typeof newCredentialsSchema>>({
     resolver: yupResolver(newCredentialsSchema),
   });
-  const {
-    control,
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit } = methods;
   const { open } = useNotification();
 
   const onSubmit = (data: InferType<typeof newCredentialsSchema>) =>
@@ -38,22 +33,8 @@ export default function Register() {
     <AuthLayout title="Register">
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Stack direction="vertical" gap={3} className="mb-3">
-          <Field
-            name="email"
-            type="email"
-            label="Email"
-            control={control}
-            register={register}
-            errors={errors}
-          />
-          <Field
-            name="password"
-            type="password"
-            label="Password"
-            control={control}
-            register={register}
-            errors={errors}
-          />
+          <Field name="email" type="email" label="Email" />
+          <Field name="password" type="password" label="Password" />
         </Stack>
         <Button
           variant="primary"
