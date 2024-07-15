@@ -14,12 +14,7 @@ export default function Login() {
   const methods = useForm<InferType<typeof credentialsSchema>>({
     resolver: yupResolver(credentialsSchema),
   });
-  const {
-    handleSubmit,
-    register,
-    control,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit } = methods;
 
   const onSubmit = (data: InferType<typeof credentialsSchema>) => mutate(data);
 
@@ -28,31 +23,10 @@ export default function Login() {
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Stack direction="vertical" gap={3} className="mb-3">
-            <Field
-              name="email"
-              type="email"
-              label="Email"
-              control={control}
-              register={register}
-              errors={errors}
-            />
-            <Field
-              name="password"
-              type="password"
-              label="Password"
-              control={control}
-              register={register}
-              errors={errors}
-            />
+            <Field name="email" type="email" label="Email" />
+            <Field name="password" type="password" label="Password" />
             <div className="d-flex justify-content-between">
-              <Field
-                name="remember"
-                type="checkbox"
-                label="Remember me"
-                control={control}
-                register={register}
-                errors={errors}
-              />
+              <Field name="remember" type="checkbox" label="Remember me" />
               <Link to="/forgot-password">Forgot password?</Link>
             </div>
           </Stack>
