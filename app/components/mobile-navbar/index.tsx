@@ -21,11 +21,11 @@ const MobileNavbar = ({
   <Navbar
     expand="lg"
     bg="dark"
-    className="d-lg-none z-3 rounded-bottom rounded-bottom-md-0"
+    className="d-lg-none z-3 rounded-bottom-4 rounded-bottom-md-0"
     fixed="top"
   >
     <Navbar.Brand
-      className="bg-primary text-white p-3 lh-1 border-top border-bottom border-transparent position-relative overflow-hidden rounded-bottom-start"
+      className="bg-primary text-white p-3 lh-1 border-top border-bottom border-transparent position-relative overflow-hidden rounded-bottom-start-4 rounded-bottom-end-4"
       as={Link}
       to={invoicesListUrl}
     >
