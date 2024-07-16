@@ -23,6 +23,13 @@ $utilities: map-merge(
         4: var(--#{$prefix}border-radius-xl),
       ),
     ),
+    "rounded-bottom-start": (
+      property: border-bottom-left-radius,
+      class: rounded-bottom-start,
+      values: (
+        4: var(--#{$prefix}border-radius-xl),
+      ),
+    ),
     "border-color": (
       property: border-color,
       class: border,
