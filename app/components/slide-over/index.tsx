@@ -18,7 +18,7 @@ const SlideOver = ({ title, body, footer, visible, close }: SlideOverProps) => (
     className="z-3 z-md-2"
     backdropClassName="z-2"
     dialogClassName="ms-sm-0 mt-0 mb-0 min-vh-lg-100 slide-over-modal-dialog"
-    contentClassName="rounded-start-0 ps-lg-navbar"
+    contentClassName="rounded-start-0 slide-over-modal-content"
     scrollable
   >
     <Modal.Header className="px-3 px-md-4">

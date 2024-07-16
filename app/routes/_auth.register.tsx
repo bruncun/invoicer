@@ -1,7 +1,7 @@
 import { useNotification, useRegister } from "@refinedev/core";
 import { Link } from "@remix-run/react";
 import { Button, Form, Stack } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { newCredentialsSchema } from "~/constants";
 import AuthLayout from "~/components/auth-layout";
@@ -31,23 +31,25 @@ export default function Register() {
 
   return (
     <AuthLayout title="Register">
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <Stack direction="vertical" gap={3} className="mb-3">
-          <Field name="email" type="email" label="Email" />
-          <Field name="password" type="password" label="Password" />
-        </Stack>
-        <Button
-          variant="primary"
-          type="submit"
-          className="w-100"
-          disabled={isRegisterLoading}
-        >
-          {isRegisterLoading ? "Registering..." : "Register"}
-        </Button>
-        <Link to="/login" className="d-block mt-3 text-center">
-          Already have an account? Login
-        </Link>
-      </Form>
+      <FormProvider {...methods}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Stack direction="vertical" gap={3} className="mb-3">
+            <Field name="email" type="email" label="Email" />
+            <Field name="password" type="password" label="Password" />
+          </Stack>
+          <Button
+            variant="primary"
+            type="submit"
+            className="w-100"
+            disabled={isRegisterLoading}
+          >
+            {isRegisterLoading ? "Registering..." : "Register"}
+          </Button>
+          <Link to="/login" className="d-block mt-3 text-center">
+            Already have an account? Login
+          </Link>
+        </Form>
+      </FormProvider>
     </AuthLayout>
   );
 }

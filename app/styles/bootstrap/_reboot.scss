@@ -1,0 +1,15 @@
+dl,
+dd {
+  @extend .mb-0;
+}
+
+dt {
+  @extend .fw-normal;
+  @extend .mb-2;
+}
+
+th,
+td {
+  @extend .fw-normal;
+  @extend .text-body;
+}

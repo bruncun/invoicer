@@ -11,7 +11,7 @@ import {
 import { Refine } from "@refinedev/core";
 import routerProvider from "@refinedev/remix-router";
 import { dataProvider } from "@refinedev/supabase";
-import styles from "~/styles/index.css";
+import styles from "~/index.css";
 import { ToastContainer } from "react-toastify";
 import DocumentTitleHandler from "./components/document-title-handler";
 import { FilterPaginationProvider } from "./contexts/invoices/filter-pagination";

@@ -1,0 +1,23 @@
+@include color-mode(light) {
+  .light-bg-gray-100 {
+    background-color: $gray-100;
+  }
+
+  .light-bg-body {
+    background-color: $body-bg;
+  }
+}
+
+@include color-mode(dark) {
+  .dark-bg-gray-950 {
+    background-color: $gray-950;
+  }
+
+  .dark-bg-gray-900 {
+    background-color: $gray-900;
+  }
+
+  .dark-bg-dark {
+    background-color: $dark;
+  }
+}

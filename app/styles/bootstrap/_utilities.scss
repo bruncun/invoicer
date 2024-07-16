@@ -1,0 +1,82 @@
+$utilities: map-merge(
+  $utilities,
+  (
+    "hover-border-color": (
+      property: border-color,
+      class: border,
+      state: hover,
+      values: (
+        primary: $primary,
+      ),
+    ),
+    "rounded-top-end": (
+      property: border-top-right-radius,
+      class: rounded-top-end,
+      values: (
+        4: var(--#{$prefix}border-radius-xl),
+      ),
+    ),
+    "rounded-bottom-end": (
+      property: border-bottom-right-radius,
+      class: rounded-bottom-end,
+      values: (
+        4: var(--#{$prefix}border-radius-xl),
+      ),
+    ),
+    "border-color": (
+      property: border-color,
+      class: border,
+      values:
+        map-merge(
+          map-get(map-get($utilities, "border-color"), "values"),
+          (
+            transparent: transparent,
+          )
+        ),
+    ),
+    "cursor": (
+      property: cursor,
+      class: cursor,
+      values: pointer,
+    ),
+    "font-size":
+      map-merge(
+        map-get($utilities, "font-size"),
+        (
+          responsive: true,
+        )
+      ),
+    "w": (
+      property: width,
+      class: w,
+      responsive: true,
+      values:
+        map-merge(
+          $spacers,
+          (
+            auto: auto,
+            "100": 100%,
+          )
+        ),
+    ),
+    "min-viewport-height": (
+      property: min-height,
+      class: min-vh,
+      responsive: true,
+      values: (
+        100: 100vh,
+      ),
+    ),
+    "z-index": (
+      property: z-index,
+      responsive: true,
+      class: z,
+      values: $zindex-levels,
+    ),
+    "outline": (
+      property: outline,
+      class: outline,
+      values: 0,
+    ),
+  )
+);
