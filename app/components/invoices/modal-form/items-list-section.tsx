@@ -58,7 +58,10 @@ const ItemListSection = () => {
             <Col xs={{ span: 3 }} xl={{ span: 2 }}>
               <Form.Group>
                 <Form.Label>Total</Form.Label>
-                <span className="mt-2 pt-1 border border-transparent d-block lh-1 fw-medium text-body-emphasis text-truncate">
+                <span
+                  className="d-flex align-items-center w-100 text-body-emphasis text-truncate"
+                  style={{ height: "2.375rem" }}
+                >
                   {items[index].quantity &&
                     items[index].price &&
                     formatCurrency(items[index].quantity * items[index].price)}

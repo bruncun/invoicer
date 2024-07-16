@@ -10,7 +10,7 @@
     "dev:css": "npm run generate:css -- --watch",
     "build:refine": "refine build",
     "build:css": "npm run generate:css -- --style=compressed",
-    "generate:css": "sass styles/:app/styles/",
+    "generate:css": "sass app/styles/index.scss app/index.css",
     "start": "refine start ./build/index.js",
     "refine": "refine"
   },

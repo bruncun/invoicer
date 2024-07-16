@@ -18,9 +18,14 @@ const MobileNavbar = ({
   logout,
   isLoading,
 }: MobileNavbarProps) => (
-  <Navbar expand="lg" bg="dark" className="d-lg-none z-3" fixed="top">
+  <Navbar
+    expand="lg"
+    bg="dark"
+    className="d-lg-none z-3 rounded-bottom rounded-bottom-md-0"
+    fixed="top"
+  >
     <Navbar.Brand
-      className="bg-primary text-white p-3 lh-1 border-top border-bottom border-transparent position-relative overflow-hidden"
+      className="bg-primary text-white p-3 lh-1 border-top border-bottom border-transparent position-relative overflow-hidden rounded-bottom-start"
       as={Link}
       to={invoicesListUrl}
     >

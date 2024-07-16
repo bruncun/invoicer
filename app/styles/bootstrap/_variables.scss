@@ -645,6 +645,7 @@ $h6-font-size: $font-size-base;
 
 // scss-docs-start font-sizes
 $font-sizes: (
+  0: 0,
   1: $h1-font-size,
   2: $h2-font-size,
   3: $h3-font-size,
@@ -1544,7 +1545,7 @@ $modal-inner-padding: $spacer;
 
 $modal-footer-margin-between: 0.5rem;
 
-$modal-dialog-margin: 0.5rem;
+$modal-dialog-margin: 1rem;
 $modal-dialog-margin-y-sm-up: 1.875rem;
 
 $modal-title-line-height: 1.375;

@@ -1,0 +1,7 @@
+.layout {
+  padding-top: 3.75rem;
+
+  @include media-breakpoint-up(lg) {
+    padding-top: 0;
+  }
+}

@@ -1,0 +1,11 @@
+.slide-over-modal-dialog {
+  @include media-breakpoint-only(md) {
+    top: 3.75rem;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .slide-over-modal-content {
+    padding-left: 3.75rem;
+  }
+}

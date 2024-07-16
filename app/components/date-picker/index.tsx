@@ -9,7 +9,6 @@ import {
   useDayPicker,
   useNavigation,
 } from "react-day-picker";
-import { formatDisplayDate } from "~/utility/formatters";
 
 const IconLeft = () => <Icon name="chevron-left" aria-hidden="true" />;
 const IconRight = () => <Icon name="chevron-right" aria-hidden="true" />;
@@ -82,12 +81,12 @@ function DatePicker({ selected, label, onChange, disabled }: DatePickerProps) {
               IconRight,
             }}
             classNames={{
-              button: "btn btn-link fw-normal rounded-2 hover-bg-body-tertiary",
+              button: "btn btn-link fw-normal rounded-2 date-picker-button",
               button_reset: "w-100",
               caption: "d-flex justify-content-between align-items-center",
               caption_label: "fw-medium text-body-emphasis",
               cell: "text-center",
-              day: "px-1 py-0 day",
+              day: "px-1 py-0 date-picker-day",
               day_selected: "bg-primary text-white",
               nav_button: "p-1 rounded-2 ",
               head_cell: "text-center",

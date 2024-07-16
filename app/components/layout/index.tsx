@@ -12,7 +12,7 @@ const Layout = ({ children }: PropsWithChildren) => {
   const invoicesListUrl = listUrl("invoices");
 
   return (
-    <div className="layout bg-shell ps-lg-navbar position-relative min-vh-100">
+    <div className="layout light-bg-gray-100 dark-bg-gray-950 ps-lg-navbar position-relative min-vh-100">
       <MobileNavbar
         theme={theme}
         toggleTheme={toggleTheme}
