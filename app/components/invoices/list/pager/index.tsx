@@ -52,7 +52,9 @@ export const InvoicesPager = ({
             </Form.Label>
             <Select
               value={pageSize.toString()}
-              onChange={(value) => setPageSize(Number(value))}
+              onChange={(value) => {
+                setPageSize(Number(value));
+              }}
               options={[10, 20, 50, 100].map((size) => ({
                 value: size.toString(),
                 label: size.toString(),

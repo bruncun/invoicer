@@ -9,21 +9,17 @@ const useInvoiceDelete = () => {
 
   const deleteInvoice = async (invoice?: Invoice) => {
     setIsDeleteLoading(true);
-    await Promise.all([
-      mutateDeleteManyAsync({
-        resource: "items",
-        ids: invoice?.items.map((item) => item.id) as Array<BaseKey>,
-        successNotification: false,
-        mutationMode: "optimistic",
-      }),
-      mutateDeleteAsync({
-        resource: "invoices",
-        id: invoice?.id as BaseKey,
-        successNotification: false,
-        mutationMode: "optimistic",
-      }),
-    ]);
-    setIsDeleteLoading(false);
+    await mutateDeleteManyAsync({
+      resource: "items",
+      ids: invoice?.items.map((item) => item.id) as Array<BaseKey>,
+      successNotification: false,
+    });
+    await mutateDeleteAsync({
+      resource: "invoices",
+      id: invoice?.id as BaseKey,
+      successNotification: false,
+    }),
+      setIsDeleteLoading(false);
   };
 
   return {

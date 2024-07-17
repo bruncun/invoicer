@@ -36,7 +36,7 @@ const useInvoicesCreateModalForm = () => {
       description: "",
       invoice_date: formatDate(new Date(), "yyyy-MM-dd"),
       payment_due: "",
-      payment_terms: 30,
+      payment_terms: "30",
       status: "pending",
       sender_city: "",
       sender_country: "",
@@ -46,13 +46,10 @@ const useInvoicesCreateModalForm = () => {
       items: [{ name: "", quantity: 1, price: 0 }],
     },
   });
-  const {
-    formState: { errors },
-  } = invoicesCreateModalForm;
-  console.log(errors);
   const { open } = useNotification();
 
   const onFinish = async (formData: InferType<typeof invoiceSchema>) => {
+    console.log("onFinish");
     const { invoice_date, ...newInvoice } = formData;
     const isInvoicePending = formData.status === "pending";
     try {

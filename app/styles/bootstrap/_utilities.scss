@@ -74,6 +74,13 @@ $utilities: map-merge(
         100: 100vh,
       ),
     ),
+    "min-dynamic-viewport-height": (
+      property: min-height,
+      class: min-dvh,
+      values: (
+        100: 100dvh,
+      ),
+    ),
     "z-index": (
       property: z-index,
       responsive: true,
