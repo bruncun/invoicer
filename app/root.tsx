@@ -53,7 +53,11 @@ export default function App() {
         >
           <FilterPaginationProvider>
             <Outlet />
-            <ToastContainer transition={None} />
+            <ToastContainer
+              transition={None}
+              autoClose={5000}
+              hideProgressBar
+            />
             <DocumentTitleHandler />
           </FilterPaginationProvider>
         </Refine>
