@@ -3,9 +3,9 @@ import { Id, ToastOptions, cssTransition, toast } from "react-toastify";
 import { ToastMessage, ToastProps } from "~/components/toast-message";
 
 export const None = cssTransition({
-  enter: "none",
-  exit: "d-none",
-  collapse: false,
+  enter: "fake-enter-animation",
+  exit: "fake-exit-animation",
+  collapse: true,
   collapseDuration: 0,
 });
 

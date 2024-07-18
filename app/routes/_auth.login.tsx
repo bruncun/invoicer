@@ -1,4 +1,4 @@
-import { useLogin } from "@refinedev/core";
+import { useLogin, useNotification } from "@refinedev/core";
 import { Link } from "@remix-run/react";
 import { Button, Form, Stack } from "react-bootstrap";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,13 +9,23 @@ import { useForm } from "@refinedev/react-hook-form";
 import { FormProvider } from "react-hook-form";
 import Field from "~/components/field";
 
+let i = 0;
 export default function Login() {
   const { mutate, isLoading } = useLogin();
   const methods = useForm<InferType<typeof credentialsSchema>>({
     resolver: yupResolver(credentialsSchema),
   });
   const { handleSubmit } = methods;
+  const notification = useNotification();
 
+  if (i < 4) {
+    notification.open({
+      type: "success",
+      message: "Welcome back!",
+      description: "Please login to continue.",
+    });
+    i++;
+  }
   const onSubmit = (data: InferType<typeof credentialsSchema>) => mutate(data);
 
   return (

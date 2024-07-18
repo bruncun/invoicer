@@ -12,13 +12,10 @@
   --toastify-icon-color-success: var(--toastify-color-success);
   --toastify-icon-color-warning: var(--toastify-color-warning);
   --toastify-icon-color-error: var(--toastify-color-error);
-  --toastify-toast-width: 378px;
-  --toastify-toast-offset: 1.5rem;
+  --toastify-toast-width: 416px;
+  --toastify-toast-offset: 1rem;
   --toastify-toast-top: 0;
-  --toastify-toast-right: max(
-    var(--toastify-toast-offset),
-    env(safe-area-inset-right)
-  );
+  --toastify-toast-right: 0;
   --toastify-toast-left: max(
     var(--toastify-toast-offset),
     env(safe-area-inset-left)
@@ -27,7 +24,7 @@
     var(--toastify-toast-offset),
     env(safe-area-inset-bottom)
   );
-  --toastify-toast-background: #fff;
+  --toastify-toast-background: transparent;
   --toastify-toast-min-height: 64px;
   --toastify-toast-max-height: 800px;
   --toastify-toast-bd-radius: 6px;
@@ -60,19 +57,54 @@
 
 @import "../../../node_modules/react-toastify/scss/toastContainer";
 @import "../../../node_modules/react-toastify/scss/toast";
+@import "../../../node_modules/react-toastify/scss/theme";
+@import "../../../node_modules/react-toastify/scss/closeButton";
+@import "../../../node_modules/react-toastify/scss/progressBar";
+@import "../../../node_modules/react-toastify/scss/icons";
 
 .Toastify__close-button {
   @extend .d-none;
 }
+
 .Toastify__toast-icon {
   @extend .d-none;
 }
+
 .Toastify__toast {
-  @extend .mb-0;
+  @extend .mb-2;
   @extend .p-0;
 
   box-shadow: none;
 }
+.Toastify__toast-container {
+  @extend .px-3;
+  @extend .py-4;
+}
 .Toastify__toast-body {
   @extend .p-0;
+}
+
+@keyframes fake-enter {
+  0% {
+    opacity: 0;
+  }
+}
+
+.fake-enter-animation {
+  animation: fake-enter 0s;
+}
+
+@keyframes fake-exit {
+  0% {
+    opacity: 1;
+  }
+}
+
+.fake-exit-animation {
+  animation: fake-exit 0s;
+}
+
+.Toastify__toast-theme--light,
+.Toastify__toast-theme--colored.Toastify__toast--default {
+  background: transparent !important;
 }
