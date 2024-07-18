@@ -1,4 +1,4 @@
-import { useNavigation } from "@refinedev/core";
+import { useGo } from "@refinedev/core";
 import { Button, Card } from "react-bootstrap";
 import Icon from "~/components/icon";
 import { StatusBadge } from "~/components/status-badge";
@@ -21,11 +21,18 @@ export const InvoicesDetailsHeader = ({
   showConfirmationModal,
 }: InvoicesDetailsHeaderProps) => {
   const { invoice } = useInvoicesShow();
-  const { goBack } = useNavigation();
+  const go = useGo();
+
+  const onGoBackClick = () =>
+    go({ to: { resource: "invoices", action: "list" } });
 
   return (
     <>
-      <Button variant="link" onClick={goBack} className="mb-3 user-select-none">
+      <Button
+        variant="link"
+        onClick={onGoBackClick}
+        className="mb-3 user-select-none"
+      >
         <Icon name="chevron-left" className="me-2" aria-hidden="true" />
         Go back
       </Button>
