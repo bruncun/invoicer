@@ -112,7 +112,8 @@ export const invoiceSchema = yup.object().shape({
     .max(255, "Sender street must be 255 characters or less")
     .required("Sender street is required"),
   status: yup
-    .mixed<Enums<"status">>()
+    .mixed<Enums<"status"> | "">()
+    .default("")
     .required("Status is required")
     .oneOf(STATUSES, "Invalid status"),
   user_id: yup.string().trim().optional(),

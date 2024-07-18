@@ -1,10 +1,11 @@
-import { Tables } from "~/types/supabase";
 import InvoiceActions from "../actions";
 import MobileNavbar from "~/components/ui/mobile-navbar";
+import { InferType } from "yup";
+import { invoiceSchema } from "~/constants";
 
 type InvoicesShowMobileNavbarProps = {
   modalShow: (id: number) => void;
-  invoice?: Tables<"invoices">;
+  invoice?: InferType<typeof invoiceSchema>;
   onUpdateStatus: (status: "pending" | "paid") => void;
   setShowConfirmationModal: (value: boolean) => void;
   showConfirmationModal: boolean;

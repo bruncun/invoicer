@@ -1,14 +1,18 @@
+import { UseModalFormReturnType } from "@refinedev/react-hook-form";
 import { useEffect } from "react";
-import { UseFormWatch, UseFormHandleSubmit } from "react-hook-form";
 import { InferType } from "yup";
 import { invoiceSchema } from "~/constants";
 
 const useSyncStatus = (
-  watch: UseFormWatch<InferType<typeof invoiceSchema>>,
-  handleSubmit: UseFormHandleSubmit<InferType<typeof invoiceSchema>>,
-  isDirty: boolean,
+  invoicesModalForm: UseModalFormReturnType<InferType<typeof invoiceSchema>>,
   onFinish: (formData: InferType<typeof invoiceSchema>) => Promise<void>
 ) => {
+  const {
+    handleSubmit,
+    watch,
+    formState: { isDirty },
+  } = invoicesModalForm;
+
   const status = watch("status");
 
   useEffect(() => {

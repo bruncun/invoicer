@@ -1,31 +1,22 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  BaseKey,
-  HttpError,
-  useCreate,
-  useDelete,
-  useGetIdentity,
-  useNotification,
-  useUpdate,
-} from "@refinedev/core";
+import { HttpError, useGetIdentity, useNotification } from "@refinedev/core";
 import { useModalForm } from "@refinedev/react-hook-form";
 import { parseISO, formatDate, sub } from "date-fns";
 import { useEffect, useState } from "react";
 import { useFieldArray } from "react-hook-form";
 import { Asserts, InferType } from "yup";
 import { invoiceSchema } from "~/constants";
-import { Enums, Tables } from "~/types/supabase";
-import useSyncUserId from "../use-sync-user-id";
+import { Enums } from "~/types/supabase";
+import useInvoiceUpdate from "../use-update";
 
 const useInvoicesEditModalForm = (
   isInvoicesLoading: boolean,
-  invoice?: Tables<"invoices"> & { items: Tables<"items">[] }
+  invoice?: InferType<typeof invoiceSchema>
 ) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { data: identity, isLoading: isIdentityLoading } = useGetIdentity<{
     id: string;
   }>();
-
+  const { updateInvoice } = useInvoiceUpdate();
   const invoicesEditModalForm = useModalForm<
     InferType<typeof invoiceSchema>,
     HttpError,
@@ -35,6 +26,7 @@ const useInvoicesEditModalForm = (
     refineCoreProps: {
       resource: "invoices",
       action: "edit",
+      successNotification: false,
       meta: {
         select: "*, items(*)",
       },
@@ -44,30 +36,15 @@ const useInvoicesEditModalForm = (
   const {
     control,
     reset,
-    modal: { visible, close, show: modalShow },
-    handleSubmit,
-    formState: { errors, isDirty },
-    watch,
-    register,
-    getValues,
-    refineCore: { onFinish },
+    modal: { close },
     setValue,
   } = invoicesEditModalForm;
   const { open } = useNotification();
-
-  useSyncUserId(setValue);
 
   const itemsFieldArray = useFieldArray<InferType<typeof invoiceSchema>>({
     control,
     name: "items",
   });
-  const invoiceDate = watch("invoice_date") ?? "";
-
-  const { mutateAsync: mutateDeleteAsync } = useDelete();
-  const { mutateAsync: mutateCreateAsync } = useCreate();
-  const { mutateAsync: mutateUpdateAsync } = useUpdate();
-
-  const status = watch("status");
 
   useEffect(() => {
     if (!isInvoicesLoading && invoice) {
@@ -77,7 +54,7 @@ const useInvoicesEditModalForm = (
       const formatted_invoice_date = formatDate(invoice_date, "yyyy-MM-dd");
       setValue("invoice_date", formatted_invoice_date);
 
-      const newInvoice = {
+      const newInvoice: InferType<typeof invoiceSchema> = {
         sender_street: invoice.sender_street,
         sender_city: invoice.sender_city,
         sender_postcode: invoice.sender_postcode,
@@ -89,12 +66,13 @@ const useInvoicesEditModalForm = (
         client_postcode: invoice.client_postcode,
         client_country: invoice.client_country,
         payment_due: invoice.payment_due,
-        payment_terms: "30",
+        payment_terms: invoice.payment_terms,
         invoice_date: formatted_invoice_date,
         description: invoice.description,
         items: invoice.items,
         id: invoice.id,
         user_id: invoice.user_id,
+        status: invoice.status,
       };
 
       reset(newInvoice);
@@ -113,21 +91,7 @@ const useInvoicesEditModalForm = (
 
   const onSubmit = (status: Enums<"status">) => setValue("status", status);
 
-  useEffect(() => {
-    if (status && isDirty) handleSubmit(onFinishHandler)();
-  }, [status]);
-
-  const onFinishHandler = async (formData: Asserts<typeof invoiceSchema>) => {
-    setIsSubmitting(true);
-    const newItems = formData.items.filter((item) => !item.id);
-    const deletedItems =
-      invoice?.items.filter((item: Tables<"items">) => {
-        return !formData.items.some((newItem) => newItem.id === item.id);
-      }) ?? [];
-    const updatedItems = formData.items.filter((item) => item.id) as Array<
-      Tables<"items">
-    >;
-
+  const onFinish = async (formData: Asserts<typeof invoiceSchema>) => {
     try {
       const newInvoice = {
         sender_street: formData.sender_street,
@@ -141,54 +105,15 @@ const useInvoicesEditModalForm = (
         client_country: formData.client_country,
         client_postcode: formData.client_postcode,
         payment_due: formData.payment_due,
-        payment_terms: parseInt(formData.payment_terms),
+        payment_terms: formData.payment_terms,
         description: formData.description,
         status: formData.status,
         user_id: identity?.id,
+        items: formData.items,
+        id: formData.id,
       };
+      updateInvoice(newInvoice);
 
-      await Promise.all([
-        ...updatedItems.map((item) =>
-          mutateUpdateAsync({
-            resource: "items",
-            id: item.id,
-            values: {
-              invoice_id: invoice?.id,
-              name: item.name,
-              quantity: item.quantity,
-              price: item.price,
-              user_id: identity?.id,
-            },
-            successNotification: false,
-          })
-        ),
-        ...newItems.map((item) =>
-          mutateCreateAsync({
-            resource: "items",
-            values: {
-              invoice_id: invoice?.id,
-              name: item.name,
-              quantity: item.quantity,
-              price: item.price,
-              user_id: identity?.id,
-            },
-            successNotification: false,
-          })
-        ),
-        ...deletedItems.map((item) =>
-          mutateDeleteAsync({
-            resource: "items",
-            id: item.id,
-            successNotification: false,
-          })
-        ),
-        mutateUpdateAsync({
-          resource: "invoices",
-          id: invoice?.id as BaseKey,
-          values: newInvoice,
-          successNotification: false,
-        }),
-      ]);
       open?.({
         description: `Invoice updated${
           formData.status === "draft" ? "" : " and sent"
@@ -199,7 +124,6 @@ const useInvoicesEditModalForm = (
 
       close();
       reset();
-      setIsSubmitting(false);
     } catch (error) {
       console.error("One of the mutations failed", error);
     }
@@ -208,7 +132,7 @@ const useInvoicesEditModalForm = (
   return {
     invoicesEditModalForm,
     itemsFieldArray,
-    onFinish: onFinishHandler,
+    onFinish,
     onSubmit,
   };
 };

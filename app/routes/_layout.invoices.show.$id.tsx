@@ -105,7 +105,7 @@ export const InvoicesShow = () => {
           </>
         }
         identity={identity}
-        invoicesCreateModalForm={invoicesEditModalForm}
+        invoicesModalForm={invoicesEditModalForm}
         onFinish={onFinish}
       ></InvoicesModalForm>
       <InvoicesConfirmDeletionModal

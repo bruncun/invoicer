@@ -3,10 +3,9 @@ import { UseModalFormReturnType } from "@refinedev/react-hook-form";
 import { Button, Stack } from "react-bootstrap";
 import { InferType } from "yup";
 import { invoiceSchema } from "~/constants";
-import { Enums } from "~/types/supabase";
 
 type InvoicesModalFooterProps = {
-  invoicesCreateModalForm: UseModalFormReturnType<
+  invoicesModalForm: UseModalFormReturnType<
     InferType<typeof invoiceSchema>,
     HttpError,
     InferType<typeof invoiceSchema>
@@ -16,22 +15,27 @@ type InvoicesModalFooterProps = {
 
 const InvoicesModalFooter = ({
   onFinish,
-  invoicesCreateModalForm,
+  invoicesModalForm,
 }: InvoicesModalFooterProps) => {
-  const methods = invoicesCreateModalForm;
+  const methods = invoicesModalForm;
   const {
     modal: { close },
     handleSubmit,
     setValue,
     getValues,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting },
   } = methods;
-  const { status } = getValues();
+  const status = getValues("status");
 
-  const onSubmit = (status: Enums<"status">) =>
-    status === "draft" && isValid
-      ? setValue("status", status)
-      : handleSubmit(onFinish)();
+  const onSaveAsDraft = () =>
+    status === "draft"
+      ? handleSubmit(onFinish)()
+      : setValue("status", "draft", { shouldDirty: true });
+
+  const onSubmit = () =>
+    status === "pending"
+      ? handleSubmit(onFinish)()
+      : setValue("status", "pending", { shouldDirty: true });
 
   return (
     <div className="justify-content-between d-flex m-0 w-100">
@@ -42,7 +46,7 @@ const InvoicesModalFooter = ({
         <Button
           variant="secondary"
           form="invoice-form"
-          onClick={() => onSubmit("draft")}
+          onClick={onSaveAsDraft}
           disabled={isSubmitting}
         >
           {isSubmitting && status === "draft" ? (
@@ -57,7 +61,7 @@ const InvoicesModalFooter = ({
         <Button
           variant="primary"
           form="invoice-form"
-          onClick={() => onSubmit("pending")}
+          onClick={onSubmit}
           disabled={isSubmitting}
         >
           {isSubmitting && status === "pending" ? "Sending..." : "Save & Send"}
