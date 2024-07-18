@@ -43,22 +43,20 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <FilterPaginationProvider>
-          <Refine
-            routerProvider={routerProvider}
-            dataProvider={dataProvider(supabaseClient)}
-            authProvider={authProvider}
-            notificationProvider={notificationProvider}
-            resources={resources}
-            options={options}
-          >
-            <>
-              <Outlet />
-              <ToastContainer transition={None} />
-              <DocumentTitleHandler />
-            </>
-          </Refine>
-        </FilterPaginationProvider>
+        <Refine
+          routerProvider={routerProvider}
+          dataProvider={dataProvider(supabaseClient)}
+          authProvider={authProvider}
+          notificationProvider={notificationProvider}
+          resources={resources}
+          options={options}
+        >
+          <FilterPaginationProvider>
+            <Outlet />
+            <ToastContainer transition={None} />
+            <DocumentTitleHandler />
+          </FilterPaginationProvider>
+        </Refine>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

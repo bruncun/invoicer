@@ -1,18 +1,18 @@
 import { HttpError, useShow } from "@refinedev/core";
-import { Invoice } from "~/types/invoices";
-import { Tables } from "~/types/supabase";
+import { InferType } from "yup";
+import { invoiceSchema } from "~/constants";
 
 export type InvoicesShow = {
-  invoice: Invoice | undefined;
+  invoice: InferType<typeof invoiceSchema> | undefined;
   isLoading: boolean;
   isError: boolean;
 };
 
 const useInvoicesShow = () => {
   const { queryResult } = useShow<
-    Tables<"invoices"> & { items: Tables<"items">[] },
+    InferType<typeof invoiceSchema>,
     HttpError,
-    Tables<"invoices"> & { items: Tables<"items">[] }
+    InferType<typeof invoiceSchema>
   >({
     meta: {
       select: "*, items(*)",
@@ -20,7 +20,7 @@ const useInvoicesShow = () => {
   });
   const { data, isLoading, isError } = queryResult;
 
-  const invoice = data?.data as Invoice;
+  const invoice = data?.data as InferType<typeof invoiceSchema>;
 
   if (!invoice && !isLoading) {
     throw new Response(null, {

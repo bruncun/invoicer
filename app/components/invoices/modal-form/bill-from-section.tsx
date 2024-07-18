@@ -4,8 +4,6 @@ import Field from "~/components/field";
 const BillFromSection = () => (
   <>
     <h6 className="text-primary mb-2">Bill From</h6>
-    <Field name="user_id" type="hidden" />
-    <Field name="payment_due" type="hidden" />
     <Stack gap={3} className="mb-5">
       <Field
         autoComplete="address"

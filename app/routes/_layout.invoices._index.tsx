@@ -27,7 +27,7 @@ export const InvoiceList = () => {
       <InvoicesPager invoicesList={invoicesList} />
       <InvoicesModalForm
         title="New Invoice"
-        invoicesCreateModalForm={invoicesCreateModalForm}
+        invoicesModalForm={invoicesCreateModalForm}
         identity={identity}
         onFinish={onFinish}
       />

@@ -1,13 +1,14 @@
 import { useDeleteMany, useDelete, BaseKey } from "@refinedev/core";
 import { useState } from "react";
-import { Invoice } from "~/types/invoices";
+import { InferType } from "yup";
+import { invoiceSchema } from "~/constants";
 
 const useInvoiceDelete = () => {
   const { mutateAsync: mutateDeleteManyAsync } = useDeleteMany();
   const { mutateAsync: mutateDeleteAsync } = useDelete();
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
-  const deleteInvoice = async (invoice?: Invoice) => {
+  const deleteInvoice = async (invoice?: InferType<typeof invoiceSchema>) => {
     setIsDeleteLoading(true);
     await mutateDeleteManyAsync({
       resource: "items",

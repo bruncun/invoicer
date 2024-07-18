@@ -19,7 +19,7 @@ type InvoicesModalFormProps = {
   identity: UseGetIdentityReturnType<{
     id: string;
   }>;
-  invoicesCreateModalForm: UseModalFormReturnType<
+  invoicesModalForm: UseModalFormReturnType<
     InferType<typeof invoiceSchema>,
     HttpError,
     InferType<typeof invoiceSchema>
@@ -31,20 +31,19 @@ const InvoicesModalForm = ({
   onFinish,
   identity,
   title,
-  invoicesCreateModalForm,
+  invoicesModalForm,
 }: InvoicesModalFormProps) => {
-  const methods = invoicesCreateModalForm;
+  invoicesModalForm;
   const {
     modal: { visible, close },
     handleSubmit,
     watch,
     setValue,
     getValues,
-    formState: { isDirty },
-  } = methods;
+  } = invoicesModalForm;
 
   useSyncUserId(setValue, identity);
-  useSyncStatus(watch, handleSubmit, isDirty, onFinish);
+  useSyncStatus(invoicesModalForm, onFinish);
   useSyncPaymentDue(watch, setValue, getValues);
 
   return (
@@ -53,7 +52,7 @@ const InvoicesModalForm = ({
       visible={visible}
       close={close}
       body={
-        <FormProvider {...methods}>
+        <FormProvider {...invoicesModalForm}>
           <form id="invoice-form" onSubmit={handleSubmit(onFinish)}>
             <BillFromSection />
             <BillToSection />
@@ -64,7 +63,7 @@ const InvoicesModalForm = ({
       footer={
         <InvoicesModalFooter
           onFinish={onFinish}
-          invoicesCreateModalForm={invoicesCreateModalForm}
+          invoicesModalForm={invoicesModalForm}
         />
       }
     />
