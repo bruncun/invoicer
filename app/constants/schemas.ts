@@ -26,6 +26,11 @@ export const newCredentialsSchema = yup.object().shape({
   password: validPassword.required("Password is required"),
 });
 
+const validDate = validString.matches(
+  /^\d{4}-\d{2}-\d{2}$/,
+  "Date must be in the format YYYY-MM-DD"
+);
+
 export const itemSchema = yup.object().shape({
   id: yup.number().optional(),
   name: validString
@@ -40,12 +45,9 @@ export const itemSchema = yup.object().shape({
     .min(1, "Quantity must be at least 1")
     .required("Quantity is required"),
   user_id: yup.string().trim().optional(),
+  invoice_id: yup.string().trim().optional(),
+  created_at: validDate.optional(),
 });
-
-const validDate = validString.matches(
-  /^\d{4}-\d{2}-\d{2}$/,
-  "Date must be in the format YYYY-MM-DD"
-);
 
 export const invoiceSchema = yup.object().shape({
   id: yup.number().optional(),
@@ -122,6 +124,7 @@ export const invoiceSchema = yup.object().shape({
     .of(itemSchema)
     .min(1, "At least one item is required")
     .required("At least one item is required"),
+  created_at: validDate.optional(),
 });
 
 export const schemas = {

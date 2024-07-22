@@ -6,7 +6,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useRouteError,
 } from "@remix-run/react";
 import { Refine } from "@refinedev/core";
 import routerProvider from "@refinedev/remix-router";
@@ -32,8 +31,6 @@ export const meta: MetaFunction = () => [
 ];
 
 export default function App() {
-  const error = useRouteError();
-
   return (
     <html lang="en">
       <head>

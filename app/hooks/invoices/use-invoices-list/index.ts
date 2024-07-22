@@ -1,8 +1,8 @@
 import { useList, HttpError } from "@refinedev/core";
-import { Invoice } from "~/types/invoices";
-import { STATUSES } from "~/constants";
+import { invoiceSchema, STATUSES } from "~/constants";
 import useFilterPagination from "../use-filter-pagination";
 import { Enums } from "~/types/supabase";
+import { InferType } from "yup";
 
 export type InvoicesList = ReturnType<typeof useList> & {
   currentPage: number;
@@ -27,7 +27,7 @@ const useInvoicesList = (): InvoicesList => {
     setFilters,
   } = useFilterPagination();
 
-  const invoicesList = useList<Invoice, HttpError>({
+  const invoicesList = useList<InferType<typeof invoiceSchema>, HttpError>({
     resource: "invoices",
     filters: [
       {

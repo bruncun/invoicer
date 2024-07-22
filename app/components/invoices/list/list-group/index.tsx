@@ -1,7 +1,8 @@
 import InvoicesListItem from "../list-item";
 import InvoicesEmptyState from "../empty-state";
-import { Invoice } from "~/types/invoices";
 import { InvoicesList } from "~/hooks/invoices/use-invoices-list";
+import { InferType } from "yup";
+import { invoiceSchema } from "~/constants";
 
 type InvoicesListGroupProps = {
   invoicesList: InvoicesList;
@@ -10,7 +11,7 @@ type InvoicesListGroupProps = {
 export const InvoicesListGroup = ({
   invoicesList: { data, isLoading },
 }: InvoicesListGroupProps) => {
-  const invoices = data?.data as Array<Invoice>;
+  const invoices = data?.data as Array<InferType<typeof invoiceSchema>>;
 
   if (isLoading)
     return (
