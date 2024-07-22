@@ -1,23 +1,18 @@
 import { Button, Form } from "react-bootstrap";
 import Icon from "~/components/icon";
 import Skeleton from "~/components/skeleton";
-import { InvoicesList } from "~/hooks/invoices/use-invoices-list";
+import useInvoicesList from "~/hooks/invoices/use-invoices-list";
 import Select from "~/components/select";
 
-type InvoicesPagerProps = {
-  invoicesList: InvoicesList;
-};
-
-export const InvoicesPager = ({
-  invoicesList: {
+export const InvoicesPager = () => {
+  const {
     currentPage,
     setCurrentPage,
     pageSize,
     setPageSize,
     data,
     isLoading,
-  },
-}: InvoicesPagerProps) => {
+  } = useInvoicesList();
   const total = data?.total ?? 0;
   const totalPages = Math.ceil(total / pageSize);
   const isNextPageAvailable = total >= pageSize * currentPage + 1;

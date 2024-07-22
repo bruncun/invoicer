@@ -47,6 +47,7 @@ const Field = ({ name, label, ...props }: FieldProps) => {
   } = useFormContext();
   const isField = name.match(/\w+\.\d+\.\w+/);
   let errorMessage = (errors as any)?.[name]?.message;
+
   if (isField) {
     const nameSplit = name.split(".");
     const [fieldName, index, prop] = nameSplit;
@@ -54,44 +55,28 @@ const Field = ({ name, label, ...props }: FieldProps) => {
       ?.message as string;
   }
 
-  if (props.type === "date") {
-    return (
-      <Form.Group>
-        <Controller
-          name={name}
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <DatePicker
-              label={label}
-              {...props}
-              onChange={onChange}
-              selected={value}
-            />
-          )}
-        />
-        <Form.Control.Feedback type="invalid">
-          {(errors as any)?.[name]?.message as string}
-        </Form.Control.Feedback>
-      </Form.Group>
-    );
-  }
-
-  if (props.type === "currency") {
-    return (
-      <Form.Group>
+  const fieldComponents: { [key: string]: JSX.Element } = {
+    date: (
+      <Controller
+        name={name}
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <DatePicker
+            label={label}
+            {...props}
+            onChange={onChange}
+            selected={value}
+          />
+        )}
+      />
+    ),
+    currency: (
+      <>
         <CurrencyInput name={name} control={control} label="Price" />
-        <Form.Control.Feedback type="invalid">
-          {errorMessage}
-        </Form.Control.Feedback>
-      </Form.Group>
-    );
-  }
-
-  if (props.type === "select") {
-    const { options, buttonClassName, listboxOptionsStyle } = props;
-
-    return (
-      <Form.Group>
+      </>
+    ),
+    select: (
+      <>
         <Form.Label htmlFor={name}>{label}</Form.Label>
         <Controller
           name={name}
@@ -100,49 +85,46 @@ const Field = ({ name, label, ...props }: FieldProps) => {
             <Select
               value={value}
               onChange={onChange}
-              options={options}
-              buttonClassName={buttonClassName}
-              listboxOptionsStyle={listboxOptionsStyle}
+              options={(props as SelectFieldProps).options}
+              buttonClassName={(props as SelectFieldProps).buttonClassName}
+              listboxOptionsStyle={
+                (props as SelectFieldProps).listboxOptionsStyle
+              }
             />
           )}
         />
-        <Form.Control.Feedback type="invalid">
-          {errorMessage}
-        </Form.Control.Feedback>
-      </Form.Group>
-    );
-  }
-
-  if (props.type === "checkbox") {
-    return (
-      <Form.Group>
-        <Controller
-          name={name}
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <Form.Check
-              type="checkbox"
-              label={label}
-              checked={value}
-              onChange={onChange}
-            />
-          )}
+      </>
+    ),
+    checkbox: (
+      <Controller
+        name={name}
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Form.Check
+            type="checkbox"
+            label={label}
+            checked={value}
+            onChange={onChange}
+          />
+        )}
+      />
+    ),
+    default: (
+      <>
+        {label && <Form.Label htmlFor={name}>{label}</Form.Label>}
+        <Form.Control
+          {...register(name)}
+          isInvalid={!!errorMessage}
+          {...props}
         />
-        <Form.Control.Feedback type="invalid">
-          {errorMessage}
-        </Form.Control.Feedback>
-      </Form.Group>
-    );
-  }
-
-  if (props.type === "hidden") {
-    return <Form.Control type="hidden" {...register(name)} {...props} />;
-  }
+      </>
+    ),
+  };
 
   return (
     <Form.Group>
-      {label && <Form.Label htmlFor={name}>{label}</Form.Label>}
-      <Form.Control {...register(name)} {...props} />
+      {fieldComponents[props.type as keyof typeof fieldComponents] ||
+        fieldComponents.default}
       <Form.Control.Feedback type="invalid">
         {errorMessage}
       </Form.Control.Feedback>

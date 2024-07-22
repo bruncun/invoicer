@@ -3,7 +3,7 @@ import { Button, Card } from "react-bootstrap";
 import Icon from "~/components/icon";
 import { StatusBadge } from "~/components/status-badge";
 import useInvoicesShow from "~/hooks/invoices/use-show";
-import InvoiceActions from "../actions";
+import InvoiceActions from "./actions";
 
 type InvoicesDetailsHeaderProps = {
   modalShow: (id: number) => void;
@@ -47,7 +47,6 @@ export const InvoicesDetailsHeader = ({
             </div>
             <InvoiceActions
               className="d-none d-md-flex"
-              invoice={invoice}
               modalShow={modalShow}
               setShowConfirmationModal={setShowConfirmationModal}
               onUpdateStatus={onUpdateStatus}

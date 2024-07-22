@@ -23,8 +23,9 @@ const ItemListSection = () => {
     formState: { errors },
   } = useFormContext<InferType<typeof invoiceSchema>>();
   const items = watch("items");
-  const itemsFieldArray = useItemsFieldArray(control);
-  const { fields, append, remove } = itemsFieldArray;
+  const { fields, append, remove } = useItemsFieldArray(control);
+
+  const onNewItemClick = () => append({ name: "", quantity: 1, price: 0 });
 
   return (
     <>
@@ -62,9 +63,7 @@ const ItemListSection = () => {
                   className="d-block text-body-emphasis text-truncate"
                   style={{ paddingTop: "0.4375rem" }}
                 >
-                  {items[index].quantity &&
-                    items[index].price &&
-                    formatCurrency(items[index].quantity * items[index].price)}
+                  {formatCurrency(items[index].quantity * items[index].price)}
                 </span>
               </Form.Group>
             </Col>
@@ -73,37 +72,24 @@ const ItemListSection = () => {
               xl={{ span: 1 }}
               className="pt-2 justify-content-end d-flex"
             >
-              <div>
-                <OverlayTrigger
-                  overlay={<Tooltip id="delete-tooltip">Delete Item</Tooltip>}
+              <OverlayTrigger
+                overlay={<Tooltip id="delete-tooltip">Delete Item</Tooltip>}
+              >
+                <Button
+                  variant="link"
+                  className="mt-4 border-0"
+                  onClick={() => remove(index)}
                 >
-                  <Button
-                    variant="link"
-                    className="mt-4 border-0"
-                    onClick={() => remove(index)}
-                  >
-                    <Icon name="trash" aria-hidden="true"></Icon>
-                  </Button>
-                </OverlayTrigger>
-              </div>
+                  <Icon name="trash" aria-hidden="true"></Icon>
+                </Button>
+              </OverlayTrigger>
             </Col>
           </Row>
         </Stack>
       ))}
-      <Button
-        variant="secondary"
-        className="w-100"
-        onClick={() =>
-          append({
-            name: "",
-            quantity: 1,
-            price: 0,
-            user_id: "",
-          })
-        }
-      >
-        <Icon name="plus-lg" className="me-2" aria-hidden="true"></Icon>Add New
-        Item
+      <Button variant="secondary" className="w-100" onClick={onNewItemClick}>
+        <Icon name="plus-lg" className="me-2" aria-hidden="true" />
+        Add New Item
       </Button>
     </>
   );

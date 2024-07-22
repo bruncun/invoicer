@@ -1,8 +1,8 @@
 import { Stack, Button } from "react-bootstrap";
 import Skeleton from "~/components/skeleton";
+import useInvoicesShow from "~/hooks/invoices/use-show";
 
 type InvoiceActionsProps = {
-  invoice: any;
   modalShow: (id: number) => void;
   setShowConfirmationModal: (show: boolean) => void;
   onUpdateStatus: (status: "paid" | "pending") => void;
@@ -12,7 +12,6 @@ type InvoiceActionsProps = {
 };
 
 const InvoiceActions = ({
-  invoice,
   modalShow,
   className,
   setShowConfirmationModal,
@@ -20,6 +19,8 @@ const InvoiceActions = ({
   showConfirmationModal,
   isUpdateLoading,
 }: InvoiceActionsProps) => {
+  const { invoice } = useInvoicesShow();
+
   return (
     <div className="d-flex justify-content-end w-100">
       <Stack direction="horizontal" gap={2} className={className}>

@@ -1,11 +1,8 @@
-import InvoiceActions from "../actions";
+import InvoiceActions from "./actions";
 import MobileNavbar from "~/components/ui/mobile-navbar";
-import { InferType } from "yup";
-import { invoiceSchema } from "~/constants";
 
 type InvoicesShowMobileNavbarProps = {
   modalShow: (id: number) => void;
-  invoice?: InferType<typeof invoiceSchema>;
   onUpdateStatus: (status: "pending" | "paid") => void;
   setShowConfirmationModal: (value: boolean) => void;
   showConfirmationModal: boolean;
@@ -14,7 +11,6 @@ type InvoicesShowMobileNavbarProps = {
 
 const InvoicesShowMobileNavbar = ({
   modalShow,
-  invoice,
   onUpdateStatus,
   setShowConfirmationModal,
   isUpdateLoading,
@@ -22,7 +18,6 @@ const InvoicesShowMobileNavbar = ({
 }: InvoicesShowMobileNavbarProps) => (
   <MobileNavbar>
     <InvoiceActions
-      invoice={invoice}
       modalShow={modalShow}
       setShowConfirmationModal={setShowConfirmationModal}
       onUpdateStatus={onUpdateStatus}

@@ -7,10 +7,6 @@ import { InferType } from "yup";
 import useInvoiceCreate from "../use-invoice-create";
 import { supabaseClient } from "~/utility/supabase";
 
-/**
- * Custom hook for creating a new invoice.
- * @returns An object containing the form state and related functions.
- */
 const useInvoicesCreateModalForm = () => {
   const { createInvoice } = useInvoiceCreate();
   const { show } = useNavigation();
@@ -68,7 +64,7 @@ const useInvoicesCreateModalForm = () => {
         type: "success",
       });
       show("invoices", invoice.data.id!);
-    } catch (error) {
+    } catch {
       open?.({
         description: "Sorry, something went wrong - please try again",
         message: "error",
@@ -78,7 +74,7 @@ const useInvoicesCreateModalForm = () => {
   };
 
   return {
-    invoicesCreateModalForm,
+    ...invoicesCreateModalForm,
     onFinish,
   };
 };

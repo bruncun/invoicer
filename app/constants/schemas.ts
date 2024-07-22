@@ -46,7 +46,7 @@ export const itemSchema = yup.object().shape({
     .required("Quantity is required"),
   user_id: yup.string().trim().optional(),
   invoice_id: yup.string().trim().optional(),
-  created_at: validDate.optional(),
+  created_at: yup.string().trim().optional(),
 });
 
 export const invoiceSchema = yup.object().shape({
@@ -124,7 +124,7 @@ export const invoiceSchema = yup.object().shape({
     .of(itemSchema)
     .min(1, "At least one item is required")
     .required("At least one item is required"),
-  created_at: validDate.optional(),
+  created_at: yup.string().trim().optional(),
 });
 
 export const schemas = {

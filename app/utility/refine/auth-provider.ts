@@ -1,7 +1,6 @@
 import type { AuthBindings } from "@refinedev/core";
 import * as cookie from "cookie";
 import Cookies from "js-cookie";
-
 import { TOKEN_KEY } from "~/constants";
 import { supabaseClient } from "../supabase/client";
 
@@ -12,12 +11,11 @@ export const authProvider: AuthBindings = {
       password,
     });
 
-    if (error) {
+    if (error)
       return {
         success: false,
         error,
       };
-    }
 
     if (data?.session) {
       Cookies.set(TOKEN_KEY, data.session.access_token);
@@ -27,7 +25,6 @@ export const authProvider: AuthBindings = {
       };
     }
 
-    // for third-party login
     return {
       success: true,
     };
@@ -35,7 +32,7 @@ export const authProvider: AuthBindings = {
   logout: async () => {
     const { error } = await supabaseClient.auth.signOut();
 
-    if (error) {
+    if (error)
       return {
         success: false,
         error: {
@@ -43,7 +40,6 @@ export const authProvider: AuthBindings = {
           name: "LogoutError",
         },
       };
-    }
 
     Cookies.remove(TOKEN_KEY);
     return {
@@ -58,19 +54,17 @@ export const authProvider: AuthBindings = {
         password,
       });
 
-      if (error) {
+      if (error)
         return {
           success: false,
           error,
         };
-      }
 
-      if (data) {
+      if (data)
         return {
           success: true,
           redirectTo: "/",
         };
-      }
     } catch (error: any) {
       return {
         success: false,
@@ -86,10 +80,7 @@ export const authProvider: AuthBindings = {
       },
     };
   },
-  onError: async (error) => {
-    console.error(error);
-    return { error };
-  },
+  onError: async (error) => error,
   check: async (request) => {
     let token = undefined;
     if (request) {
@@ -106,11 +97,10 @@ export const authProvider: AuthBindings = {
     const { data } = await supabaseClient.auth.getUser(token);
     const { user } = data;
 
-    if (user) {
+    if (user)
       return {
         authenticated: true,
       };
-    }
 
     const { pathname } = new URL(request.url);
 
@@ -133,18 +123,16 @@ export const authProvider: AuthBindings = {
         }
       );
 
-      if (error) {
+      if (error)
         return {
           success: false,
           error,
         };
-      }
 
-      if (data) {
+      if (data)
         return {
           success: true,
         };
-      }
     } catch (error: any) {
       return {
         success: false,
@@ -166,19 +154,17 @@ export const authProvider: AuthBindings = {
         password,
       });
 
-      if (error) {
+      if (error)
         return {
           success: false,
           error,
         };
-      }
 
-      if (data) {
+      if (data)
         return {
           success: true,
           redirectTo: "/",
         };
-      }
     } catch (error: any) {
       return {
         success: false,
@@ -196,21 +182,16 @@ export const authProvider: AuthBindings = {
   getPermissions: async () => {
     const user = await supabaseClient.auth.getUser();
 
-    if (user) {
-      return user.data.user?.role;
-    }
-
-    return null;
+    return user ? user.data.user?.role : null;
   },
   getIdentity: async () => {
     const { data } = await supabaseClient.auth.getUser();
 
-    if (data?.user) {
+    if (data?.user)
       return {
         ...data.user,
         name: data.user.email,
       };
-    }
 
     return null;
   },

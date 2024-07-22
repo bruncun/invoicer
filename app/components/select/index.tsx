@@ -13,6 +13,7 @@ type SelectProps = {
   options: { value: string; label: string }[];
   buttonClassName?: string;
   listboxOptionsStyle?: React.CSSProperties;
+  isInvalid?: boolean;
 };
 
 const Select = ({
@@ -21,6 +22,7 @@ const Select = ({
   options,
   buttonClassName = "",
   listboxOptionsStyle = {},
+  isInvalid,
 }: SelectProps) => {
   const optionsTable = options.reduce((acc, option) => {
     acc[option.value] = option.label;
