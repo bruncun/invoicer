@@ -17,9 +17,7 @@ const useInvoicesEditModalForm = (
     HttpError,
     InferType<typeof invoiceSchema>
   >({
-    syncWithLocation: true,
     refineCoreProps: {
-      resource: "invoices",
       action: "edit",
       successNotification: false,
       meta: {
@@ -32,10 +30,8 @@ const useInvoicesEditModalForm = (
     reset,
     modal: { close },
     setValue,
-    formState: { errors },
   } = invoicesEditModalForm;
   const { open } = useNotification();
-  console.log(errors);
 
   useEffect(() => {
     if (!isInvoicesLoading && invoice) {
