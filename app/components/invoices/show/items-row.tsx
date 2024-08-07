@@ -18,24 +18,24 @@ export const ItemsRow = ({ item }: ItemsRowProps) => {
   return (
     <tr>
       <td className="align-top text-body-emphasis fw-medium">
-        {<span className="text-truncate d-block">{item?.name}</span> ?? (
-          <Skeleton bg="secondary" />
-        )}
+        <span className="text-truncate d-block">
+          {item?.name ?? <Skeleton bg="secondary" />}
+        </span>
       </td>
       <td className="text-center">
-        {<span className="text-truncate d-block">{item?.quantity}</span> ?? (
-          <Skeleton bg="secondary" className="w-3" />
-        )}
+        <span className="text-truncate d-block">
+          {item?.quantity ?? <Skeleton bg="secondary" className="w-4" />}
+        </span>
       </td>
       <td className="align-top text-end">
-        {<span className="text-truncate d-block">{formattedPrice}</span> ?? (
-          <Skeleton bg="secondary" className="w-6" />
-        )}
+        <span className="text-truncate d-block">
+          {formattedPrice ?? <Skeleton bg="secondary" className="w-6" />}
+        </span>
       </td>
       <td className="align-top text-body-emphasis fw-medium text-end">
-        {<span className="text-truncate d-block">{formattedTotal}</span> ?? (
-          <Skeleton bg="secondary" className="w-7" />
-        )}
+        <span className="text-truncate d-block">
+          {formattedTotal ?? <Skeleton bg="secondary" className="w-7" />}
+        </span>
       </td>
     </tr>
   );
