@@ -28,15 +28,15 @@ const InvoiceActions = ({
           <>
             <Skeleton
               className="w-6 rounded-pill"
-              style={{ height: "2.625rem" }}
+              style={{ height: "2.375rem" }}
             />
             <Skeleton
               className="w-7 rounded-pill"
-              style={{ height: "2.625rem" }}
+              style={{ height: "2.375rem" }}
             />
             <Skeleton
               className="w-8 rounded-pill"
-              style={{ height: "2.625rem" }}
+              style={{ height: "2.375rem" }}
             />
           </>
         ) : (

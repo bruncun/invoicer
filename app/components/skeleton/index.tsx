@@ -13,7 +13,11 @@ const Skeleton = ({
   bg = "body-secondary",
 }: SkeletonProps) => (
   <Placeholder animation="glow">
-    <Placeholder bg={bg} className={`d-block ${className} p-0`} style={style} />
+    <Placeholder
+      bg={bg}
+      className={`d-inline-block ${className} p-0`}
+      style={style}
+    />
   </Placeholder>
 );
 

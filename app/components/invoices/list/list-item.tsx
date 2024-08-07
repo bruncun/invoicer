@@ -72,11 +72,9 @@ const InvoicesListItem = ({ invoice }: InvoicesListItemProps) => {
           <Card.Title className="fs-6">
             <FormattedId id={invoice?.id}></FormattedId>
           </Card.Title>
-          {(
-            <span className="text-truncate d-inline-block w-10 text-end">
-              {invoice?.client_name}
-            </span>
-          ) ?? <Skeleton className="w-7" />}
+          <span className="text-truncate d-inline-block w-10 text-end">
+            {invoice?.client_name ?? <Skeleton className="w-7" />}
+          </span>
         </div>
         <div className="d-flex justify-content-between align-items-center">
           <div>
