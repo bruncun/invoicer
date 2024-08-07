@@ -1,4 +1,3 @@
-import { Placeholder } from "react-bootstrap";
 import Skeleton from "../skeleton";
 
 type FormattedIdProps = {
@@ -13,6 +12,7 @@ const FormattedId = ({ id, className, size }: FormattedIdProps) => {
       className={`fw-medium text-muted d-flex align-items-center lh-1 ${
         className ? className : ""
       } ${size === "lg" ? "fs-5" : ""}`}
+      style={{ height: "1.25rem" }}
     >
       {id ? (
         <>
@@ -21,7 +21,7 @@ const FormattedId = ({ id, className, size }: FormattedIdProps) => {
       ) : (
         <Skeleton
           className="w-6"
-          {...(size === "lg" ? { style: { height: "1.25rem" } } : {})}
+          {...(size === "lg" ? { style: { height: "1.125rem" } } : {})}
         />
       )}
     </span>
