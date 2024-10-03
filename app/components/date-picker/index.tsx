@@ -16,18 +16,20 @@ const IconRight = () => <Icon name="chevron-right" />;
 
 type DatePickerProps = {
   label: string;
-  selected: string;
+  selected?: string;
   onChange: (event: Event) => void;
+  disabled?: boolean;
 } & React.HTMLAttributes<HTMLInputElement>;
 
-function DatePicker({ selected, label, onChange }: DatePickerProps) {
+function DatePicker({ selected, label, onChange, disabled }: DatePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [month, setMonth] = useState(new Date());
   const inputId = useId();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    parseISO(selected)
+    selected ? parseISO(selected) : undefined
   );
 
+  console.log(selectedDate);
   const handleDayPickerSelect = (date?: Date) => {
     if (!date) {
       setSelectedDate(undefined);
@@ -53,11 +55,15 @@ function DatePicker({ selected, label, onChange }: DatePickerProps) {
       <Form.Label className="form-label" htmlFor={inputId}>
         {label}
       </Form.Label>
-      <Dropdown.Toggle className="rounded-2 w-100 d-flex border" variant="link">
+      <Dropdown.Toggle
+        className="rounded-2 w-100 d-flex border"
+        variant="link"
+        disabled={disabled}
+      >
         <Icon name="calendar" className="me-2 text-body-emphasis" />
-        {selectedDate !== undefined && (
+        {selected && (
           <span className="text-body-emphasis">
-            {formatDisplayDate(selectedDate.toISOString())}
+            {format(parseISO(selected), "MMM dd yyyy")}
           </span>
         )}
       </Dropdown.Toggle>
