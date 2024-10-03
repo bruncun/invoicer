@@ -1,5 +1,5 @@
 import { CSSProperties } from "react";
-import { Badge } from "react-bootstrap";
+import { Badge, Placeholder } from "react-bootstrap";
 
 type SkeletonProps = {
   className?: string;
@@ -12,9 +12,11 @@ const Skeleton = ({
   className = "w-8 border-transparent",
   bg = "body-secondary",
 }: SkeletonProps) => (
-  <Badge bg={bg} className={`d-inline-block ${className} p-0`} style={style}>
-    &nbsp;
-  </Badge>
+  <Placeholder
+    bg={bg}
+    className={`d-inline-block ${className} p-0`}
+    style={style}
+  />
 );
 
 export default Skeleton;

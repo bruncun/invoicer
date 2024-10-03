@@ -1,5 +1,6 @@
 import { Badge } from "react-bootstrap";
 import Icon from "../icon";
+import Skeleton from "../skeleton";
 
 type StatusBadgeProps = {
   status?: string;
@@ -17,13 +18,7 @@ export const StatusBadge = ({ status }: StatusBadgeProps) => {
 
   if (!status)
     return (
-      <Badge
-        bg="body-secondary"
-        className="d-inline-block w-8"
-        style={{ height: "2.625rem" }}
-      >
-        &nbsp;
-      </Badge>
+      <Skeleton className="d-inline-block w-8" style={{ height: "2.625rem" }} />
     );
 
   return (
