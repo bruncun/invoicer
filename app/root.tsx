@@ -6,7 +6,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  isRouteErrorResponse,
   useRouteError,
 } from "@remix-run/react";
 
@@ -67,6 +66,7 @@ export default function App() {
             options={{
               warnWhenUnsavedChanges: true,
               useNewQueryKeys: true,
+              syncWithLocation: true,
               projectId: "AGpg3C-5yTuaG-cOKhCy",
             }}
           >
