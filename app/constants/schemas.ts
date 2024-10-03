@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { constants } from "./constants";
+import { constants, PAYMENT_TERMS } from "./constants";
 import { Enums } from "~/types/supabase";
 import { STATUSES } from "~/constants";
 
@@ -90,8 +90,8 @@ export const invoiceSchema = yup.object().shape({
       }
     ),
   payment_terms: yup
-    .number()
-    .integer("Payment terms must be an integer")
+    .string()
+    .oneOf(PAYMENT_TERMS, "Invalid payment terms")
     .required("Payment terms are required"),
   sender_city: validString
     .min(2, "Sender city must be at least 2 characters")
@@ -114,7 +114,7 @@ export const invoiceSchema = yup.object().shape({
   status: yup
     .mixed<Enums<"status">>()
     .required("Status is required")
-    .oneOf(Object.values(STATUSES), "Invalid status"),
+    .oneOf(STATUSES, "Invalid status"),
   user_id: yup.string().trim().optional(),
   items: yup
     .array()

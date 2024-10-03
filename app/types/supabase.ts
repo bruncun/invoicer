@@ -127,6 +127,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      payment_terms: "30" | "60" | "90"
       status: "draft" | "pending" | "paid"
     }
     CompositeTypes: {
