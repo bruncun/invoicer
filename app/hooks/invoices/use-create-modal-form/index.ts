@@ -10,11 +10,10 @@ import {
   useNavigation,
   useGetIdentity,
 } from "@refinedev/core";
-import { Invoice, Status } from "~/types/invoices";
-
-export type InvoicesCreateModalForm = ReturnType<
-  typeof useInvoicesCreateModalForm
->;
+import { Status } from "~/types/invoices";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { invoiceSchema } from "~/constants";
+import { InferType } from "yup";
 
 /**
  * Custom hook for creating a new invoice.
@@ -26,45 +25,42 @@ const useInvoicesCreateModalForm = () => {
   const { show } = useNavigation();
   const { mutateAsync: mutateManyAsync } = useCreateMany();
   const { data: identity } = useGetIdentity<{ id: string }>();
-  const {
-    control,
-    reset,
-    modal: { visible, close, show: modalShow },
-    handleSubmit,
-    formState: { errors },
-    watch,
-    register,
-    setValue,
-  } = useModalForm<Invoice, HttpError, Invoice>({
-    syncWithLocation: true,
+  const invoicesCreateModalForm = useModalForm<
+    InferType<typeof invoiceSchema>,
+    HttpError,
+    InferType<typeof invoiceSchema>
+  >({
+    resolver: yupResolver(invoiceSchema),
     refineCoreProps: {
+      resource: "invoices",
       action: "create",
     },
     defaultValues: {
-      sender_street: "",
-      sender_city: "",
-      sender_postcode: "",
-      sender_country: "",
-      client_name: "",
-      client_email: "",
-      client_street: "",
       client_city: "",
-      client_postcode: "",
       client_country: "",
+      client_email: "",
+      client_name: "",
+      client_postcode: "",
+      client_street: "",
+      description: "",
       payment_due: formatDate(new Date(), "yyyy-MM-dd"),
       payment_terms: "30",
-      description: "",
       status: "pending",
+      sender_city: "",
+      sender_country: "",
+      sender_postcode: "",
+      sender_street: "",
+      user_id: identity?.id,
       items: [{ name: "", quantity: 1, price: 0 }],
     },
   });
+  const { control, handleSubmit, watch, setValue } = invoicesCreateModalForm;
   const { open } = useNotification();
 
-  const { fields, append, remove } = useFieldArray({
+  const itemsFieldArray = useFieldArray<InferType<typeof invoiceSchema>>({
     control,
     name: "items",
   });
-
   const items = watch("items");
 
   const onSubmit = (status: Status) => {
@@ -72,7 +68,7 @@ const useInvoicesCreateModalForm = () => {
     handleSubmit(onFinish)();
   };
 
-  const onFinish = async (formData: Invoice) => {
+  const onFinish = async (formData: InferType<typeof invoiceSchema>) => {
     setIsSubmitting(true);
     try {
       const newInvoice = {
@@ -127,20 +123,10 @@ const useInvoicesCreateModalForm = () => {
   };
 
   return {
-    modalShow,
-    close,
-    visible,
-    errors,
-    register,
-    handleSubmit,
-    onSubmit,
+    invoicesCreateModalForm,
+    itemsFieldArray,
     onFinish,
-    items,
-    fields,
-    append,
-    remove,
-    reset,
-    isSubmitting,
+    onSubmit,
   };
 };
 

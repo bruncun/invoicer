@@ -13,41 +13,49 @@ export const credentialsSchema = yup.object().shape({
 
 export const TOOLTIP_DELAY = { show: 350, hide: 0 };
 
-export const itemsSchema = yup
-  .array()
-  .of(
-    yup.object().shape({
-      id: yup.number(),
-      name: yup.string().required(REQUIRED),
-      quantity: yup
-        .number()
-        .min(1, "Quantity must be at least 1")
-        .required(REQUIRED),
-      price: yup.number().min(0, "Price must be at least 0").required(REQUIRED),
-    })
-  )
-  .min(1, "At least one item is required.")
-  .required();
+export const itemSchema = yup.object().shape({
+  id: yup.number().optional(),
+  name: yup.string().required(REQUIRED),
+  price: yup.number().min(0, "Must be > $0").required(REQUIRED),
+  quantity: yup.number().min(1, "Must be > 1").required(REQUIRED),
+  user_id: yup.string().required(REQUIRED),
+});
 
 export const invoiceSchema = yup.object().shape({
-  sender_street: yup.string().required(REQUIRED),
-  sender_city: yup.string().required(REQUIRED),
-  sender_postcode: yup.string().required(REQUIRED),
-  sender_country: yup.string().required(REQUIRED),
-  client_name: yup.string().required(REQUIRED),
-  client_email: yup.string().email(INVALID_EMAIL).required(REQUIRED),
-  client_street: yup.string().required(REQUIRED),
+  id: yup.number().optional(),
   client_city: yup.string().required(REQUIRED),
-  client_postcode: yup.string().required(REQUIRED),
   client_country: yup.string().required(REQUIRED),
+  client_email: yup.string().email(INVALID_EMAIL).required(REQUIRED),
+  client_name: yup.string().required(REQUIRED),
+  client_postcode: yup
+    .string()
+    .required(REQUIRED)
+    .test("is-postcode", "Invalid postcode", (value) => {
+      const postcodeRegex = /^[A-Za-z0-9]{3,}$/;
+      return postcodeRegex.test(value);
+    }),
+  client_street: yup.string().required(REQUIRED),
+  description: yup.string().required(REQUIRED),
   payment_due: yup.string().required(REQUIRED),
   payment_terms: yup.string().required(REQUIRED),
-  id: yup.number(),
-  user_id: yup.string().required(REQUIRED),
-  description: yup.string().required(REQUIRED),
+  sender_city: yup.string().required(REQUIRED),
+  sender_country: yup.string().required(REQUIRED),
+  sender_postcode: yup
+    .string()
+    .required(REQUIRED)
+    .test("is-postcode", "Invalid postcode", (value) => {
+      const postcodeRegex = /^[A-Za-z0-9]{3,}$/;
+      return postcodeRegex.test(value);
+    }),
+  sender_street: yup.string().required(REQUIRED),
   status: yup
     .string()
     .oneOf(["draft", "pending", "paid"], "Invalid status")
     .required(REQUIRED),
-  items: itemsSchema,
+  user_id: yup.string().required(REQUIRED),
+  items: yup
+    .array()
+    .of(itemSchema)
+    .min(1, "At least one item is required")
+    .required(REQUIRED),
 });

@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   BaseKey,
+  HttpError,
   useCreate,
   useDelete,
   useDeleteMany,
@@ -13,7 +14,7 @@ import { useModalForm } from "@refinedev/react-hook-form";
 import { formatDate } from "date-fns";
 import { useEffect, useState } from "react";
 import { useFieldArray } from "react-hook-form";
-import { Asserts } from "yup";
+import { Asserts, InferType } from "yup";
 import { invoiceSchema } from "~/constants";
 import { Status } from "~/types/invoices";
 import { Tables } from "~/types/supabase";
@@ -22,12 +23,17 @@ const useInvoicesEditModalForm = (
   isInvoicesLoading: boolean,
   invoice?: Tables<"invoices"> & { items: Tables<"items">[] }
 ) => {
-  const modalForm = useModalForm({
-    resolver: yupResolver(invoiceSchema),
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const invoicesEditModalForm = useModalForm<
+    InferType<typeof invoiceSchema>,
+    HttpError,
+    InferType<typeof invoiceSchema>
+  >({
     refineCoreProps: {
-      autoSave: { enabled: true },
+      resource: "invoices",
+      action: "edit",
     },
-    syncWithLocation: true,
+    resolver: yupResolver(invoiceSchema),
   });
   const {
     control,
@@ -38,15 +44,16 @@ const useInvoicesEditModalForm = (
     watch,
     register,
     setValue,
-  } = modalForm;
-  const { fields, append, remove } = useFieldArray({
+  } = invoicesEditModalForm;
+  const { open } = useNotification();
+
+  const itemsFieldArray = useFieldArray<InferType<typeof invoiceSchema>>({
     control,
     name: "items",
   });
-  const { list } = useNavigation();
   const items = watch("items");
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { fields, append, remove } = itemsFieldArray;
+  const { list } = useNavigation();
 
   useEffect(() => {
     if (!isInvoicesLoading && invoice) {
@@ -61,7 +68,7 @@ const useInvoicesEditModalForm = (
         client_city: invoice.client_city,
         client_postcode: invoice.client_postcode,
         client_country: invoice.client_country,
-        payment_due: formatDate(new Date(), "yyyy-MM-dd"),
+        payment_due: invoice.payment_due,
         payment_terms: "30",
         description: invoice.description,
         items: invoice.items,
@@ -71,11 +78,8 @@ const useInvoicesEditModalForm = (
   }, [invoice]);
 
   const { mutateAsync: mutateDeleteAsync } = useDelete();
-  const { mutateAsync: mutateDeleteManyAsync } = useDeleteMany();
   const { mutateAsync: mutateCreateAsync } = useCreate();
   const { mutateAsync: mutateUpdateAsync } = useUpdate();
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const { open } = useNotification();
   const { data: identity } = useGetIdentity<{ id: string }>();
 
   const status = watch("status");
@@ -85,48 +89,6 @@ const useInvoicesEditModalForm = (
   useEffect(() => {
     if (status) handleSubmit(onFinish)();
   }, [status]);
-
-  const onUpdateStatus = (status: "paid" | "pending") => {
-    mutateUpdateAsync({
-      resource: "invoices",
-      id: invoice?.id as BaseKey,
-      values: {
-        status,
-      },
-      successNotification: {
-        type: "success",
-        message: "success",
-        description: `Invoice marked as ${status}`,
-      },
-      mutationMode: "optimistic",
-    });
-  };
-
-  const onDelete = async () => {
-    try {
-      await Promise.all([
-        mutateDeleteManyAsync({
-          resource: "items",
-          ids: invoice?.items.map((item) => item.id) as Array<BaseKey>,
-          successNotification: false,
-        }),
-        mutateDeleteAsync({
-          resource: "invoices",
-          id: invoice?.id as BaseKey,
-          successNotification: false,
-        }),
-      ]);
-      open?.({
-        description: "Invoice deleted",
-        message: "success",
-        type: "success",
-      });
-      list("invoices");
-      setShowConfirmationModal(false);
-    } catch (error) {
-      console.error("Delete failed", error);
-    }
-  };
 
   const onFinish = async (formData: Asserts<typeof invoiceSchema>) => {
     setIsSubmitting(true);
@@ -217,23 +179,10 @@ const useInvoicesEditModalForm = (
   };
 
   return {
-    modalShow,
-    close,
-    visible,
-    handleSubmit,
-    errors,
-    register,
-    fields,
-    append,
-    remove,
-    items,
-    isSubmitting,
-    setShowConfirmationModal,
-    showConfirmationModal,
-    onSubmit,
-    onUpdateStatus,
-    onDelete,
+    invoicesEditModalForm,
+    itemsFieldArray,
     onFinish,
+    onSubmit,
   };
 };
 
