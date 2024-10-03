@@ -1,21 +1,14 @@
 import { Button } from "react-bootstrap";
 import Icon from "~/components/icon";
-import { Tables } from "~/types/supabase";
+import { InvoicesList } from "~/hooks/invoices/use-invoices-list";
+
+type InvoicesPagerProps = {
+  invoicesList: InvoicesList;
+};
 
 export const InvoicesPager = ({
-  invoices,
-  pageSize,
-  total,
-  current,
-  setCurrent,
-}: {
-  invoices: Array<Tables<"invoices">>;
-  pageSize: number;
-  total: number;
-  current: number;
-  setCurrent: React.Dispatch<React.SetStateAction<number>>;
-}) => {
-  // Calculate whether a next page is available
+  invoicesList: { pageSizeState, currentState, data },
+}: InvoicesPagerProps) => {
   const isNextPageAvailable = total >= pageSize * current + 1;
   const formattedTotal = new Intl.NumberFormat("en-US").format(total);
 

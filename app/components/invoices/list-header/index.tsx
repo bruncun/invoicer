@@ -1,18 +1,20 @@
 import { Stack, Dropdown, Form, Button } from "react-bootstrap";
 import Icon from "~/components/icon";
 import { STATUSES } from "~/constants";
+import { InvoicesList } from "~/hooks/invoices/use-invoices-list";
 import { Status } from "~/types/invoices";
 
 type InvoiceListHeaderProps = {
   modalShow: () => void;
-  setFilters: (filters: Status[]) => void;
-  filters: Status[];
+  invoicesList: InvoicesList;
 };
 
 export const InvoicesListHeader = ({
   modalShow,
-  setFilters,
-  filters,
+  invoicesList: {
+    data,
+    filterState: [filters, setFilters],
+  },
 }: InvoiceListHeaderProps) => {
   const handleStatusChange = (status: Status, checked: boolean) => {
     if (checked) {
