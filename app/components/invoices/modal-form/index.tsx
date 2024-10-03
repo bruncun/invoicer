@@ -1,6 +1,5 @@
 import { HttpError } from "@refinedev/core";
 import { UseModalFormReturnType } from "@refinedev/react-hook-form";
-import { IMaskInput } from "react-imask";
 import {
   Modal,
   Button,
@@ -11,8 +10,6 @@ import {
   OverlayTrigger,
   Tooltip,
   Alert,
-  InputGroup,
-  FormGroup,
 } from "react-bootstrap";
 import { Controller, UseFieldArrayReturn } from "react-hook-form";
 import { InferType } from "yup";
@@ -28,6 +25,7 @@ import {
   ListboxOption,
 } from "@headlessui/react";
 import { Fragment } from "react/jsx-runtime";
+import CurrencyInput from "~/components/currency-input";
 
 type InvoicesModalFormProps = {
   onSubmit: (status: Status) => void;
@@ -56,6 +54,7 @@ const InvoicesModalForm = ({
     watch,
     control,
     register,
+    getValues,
     formState: { errors, isSubmitting },
   } = invoicesCreateModalForm;
   const items = watch("items");
@@ -65,6 +64,7 @@ const InvoicesModalForm = ({
     60: "Net 60",
     90: "Net 90",
   };
+  const { status } = getValues();
 
   return (
     <Modal
@@ -87,6 +87,7 @@ const InvoicesModalForm = ({
       <Modal.Body className="p-4">
         <form id="invoice-form" onSubmit={handleSubmit(onFinish)}>
           <input type="hidden" {...register("user_id")} />
+          <input type="hidden" {...register("payment_due")} />
           <h6 className="text-primary mb-2">Bill From</h6>
           <Stack gap={3} className="mb-5">
             <Form.Group>
@@ -230,15 +231,19 @@ const InvoicesModalForm = ({
               <Col>
                 <Form.Group>
                   <Controller
-                    name="payment_due"
+                    name="invoice_date"
                     control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <DatePicker
-                        label="Invoice Date"
-                        onChange={onChange}
-                        selected={value}
-                      />
-                    )}
+                    render={({ field: { onChange, value } }) => {
+                      console.log("value", value);
+                      return (
+                        <DatePicker
+                          label="Invoice Date"
+                          onChange={onChange}
+                          selected={value}
+                          disabled={!!getValues("payment_due")}
+                        />
+                      );
+                    }}
                   />
                   <Form.Control.Feedback type="invalid">
                     {(errors as any)?.payment_due?.message as string}
@@ -359,8 +364,6 @@ const InvoicesModalForm = ({
                       name={`items.${index}.price`}
                       control={control}
                       label="Price"
-                      // isInvalid={!!errors.items?.[index]?.price}
-                      // {...register(`items.${index}.price`)}
                     />
                     <Form.Control.Feedback type="invalid">
                       {
@@ -433,9 +436,9 @@ const InvoicesModalForm = ({
             variant="secondary"
             form="invoice-form"
             onClick={() => onSubmit("draft")}
-            // disabled={isSubmitting}
+            disabled={isSubmitting}
           >
-            {isSubmitting ? (
+            {isSubmitting && status === "draft" ? (
               "Saving"
             ) : (
               <>
@@ -448,9 +451,11 @@ const InvoicesModalForm = ({
             variant="primary"
             form="invoice-form"
             onClick={() => onSubmit("pending")}
-            // disabled={isSubmitting}
+            disabled={isSubmitting}
           >
-            {isSubmitting ? "Sending" : "Save & Send"}
+            {isSubmitting && status === "pending"
+              ? "Sending..."
+              : "Save & Send"}
           </Button>
         </Stack>
       </Modal.Footer>
@@ -459,62 +464,3 @@ const InvoicesModalForm = ({
 };
 
 export default InvoicesModalForm;
-interface CurrencyInputProps {
-  name: string;
-  control: any;
-  label: string;
-}
-
-const CurrencyInput: React.FC<CurrencyInputProps> = ({
-  name,
-  control,
-  label,
-}) => {
-  return (
-    <Form.Group>
-      <Form.Label>{label}</Form.Label>
-      <Controller
-        name={name}
-        control={control}
-        render={({
-          field: { onChange, value, ref },
-          fieldState: { error },
-        }) => (
-          <>
-            <FormGroup>
-              <IMaskInput
-                name={name}
-                mask="$num"
-                blocks={{
-                  num: {
-                    mask: Number,
-                    thousandsSeparator: ",",
-                    radix: ".",
-                  },
-                }}
-                thousandsSeparator={","}
-                radix={"."}
-                mapToRadix={["."]}
-                value={value.toString()}
-                autofix={true}
-                unmask={true}
-                onAccept={(value: string) =>
-                  onChange(value ? parseFloat(value) : "")
-                }
-                onBlur={(e) => {
-                  const value = e.target.value;
-                  if (value === "$" || !value) onChange(0);
-                }}
-                inputRef={ref}
-                className={`form-control ${error ? "is-invalid" : ""}`}
-              />
-            </FormGroup>
-            <Form.Control.Feedback type="invalid">
-              {error?.message}
-            </Form.Control.Feedback>
-          </>
-        )}
-      />
-    </Form.Group>
-  );
-};

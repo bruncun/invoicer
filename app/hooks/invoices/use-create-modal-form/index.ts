@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useModalForm } from "@refinedev/react-hook-form";
 import { useFieldArray } from "react-hook-form";
-import { formatDate } from "date-fns";
+import { add, formatDate, parseISO, set } from "date-fns";
 import {
   useCreate,
   useCreateMany,
@@ -41,7 +41,9 @@ const useInvoicesCreateModalForm = () => {
     InferType<typeof invoiceSchema>
   >({
     resolver: yupResolver(invoiceSchema),
+    syncWithLocation: true,
     refineCoreProps: {
+      autoSave: { enabled: true },
       resource: "invoices",
       action: "create",
     },
@@ -53,7 +55,8 @@ const useInvoicesCreateModalForm = () => {
       client_postcode: "",
       client_street: "",
       description: "",
-      payment_due: formatDate(new Date(), "yyyy-MM-dd"),
+      invoice_date: formatDate(new Date(), "yyyy-MM-dd"),
+      payment_due: "",
       payment_terms: "30",
       status: "pending",
       sender_city: "",
@@ -66,10 +69,10 @@ const useInvoicesCreateModalForm = () => {
   });
   const {
     control,
-
     handleSubmit,
     watch,
     setValue,
+    getValues,
     formState: { errors, isDirty },
   } = invoicesCreateModalForm;
 
@@ -85,8 +88,17 @@ const useInvoicesCreateModalForm = () => {
     name: "items",
   });
   const items = watch("items");
-
   const status = watch("status");
+  const invoiceDate = watch("invoice_date") ?? "";
+
+  useEffect(() => {
+    const payment_due = add(parseISO(invoiceDate), {
+      days: parseInt(getValues("payment_terms")),
+    });
+    const formattedPaymentDue = formatDate(payment_due, "yyyy-MM-dd");
+
+    setValue("payment_due", formattedPaymentDue);
+  }, [invoiceDate]);
 
   const onSubmit = (status: Status) =>
     status === "draft" ? setValue("status", status) : handleSubmit(onFinish)();
@@ -96,7 +108,6 @@ const useInvoicesCreateModalForm = () => {
   }, [status]);
 
   const onFinish = async (formData: InferType<typeof invoiceSchema>) => {
-    console.log("formData", formData);
     setIsSubmitting(true);
     try {
       newInvoice = {
@@ -154,8 +165,8 @@ const useInvoicesCreateModalForm = () => {
       }
 
       open?.({
-        description: `Invoice successfully ${
-          formData.status === "draft" ? "drafted" : "saved and sent"
+        description: `Invoice ${
+          formData.status === "draft" ? "created" : "saved and sent"
         }.`,
         message: "success",
         type: "success",
