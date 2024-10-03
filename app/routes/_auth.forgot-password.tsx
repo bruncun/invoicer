@@ -28,7 +28,7 @@ export default function ForgotPassword() {
         open?.({
           type: "success",
           message: "success",
-          description: "Instructions sent to your email.",
+          description: "Instructions sent to your email",
         });
       },
     });
