@@ -58,7 +58,7 @@ export const InvoicesDetails = () => {
                 )}
               </dd>
             </Col>
-            <Col xs={{ span: 6 }} md={{ span: 4 }}>
+            <Col xs={6} md={4}>
               <dt>Bill To</dt>
               <dd>
                 <address className="text-truncate">
@@ -80,7 +80,7 @@ export const InvoicesDetails = () => {
                 </address>
               </dd>
             </Col>
-            <Col xl={12}>
+            <Col md={4}>
               <dt>Sent To</dt>
               <dd>
                 <span className="fw-medium text-body-emphasis text-truncate d-block">
@@ -160,7 +160,9 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => {
           <div className="d-flex justify-content-between align-items-center">
             <span className="mb-0">Amount Due</span>
             {(total && (
-              <span className="fw-medium fs-4">{formatCurrency(total)}</span>
+              <span className="fw-medium fs-4 text-truncate">
+                {formatCurrency(total)}
+              </span>
             )) ?? (
               <Skeleton
                 bg="white"
