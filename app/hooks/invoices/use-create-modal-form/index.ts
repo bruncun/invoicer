@@ -46,6 +46,10 @@ const useInvoicesCreateModalForm = () => {
       items: [{ name: "", quantity: 1, price: 0 }],
     },
   });
+  const {
+    formState: { errors },
+  } = invoicesCreateModalForm;
+  console.log(errors);
   const { open } = useNotification();
 
   const onFinish = async (formData: InferType<typeof invoiceSchema>) => {
