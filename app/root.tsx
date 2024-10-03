@@ -8,7 +8,7 @@ import {
   ScrollRestoration,
   useRouteError,
 } from "@remix-run/react";
-import { Refine } from "@refinedev/core";
+import { Action, IResourceItem, Refine } from "@refinedev/core";
 import routerProvider, {
   UnsavedChangesNotifier,
 } from "@refinedev/remix-router";
@@ -19,6 +19,7 @@ import { ToastContainer } from "react-toastify";
 import { None, notificationProvider } from "./providers/notification-provider";
 import { authProvider } from "./authProvider";
 import { FilterPaginationProvider } from "./contexts/invoices/filter-pagination";
+import { DocumentTitleHandler } from "@refinedev/react-router-v6";
 
 export const meta: MetaFunction = () => [
   {
@@ -66,6 +67,7 @@ export default function App() {
               <Outlet />
               <ToastContainer transition={None} />
             </>
+            <DocumentTitleHandler />
           </Refine>
         </FilterPaginationProvider>
         <ScrollRestoration />
