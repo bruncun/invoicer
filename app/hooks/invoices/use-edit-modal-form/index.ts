@@ -30,10 +30,8 @@ const useInvoicesEditModalForm = (
     reset,
     modal: { close },
     setValue,
-    formState: { errors },
   } = invoicesEditModalForm;
   const { open } = useNotification();
-  console.log(errors);
 
   useEffect(() => {
     if (!isInvoicesLoading && invoice) {
