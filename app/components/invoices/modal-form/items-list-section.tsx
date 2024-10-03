@@ -59,8 +59,8 @@ const ItemListSection = () => {
               <Form.Group>
                 <Form.Label>Total</Form.Label>
                 <span
-                  className="d-flex align-items-center w-100 text-body-emphasis text-truncate"
-                  style={{ height: "2.375rem" }}
+                  className="d-block text-body-emphasis text-truncate"
+                  style={{ paddingTop: "0.4375rem" }}
                 >
                   {items[index].quantity &&
                     items[index].price &&
