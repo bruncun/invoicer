@@ -1,6 +1,7 @@
 import { Card, Col, Container, Row } from "react-bootstrap";
 import Icon from "~/components/icon";
 import useTheme from "~/hooks/use-theme";
+import logoSvg from "~/assets/logo.svg";
 
 type AuthLayoutProps = {
   children: React.ReactNode;
@@ -19,19 +20,26 @@ const AuthLayout = ({ children, title }: AuthLayoutProps) => {
           xl={{ span: 4 }}
           className="mx-auto"
         >
+          <div className="d-flex align-items-center flex-column w-100">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="26"
+              className="mb-4"
+            >
+              <path
+                fill="#674dcf"
+                fill-rule="evenodd"
+                d="M20.513 0C24.965 2.309 28 6.91 28 12.21 28 19.826 21.732 26 14 26S0 19.826 0 12.21C0 6.91 3.035 2.309 7.487 0L14 12.9z"
+              />
+            </svg>
+            <span className="fs-5 fs-xl-4 mb-4 text-body-emphasis">
+              {title}
+            </span>
+          </div>
+
           <Card className="rounded-4 rounded">
-            <Card.Body className="p-4">
-              <div className="mb-4 d-flex align-items-center">
-                <Icon
-                  name="receipt-cutoff"
-                  className="fs-1 text-primary"
-                ></Icon>
-              </div>
-              <Card.Title className="fs-4 fs-xl-3 mb-3 d-block lh-1 text-body-emphasis">
-                {title}
-              </Card.Title>
-              {children}
-            </Card.Body>
+            <Card.Body className="p-4">{children}</Card.Body>
           </Card>
         </Col>
       </Row>
