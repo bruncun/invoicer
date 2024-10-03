@@ -9,40 +9,25 @@ export const InvoiceList = () => {
   const invoicesList = useInvoicesList();
   const invoicesModalForm = useInvoicesCreateModalForm();
   const {
-    visible,
-    close,
-    modalShow,
-    items,
-    append,
+    invoicesCreateModalForm,
+    invoicesCreateModalForm: {
+      modal: { show },
+    },
+    itemsFieldArray,
     onSubmit,
-    isSubmitting,
-    remove,
-    fields,
     onFinish,
-    handleSubmit,
-    errors,
-    register,
   } = invoicesModalForm;
 
   return (
     <>
-      <InvoicesListHeader modalShow={modalShow} invoicesList={invoicesList} />
+      <InvoicesListHeader modalShow={show} invoicesList={invoicesList} />
       <InvoicesListGroup invoicesList={invoicesList} />
       <InvoicesPager invoicesList={invoicesList} />
       <InvoicesModalForm
-        visible={visible}
-        title="New Invoice"
-        close={close}
-        items={items}
-        append={append}
+        itemsFieldArray={itemsFieldArray}
+        invoicesCreateModalForm={invoicesCreateModalForm}
         onSubmit={onSubmit}
-        isSubmitting={isSubmitting}
-        remove={remove}
-        fields={fields}
         onFinish={onFinish}
-        handleSubmit={handleSubmit}
-        errors={errors}
-        register={register}
       ></InvoicesModalForm>
     </>
   );
