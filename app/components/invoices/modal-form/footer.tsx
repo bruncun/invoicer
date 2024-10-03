@@ -24,12 +24,14 @@ const InvoicesModalFooter = ({
     handleSubmit,
     setValue,
     getValues,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isValid },
   } = methods;
   const { status } = getValues();
 
   const onSubmit = (status: Enums<"status">) =>
-    status === "draft" ? setValue("status", status) : handleSubmit(onFinish)();
+    status === "draft" && isValid
+      ? setValue("status", status)
+      : handleSubmit(onFinish)();
 
   return (
     <div className="justify-content-between d-flex m-0 w-100">
