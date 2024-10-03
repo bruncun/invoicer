@@ -21,7 +21,7 @@ export const StatusBadge = ({ status, isLoading }: StatusBadgeProps) => {
       <Badge
         bg="light"
         className="d-inline-block w-8"
-        style={{ height: "2rem" }}
+        style={{ height: "2.5rem" }}
       >
         &nbsp;
       </Badge>
