@@ -170,7 +170,7 @@ $utilities: map-merge(
 }
 
 .modal-backdrop {
-  @extend .z-2;
+  @extend .z-1;
 }
 
 dl,
@@ -208,8 +208,4 @@ td {
 
 .table {
   @extend .mb-0;
-}
-
-.btn-shadow {
-  box-shadow: $btn-box-shadow;
 }
