@@ -13,10 +13,6 @@ export type InvoicesList = ReturnType<typeof useList> & {
   setFilters: (filters: Enums<"status">[]) => void;
 };
 
-/**
- * Custom hook for fetching and managing a list of invoices.
- * @returns An object containing the invoices list and related state variables.
- */
 const useInvoicesList = (): InvoicesList => {
   const {
     currentPage,

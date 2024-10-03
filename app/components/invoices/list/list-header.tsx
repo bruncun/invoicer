@@ -1,18 +1,15 @@
 import { Stack, Dropdown, Form, Button } from "react-bootstrap";
 import Icon from "~/components/icon";
 import { STATUSES } from "~/constants";
-import { InvoicesList } from "~/hooks/invoices/use-invoices-list";
+import useInvoicesList from "~/hooks/invoices/use-invoices-list";
 import { Enums } from "~/types/supabase";
 
 type InvoiceListHeaderProps = {
   modalShow: () => void;
-  invoicesList: InvoicesList;
 };
 
-export const InvoicesListHeader = ({
-  modalShow,
-  invoicesList: { data, filters, setFilters },
-}: InvoiceListHeaderProps) => {
+export const InvoicesListHeader = ({ modalShow }: InvoiceListHeaderProps) => {
+  const { data, filters, setFilters } = useInvoicesList();
   const invoices = data?.data;
   const handleStatusChange = (status: Enums<"status">, checked: boolean) =>
     checked

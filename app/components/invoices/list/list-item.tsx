@@ -9,24 +9,20 @@ import Skeleton from "~/components/skeleton";
 import { InferType } from "yup";
 import { invoiceSchema } from "~/constants";
 
-const InvoicesListItem = ({
-  invoice,
-}: {
+type InvoicesListItemProps = {
   invoice?: InferType<typeof invoiceSchema>;
-}) => {
+};
+
+const InvoicesListItem = ({ invoice }: InvoicesListItemProps) => {
+  const { showUrl } = useNavigation();
   let formattedDate, formattedTotal;
 
   if (invoice) {
     formattedTotal = formatCurrency(
-      invoice?.items.reduce(
-        (acc, item) => acc + item.quantity * item.price,
-        0
-      ) ?? 0
+      invoice?.items.reduce((acc, item) => acc + item.quantity * item.price, 0)
     );
     formattedDate = formatDisplayDate(invoice?.payment_due ?? "");
   }
-
-  const { showUrl } = useNavigation();
 
   return (
     <Card
