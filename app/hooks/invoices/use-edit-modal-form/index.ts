@@ -35,6 +35,9 @@ const useInvoicesEditModalForm = (
     refineCoreProps: {
       resource: "invoices",
       action: "edit",
+      meta: {
+        select: "*, items(*)",
+      },
     },
     resolver: yupResolver(invoiceSchema),
   });
