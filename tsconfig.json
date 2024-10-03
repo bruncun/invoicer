@@ -23,6 +23,7 @@
       "@public/*": ["public/*"],
       "@public": ["public"]
     },
-    "noEmit": true
+    "noEmit": true,
+    "noErrorTruncation": true
   }
 }
