@@ -16,20 +16,22 @@ export const InvoicesListHeader = ({
     filterState: [filters, setFilters],
   },
 }: InvoiceListHeaderProps) => {
-  const handleStatusChange = (status: Status, checked: boolean) => {
-    if (checked) {
-      setFilters([...filters, status]);
-    } else {
-      setFilters(filters.filter((filter) => filter !== status));
-    }
-  };
+  const invoices = data?.data;
+  const handleStatusChange = (status: Status, checked: boolean) =>
+    checked
+      ? setFilters([...filters, status])
+      : setFilters(filters.filter((filter) => filter !== status));
 
   return (
     <div className="d-flex justify-content-between align-items-center">
-      <h1 className="fs-4 fs-xl-3 mb-0 lh-1">Invoices</h1>
+      <h1 className="fs-4 fs-xl-4 mb-0 lh-1">Invoices</h1>
       <Stack direction="horizontal" gap={2}>
         <Dropdown>
-          <Dropdown.Toggle variant="link">
+          <Dropdown.Toggle
+            variant="link"
+            disabled={invoices?.length === 0}
+            className="user-select-none"
+          >
             Filter
             <span className="d-none d-xl-inline-block">&nbsp;by Status</span>
             <Icon name="chevron-down text-primary ms-2"></Icon>

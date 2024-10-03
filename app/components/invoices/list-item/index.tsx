@@ -1,4 +1,3 @@
-import { Tables } from "~/types/supabase";
 import { Button, Card } from "react-bootstrap";
 import { useNavigation } from "@refinedev/core";
 import { Link } from "@remix-run/react";
@@ -6,11 +5,14 @@ import FormattedId from "~/components/formatted-id";
 import Icon from "~/components/icon";
 import { StatusBadge } from "~/components/status-badge";
 import { formatCurrency, formatDisplayDate } from "~/utility/formatters";
+import { Invoice } from "~/types/invoices";
 
 const InvoicesListItem = ({
   invoice,
+  isLoading,
 }: {
-  invoice: Tables<"invoices"> & { items: Array<Tables<"items">> };
+  invoice: Invoice;
+  isLoading: boolean;
 }) => {
   const formattedTotal = formatCurrency(
     invoice.items.reduce((acc, item) => acc + item.quantity * item.price, 0)
@@ -24,7 +26,7 @@ const InvoicesListItem = ({
       to={showUrl("invoices", invoice.id)}
       className="border border-transparent border-primary-hover cursor-pointer shadow-sm"
     >
-      <Card.Body className="d-xl-flex justify-content-between align-items-center px-xl-4 py-xl-2 d-none">
+      <Card.Body className="d-xl-flex justify-content-between align-items-center px-xl-4 py-xl-2 d-none border border-transparent">
         <div className="me-3 ms-3 w-7">
           <FormattedId id={invoice.id}></FormattedId>
         </div>
@@ -34,7 +36,9 @@ const InvoicesListItem = ({
           {formattedTotal}
         </span>
         <div className="ms-5 me-3">
-          {invoice.status && <StatusBadge status={invoice.status} />}
+          {invoice.status && (
+            <StatusBadge status={invoice.status} isLoading={isLoading} />
+          )}
         </div>
         <Button variant="link" className="text-primary">
           <Icon name="chevron-right"></Icon>
@@ -54,7 +58,11 @@ const InvoicesListItem = ({
               <span className="text-body-emphasis">{formattedTotal}</span>
             </Card.Title>
           </div>
-          <div>{invoice.status && <StatusBadge status={invoice.status} />}</div>
+          <div>
+            {invoice.status && (
+              <StatusBadge status={invoice.status} isLoading={isLoading} />
+            )}
+          </div>
         </div>
       </Card.Body>
     </Card>
