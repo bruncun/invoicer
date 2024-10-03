@@ -5,10 +5,15 @@ import FormattedId from "~/components/formatted-id";
 import Icon from "~/components/icon";
 import { StatusBadge } from "~/components/status-badge";
 import { formatCurrency, formatDisplayDate } from "~/utility/formatters";
-import { Invoice } from "~/types/invoices";
 import Skeleton from "~/components/skeleton";
+import { InferType } from "yup";
+import { invoiceSchema } from "~/constants";
 
-const InvoicesListItem = ({ invoice }: { invoice?: Invoice }) => {
+const InvoicesListItem = ({
+  invoice,
+}: {
+  invoice?: InferType<typeof invoiceSchema>;
+}) => {
   let formattedDate, formattedTotal;
 
   if (invoice) {
@@ -36,7 +41,7 @@ const InvoicesListItem = ({ invoice }: { invoice?: Invoice }) => {
           <FormattedId id={invoice?.id}></FormattedId>
         </div>
         <span
-          className={`me-5 pe-4 w-10 text-muted text-nowrap ${
+          className={`me-5 pe-4 w-10 text-muted text-nowrap${
             invoice ? "" : "fs-0"
           }`}
         >
@@ -79,7 +84,7 @@ const InvoicesListItem = ({ invoice }: { invoice?: Invoice }) => {
         </div>
         <div className="d-flex justify-content-between align-items-center">
           <div>
-            <span className="d-block mb-2">
+            <span className="d-block mb-2 lh-1">
               {invoice?.description ? `Due ${formattedDate}` : <Skeleton />}
             </span>
             <Card.Title className="fs-6 mb-0 text-body-emphasis lh-1">

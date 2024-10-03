@@ -1,10 +1,11 @@
-import { Badge, Card, Col, Row, Stack, Table } from "react-bootstrap";
+import { Card, Col, Row, Stack, Table } from "react-bootstrap";
 import FormattedId from "~/components/formatted-id";
 import { formatDisplayDate, formatCurrency } from "~/utility/formatters";
 import useInvoicesShow from "~/hooks/invoices/use-show";
 import Skeleton from "~/components/skeleton";
 import { Tables } from "~/types/supabase";
-import { Invoice } from "~/types/invoices";
+import { InferType } from "yup";
+import { invoiceSchema, itemSchema } from "~/constants";
 
 export const InvoicesDetails = () => {
   const invoicesShow = useInvoicesShow();
@@ -97,13 +98,13 @@ export const InvoicesDetails = () => {
 };
 
 interface ItemsTableProps {
-  invoice?: Invoice;
+  invoice?: InferType<typeof invoiceSchema>;
   total?: number;
   isLoading: boolean;
 }
 
 interface ItemListItemProps {
-  item?: Tables<"items">;
+  item?: InferType<typeof itemSchema>;
 }
 
 const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => {
