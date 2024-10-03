@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 
 const useTheme = () => {
   const getPreferredTheme = () =>
@@ -22,7 +22,7 @@ const useTheme = () => {
   };
   const [theme, setThemeState] = useState<string>(getPreferredTheme());
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setTheme(theme);
   }, [theme]);
 
