@@ -4,14 +4,11 @@ import {
   HttpError,
   useCreate,
   useDelete,
-  useDeleteMany,
   useGetIdentity,
-  useNavigation,
   useNotification,
   useUpdate,
 } from "@refinedev/core";
 import { useModalForm } from "@refinedev/react-hook-form";
-import { formatDate } from "date-fns";
 import { useEffect, useState } from "react";
 import { useFieldArray } from "react-hook-form";
 import { Asserts, InferType } from "yup";
@@ -32,6 +29,7 @@ const useInvoicesEditModalForm = (
     refineCoreProps: {
       resource: "invoices",
       action: "edit",
+      id: invoice?.id as BaseKey,
     },
     resolver: yupResolver(invoiceSchema),
   });
@@ -43,6 +41,7 @@ const useInvoicesEditModalForm = (
     formState: { errors },
     watch,
     register,
+    refineCore: { onFinish },
     setValue,
   } = invoicesEditModalForm;
   const { open } = useNotification();
@@ -51,9 +50,6 @@ const useInvoicesEditModalForm = (
     control,
     name: "items",
   });
-  const items = watch("items");
-  const { fields, append, remove } = itemsFieldArray;
-  const { list } = useNavigation();
 
   useEffect(() => {
     if (!isInvoicesLoading && invoice) {
@@ -87,10 +83,10 @@ const useInvoicesEditModalForm = (
   const onSubmit = (status: Status) => setValue("status", status);
 
   useEffect(() => {
-    if (status) handleSubmit(onFinish)();
+    if (status) handleSubmit(onFinishHandler)();
   }, [status]);
 
-  const onFinish = async (formData: Asserts<typeof invoiceSchema>) => {
+  const onFinishHandler = async (formData: Asserts<typeof invoiceSchema>) => {
     setIsSubmitting(true);
     const newItems = formData.items.filter((item) => !item.id);
     const deletedItems =
@@ -181,7 +177,7 @@ const useInvoicesEditModalForm = (
   return {
     invoicesEditModalForm,
     itemsFieldArray,
-    onFinish,
+    onFinish: onFinishHandler,
     onSubmit,
   };
 };
