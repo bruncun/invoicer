@@ -847,7 +847,7 @@ $btn-font-weight: $font-weight-semibold;
 $btn-box-shadow: inset 0 1px 0 rgba($white, 0.15), 0 1px 1px rgba($black, 0.075);
 $btn-focus-width: $input-btn-focus-width;
 $btn-focus-box-shadow: $input-btn-focus-box-shadow;
-$btn-disabled-opacity: 0.65;
+$btn-disabled-opacity: 0.5;
 $btn-active-box-shadow: inset 0 3px 5px rgba($black, 0.125);
 
 $btn-link-color: var(--#{$prefix}link-color);
@@ -1325,7 +1325,7 @@ $dropdown-dark-header-color: $gray-500;
 
 // scss-docs-start pagination-variables
 $pagination-padding-y: 0.375rem;
-$pagination-padding-x: 0.75rem;
+$pagination-padding-x: 0.6125rem;
 $pagination-padding-y-sm: 0.25rem;
 $pagination-padding-x-sm: 0.5rem;
 $pagination-padding-y-lg: 0.75rem;
@@ -1336,7 +1336,7 @@ $pagination-font-size: $font-size-base;
 $pagination-color: var(--#{$prefix}link-color);
 $pagination-bg: var(--#{$prefix}body-bg);
 $pagination-border-radius: var(--#{$prefix}border-radius);
-$pagination-border-width: var(--#{$prefix}border-width);
+$pagination-border-width: 0;
 $pagination-margin-start: calc(
   #{$pagination-border-width} * -1
 ); // stylelint-disable-line function-disallowed-list
@@ -1353,12 +1353,12 @@ $pagination-hover-border-color: var(
   --#{$prefix}border-color
 ); // Todo in v6: remove this?
 
-$pagination-active-color: $component-active-color;
-$pagination-active-bg: $component-active-bg;
+$pagination-active-color: $link-color;
+$pagination-active-bg: var(--#{$prefix}body-bg);
 $pagination-active-border-color: $component-active-bg;
 
 $pagination-disabled-color: var(--#{$prefix}secondary-color);
-$pagination-disabled-bg: var(--#{$prefix}secondary-bg);
+$pagination-disabled-bg: transparent;
 $pagination-disabled-border-color: var(--#{$prefix}border-color);
 
 $pagination-transition: color 0.15s ease-in-out,
@@ -1517,7 +1517,7 @@ $toast-background-color: rgba(var(--#{$prefix}body-bg-rgb), 0.85);
 $toast-border-width: 0;
 $toast-border-color: var(--#{$prefix}border-color-translucent);
 $toast-border-radius: var(--#{$prefix}border-radius);
-$toast-box-shadow: var(--#{$prefix}box-shadow-sm);
+$toast-box-shadow: none;
 $toast-spacing: $container-padding-x;
 
 $toast-header-color: var(--#{$prefix}emphasis-color);

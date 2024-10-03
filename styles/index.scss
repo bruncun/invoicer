@@ -19,7 +19,9 @@
 @import "../node_modules/bootstrap/scss/tables";
 @import "../node_modules/bootstrap/scss/forms";
 @import "../node_modules/bootstrap/scss/buttons";
+@import "../node_modules/bootstrap/scss/transitions";
 @import "../node_modules/bootstrap/scss/dropdown";
+@import "../node_modules/bootstrap/scss/pagination";
 @import "../node_modules/bootstrap/scss/nav";
 @import "../node_modules/bootstrap/scss/navbar";
 @import "../node_modules/bootstrap/scss/card";
@@ -159,14 +161,9 @@ $utilities: map-merge(
 .layout {
   padding-top: 4.125rem;
 
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(xl) {
+    padding-left: 4.625rem;
     padding-top: 0;
-  }
-}
-
-.layout-container {
-  @include media-breakpoint-up(lg) {
-    padding-left: 5.125rem;
   }
 }
 
@@ -314,4 +311,8 @@ td {
 
 .input-group:focus-within *:focus {
   outline: 0;
+}
+
+.page-item.active {
+  font-weight: $font-weight-semibold;
 }
