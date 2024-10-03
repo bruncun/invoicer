@@ -6,7 +6,7 @@ import { invoiceSchema } from "~/constants";
 import { ReactNode } from "react";
 import useSyncStatus from "~/hooks/invoices/use-sync-status";
 import useSyncPaymentDue from "~/hooks/invoices/use-sync-payment-due";
-import { UseGetIdentityReturnType } from "@refinedev/core/dist/hooks/auth/useGetIdentity";
+import { useGetIdentity } from "@refinedev/core";
 import useSyncUserId from "~/hooks/invoices/use-sync-user-id";
 import BillFromSection from "./bill-from-section";
 import BillToSection from "./bill-to-section";
@@ -16,30 +16,29 @@ import InvoicesModalFooter from "./footer";
 
 type InvoicesModalFormProps = {
   title: ReactNode;
-  identity: UseGetIdentityReturnType<{
-    id: string;
-  }>;
   invoicesModalForm: UseModalFormReturnType<
     InferType<typeof invoiceSchema>,
     HttpError,
     InferType<typeof invoiceSchema>
-  >;
-  onFinish: (formData: InferType<typeof invoiceSchema>) => Promise<void>;
+  > & {
+    onFinish: (formData: InferType<typeof invoiceSchema>) => Promise<void>;
+  };
 };
 
 const InvoicesModalForm = ({
-  onFinish,
-  identity,
   title,
   invoicesModalForm,
 }: InvoicesModalFormProps) => {
-  invoicesModalForm;
+  const identity = useGetIdentity<{
+    id: string;
+  }>();
   const {
     modal: { visible, close },
     handleSubmit,
     watch,
     setValue,
     getValues,
+    onFinish,
   } = invoicesModalForm;
 
   useSyncUserId(setValue, identity);
@@ -47,26 +46,21 @@ const InvoicesModalForm = ({
   useSyncPaymentDue(watch, setValue, getValues);
 
   return (
-    <SlideOver
-      title={title}
-      visible={visible}
-      close={close}
-      body={
-        <FormProvider {...invoicesModalForm}>
+    <FormProvider {...invoicesModalForm}>
+      <SlideOver
+        title={title}
+        visible={visible}
+        close={close}
+        body={
           <form id="invoice-form" onSubmit={handleSubmit(onFinish)}>
             <BillFromSection />
             <BillToSection />
             <ItemListSection />
           </form>
-        </FormProvider>
-      }
-      footer={
-        <InvoicesModalFooter
-          onFinish={onFinish}
-          invoicesModalForm={invoicesModalForm}
-        />
-      }
-    />
+        }
+        footer={<InvoicesModalFooter invoicesModalForm={invoicesModalForm} />}
+      />
+    </FormProvider>
   );
 };
 

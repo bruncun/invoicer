@@ -9,22 +9,22 @@ type InvoicesModalFooterProps = {
     InferType<typeof invoiceSchema>,
     HttpError,
     InferType<typeof invoiceSchema>
-  >;
-  onFinish: (formData: InferType<typeof invoiceSchema>) => Promise<void>;
+  > & {
+    onFinish: (formData: InferType<typeof invoiceSchema>) => Promise<void>;
+  };
 };
 
 const InvoicesModalFooter = ({
-  onFinish,
   invoicesModalForm,
 }: InvoicesModalFooterProps) => {
-  const methods = invoicesModalForm;
   const {
     modal: { close },
+    onFinish,
     handleSubmit,
     setValue,
     getValues,
     formState: { isSubmitting },
-  } = methods;
+  } = invoicesModalForm;
   const status = getValues("status");
 
   const onSaveAsDraft = () =>
