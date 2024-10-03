@@ -7,6 +7,7 @@ type InvoiceMobileNavbarProps = {
   onUpdateStatus: (status: "pending" | "paid") => void;
   setShowConfirmationModal: (value: boolean) => void;
   showConfirmationModal: boolean;
+  isUpdateLoading?: boolean;
 };
 
 const InvoicesMobileNavbar = ({
@@ -14,6 +15,7 @@ const InvoicesMobileNavbar = ({
   invoice,
   onUpdateStatus,
   setShowConfirmationModal,
+  isUpdateLoading,
   showConfirmationModal,
 }: InvoiceMobileNavbarProps) => (
   <Navbar
@@ -33,13 +35,21 @@ const InvoicesMobileNavbar = ({
         Delete
       </Button>
       {invoice?.status === "pending" && (
-        <Button variant="primary" onClick={() => onUpdateStatus("paid")}>
-          Mark as Paid
+        <Button
+          variant="primary"
+          onClick={() => onUpdateStatus("paid")}
+          disabled={isUpdateLoading}
+        >
+          {isUpdateLoading ? "Marking..." : "Mark as Paid"}
         </Button>
       )}
       {invoice?.status === "draft" && (
-        <Button variant="primary" onClick={() => onUpdateStatus("pending")}>
-          Send Invoice
+        <Button
+          variant="primary"
+          onClick={() => onUpdateStatus("pending")}
+          disabled={isUpdateLoading}
+        >
+          {isUpdateLoading ? "Sending..." : "Send Invoice"}
         </Button>
       )}
     </Stack>

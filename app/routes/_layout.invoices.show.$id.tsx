@@ -1,14 +1,11 @@
 import {
   BaseKey,
-  useBack,
   useDelete,
   useDeleteMany,
   useNavigation,
   useNotification,
   useUpdate,
 } from "@refinedev/core";
-import { Button } from "react-bootstrap";
-import Icon from "~/components/icon";
 import InvoicesModalForm from "~/components/invoices/modal-form";
 import InvoicesDetails from "~/components/invoices/details";
 import InvoicesDetailsHeader from "~/components/invoices/details-header";
@@ -21,7 +18,6 @@ import { useState } from "react";
 import { supabaseClient } from "~/utility";
 
 export const InvoicesShow = () => {
-  const goBack = useBack();
   const { invoice, isLoading: isInvoicesLoading, isError } = useInvoicesShow();
   const invoicesModalForm = useInvoicesEditModalForm(
     isInvoicesLoading,
@@ -40,19 +36,19 @@ export const InvoicesShow = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const { mutateAsync: mutateDeleteManyAsync } = useDeleteMany();
   const { mutateAsync: mutateDeleteAsync } = useDelete();
+  const [isUpdateLoading, setIsUpdateLoading] = useState(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const { list } = useNavigation();
   const { open } = useNotification();
 
   if (isError) return <FullScreenError />;
 
   const onUpdateStatus = async (status: "paid" | "pending") => {
+    setIsUpdateLoading(true);
     if (status === "pending") {
-      const { data, error } = await supabaseClient.functions.invoke(
-        "send-invoice",
-        {
-          body: invoice,
-        }
-      );
+      await supabaseClient.functions.invoke("send-invoice", {
+        body: invoice,
+      });
     }
     mutateUpdateAsync({
       resource: "invoices",
@@ -63,14 +59,19 @@ export const InvoicesShow = () => {
       successNotification: {
         type: "success",
         message: "success",
-        description: `Invoice marked as ${status}`,
+        description:
+          status === "pending"
+            ? "Invoice updated and sent"
+            : "Invoice marked as paid",
       },
       mutationMode: "optimistic",
     });
+    setIsUpdateLoading(false);
   };
 
   const onDelete = async () => {
     try {
+      setIsDeleteLoading(true);
       await Promise.all([
         mutateDeleteManyAsync({
           resource: "items",
@@ -89,6 +90,7 @@ export const InvoicesShow = () => {
         type: "success",
       });
       list("invoices");
+      setIsDeleteLoading(false);
       setShowConfirmationModal(false);
     } catch (error) {
       console.error("Delete failed", error);
@@ -97,13 +99,10 @@ export const InvoicesShow = () => {
 
   return (
     <>
-      <Button variant="link" onClick={goBack} className="mb-3 user-select-none">
-        <Icon name="chevron-left" className="me-2"></Icon>
-        Go back
-      </Button>
       <InvoicesDetailsHeader
         modalShow={show}
         onUpdateStatus={onUpdateStatus}
+        isUpdateLoading={isUpdateLoading}
         setShowConfirmationModal={setShowConfirmationModal}
         showConfirmationModal={showConfirmationModal}
       ></InvoicesDetailsHeader>
@@ -112,6 +111,7 @@ export const InvoicesShow = () => {
         modalShow={show}
         invoice={invoice}
         onUpdateStatus={onUpdateStatus}
+        isUpdateLoading={isUpdateLoading}
         setShowConfirmationModal={setShowConfirmationModal}
         showConfirmationModal={showConfirmationModal}
       ></InvoicesMobileNavbar>
@@ -126,6 +126,7 @@ export const InvoicesShow = () => {
         invoiceId={invoice?.id}
         setShowConfirmationModal={setShowConfirmationModal}
         onDelete={onDelete}
+        isDeleteLoading={isDeleteLoading}
       ></InvoicesConfirmDeletionModal>
     </>
   );
