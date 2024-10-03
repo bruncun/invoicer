@@ -19,7 +19,7 @@ import { ToastContainer } from "react-toastify";
 import { None, notificationProvider } from "./providers/notification-provider";
 import { authProvider } from "./authProvider";
 import { FilterPaginationProvider } from "./contexts/invoices/filter-pagination";
-import { DocumentTitleHandler } from "@refinedev/react-router-v6";
+import { DocumentTitleHandler } from "./utility/document-title-handler";
 
 export const meta: MetaFunction = () => [
   {
@@ -66,8 +66,8 @@ export default function App() {
             <>
               <Outlet />
               <ToastContainer transition={None} />
+              <DocumentTitleHandler />
             </>
-            <DocumentTitleHandler />
           </Refine>
         </FilterPaginationProvider>
         <ScrollRestoration />
