@@ -17,7 +17,7 @@ const InvoicesEmptyState = () => (
       >
         <img
           src={emptyStateIllustration}
-          alt="An illustration of two empty clipboards"
+          alt="An illustration of a person standing in a envelope. They are holding a speakerphone and are surrounded by floating envelopes and paper airplanes."
           className="img-fluid mb-5"
         ></img>
         <h2 className="fs-5 mb-3">No invoices</h2>
