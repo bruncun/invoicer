@@ -64,9 +64,8 @@ export default function App() {
               },
             ]}
             options={{
-              warnWhenUnsavedChanges: true,
               useNewQueryKeys: true,
-              syncWithLocation: true,
+              warnWhenUnsavedChanges: true,
               projectId: "AGpg3C-5yTuaG-cOKhCy",
             }}
           >
