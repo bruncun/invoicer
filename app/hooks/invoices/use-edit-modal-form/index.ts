@@ -17,9 +17,7 @@ const useInvoicesEditModalForm = (
     HttpError,
     InferType<typeof invoiceSchema>
   >({
-    syncWithLocation: true,
     refineCoreProps: {
-      resource: "invoices",
       action: "edit",
       successNotification: false,
       meta: {

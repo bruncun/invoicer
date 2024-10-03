@@ -16,9 +16,7 @@ const useInvoicesCreateModalForm = () => {
     InferType<typeof invoiceSchema>
   >({
     resolver: yupResolver(invoiceSchema),
-    syncWithLocation: true,
     refineCoreProps: {
-      autoSave: { enabled: true },
       resource: "invoices",
       action: "create",
     },
