@@ -30,7 +30,7 @@ export const InvoicesListHeader = ({
             className="user-select-none"
           >
             Filter
-            <span className="d-none d-xl-inline-block">&nbsp;by Status</span>
+            <span className="d-none d-sm-inline-block">&nbsp;by Status</span>
             <Icon name="chevron-down text-primary ms-2"></Icon>
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -56,7 +56,7 @@ export const InvoicesListHeader = ({
             className="me-2 position-absolute fs-4 start-0 top-0 ms-2 mt-0"
           ></Icon>
           <span className="ms-4 ps-1">New </span>
-          <span className="d-none d-xl-inline-block">Invoice</span>
+          <span className="d-none d-sm-inline-block">Invoice</span>
         </Button>
       </Stack>
     </div>
