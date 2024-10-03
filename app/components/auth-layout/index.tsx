@@ -11,7 +11,7 @@ const AuthLayout = ({ children, title }: AuthLayoutProps) => {
   useTheme();
 
   return (
-    <div className="light-bg-gray-100 dark-bg-gray-950 ps-xl-navbar position-relative min-vh-100">
+    <div className="light-bg-gray-100 dark-bg-gray-950 ps-xl-navbar position-relative min-dvh-100">
       <Container className="align-items-center position-absolute top-50 start-50 translate-middle w-100">
         <Row>
           <Col

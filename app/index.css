@@ -8408,6 +8408,10 @@ td {
   width: 100% !important;
 }
 
+.min-dvh-100 {
+  min-height: 100dvh !important;
+}
+
 .outline-0 {
   outline: 0 !important;
 }
