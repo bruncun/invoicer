@@ -22,7 +22,7 @@ const AuthLayout = ({ children, title }: AuthLayoutProps) => {
                   className="fs-1 text-primary"
                 ></Icon>
               </div>
-              <Card.Title className="fs-4 fs-xl-3 mb-3 d-block lh-1">
+              <Card.Title className="fs-4 fs-xl-3 mb-3 d-block lh-1 text-body-emphasis">
                 {title}
               </Card.Title>
               {children}

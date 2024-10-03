@@ -27,7 +27,7 @@ const Layout = ({ children }: PropsWithChildren) => {
         isLoading={isLoading}
         invoicesListUrl={invoicesListUrl}
       ></DesktopNavbar>
-      <Container className="py-3 py-xl-3 w-100 position-xl-relative layout-container">
+      <Container className="py-3 py-xl-4 w-100 position-xl-relative layout-container">
         <Row>
           <Col xl={{ span: 10, offset: 1 }}>{children}</Col>
         </Row>
