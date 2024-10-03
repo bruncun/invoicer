@@ -12,7 +12,7 @@ const Layout = ({ children }: PropsWithChildren) => {
   const invoicesListUrl = listUrl("invoices");
 
   return (
-    <div className={`layout position-relative`}>
+    <div className={`layout ps-xl-navbar position-relative`}>
       <MobileNavbar
         theme={theme}
         toggleTheme={toggleTheme}

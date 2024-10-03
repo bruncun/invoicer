@@ -78,13 +78,11 @@ const InvoicesModalForm = ({
       className="z-3 z-md-2"
       backdropClassName="z-2"
       dialogClassName="ms-sm-0 mt-0 mb-0 min-vh-lg-100 slide-over-modal-dialog"
-      contentClassName="rounded-start-0 ps-xl-6"
+      contentClassName="rounded-start-0 ps-xl-navbar"
       scrollable
     >
-      <Modal.Header className="px-4 py-3">
-        <Modal.Title className="lh-1 border-top border-transparent py-1">
-          {title}
-        </Modal.Title>
+      <Modal.Header className="px-4">
+        <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body className="p-4">
         <form id="invoice-form" onSubmit={handleSubmit(onFinish)}>
@@ -378,7 +376,7 @@ const InvoicesModalForm = ({
                 <Col xs={{ span: 3 }} xl={{ span: 2 }}>
                   <Form.Group>
                     <Form.Label>Total</Form.Label>
-                    <span className="mt-2 pt-1 border border-transparent d-block lh-1 fw-semibold text-body-emphasis text-truncate">
+                    <span className="mt-2 pt-1 border border-transparent d-block lh-1 fw-medium text-body-emphasis text-truncate">
                       {items[index].quantity &&
                         items[index].price &&
                         formatCurrency(
@@ -394,7 +392,6 @@ const InvoicesModalForm = ({
                 >
                   <div>
                     <OverlayTrigger
-                      delay={TOOLTIP_DELAY}
                       overlay={
                         <Tooltip id="delete-tooltip">Delete Item</Tooltip>
                       }
@@ -429,7 +426,7 @@ const InvoicesModalForm = ({
           </Button>
         </form>
       </Modal.Body>
-      <Modal.Footer className="px-4 py-3 justify-content-between">
+      <Modal.Footer className="px-4 justify-content-between">
         <Button variant="link" onClick={close} className="ms-0 my-0 me-2">
           Cancel
         </Button>

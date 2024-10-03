@@ -6,7 +6,7 @@ export const InvoiceList = () => {
           <div className="p-md-5 card-body">
             <div className="d-md-flex justify-content-between mb-3">
               <div>
-                <span className="fw-semibold text-muted d-flex align-items-center lh-1 fs-5">
+                <span className="fw-medium text-muted d-flex align-items-center lh-1 fs-5">
                   #<span className="text-body-emphasis">10002</span>
                 </span>
                 <div className="clearfix mb-1"></div>
@@ -26,18 +26,16 @@ export const InvoiceList = () => {
               <div className="row">
                 <div className="col-md-4 col-6 mb-4">
                   <dt>Invoice Date</dt>
-                  <dd className="mb-4 text-body-emphasis fw-semibold">
+                  <dd className="mb-4 text-body-emphasis fw-medium">
                     Jun 27 2024
                   </dd>
                   <dt>Payment Due</dt>
-                  <dd className="text-body-emphasis fw-semibold">
-                    Jun 27 2024
-                  </dd>
+                  <dd className="text-body-emphasis fw-medium">Jun 27 2024</dd>
                 </div>
                 <div className="col-md-4 col-6">
                   <dt>Bill To</dt>
                   <dd>
-                    <span className="text-body-emphasis fw-semibold">
+                    <span className="text-body-emphasis fw-medium">
                       Bruno Cunha
                     </span>
                     <br />
@@ -57,7 +55,7 @@ export const InvoiceList = () => {
                     <div className="col-6 col-md-12">
                       <dt>Sent To</dt>
                       <dd
-                        className="mb-4 text-body-emphasis fw-semibold text-truncate"
+                        className="mb-4 text-body-emphasis fw-medium text-truncate"
                         title="bruncun@icloud.com"
                       >
                         bruncun@icloud.com
@@ -90,34 +88,34 @@ export const InvoiceList = () => {
                       <th className="text-end">Total</th>
                     </tr>
                   </thead>
-                  <tbody className="fw-semibold">
+                  <tbody className="fw-medium">
                     <tr>
-                      <td className="align-top text-body-emphasis fw-semibold">
+                      <td className="align-top text-body-emphasis fw-medium">
                         Bruno Cunha
                       </td>
                       <td className="text-center">1</td>
                       <td className="align-top text-end">$0.00</td>
-                      <td className="align-top text-body-emphasis fw-semibold text-end">
+                      <td className="align-top text-body-emphasis fw-medium text-end">
                         $0.00
                       </td>
                     </tr>
                     <tr>
-                      <td className="align-top text-body-emphasis fw-semibold">
+                      <td className="align-top text-body-emphasis fw-medium">
                         Bruno Cunha
                       </td>
                       <td className="text-center">1</td>
                       <td className="align-top text-end">$0.00</td>
-                      <td className="align-top text-body-emphasis fw-semibold text-end">
+                      <td className="align-top text-body-emphasis fw-medium text-end">
                         $0.00
                       </td>
                     </tr>
                     <tr>
-                      <td className="align-top text-body-emphasis fw-semibold">
+                      <td className="align-top text-body-emphasis fw-medium">
                         Bruno Cunha
                       </td>
                       <td className="text-center">1</td>
                       <td className="align-top text-end">$0.00</td>
-                      <td className="align-top text-body-emphasis fw-semibold text-end">
+                      <td className="align-top text-body-emphasis fw-medium text-end">
                         $0.00
                       </td>
                     </tr>
@@ -126,7 +124,7 @@ export const InvoiceList = () => {
                 <div className="d-md-none vstack gap-3">
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
-                      <span className="fw-semibold text-body-emphasis d-block">
+                      <span className="fw-medium text-body-emphasis d-block">
                         Bruno Cunha
                       </span>
                       <span>1 x $0.00</span>
@@ -135,7 +133,7 @@ export const InvoiceList = () => {
                   </div>
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
-                      <span className="fw-semibold text-body-emphasis d-block">
+                      <span className="fw-medium text-body-emphasis d-block">
                         Bruno Cunha
                       </span>
                       <span>1 x $0.00</span>
@@ -144,7 +142,7 @@ export const InvoiceList = () => {
                   </div>
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
-                      <span className="fw-semibold text-body-emphasis d-block">
+                      <span className="fw-medium text-body-emphasis d-block">
                         Bruno Cunha
                       </span>
                       <span>1 x $0.00</span>
@@ -158,7 +156,7 @@ export const InvoiceList = () => {
               <div className="px-xl-4 mx-xl-2 card-body">
                 <div className="d-flex justify-content-between align-items-center">
                   <span className="mb-0">Amount Due</span>
-                  <span className="fw-semibold fs-4">$554.54</span>
+                  <span className="fw-medium fs-4">$554.54</span>
                 </div>
               </div>
             </div>
