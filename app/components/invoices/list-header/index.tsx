@@ -13,6 +13,7 @@ export const InvoicesListHeader = ({
   modalShow,
   invoicesList: {
     data,
+    isLoading,
     filterState: [filters, setFilters],
   },
 }: InvoiceListHeaderProps) => {
@@ -24,12 +25,12 @@ export const InvoicesListHeader = ({
 
   return (
     <div className="d-flex justify-content-between align-items-center">
-      <h1 className="fs-4 fs-xl-4 mb-0 lh-1">Invoices</h1>
+      <h1 className="fs-4 mb-0 lh-1">Invoices</h1>
       <Stack direction="horizontal" gap={2}>
         <Dropdown>
           <Dropdown.Toggle
             variant="link"
-            disabled={invoices?.length === 0}
+            disabled={invoices?.length === 0 || isLoading}
             className="user-select-none"
           >
             Filter

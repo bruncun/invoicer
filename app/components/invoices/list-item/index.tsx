@@ -22,7 +22,6 @@ const InvoicesListItem = ({ invoice }: { invoice?: Invoice }) => {
   }
 
   const { showUrl } = useNavigation();
-  console.log(!!invoice?.items);
 
   return (
     <Card
@@ -36,13 +35,17 @@ const InvoicesListItem = ({ invoice }: { invoice?: Invoice }) => {
         <div className="me-3 ms-3 w-7">
           <FormattedId id={invoice?.id}></FormattedId>
         </div>
-        <span className="me-5 pe-4 w-10 text-muted">
+        <span className={`me-5 pe-4 w-10 text-muted ${invoice ? "" : "fs-0"}`}>
           {invoice?.description ? `Due ${formattedDate}` : <Skeleton />}
         </span>
-        <span className="flex-grow-1 text-muted">
-          {invoice?.client_name ?? <Skeleton className="w-6" />}
+        <span className={`flex-grow-1 text-muted ${invoice ? "" : "fs-0"}`}>
+          {invoice?.client_name ?? <Skeleton className="w-7" />}
         </span>
-        <span className="flex-grow-1 justify-content-end d-flex fw-semibold text-body-emphasis">
+        <span
+          className={`flex-grow-1 justify-content-end d-flex fw-semibold text-body-emphasis ${
+            invoice ? "" : "fs-0"
+          }`}
+        >
           {invoice?.items ? formattedTotal : <Skeleton className="w-6" />}
         </span>
         <div className="ms-5 me-3">

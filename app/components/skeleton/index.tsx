@@ -8,11 +8,11 @@ type SkeletonProps = {
 };
 
 const Skeleton = ({
-  style = { height: "1.25rem" },
-  className = "w-8",
+  style = { height: "0.9375rem" },
+  className = "w-8 border-transparent",
   bg = "body-secondary",
 }: SkeletonProps) => (
-  <Badge bg={bg} className={`d-inline-block ${className}`} style={style}>
+  <Badge bg={bg} className={`d-inline-block ${className} p-0`} style={style}>
     &nbsp;
   </Badge>
 );
