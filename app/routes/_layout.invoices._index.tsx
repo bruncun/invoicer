@@ -7,13 +7,7 @@ import { useInvoicesList } from "~/hooks/invoices/use-invoices-list";
 
 export const InvoiceList = () => {
   const invoicesList = useInvoicesList();
-  const [filters, setFilters] = useState<Status[]>([]);
-  const pageSize = 10;
-  const { invoices, total, isLoading, current, setCurrent } = useInvoicesList(
-    pageSize,
-    filters
-  );
-  const invoiceModalForm = useInvoicesCreateModalForm();
+  const invoicesModalForm = useInvoicesCreateModalForm();
   const {
     visible,
     close,
@@ -28,9 +22,7 @@ export const InvoiceList = () => {
     handleSubmit,
     errors,
     register,
-  } = invoiceModalForm;
-
-  if (isLoading) return <FullScreenSpinner />;
+  } = invoicesModalForm;
 
   return (
     <>

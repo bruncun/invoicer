@@ -1,7 +1,6 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   BaseKey,
-  BaseRecord,
-  HttpError,
   useCreate,
   useDelete,
   useDeleteMany,
@@ -14,13 +13,22 @@ import { useModalForm } from "@refinedev/react-hook-form";
 import { formatDate } from "date-fns";
 import { useEffect, useState } from "react";
 import { useFieldArray } from "react-hook-form";
-import { InvoiceWithRelated, InvoiceDto, Item, Status } from "~/types/invoices";
+import { Asserts } from "yup";
+import { invoiceSchema } from "~/constants";
+import { Status } from "~/types/invoices";
 import { Tables } from "~/types/supabase";
 
 const useInvoicesEditModalForm = (
   isInvoicesLoading: boolean,
-  invoice?: InvoiceWithRelated
+  invoice?: Tables<"invoices"> & { items: Tables<"items">[] }
 ) => {
+  const modalForm = useModalForm({
+    resolver: yupResolver(invoiceSchema),
+    refineCoreProps: {
+      autoSave: { enabled: true },
+    },
+    syncWithLocation: true,
+  });
   const {
     control,
     reset,
@@ -30,18 +38,12 @@ const useInvoicesEditModalForm = (
     watch,
     register,
     setValue,
-  } = useModalForm<InvoiceDto, HttpError, InvoiceDto>({
-    refineCoreProps: {
-      autoSave: { enabled: true },
-    },
-    syncWithLocation: true,
-  });
-  const { list } = useNavigation();
+  } = modalForm;
   const { fields, append, remove } = useFieldArray({
     control,
     name: "items",
   });
-
+  const { list } = useNavigation();
   const items = watch("items");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -63,6 +65,7 @@ const useInvoicesEditModalForm = (
         payment_terms: "30",
         description: invoice.description,
         items: invoice.items,
+        user_id: invoice.user_id,
       });
     }
   }, [invoice]);
@@ -80,7 +83,6 @@ const useInvoicesEditModalForm = (
   const onSubmit = (status: Status) => setValue("status", status);
 
   useEffect(() => {
-    console.log("effect", status);
     if (status) handleSubmit(onFinish)();
   }, [status]);
 
@@ -96,6 +98,7 @@ const useInvoicesEditModalForm = (
         message: "success",
         description: `Invoice marked as ${status}`,
       },
+      mutationMode: "optimistic",
     });
   };
 
@@ -125,12 +128,11 @@ const useInvoicesEditModalForm = (
     }
   };
 
-  const onFinish = async (formData: InvoiceDto) => {
-    console.log("finish");
+  const onFinish = async (formData: Asserts<typeof invoiceSchema>) => {
     setIsSubmitting(true);
     const newItems = formData.items.filter((item) => !item.id);
     const deletedItems =
-      invoice?.items.filter((item: Item) => {
+      invoice?.items.filter((item: Tables<"items">) => {
         return !formData.items.some((newItem) => newItem.id === item.id);
       }) ?? [];
     const updatedItems = formData.items.filter((item) => item.id) as Array<

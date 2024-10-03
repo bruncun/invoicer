@@ -1,5 +1,6 @@
 import { Button, Navbar, Stack } from "react-bootstrap";
-import { InvoiceWithRelated } from "~/types/invoices";
+import { Invoice } from "~/types/invoices";
+import { Tables } from "~/types/supabase";
 
 const InvoicesMobileNavbar = ({
   modalShow,
@@ -9,7 +10,7 @@ const InvoicesMobileNavbar = ({
   showConfirmationModal,
 }: {
   modalShow: (id: number) => void;
-  invoice?: InvoiceWithRelated;
+  invoice?: Tables<"invoices">;
   onUpdateStatus: (status: "pending" | "paid") => void;
   setShowConfirmationModal: (value: boolean) => void;
   showConfirmationModal: boolean;

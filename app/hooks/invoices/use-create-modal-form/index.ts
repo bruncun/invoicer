@@ -8,12 +8,18 @@ import {
   HttpError,
   useNotification,
   useNavigation,
-  useGo,
   useGetIdentity,
-  useSelect,
 } from "@refinedev/core";
-import { InvoiceDto, Status } from "~/types/invoices";
+import { Invoice, Status } from "~/types/invoices";
 
+export type InvoicesCreateModalForm = ReturnType<
+  typeof useInvoicesCreateModalForm
+>;
+
+/**
+ * Custom hook for creating a new invoice.
+ * @returns An object containing the form state and related functions.
+ */
 const useInvoicesCreateModalForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mutateAsync } = useCreate();
@@ -29,7 +35,8 @@ const useInvoicesCreateModalForm = () => {
     watch,
     register,
     setValue,
-  } = useModalForm<InvoiceDto, HttpError, InvoiceDto>({
+  } = useModalForm<Invoice, HttpError, Invoice>({
+    syncWithLocation: true,
     refineCoreProps: {
       action: "create",
     },
@@ -65,7 +72,7 @@ const useInvoicesCreateModalForm = () => {
     handleSubmit(onFinish)();
   };
 
-  const onFinish = async (formData: InvoiceDto) => {
+  const onFinish = async (formData: Invoice) => {
     setIsSubmitting(true);
     try {
       const newInvoice = {

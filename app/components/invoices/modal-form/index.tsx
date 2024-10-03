@@ -17,25 +17,28 @@ import {
   UseFormRegister,
   UseFormReset,
 } from "react-hook-form";
+import { Asserts } from "yup";
 import Icon from "~/components/icon";
-import { InvoiceDto, Item, Status } from "~/types/invoices";
+import { TOOLTIP_DELAY, invoiceSchema } from "~/constants";
+import { Status } from "~/types/invoices";
+import { Tables } from "~/types/supabase";
 import { formatCurrency } from "~/utility/formatters";
 
 type InvoicesModalFormProps = {
   close: () => void;
   visible: boolean;
-  handleSubmit: UseFormHandleSubmit<InvoiceDto, undefined>;
+  handleSubmit: UseFormHandleSubmit<Asserts<typeof invoiceSchema>, undefined>;
   onSubmit: (status: Status) => void;
-  onFinish: (formData: InvoiceDto) => Promise<void>;
-  fields: FieldArrayWithId<InvoiceDto, "items", "id">[];
-  append: UseFieldArrayAppend<InvoiceDto, "items">;
+  onFinish: (formData: Asserts<typeof invoiceSchema>) => Promise<void>;
+  fields: FieldArrayWithId<Asserts<typeof invoiceSchema>, "items", "id">[];
+  append: UseFieldArrayAppend<Asserts<typeof invoiceSchema>, "items">;
   isSubmitting: boolean;
   remove: UseFieldArrayRemove;
-  register: UseFormRegister<InvoiceDto>;
-  items: Item[];
+  register: UseFormRegister<Asserts<typeof invoiceSchema>>;
+  items: Tables<"items">[];
   title: string;
-  reset?: UseFormReset<InvoiceDto>;
-  errors: FieldErrors<InvoiceDto>;
+  reset?: UseFormReset<Asserts<typeof invoiceSchema>>;
+  errors: FieldErrors<Asserts<typeof invoiceSchema>>;
 };
 
 const InvoicesModalForm = ({
@@ -61,17 +64,19 @@ const InvoicesModalForm = ({
       if (reset) reset();
       close();
     }}
-    dialogClassName="ms-xl-6 ms-sm-0 mt-0 ps-xl-2 mb-0 min-vh-lg-100"
-    contentClassName="rounded-start-0"
+    className="z-2"
+    dialogClassName="ms-sm-0 mt-0 mb-0 min-vh-lg-100"
+    contentClassName="rounded-start-0 ps-xl-6"
     scrollable
   >
-    <Modal.Header className="px-3 py-3">
-      <Modal.Title className="lh-1 border-top border-transparent py-1">
+    <Modal.Header className="px-4 py-3">
+      <Modal.Title className="lh-1 border-top border-transparent py-1 fs-xl-4">
         {title}
       </Modal.Title>
     </Modal.Header>
     <Modal.Body className="p-4">
       <form id="invoice-form" onSubmit={handleSubmit(onFinish)}>
+        <input type="hidden" {...register("user_id")} />
         <h6 className="text-primary mb-2">Bill From</h6>
         <Stack gap={3} className="mb-4">
           <Form.Group>
@@ -80,9 +85,7 @@ const InvoicesModalForm = ({
               autoComplete="address"
               isInvalid={!!errors.sender_street}
               id="sender_street"
-              {...register("sender_street", {
-                required: "This field is required",
-              })}
+              {...register("sender_street")}
             />
             <Form.Control.Feedback type="invalid">
               {(errors as any)?.sender_street?.message}
@@ -96,9 +99,7 @@ const InvoicesModalForm = ({
                   autoComplete="address-level2"
                   isInvalid={!!errors.sender_city}
                   id="sender_city"
-                  {...register("sender_city", {
-                    required: "This field is required",
-                  })}
+                  {...register("sender_city")}
                 />
                 <Form.Control.Feedback type="invalid">
                   {(errors as any)?.sender_street?.message as string}
@@ -113,9 +114,7 @@ const InvoicesModalForm = ({
                   autoComplete="postal-code"
                   isInvalid={!!errors.sender_postcode}
                   id="sender_postcode"
-                  {...register("sender_postcode", {
-                    required: "This field is required",
-                  })}
+                  {...register("sender_postcode")}
                 />
                 <Form.Control.Feedback type="invalid">
                   {(errors as any)?.sender_postcode?.message as string}
@@ -129,9 +128,7 @@ const InvoicesModalForm = ({
                   autoComplete="country"
                   isInvalid={!!errors.sender_country}
                   id="sender_country"
-                  {...register("sender_country", {
-                    required: "This field is required",
-                  })}
+                  {...register("sender_country")}
                 />
                 <Form.Control.Feedback type="invalid">
                   {(errors as any)?.sender_country?.message as string}
@@ -145,9 +142,7 @@ const InvoicesModalForm = ({
           <Form.Group>
             <Form.Label htmlFor="client_name">Client's Name</Form.Label>
             <Form.Control
-              {...register("client_name", {
-                required: "This field is required",
-              })}
+              {...register("client_name")}
               id="client_name"
               isInvalid={!!errors.client_name}
             />
@@ -158,9 +153,7 @@ const InvoicesModalForm = ({
           <Form.Group>
             <Form.Label htmlFor="client_email">Client's Email</Form.Label>
             <Form.Control
-              {...register("client_email", {
-                required: "This field is required",
-              })}
+              {...register("client_email")}
               id="client_email"
               isInvalid={!!errors.client_email}
             />
@@ -171,9 +164,7 @@ const InvoicesModalForm = ({
           <Form.Group>
             <Form.Label htmlFor="client_street">Street Address</Form.Label>
             <Form.Control
-              {...register("client_street", {
-                required: "This field is required",
-              })}
+              {...register("client_street")}
               id="client_street"
               isInvalid={!!errors.client_street}
             />
@@ -186,9 +177,7 @@ const InvoicesModalForm = ({
               <Form.Group>
                 <Form.Label htmlFor="client_city">City</Form.Label>
                 <Form.Control
-                  {...register("client_city", {
-                    required: "This field is required",
-                  })}
+                  {...register("client_city")}
                   id="client_city"
                   isInvalid={!!errors.client_city}
                 />
@@ -204,9 +193,7 @@ const InvoicesModalForm = ({
                   type="tel"
                   id="client_postcode"
                   isInvalid={!!errors.client_postcode}
-                  {...register("client_postcode", {
-                    required: "This field is required",
-                  })}
+                  {...register("client_postcode")}
                 />
                 <Form.Control.Feedback type="invalid">
                   {(errors as any)?.client_postcode?.message as string}
@@ -219,9 +206,7 @@ const InvoicesModalForm = ({
                 <Form.Control
                   id="client_country"
                   isInvalid={!!errors.client_country}
-                  {...register("client_country", {
-                    required: "This field is required",
-                  })}
+                  {...register("client_country")}
                 />
                 <Form.Control.Feedback type="invalid">
                   {(errors as any)?.client_country?.message as string}
@@ -236,9 +221,7 @@ const InvoicesModalForm = ({
                 <Form.Control
                   id="payment_due"
                   isInvalid={!!errors.payment_due}
-                  {...register("payment_due", {
-                    required: "This field is required",
-                  })}
+                  {...register("payment_due")}
                   type="date"
                 />
                 <Form.Control.Feedback type="invalid">
@@ -252,9 +235,7 @@ const InvoicesModalForm = ({
                 <Form.Select
                   id="payment_terms"
                   isInvalid={!!errors.payment_terms}
-                  {...register("payment_terms", {
-                    required: "This field is required",
-                  })}
+                  {...register("payment_terms")}
                 >
                   <option value="30">Net 30</option>
                   <option value="60">Net 60</option>
@@ -268,9 +249,7 @@ const InvoicesModalForm = ({
             <Form.Control
               id="description"
               isInvalid={!!errors.description}
-              {...register("description", {
-                required: "This field is required",
-              })}
+              {...register("description")}
             />
             <Form.Control.Feedback type="invalid">
               {(errors as any)?.description?.message as string}
@@ -284,9 +263,7 @@ const InvoicesModalForm = ({
               <Form.Label htmlFor="">Item Name</Form.Label>
               <Form.Control
                 isInvalid={!!errors.items?.[index]?.name}
-                {...register(`items.${index}.name`, {
-                  required: "This field is required",
-                })}
+                {...register(`items.${index}.name`)}
               />
               <Form.Control.Feedback type="invalid">
                 {(errors as any)?.items?.[index]?.name?.message as string}
@@ -300,9 +277,7 @@ const InvoicesModalForm = ({
                     type="number"
                     min={1}
                     isInvalid={!!errors.items?.[index]?.quantity}
-                    {...register(`items.${index}.quantity`, {
-                      required: "This field is required",
-                    })}
+                    {...register(`items.${index}.quantity`)}
                   />
                   <Form.Control.Feedback type="invalid">
                     {
@@ -317,9 +292,7 @@ const InvoicesModalForm = ({
                   <Form.Label htmlFor="">Price</Form.Label>
                   <Form.Control
                     isInvalid={!!errors.items?.[index]?.price}
-                    {...register(`items.${index}.price`, {
-                      required: "This field is required",
-                    })}
+                    {...register(`items.${index}.price`)}
                   />
                   <Form.Control.Feedback type="invalid">
                     {(errors as any)?.items?.[index]?.price?.message as string}
@@ -340,7 +313,7 @@ const InvoicesModalForm = ({
               </Col>
               <Col xs={{ span: 1 }} className="pt-2 justify-content-end d-flex">
                 <OverlayTrigger
-                  delay={{ show: 500, hide: 0 }}
+                  delay={TOOLTIP_DELAY}
                   overlay={<Tooltip id="delete-tooltip">Delete Item</Tooltip>}
                 >
                   <Button
@@ -365,13 +338,13 @@ const InvoicesModalForm = ({
         </Button>
       </form>
     </Modal.Body>
-    <Modal.Footer className="px-3 py-3 justify-content-between">
-      <Button variant="link" onClick={close}>
+    <Modal.Footer className="px-4 py-3 justify-content-between">
+      <Button variant="light" onClick={close} className="ms-0 my-0 me-2">
         Cancel
       </Button>
       <Stack direction="horizontal" gap={2} className="m-0">
         <Button
-          variant="secondary"
+          variant="dark"
           form="invoice-form"
           onClick={() => onSubmit("draft")}
           disabled={isSubmitting}

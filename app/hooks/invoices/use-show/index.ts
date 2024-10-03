@@ -1,11 +1,11 @@
 import { HttpError, useShow } from "@refinedev/core";
-import { InvoiceWithRelated } from "~/types/invoices";
+import { Tables } from "~/types/supabase";
 
 const useInvoicesShow = () => {
   const { queryResult } = useShow<
-    InvoiceWithRelated,
+    Tables<"invoices"> & { items: Tables<"items">[] },
     HttpError,
-    InvoiceWithRelated
+    Tables<"invoices"> & { items: Tables<"items">[] }
   >({
     meta: {
       select: "*, items(*)",
