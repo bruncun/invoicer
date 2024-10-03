@@ -123,7 +123,6 @@ const Field = ({ name, label, ...props }: FieldProps) => {
             <Form.Check
               type="checkbox"
               label={label}
-              id={name}
               checked={value}
               onChange={onChange}
             />
@@ -137,20 +136,13 @@ const Field = ({ name, label, ...props }: FieldProps) => {
   }
 
   if (props.type === "hidden") {
-    return (
-      <Form.Control type="hidden" id={name} {...register(name)} {...props} />
-    );
+    return <Form.Control type="hidden" {...register(name)} {...props} />;
   }
 
   return (
     <Form.Group>
       {label && <Form.Label htmlFor={name}>{label}</Form.Label>}
-      <Form.Control
-        isInvalid={!!errorMessage}
-        id={name}
-        {...register(name)}
-        {...props}
-      />
+      <Form.Control {...register(name)} {...props} />
       <Form.Control.Feedback type="invalid">
         {errorMessage}
       </Form.Control.Feedback>
