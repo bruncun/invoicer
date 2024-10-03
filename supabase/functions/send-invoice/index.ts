@@ -4,6 +4,7 @@
 
 import { Tables } from "~/types/supabase";
 import { format, parseISO } from "https://esm.sh/date-fns@3.6.0";
+import { formatCurrency } from "~/utility/formatters";
 
 // Setup type definitions for built-in Supabase Runtime APIs
 /// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
@@ -37,13 +38,13 @@ Deno.serve(async (req) => {
     items,
   } = await req.json();
 
-  const totalAmountDue = items
-    .reduce(
+  const totalAmountDue = formatCurrency(
+    items.reduce(
       (total: number, item: Tables<"items">) =>
         total + item.quantity * item.price,
       0
     )
-    .toFixed(2);
+  );
 
   const html = `
     <html>
@@ -153,11 +154,11 @@ Deno.serve(async (req) => {
                           <td class="text-center fw-normal">${
                             item.quantity
                           }</td>
-                          <td class="align-top text-end fw-normal">$${item.price.toFixed(
-                            2
+                          <td class="align-top text-end fw-normal">$${formatCurrency(
+                            item.price
                           )}</td>
                           <td class="align-top text-body-emphasis fw-semibold text-end">
-                          $${(item.quantity * item.price).toFixed(2)}
+                          $${formatCurrency(item.quantity * item.price)}
                           </td>
                         </tr>
                       `
@@ -174,11 +175,11 @@ Deno.serve(async (req) => {
                             <span class="fw-semibold text-body-emphasis d-block">
                               ${item.name}
                             </span>
-                            <span>${item.quantity} x $${item.price.toFixed(
-                          2
+                            <span>${item.quantity} x $${formatCurrency(
+                          item.price
                         )}</span>
                           </div>
-                          <span>$${item.price.toFixed(2)}</span>
+                          <span>$${formatCurrency(item.price)}</span>
                         </div>
                       `
                       )
@@ -190,7 +191,7 @@ Deno.serve(async (req) => {
                 <div class="px-xl-4 mx-xl-2 card-body">
                   <div class="d-flex justify-content-between align-items-center">
                     <span class="mb-0">Amount Due</span>
-                    <span class="fw-semibold fs-4">${totalAmountDue}</span>
+                    <span class="fw-semibold fs-4">$${totalAmountDue}</span>
                   </div>
                 </div>
               </div>
