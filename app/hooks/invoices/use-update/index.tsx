@@ -1,14 +1,7 @@
-import {
-  useUpdateMany,
-  useUpdate,
-  BaseKey,
-  useCreate,
-  useDelete,
-} from "@refinedev/core";
+import { useUpdate, BaseKey, useCreate, useDelete } from "@refinedev/core";
 import { useState } from "react";
 import { InferType } from "yup";
-import { invoiceSchema } from "~/constants";
-import { Tables } from "~/types/supabase";
+import { invoiceSchema, itemSchema } from "~/constants";
 
 const useInvoiceUpdate = () => {
   const { mutateAsync: mutateDeleteAsync } = useDelete();
@@ -17,16 +10,16 @@ const useInvoiceUpdate = () => {
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
 
   const updateInvoice = async (data: InferType<typeof invoiceSchema>) => {
-    const { items, ...invoice } = data;
+    const { items, invoice_date, ...invoice } = data;
 
     const newItems = data.items.filter((item) => !item.id);
     const deletedItems =
       data.items.filter(
-        (item: Tables<"items">) =>
+        (item: InferType<typeof itemSchema>) =>
           !data.items.some((newItem) => newItem.id === item.id)
       ) ?? [];
     const updatedItems = data.items.filter((item) => item.id) as Array<
-      Tables<"items">
+      InferType<typeof itemSchema>
     >;
 
     setIsUpdateLoading(true);

@@ -18,7 +18,7 @@ function useSyncPaymentDue(
   useEffect(() => {
     if (invoiceDate) {
       const payment_due = add(parseISO(invoiceDate), {
-        days: getValues("payment_terms"),
+        days: parseInt(getValues("payment_terms")),
       });
       const formattedPaymentDue = formatDate(payment_due, "yyyy-MM-dd");
 
