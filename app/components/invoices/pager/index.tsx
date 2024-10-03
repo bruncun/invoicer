@@ -52,7 +52,7 @@ export const InvoicesPager = ({
         </span>
         <div className="d-flex flex-nowrap align-items-center w-100 w-xl-auto">
           <div className="dropup d-xl-flex flex-nowrap align-items-center me-2 d-none">
-            <Form.Label className="flex-shrink-0 mb-0">
+            <Form.Label className="flex-shrink-0 mb-0 me-2">
               Rows per page
             </Form.Label>
             <Listbox value={pageSize} onChange={setPageSize}>

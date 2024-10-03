@@ -20,7 +20,7 @@ const InvoicesMobileNavbar = ({
 }: InvoiceMobileNavbarProps) => (
   <Navbar
     fixed="bottom"
-    className="mobile-navbar shadow-xl justify-content-end px-4 py-3 d-sm-none z-1 border"
+    className="mobile-navbar shadow-xl justify-content-end px-4 py-3 d-sm-none z-1 border-top"
   >
     <Stack direction="horizontal" gap={2}>
       {invoice?.id && invoice.status === "draft" && (
