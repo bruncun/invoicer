@@ -32,10 +32,11 @@ export default function UpdatePassword() {
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Field
-            name="currentPassword"
+            name="password"
             type="password"
-            label="Current Password"
+            label="New Password"
             className="mb-3"
+            autoComplete="new-password"
           />
           <Button
             variant="primary"

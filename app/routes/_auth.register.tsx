@@ -34,8 +34,18 @@ export default function Register() {
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Stack direction="vertical" gap={3} className="mb-3">
-            <Field name="email" type="email" label="Email" />
-            <Field name="password" type="password" label="Password" />
+            <Field
+              name="email"
+              type="email"
+              label="Email"
+              autoComplete="email"
+            />
+            <Field
+              name="password"
+              type="password"
+              label="Password"
+              autoComplete="new-password"
+            />
           </Stack>
           <Button
             variant="primary"
