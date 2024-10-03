@@ -39,7 +39,7 @@ const InvoicesMobileNavbar = ({
         )}
         {invoice?.status === "draft" && (
           <Button variant="primary" onClick={() => onUpdateStatus("pending")}>
-            Save and Send
+            Send Invoice
           </Button>
         )}
       </Stack>
