@@ -114,7 +114,7 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => {
             <thead>
               <tr>
                 <th>Item Name</th>
-                <th>QTY.</th>
+                <th className="text-center">QTY.</th>
                 <th className="text-end">Price</th>
                 <th className="text-end">Total</th>
               </tr>
@@ -184,7 +184,9 @@ export const ItemListItem: React.FC<ItemListItemProps> = ({ item }) => {
       <td className="align-top text-body-emphasis fw-semibold">
         {item?.name ?? <Skeleton bg="secondary" />}
       </td>
-      <td>{item?.quantity ?? <Skeleton bg="secondary" className="w-3" />}</td>
+      <td className="text-center">
+        {item?.quantity ?? <Skeleton bg="secondary" className="w-3" />}
+      </td>
       <td className="align-top text-end">
         {formattedPrice ?? <Skeleton bg="secondary" className="w-6" />}
       </td>

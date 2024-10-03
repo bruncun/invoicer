@@ -89,7 +89,7 @@ export const InvoicesShow = () => {
   return (
     <>
       <Button variant="link" onClick={goBack} className="mb-3 user-select-none">
-        <Icon name="chevron-left" className="text-primary me-2"></Icon>
+        <Icon name="chevron-left" className="me-2"></Icon>
         Go back
       </Button>
       <InvoicesDetailsHeader

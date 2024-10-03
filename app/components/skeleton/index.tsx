@@ -8,7 +8,7 @@ type SkeletonProps = {
 };
 
 const Skeleton = ({
-  style = { height: "0.9375rem" },
+  style = { height: "1rem" },
   className = "w-8 border-transparent",
   bg = "body-secondary",
 }: SkeletonProps) => (
