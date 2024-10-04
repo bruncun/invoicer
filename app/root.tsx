@@ -34,7 +34,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="vh-lg-100">
+      <body>
         <RefineKbarProvider>
           <Refine
             routerProvider={routerProvider}
