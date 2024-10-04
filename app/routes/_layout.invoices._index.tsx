@@ -308,12 +308,14 @@ export const InvoiceList = () => {
         modalShow={modalShow}
       ></InvoicesPageHeader>
       <InvoicesList invoices={invoices} clients={clients}></InvoicesList>
-      <Pager
-        invoices={invoices}
-        pageSize={pageSize}
-        current={current}
-        setCurrent={setCurrent}
-      ></Pager>
+      {invoicesData && invoicesData?.total > 0 ? (
+        <Pager
+          invoices={invoices}
+          pageSize={pageSize}
+          current={current}
+          setCurrent={setCurrent}
+        ></Pager>
+      ) : null}
       <Modal
         show={visible}
         fullscreen="sm-down"
