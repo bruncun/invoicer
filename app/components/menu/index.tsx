@@ -32,7 +32,7 @@ export const Menu = () => {
         <div className="mt-auto px-3 pb-3">
           <Stack direction="vertical" gap={3}>
             <OverlayTrigger
-              delay={{ show: 300, hide: 0 }}
+              delay={{ show: 500, hide: 0 }}
               overlay={
                 <Tooltip id="theme-toggle-tooltip">Toggle Theme</Tooltip>
               }
@@ -50,7 +50,7 @@ export const Menu = () => {
               </Button>
             </OverlayTrigger>
             <OverlayTrigger
-              delay={{ show: 300, hide: 0 }}
+              delay={{ show: 500, hide: 0 }}
               overlay={<Tooltip id="logout-tooltip">Logout</Tooltip>}
             >
               <Button

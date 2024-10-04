@@ -373,7 +373,7 @@ $enable-caret: false;
 $enable-rounded: true;
 $enable-shadows: true;
 $enable-gradients: false;
-$enable-transitions: false;
+$enable-transitions: true;
 $enable-reduced-motion: true;
 $enable-smooth-scroll: true;
 $enable-grid-classes: true;
@@ -1511,15 +1511,15 @@ $toast-max-width: 350px;
 $toast-padding-x: 0.75rem;
 $toast-padding-y: 0.5rem;
 $toast-font-size: 0.875rem;
-$toast-color: null;
+$toast-color: $white;
 $toast-background-color: rgba(var(--#{$prefix}body-bg-rgb), 0.85);
-$toast-border-width: var(--#{$prefix}border-width);
+$toast-border-width: 0;
 $toast-border-color: var(--#{$prefix}border-color-translucent);
 $toast-border-radius: var(--#{$prefix}border-radius);
-$toast-box-shadow: var(--#{$prefix}box-shadow);
+$toast-box-shadow: var(--#{$prefix}box-shadow-sm);
 $toast-spacing: $container-padding-x;
 
-$toast-header-color: var(--#{$prefix}secondary-color);
+$toast-header-color: var(--#{$prefix}emphasis-color);
 $toast-header-background-color: rgba(var(--#{$prefix}body-bg-rgb), 0.85);
 $toast-header-border-color: $toast-border-color;
 // scss-docs-end toast-variables
