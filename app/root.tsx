@@ -9,15 +9,18 @@ import {
 } from "@remix-run/react";
 
 import { Refine } from "@refinedev/core";
-import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
+import { RefineKbarProvider } from "@refinedev/kbar";
 import routerProvider, {
   UnsavedChangesNotifier,
 } from "@refinedev/remix-router";
 
 import { dataProvider } from "@refinedev/supabase";
-import { authProvider } from "~/authProvider";
 import styles from "~/styles/index.css";
 import { supabaseClient } from "~/utility";
+
+import { ToastContainer } from "react-toastify";
+import { None, notificationProvider } from "./providers/notification-provider";
+import { authProvider } from "./authProvider";
 
 export const meta: MetaFunction = () => [
   {
@@ -40,6 +43,7 @@ export default function App() {
             routerProvider={routerProvider}
             dataProvider={dataProvider(supabaseClient)}
             authProvider={authProvider}
+            notificationProvider={notificationProvider}
             resources={[
               {
                 name: "invoices",
@@ -62,7 +66,7 @@ export default function App() {
             <>
               <Outlet />
               <UnsavedChangesNotifier />
-              <RefineKbar />
+              <ToastContainer hideProgressBar transition={None} />
             </>
           </Refine>
         </RefineKbarProvider>
