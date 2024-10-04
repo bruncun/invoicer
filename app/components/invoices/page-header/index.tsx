@@ -2,17 +2,17 @@ import { useNavigation } from "@refinedev/core";
 import { Stack, Dropdown, Form, Button } from "react-bootstrap";
 import { Icon } from "~/components/icon";
 
-export const InvoicesPageHeader = ({
-  count,
-  filters,
-  setFilters,
-  modalShow,
-}: {
-  count?: number;
+type InvoicesPageHeaderProps = {
   filters: string[];
   setFilters: React.Dispatch<React.SetStateAction<string[]>>;
   modalShow: () => void;
-}) => {
+};
+
+export const InvoicesPageHeader = ({
+  filters,
+  setFilters,
+  modalShow,
+}: InvoicesPageHeaderProps) => {
   const { createUrl } = useNavigation();
 
   const handleStatusChange = (status: string, checked: boolean) => {
@@ -25,12 +25,7 @@ export const InvoicesPageHeader = ({
 
   return (
     <div className="d-flex justify-content-between align-items-center">
-      <h1 className="fs-4 fs-lg-3 mb-0 lh-1">
-        Invoices{" "}
-        <span className="text-muted fw-normal fs-5 fs-lg-4" data-testid="count">
-          ({count})
-        </span>
-      </h1>
+      <h1 className="fs-4 fs-lg-3 mb-0 lh-1">Invoices</h1>
       <Stack direction="horizontal" gap={2}>
         <Dropdown>
           <Dropdown.Toggle variant="link">
@@ -55,11 +50,9 @@ export const InvoicesPageHeader = ({
             </Form>
           </Dropdown.Menu>
         </Dropdown>
-        <Button
-          className="d-none d-lg-inline-block"
-          onClick={() => modalShow()}
-        >
-          <Icon name="plus-circle-fill" className="me-2"></Icon>New Invoice
+        <Button onClick={() => modalShow()}>
+          <Icon name="plus-circle-fill" className="me-2"></Icon>New{" "}
+          <span className="d-none d-lg-inline-block">Invoice</span>
         </Button>
       </Stack>
     </div>
