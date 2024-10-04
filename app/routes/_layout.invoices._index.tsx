@@ -5,6 +5,7 @@ import {
   HttpError,
   useCreate,
   useCreateMany,
+  useNotification,
 } from "@refinedev/core";
 import {
   Stack,
@@ -26,6 +27,7 @@ import { useModalForm } from "@refinedev/react-hook-form";
 import { useFieldArray } from "react-hook-form";
 import { InvoicesPageHeader } from "~/components/invoices/page-header";
 import { InvoicesList } from "~/components/invoices/list";
+import FullScreenSpinner from "~/components/full-screen-spinner";
 
 export const Pager = ({
   invoices,
@@ -133,10 +135,12 @@ export const InvoiceList = () => {
     reset,
     modal: { visible, close, show: modalShow },
     refineCore: { onFinish, formLoading },
+
     handleSubmit,
     formState: { errors },
     watch,
     register,
+    setValue,
     saveButtonProps,
   } = useModalForm<InvoiceType, HttpError, InvoiceType>({
     refineCoreProps: { action: "create", autoSave: { enabled: true } },
@@ -155,6 +159,7 @@ export const InvoiceList = () => {
       paymentDue: formatDate(new Date(), "yyyy-MM-dd"),
       paymentTerms: "30",
       description: "",
+      status: "pending",
       items: [{ name: "", quantity: 0, price: 0 }],
     },
   });
@@ -167,6 +172,12 @@ export const InvoiceList = () => {
   const items = watch("items");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const onSubmit = (status: string) => {
+    setValue("status", status);
+    handleSubmit(onFinishHandler);
+  };
+
   const onFinishHandler = async (formData: InvoiceType) => {
     setIsSubmitting(true);
     try {
@@ -235,7 +246,7 @@ export const InvoiceList = () => {
         paymentDue: formData.paymentDue,
         paymentTerms: parseInt(formData.paymentTerms),
         description: formData.description,
-        status: "draft",
+        status: formData.status,
         total: items!.reduce(
           (acc: number, item) => acc + item.quantity * item.price,
           0
@@ -283,26 +294,11 @@ export const InvoiceList = () => {
     }
   };
 
-  if (isInvoicesLoading || isClientsLoading) {
-    return (
-      <div
-        className="d-flex flex-grow-1 align-items-center justify-content-center h-100"
-        data-testid="loading"
-      >
-        <Row className="w-100">
-          <Col xs={{ span: 6, offset: 3 }} className="text-center">
-            <Spinner variant="primary" className="mb-4"></Spinner>
-            <h2 className="fs-5">Loading...</h2>
-          </Col>
-        </Row>
-      </div>
-    );
-  }
+  if (isInvoicesLoading || isClientsLoading) return <FullScreenSpinner />;
 
   return (
     <>
       <InvoicesPageHeader
-        count={invoices.length}
         filters={filters}
         setFilters={setFilters}
         modalShow={modalShow}
@@ -325,7 +321,7 @@ export const InvoiceList = () => {
         contentClassName="rounded-start-0"
         scrollable
       >
-        <Modal.Header className="px-4">
+        <Modal.Header className="px-4 my-2">
           <Modal.Title className="lh-1 border-top border-transparent">
             New Invoice
           </Modal.Title>
@@ -642,11 +638,20 @@ export const InvoiceList = () => {
             <Button variant="link" onClick={close}>
               Cancel
             </Button>
-            <Button variant="dark">Save as Draft</Button>
+            <Button
+              variant="dark"
+              form="create-form"
+              type="submit"
+              onSubmit={() => onSubmit("draft")}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Saving" : "Save as Draft"}
+            </Button>
             <Button
               variant="primary"
               form="create-form"
               type="submit"
+              onSubmit={() => onSubmit("pending")}
               disabled={isSubmitting}
             >
               {isSubmitting ? "Sending" : "Save & Send"}
