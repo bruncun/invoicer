@@ -1,12 +1,8 @@
-# invoice-app
+# Invoicer
 
-This [Refine](https://github.com/refinedev/refine) project was generated with [create refine-app](https://github.com/refinedev/refine/tree/master/packages/create-refine-app).
+![A screenshot of the home screen](home-screenshot.png "Invoicer home screen")
 
-## Getting Started
-
-A React Framework for building internal tools, admin panels, dashboards & B2B apps with unmatched flexibility ✨
-
-Refine's hooks and components simplifies the development process and eliminates the repetitive tasks by providing industry-standard solutions for crucial aspects of a project, including authentication, access control, routing, networking, state management, and i18n.
+Invoicer is my solution to [Frontend Mentor's Invoice app](https://www.frontendmentor.io/challenges/invoice-app-i7KaLTQjl) challenge. The motivation for this project was to explore full-stack, enterprise-grade React tech while crafting a complex, highly polished UI. This app is built using React, TypeScript, Remix, Refine, Supabase, and Bootstrap.
 
 ## Available Scripts
 
@@ -27,12 +23,6 @@ Refine's hooks and components simplifies the development process and eliminates 
 ```bash
     npm run start
 ```
-
-## Learn More
-
-To learn more about **Refine**, please check out the [Documentation](https://refine.dev/docs)
-
-- **Supabase Data Provider** [Docs](https://refine.dev/docs/core/providers/data-provider/#overview)
 
 ## License
 
