@@ -6,6 +6,8 @@ Invoicer is my solution to [Frontend Mentor's Invoice app](https://www.frontendm
 
 ## Available Scripts
 
+Create a `.env` file from `.env.example` and set the required Supabase values before starting the app. Set `RESEND_API_KEY` in the Supabase Edge Function environment before deploying `send-invoice`.
+
 ### Running the development server.
 
 ```bash

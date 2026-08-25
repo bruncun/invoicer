@@ -1,4 +1,6 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import {
   Links,
   LiveReload,
@@ -30,7 +32,16 @@ export const meta: MetaFunction = () => [
   },
 ];
 
+export async function loader({}: LoaderFunctionArgs) {
+  return json({
+    SUPABASE_URL: process.env.SUPABASE_URL,
+    SUPABASE_KEY: process.env.SUPABASE_KEY,
+  });
+}
+
 export default function App() {
+  const env = useLoaderData<typeof loader>();
+
   return (
     <html lang="en">
       <head>
@@ -59,6 +70,11 @@ export default function App() {
           </FilterPaginationProvider>
         </Refine>
         <ScrollRestoration />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(env)}`,
+          }}
+        />
         <Scripts />
         <LiveReload />
       </body>

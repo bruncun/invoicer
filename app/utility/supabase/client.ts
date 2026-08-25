@@ -1,9 +1,22 @@
 import { createClient } from "@refinedev/supabase";
 import { Database } from "~/types/supabase";
 
-const SUPABASE_URL = "https://vwyfptctuwjdqmnoskhr.supabase.co";
-const SUPABASE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ3eWZwdGN0dXdqZHFtbm9za2hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc2Mjg2OTAsImV4cCI6MjAzMzIwNDY5MH0.kndzFB58_9gsJdmsLFSViUZgyDKbwPmHnqnnQQA7-SI";
+type PublicEnv = {
+  SUPABASE_URL?: string;
+  SUPABASE_KEY?: string;
+};
+
+const publicEnv = (globalThis as typeof globalThis & { ENV?: PublicEnv }).ENV;
+const serverEnv = (globalThis as typeof globalThis & {
+  process?: { env?: PublicEnv };
+}).process?.env;
+
+const SUPABASE_URL = publicEnv?.SUPABASE_URL ?? serverEnv?.SUPABASE_URL;
+const SUPABASE_KEY = publicEnv?.SUPABASE_KEY ?? serverEnv?.SUPABASE_KEY;
+
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+  throw new Error("SUPABASE_URL and SUPABASE_KEY must be set");
+}
 
 export const supabaseClient = createClient<Database>(
   SUPABASE_URL,
