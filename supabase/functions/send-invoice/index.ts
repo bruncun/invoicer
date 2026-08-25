@@ -2,9 +2,7 @@
 // https://deno.land/manual/getting_started/setup_your_environment
 // This enables autocomplete, go to definition, etc.
 
-import { Tables } from "~/types/supabase";
 import { format, parseISO } from "https://esm.sh/date-fns@3.6.0";
-import { formatCurrency } from "~/utility/formatters";
 
 // Setup type definitions for built-in Supabase Runtime APIs
 /// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
@@ -14,6 +12,19 @@ export const corsHeaders = {
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type",
 };
+
+type InvoiceItem = {
+  name: string;
+  quantity: number;
+  price: number;
+};
+
+function formatCurrency(amount: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(amount);
+}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -38,9 +49,31 @@ Deno.serve(async (req) => {
     items,
   } = await req.json();
 
+  const resendApiKey = Deno.env.get("RESEND_API_KEY");
+
+  if (!resendApiKey) {
+    return new Response(
+      JSON.stringify({ error: "RESEND_API_KEY is not configured" }),
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 500,
+      }
+    );
+  }
+
+  if (!client_email) {
+    return new Response(
+      JSON.stringify({ error: "client_email is required" }),
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 400,
+      }
+    );
+  }
+
   const totalAmountDue = formatCurrency(
     items.reduce(
-      (total: number, item: Tables<"items">) =>
+      (total: number, item: InvoiceItem) =>
         total + item.quantity * item.price,
       0
     )
@@ -137,7 +170,7 @@ Deno.serve(async (req) => {
                     <tbody class="fw-semibold">
                       ${items
                         .map(
-                          (item: Tables<"items">) => `
+                          (item: InvoiceItem) => `
                         <tr>
                           <td class="align-top text-body-emphasis fw-semibold">
                             ${item.name}
@@ -145,11 +178,11 @@ Deno.serve(async (req) => {
                           <td class="text-center fw-normal">${
                             item.quantity
                           }</td>
-                          <td class="align-top text-end fw-normal">$${formatCurrency(
+                          <td class="align-top text-end fw-normal">${formatCurrency(
                             item.price
                           )}</td>
                           <td class="align-top text-body-emphasis fw-semibold text-end">
-                          $${formatCurrency(item.quantity * item.price)}
+                          ${formatCurrency(item.quantity * item.price)}
                           </td>
                         </tr>
                       `
@@ -160,17 +193,17 @@ Deno.serve(async (req) => {
                   <div class="d-md-none vstack gap-3">
                     ${items
                       .map(
-                        (item: Tables<"items">) => `
+                        (item: InvoiceItem) => `
                         <div class="d-flex justify-content-between align-items-center">
                           <div>
                             <span class="fw-semibold text-body-emphasis d-block">
                               ${item.name}
                             </span>
-                            <span>${item.quantity} x $${formatCurrency(
+                            <span>${item.quantity} x ${formatCurrency(
                           item.price
                         )}</span>
                           </div>
-                          <span>$${formatCurrency(item.price)}</span>
+                          <span>${formatCurrency(item.price)}</span>
                         </div>
                       `
                       )
@@ -182,7 +215,7 @@ Deno.serve(async (req) => {
                 <div class="px-xl-4 mx-xl-2 card-body">
                   <div class="d-flex justify-content-between align-items-center">
                     <span class="mb-0">Amount Due</span>
-                    <span class="fw-semibold fs-4">$${totalAmountDue}</span>
+                    <span class="fw-semibold fs-4">${totalAmountDue}</span>
                   </div>
                 </div>
               </div>
@@ -199,19 +232,21 @@ Deno.serve(async (req) => {
       headers: {
         ...corsHeaders,
         "Content-Type": "application/json",
-        Authorization: `Bearer ${Deno.env.get("RESEND_API_KEY")}`,
+        Authorization: `Bearer ${resendApiKey}`,
       },
       body: JSON.stringify({
         from: "Invoicer <onboarding@resend.dev>",
-        to: ["bruncun@icloud.com"],
+        to: [client_email],
         subject: `Invoice #${id}`,
         html,
       }),
     });
 
-    return new Response(JSON.stringify(res), {
+    const responseBody = await res.text();
+
+    return new Response(responseBody, {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 200,
+      status: res.status,
     });
   } catch (error) {
     return new Response(JSON.stringify({ error: error }), {
