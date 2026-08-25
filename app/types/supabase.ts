@@ -124,7 +124,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      invoice_command: {
+        Args: {
+          p_operation: string
+          p_invoice?: Json
+          p_items?: Json
+        }
+        Returns: Database["public"]["Tables"]["invoices"]["Row"]
+      }
     }
     Enums: {
       payment_terms: "30" | "60" | "90"

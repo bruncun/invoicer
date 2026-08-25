@@ -57,7 +57,7 @@ const useInvoicesEditModalForm = (
 
   const onFinish = async (formData: InferType<typeof invoiceSchema>) => {
     try {
-      await updateInvoice(formData, invoice?.items);
+      await updateInvoice(formData);
       open?.({
         description: `Invoice updated${
           formData.status === "draft" ? "" : " and sent"

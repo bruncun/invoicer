@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { serialize } from "cookie";
 import { Database } from "~/types/supabase";
+import { TOKEN_KEY } from "~/constants";
 
 const getEnv = () => {
   const env = process.env;
@@ -14,9 +15,16 @@ export function createSupabaseServerClient(request: Request) {
   const { url, key } = getEnv();
   const setCookies: string[] = [];
   const cookies = request.headers.get("Cookie") ?? "";
+  const token = cookies
+    .split(";")
+    .map((item) => item.trim().split("="))
+    .find(([name]) => name === TOKEN_KEY)?.[1];
 
   const client = createServerClient<Database>(url, key, {
     db: { schema: "public" },
+    global: token
+      ? { headers: { Authorization: `Bearer ${token}` } }
+      : undefined,
     cookies: {
       getAll() {
         return cookies

@@ -1,11 +1,9 @@
-import { useCreateMany, useCreate } from "@refinedev/core";
 import { useState } from "react";
 import { InferType } from "yup";
 import { invoiceSchema } from "~/constants";
+import { invoiceAction } from "~/utility/invoices/action";
 
 const useInvoiceCreate = () => {
-  const { mutateAsync } = useCreate();
-  const { mutateAsync: mutateManyAsync } = useCreateMany();
   const [isCreateLoading, setIsCreateLoading] = useState(false);
 
   const createInvoice = async (data: InferType<typeof invoiceSchema>) => {
@@ -13,24 +11,12 @@ const useInvoiceCreate = () => {
     const invoiceValues = { ...rest };
     setIsCreateLoading(true);
     try {
-      const invoice = await mutateAsync({
-        resource: "invoices",
-        values: invoiceValues,
-        successNotification: false,
+      const invoice = await invoiceAction({
+        operation: "create",
+        invoice: invoiceValues,
+        items,
       });
-      await mutateManyAsync({
-        resource: "items",
-        values: items.map((item) => ({
-          invoice_id: invoice.data.id,
-          name: item.name,
-          quantity: item.quantity,
-          price: item.price,
-          user_id: data.user_id,
-        })),
-        successNotification: false,
-      });
-
-      return invoice;
+      return { data: invoice };
     } finally {
       setIsCreateLoading(false);
     }
