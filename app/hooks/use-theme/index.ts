@@ -1,37 +1,42 @@
-import { useState, useEffect } from "react";
+import { createContext, createElement, PropsWithChildren, useContext, useEffect, useMemo, useState } from "react";
 
-const useTheme = () => {
-  const getPreferredTheme = () =>
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-  const setTheme = (theme: string) => {
-    if (typeof window !== "undefined") {
-      if (theme === "auto") {
-        document.documentElement.setAttribute(
-          "data-bs-theme",
-          window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light"
-        );
-      } else {
-        document.documentElement.setAttribute("data-bs-theme", theme);
-      }
-    }
-  };
-  const [theme, setThemeState] = useState<string>(getPreferredTheme());
+export type Theme = "light" | "dark";
+type ThemeContextValue = { theme: Theme; toggleTheme: () => void };
+const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
+
+const getSystemTheme = (): Theme =>
+  typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+
+export const ThemeProvider = ({ children, initialTheme }: PropsWithChildren<{ initialTheme?: Theme }>) => {
+  const [theme, setTheme] = useState<Theme>(initialTheme ?? getSystemTheme);
 
   useEffect(() => {
-    setTheme(theme);
+    document.documentElement.dataset.bsTheme = theme;
+    document.cookie = `theme=${theme}; Path=/; SameSite=Lax`;
   }, [theme]);
 
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setThemeState(newTheme);
-  };
+  useEffect(() => {
+    if (initialTheme) return;
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = (event: MediaQueryListEvent) => setTheme(event.matches ? "dark" : "light");
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, [initialTheme]);
 
-  return { theme, toggleTheme };
+  const value = useMemo(() => ({
+    theme,
+    toggleTheme: () => setTheme((current) => current === "dark" ? "light" : "dark"),
+  }), [theme]);
+
+  return createElement(ThemeContext.Provider, { value }, children);
+};
+
+const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (!context) throw new Error("useTheme must be used inside ThemeProvider");
+  return context;
 };
 
 export default useTheme;

@@ -1,5 +1,6 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import * as cookie from "cookie";
 import { useLoaderData } from "@remix-run/react";
 import {
   Links,
@@ -24,6 +25,7 @@ import {
   None,
 } from "./utility/refine";
 import { supabaseClient } from "./utility/supabase";
+import { ThemeProvider, type Theme } from "./hooks/use-theme";
 
 export const meta: MetaFunction = () => [
   {
@@ -32,10 +34,12 @@ export const meta: MetaFunction = () => [
   },
 ];
 
-export async function loader({}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
+  const theme = cookie.parse(request.headers.get("Cookie") ?? "").theme;
   return json({
     SUPABASE_URL: process.env.SUPABASE_URL,
     SUPABASE_KEY: process.env.SUPABASE_KEY,
+    theme: theme === "dark" || theme === "light" ? theme : undefined,
   });
 }
 
@@ -43,7 +47,7 @@ export default function App() {
   const env = useLoaderData<typeof loader>();
 
   return (
-    <html lang="en">
+    <html lang="en" data-bs-theme={env.theme}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -51,6 +55,7 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <ThemeProvider initialTheme={env.theme as Theme | undefined}>
         <Refine
           routerProvider={routerProvider}
           dataProvider={dataProvider(supabaseClient)}
@@ -69,6 +74,7 @@ export default function App() {
             <DocumentTitleHandler />
           </FilterPaginationProvider>
         </Refine>
+        </ThemeProvider>
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{
