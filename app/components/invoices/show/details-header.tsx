@@ -1,9 +1,10 @@
-import { useGo } from "@refinedev/core";
 import { Button, Card } from "react-bootstrap";
 import Icon from "~/components/icon";
 import { StatusBadge } from "~/components/status-badge";
 import useInvoicesShow from "~/hooks/invoices/use-show";
 import InvoiceActions from "./actions";
+import { Link } from "@remix-run/react";
+import { useNavigation } from "@refinedev/core";
 
 type InvoicesDetailsHeaderProps = {
   modalShow: (id: number) => void;
@@ -21,21 +22,18 @@ export const InvoicesDetailsHeader = ({
   showConfirmationModal,
 }: InvoicesDetailsHeaderProps) => {
   const { invoice } = useInvoicesShow();
-  const go = useGo();
-
-  const onGoBackClick = () =>
-    go({ to: { resource: "invoices", action: "list" } });
+  const { listUrl } = useNavigation();
 
   return (
     <>
-      <Button
-        variant="link"
-        onClick={onGoBackClick}
-        className="mb-3 user-select-none"
+      <Link
+        to={listUrl("invoices")}
+        prefetch="intent"
+        className="btn btn-link mb-3 user-select-none"
       >
         <Icon name="chevron-left" className="me-2" aria-hidden="true" />
         Go back
-      </Button>
+      </Link>
       <Card className="mb-2">
         <Card.Body className="px-sm-5 py-3">
           <dl className="d-flex justify-content-between align-items-center">

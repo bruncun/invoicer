@@ -27,7 +27,9 @@ const InvoicesListItem = ({ invoice }: InvoicesListItemProps) => {
   return (
     <Card
       as={invoice ? Link : "div"}
-      {...(invoice ? { to: showUrl("invoices", invoice.id) } : {})}
+      {...(invoice
+        ? { to: showUrl("invoices", invoice.id), prefetch: "intent" as const }
+        : {})}
       className={`border border-transparent ${
         invoice ? "border-primary-hover cursor-pointer" : ""
       }`}
