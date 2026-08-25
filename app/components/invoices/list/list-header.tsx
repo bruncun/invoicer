@@ -6,10 +6,14 @@ import { Enums } from "~/types/supabase";
 
 type InvoiceListHeaderProps = {
   modalShow: () => void;
+  initialData?: Parameters<typeof useInvoicesList>[0];
 };
 
-export const InvoicesListHeader = ({ modalShow }: InvoiceListHeaderProps) => {
-  const { data, filters, setFilters } = useInvoicesList();
+export const InvoicesListHeader = ({
+  modalShow,
+  initialData,
+}: InvoiceListHeaderProps) => {
+  const { data, filters, setFilters } = useInvoicesList(initialData);
   const invoices = data?.data;
   const handleStatusChange = (status: Enums<"status">, checked: boolean) =>
     checked

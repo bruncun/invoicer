@@ -1,4 +1,4 @@
-import { HttpError, useShow } from "@refinedev/core";
+import { GetOneResponse, HttpError, useShow } from "@refinedev/core";
 import { InferType } from "yup";
 import { invoiceSchema } from "~/constants";
 
@@ -8,7 +8,7 @@ export type InvoicesShow = {
   isError: boolean;
 };
 
-const useInvoicesShow = () => {
+const useInvoicesShow = (initialData?: GetOneResponse<InferType<typeof invoiceSchema>>) => {
   const { queryResult } = useShow<
     InferType<typeof invoiceSchema>,
     HttpError,
@@ -16,6 +16,9 @@ const useInvoicesShow = () => {
   >({
     meta: {
       select: "*, items(*)",
+    },
+    queryOptions: {
+      initialData,
     },
   });
   const { data, isLoading, isError } = queryResult;

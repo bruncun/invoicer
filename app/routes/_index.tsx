@@ -1,10 +1,12 @@
-import { NavigateToResource } from "@refinedev/remix-router";
+import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
+import { authProvider } from "~/utility/refine/auth-provider";
 
 /**
  * Since we don't have any routes for the index page, we're redirecting the user to the first resource.
  *
  * This can also be done using the `loader` function and `redirect`.
  */
-export default function Index() {
-  return <NavigateToResource resource="invoices" />;
+export async function loader({ request }: LoaderFunctionArgs) {
+  const { authenticated } = await authProvider.check(request);
+  throw redirect(authenticated ? "/invoices" : "/login");
 }

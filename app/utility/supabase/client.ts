@@ -1,4 +1,4 @@
-import { createClient } from "@refinedev/supabase";
+import { createBrowserClient } from "@supabase/ssr";
 import { Database } from "~/types/supabase";
 
 type PublicEnv = {
@@ -18,15 +18,13 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
   throw new Error("SUPABASE_URL and SUPABASE_KEY must be set");
 }
 
-export const supabaseClient = createClient<Database>(
+export const supabaseClient = createBrowserClient<Database>(
   SUPABASE_URL,
   SUPABASE_KEY,
   {
     db: {
       schema: "public",
     },
-    auth: {
-      persistSession: true,
-    },
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
   }
 );

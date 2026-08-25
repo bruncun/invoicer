@@ -4,7 +4,7 @@ import Skeleton from "~/components/skeleton";
 import useInvoicesList from "~/hooks/invoices/use-invoices-list";
 import Select from "~/components/select";
 
-export const InvoicesPager = () => {
+export const InvoicesPager = ({ initialData }: { initialData?: Parameters<typeof useInvoicesList>[0] }) => {
   const {
     currentPage,
     setCurrentPage,
@@ -12,7 +12,7 @@ export const InvoicesPager = () => {
     setPageSize,
     data,
     isLoading,
-  } = useInvoicesList();
+  } = useInvoicesList(initialData);
   const total = data?.total ?? 0;
   const totalPages = Math.ceil(total / pageSize);
   const isNextPageAvailable = total >= pageSize * currentPage + 1;

@@ -1,4 +1,7 @@
 import { BaseKey, useUpdate } from "@refinedev/core";
+import { json, type LoaderFunctionArgs } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { dataProvider } from "@refinedev/supabase";
 import InvoicesModalForm from "~/components/invoices/modal-form";
 import InvoicesDetails from "~/components/invoices/show/details";
 import InvoicesDetailsHeader from "~/components/invoices/show/details-header";
@@ -7,10 +10,28 @@ import InvoicesConfirmDeletionModal from "~/components/invoices/show/confirm-del
 import useInvoicesShow from "~/hooks/invoices/use-show";
 import { useState } from "react";
 import { supabaseClient } from "~/utility/supabase";
+import { createSupabaseServerClient } from "~/utility/supabase/server";
 import InvoicesShowMobileNavbar from "~/components/invoices/show/mobile-navbar";
+import type { Invoice } from "~/hooks/invoices/use-invoices-list";
+
+export async function loader({ params, request }: LoaderFunctionArgs) {
+  if (!params.id) throw new Response("Invoice ID is required", { status: 400 });
+
+  const { client, headers } = createSupabaseServerClient(request);
+  const result = await dataProvider(client).getOne<Invoice>({
+    resource: "invoices",
+    id: params.id,
+    meta: { select: "*, items(*)" },
+  });
+
+  return json(result, { headers: headers() });
+}
 
 export const InvoicesShow = () => {
-  const { invoice, isLoading: isInvoicesLoading } = useInvoicesShow();
+  const initialData = useLoaderData<typeof loader>() as {
+    data: Invoice;
+  };
+  const { invoice, isLoading: isInvoicesLoading } = useInvoicesShow(initialData);
   const invoicesModalEditForm = useInvoicesEditModalForm(
     isInvoicesLoading,
     invoice

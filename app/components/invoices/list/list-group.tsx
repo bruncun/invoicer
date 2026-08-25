@@ -5,8 +5,8 @@ import { invoiceSchema } from "~/constants";
 import { Col, Row } from "react-bootstrap";
 import emptyStateIllustration from "~/assets/illustration-empty-state.svg";
 
-export const InvoicesListGroup = () => {
-  const { data, isLoading } = useInvoicesList();
+export const InvoicesListGroup = ({ initialData }: { initialData?: Parameters<typeof useInvoicesList>[0] }) => {
+  const { data, isLoading } = useInvoicesList(initialData);
   const invoices = data?.data as Array<InferType<typeof invoiceSchema>>;
 
   if (isLoading)

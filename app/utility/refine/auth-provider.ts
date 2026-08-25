@@ -91,7 +91,23 @@ export const authProvider: AuthBindings = {
       }
     } else {
       const parsedCookie = Cookies.get(TOKEN_KEY);
-      token = parsedCookie ? JSON.parse(parsedCookie) : undefined;
+      token = parsedCookie;
+    }
+
+    const pathname = request
+      ? new URL(request.url).pathname
+      : window.location.pathname;
+
+    if (!token) {
+      return {
+        authenticated: false,
+        error: {
+          message: "Check failed",
+          name: "Unauthenticated",
+        },
+        logout: true,
+        redirectTo: `/login?to=${pathname}`,
+      };
     }
 
     const { data } = await supabaseClient.auth.getUser(token);
@@ -101,8 +117,6 @@ export const authProvider: AuthBindings = {
       return {
         authenticated: true,
       };
-
-    const { pathname } = new URL(request.url);
 
     return {
       authenticated: false,
