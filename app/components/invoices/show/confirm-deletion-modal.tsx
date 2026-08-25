@@ -17,8 +17,8 @@ const InvoicesConfirmDeletionModal = ({
   const { list } = useNavigation();
   const { open } = useNotification();
 
-  const onDelete = () => {
-    deleteInvoice(invoice);
+  const onDelete = async () => {
+    await deleteInvoice(invoice);
     list("invoices");
     open?.({
       description: "Invoice deleted",

@@ -50,7 +50,7 @@ export const InvoicesShow = () => {
         body: invoice,
       });
     }
-    mutateUpdateAsync({
+    await mutateUpdateAsync({
       resource: "invoices",
       id: invoice?.id as BaseKey,
       values: {

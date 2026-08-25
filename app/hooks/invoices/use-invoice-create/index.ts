@@ -12,25 +12,28 @@ const useInvoiceCreate = () => {
     const { items, ...rest } = data;
     const invoiceValues = { ...rest };
     setIsCreateLoading(true);
-    const invoice = await mutateAsync({
-      resource: "invoices",
-      values: invoiceValues,
-      successNotification: false,
-    });
-    await mutateManyAsync({
-      resource: "items",
-      values: items.map((item) => ({
-        invoice_id: invoice.data.id,
-        name: item.name,
-        quantity: item.quantity,
-        price: item.price,
-        user_id: data.user_id,
-      })),
-      successNotification: false,
-    });
-    setIsCreateLoading(false);
+    try {
+      const invoice = await mutateAsync({
+        resource: "invoices",
+        values: invoiceValues,
+        successNotification: false,
+      });
+      await mutateManyAsync({
+        resource: "items",
+        values: items.map((item) => ({
+          invoice_id: invoice.data.id,
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+          user_id: data.user_id,
+        })),
+        successNotification: false,
+      });
 
-    return invoice;
+      return invoice;
+    } finally {
+      setIsCreateLoading(false);
+    }
   };
 
   return {

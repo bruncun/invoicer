@@ -10,17 +10,20 @@ const useInvoiceDelete = () => {
 
   const deleteInvoice = async (invoice?: InferType<typeof invoiceSchema>) => {
     setIsDeleteLoading(true);
-    await mutateDeleteManyAsync({
-      resource: "items",
-      ids: invoice?.items.map((item) => item.id) as Array<BaseKey>,
-      successNotification: false,
-    });
-    await mutateDeleteAsync({
-      resource: "invoices",
-      id: invoice?.id as BaseKey,
-      successNotification: false,
-    }),
+    try {
+      await mutateDeleteManyAsync({
+        resource: "items",
+        ids: invoice?.items.map((item) => item.id) as Array<BaseKey>,
+        successNotification: false,
+      });
+      await mutateDeleteAsync({
+        resource: "invoices",
+        id: invoice?.id as BaseKey,
+        successNotification: false,
+      });
+    } finally {
       setIsDeleteLoading(false);
+    }
   };
 
   return {

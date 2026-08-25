@@ -9,21 +9,28 @@ const useInvoiceUpdate = () => {
   const { mutateAsync: mutateUpdateAsync } = useUpdate();
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
 
-  const updateInvoice = async (data: InferType<typeof invoiceSchema>) => {
+  const updateInvoice = async (
+    data: InferType<typeof invoiceSchema>,
+    originalItems: InferType<typeof itemSchema>[] = []
+  ) => {
     const { items, invoice_date, ...invoice } = data;
 
     const newItems = data.items.filter((item) => !item.id);
-    const deletedItems =
-      data.items.filter(
-        (item: InferType<typeof itemSchema>) =>
-          !data.items.some((newItem) => newItem.id === item.id)
-      ) ?? [];
+    const submittedItemIds = new Set(
+      data.items
+        .map((item) => item.id)
+        .filter((id): id is number => id !== undefined)
+    );
+    const deletedItems = originalItems.filter(
+      (item) => item.id !== undefined && !submittedItemIds.has(item.id)
+    );
     const updatedItems = data.items.filter((item) => item.id) as Array<
       InferType<typeof itemSchema>
     >;
 
     setIsUpdateLoading(true);
-    await Promise.all([
+    try {
+      await Promise.all([
       ...updatedItems.map((item) =>
         mutateUpdateAsync({
           resource: "items",
@@ -64,8 +71,10 @@ const useInvoiceUpdate = () => {
         values: invoice,
         successNotification: false,
       }),
-    ]);
-    setIsUpdateLoading(false);
+      ]);
+    } finally {
+      setIsUpdateLoading(false);
+    }
   };
 
   return {
