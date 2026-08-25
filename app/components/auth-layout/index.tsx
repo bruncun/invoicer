@@ -5,9 +5,10 @@ import authLogo from "~/assets/auth-logo.svg";
 type AuthLayoutProps = {
   children: React.ReactNode;
   title: string;
+  subtitle?: React.ReactNode;
 };
 
-const AuthLayout = ({ children, title }: AuthLayoutProps) => {
+const AuthLayout = ({ children, title, subtitle }: AuthLayoutProps) => {
   useTheme();
 
   return (
@@ -29,6 +30,7 @@ const AuthLayout = ({ children, title }: AuthLayoutProps) => {
               <span className="fs-4 fs-xl-3 my-4 text-body-emphasis">
                 {title}
               </span>
+              {subtitle}
             </div>
             <Card className="rounded-4 rounded">
               <Card.Body className="p-4">{children}</Card.Body>

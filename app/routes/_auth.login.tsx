@@ -19,7 +19,14 @@ export default function Login() {
   const onSubmit = (data: InferType<typeof credentialsSchema>) => mutate(data);
 
   return (
-    <AuthLayout title="Login">
+    <AuthLayout
+      title="Login"
+      subtitle={
+        <p className="small text-body-secondary mb-4 mt-n3 text-center">
+          Demo login: <code>demo@example.com</code> / <code>Passw0rd!</code>
+        </p>
+      }
+    >
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Stack direction="vertical" gap={3} className="mb-3">
