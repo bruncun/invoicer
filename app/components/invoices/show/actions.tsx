@@ -1,7 +1,7 @@
 import { Stack, Button } from "react-bootstrap";
 import { Link } from "@remix-run/react";
 import Skeleton from "~/components/skeleton";
-import useInvoicesShow from "~/hooks/invoices/use-show";
+import type { InvoicesShow } from "~/hooks/invoices/use-show";
 
 type InvoiceActionsProps = {
   editUrl: (id: number) => string;
@@ -10,6 +10,7 @@ type InvoiceActionsProps = {
   showConfirmationModal: boolean;
   isUpdateLoading: boolean;
   className?: string;
+  invoicesShow: InvoicesShow;
 };
 
 const InvoiceActions = ({
@@ -19,8 +20,9 @@ const InvoiceActions = ({
   onUpdateStatus,
   showConfirmationModal,
   isUpdateLoading,
+  invoicesShow,
 }: InvoiceActionsProps) => {
-  const { invoice } = useInvoicesShow();
+  const { invoice } = invoicesShow;
 
   return (
     <div className="d-flex justify-content-end w-100">

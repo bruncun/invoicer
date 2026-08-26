@@ -1,10 +1,10 @@
 import { Button, Form } from "react-bootstrap";
 import Icon from "~/components/icon";
 import Skeleton from "~/components/skeleton";
-import useInvoicesList from "~/hooks/invoices/use-invoices-list";
+import type { InvoicesList } from "~/hooks/invoices/use-invoices-list";
 import Select from "~/components/select";
 
-export const InvoicesPager = ({ initialData }: { initialData?: Parameters<typeof useInvoicesList>[0] }) => {
+export const InvoicesPager = ({ invoicesList }: { invoicesList: InvoicesList }) => {
   const {
     currentPage,
     setCurrentPage,
@@ -12,7 +12,7 @@ export const InvoicesPager = ({ initialData }: { initialData?: Parameters<typeof
     setPageSize,
     data,
     isLoading,
-  } = useInvoicesList(initialData);
+  } = invoicesList;
   const total = data?.total ?? 0;
   const totalPages = Math.ceil(total / pageSize);
   const isNextPageAvailable = total >= pageSize * currentPage + 1;

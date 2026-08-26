@@ -1,7 +1,7 @@
 import { Button, Card } from "react-bootstrap";
 import Icon from "~/components/icon";
 import { StatusBadge } from "~/components/status-badge";
-import useInvoicesShow from "~/hooks/invoices/use-show";
+import type { InvoicesShow } from "~/hooks/invoices/use-show";
 import InvoiceActions from "./actions";
 import { Link } from "@remix-run/react";
 import { useNavigation } from "@refinedev/core";
@@ -12,6 +12,7 @@ type InvoicesDetailsHeaderProps = {
   onUpdateStatus: (status: "paid" | "pending") => void;
   showConfirmationModal: boolean;
   isUpdateLoading: boolean;
+  invoicesShow: InvoicesShow;
 };
 
 export const InvoicesDetailsHeader = ({
@@ -20,8 +21,9 @@ export const InvoicesDetailsHeader = ({
   onUpdateStatus,
   isUpdateLoading,
   showConfirmationModal,
+  invoicesShow,
 }: InvoicesDetailsHeaderProps) => {
-  const { invoice } = useInvoicesShow();
+  const { invoice } = invoicesShow;
   const { listUrl } = useNavigation();
 
   return (
@@ -44,6 +46,7 @@ export const InvoicesDetailsHeader = ({
               </dd>
             </div>
             <InvoiceActions
+              invoicesShow={invoicesShow}
               className="d-none d-md-flex"
               editUrl={editUrl}
               setShowConfirmationModal={setShowConfirmationModal}

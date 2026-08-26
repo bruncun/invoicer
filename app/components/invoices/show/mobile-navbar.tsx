@@ -1,5 +1,6 @@
 import InvoiceActions from "./actions";
 import MobileNavbar from "~/components/ui/mobile-navbar";
+import type { InvoicesShow } from "~/hooks/invoices/use-show";
 
 type InvoicesShowMobileNavbarProps = {
   editUrl: (id: number) => string;
@@ -7,6 +8,7 @@ type InvoicesShowMobileNavbarProps = {
   setShowConfirmationModal: (value: boolean) => void;
   showConfirmationModal: boolean;
   isUpdateLoading?: boolean;
+  invoicesShow: InvoicesShow;
 };
 
 const InvoicesShowMobileNavbar = ({
@@ -15,9 +17,11 @@ const InvoicesShowMobileNavbar = ({
   setShowConfirmationModal,
   isUpdateLoading,
   showConfirmationModal,
+  invoicesShow,
 }: InvoicesShowMobileNavbarProps) => (
   <MobileNavbar>
     <InvoiceActions
+      invoicesShow={invoicesShow}
       editUrl={editUrl}
       setShowConfirmationModal={setShowConfirmationModal}
       onUpdateStatus={onUpdateStatus}

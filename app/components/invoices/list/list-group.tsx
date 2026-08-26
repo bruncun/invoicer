@@ -1,12 +1,12 @@
 import InvoicesListItem from "./list-item";
-import useInvoicesList from "~/hooks/invoices/use-invoices-list";
+import type { InvoicesList } from "~/hooks/invoices/use-invoices-list";
 import { InferType } from "yup";
 import { invoiceSchema } from "~/constants";
 import { Col, Row } from "react-bootstrap";
 import emptyStateIllustration from "~/assets/illustration-empty-state.svg";
 
-export const InvoicesListGroup = ({ initialData }: { initialData?: Parameters<typeof useInvoicesList>[0] }) => {
-  const { data, isLoading } = useInvoicesList(initialData);
+export const InvoicesListGroup = ({ invoicesList }: { invoicesList: InvoicesList }) => {
+  const { data, isLoading } = invoicesList;
   const invoices = data?.data as Array<InferType<typeof invoiceSchema>>;
 
   if (isLoading)

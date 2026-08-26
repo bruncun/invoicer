@@ -1,12 +1,11 @@
 import { Card, Col, Row } from "react-bootstrap";
 import FormattedId from "~/components/formatted-id";
 import { formatDisplayDate } from "~/utility/formatters";
-import useInvoicesShow from "~/hooks/invoices/use-show";
+import type { InvoicesShow } from "~/hooks/invoices/use-show";
 import Skeleton from "~/components/skeleton";
 import ItemsTable from "./items-table";
 
-export const InvoicesDetails = () => {
-  const invoicesShow = useInvoicesShow();
+export const InvoicesDetails = ({ invoicesShow }: { invoicesShow: InvoicesShow }) => {
   const { invoice, isLoading } = invoicesShow;
 
   const total = invoice?.items.reduce(

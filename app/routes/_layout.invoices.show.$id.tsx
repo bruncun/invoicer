@@ -28,7 +28,8 @@ export const InvoicesShow = () => {
   const initialData = useLoaderData<typeof loader>() as {
     data: Invoice;
   };
-  const { invoice, isLoading: isInvoicesLoading } = useInvoicesShow(initialData);
+  const invoicesShow = useInvoicesShow(initialData);
+  const { invoice } = invoicesShow;
   const { mutateAsync: mutateUpdateAsync } = useUpdate();
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
@@ -64,14 +65,16 @@ export const InvoicesShow = () => {
   return (
     <>
       <InvoicesDetailsHeader
+        invoicesShow={invoicesShow}
         editUrl={(id) => `/invoices/show/${id}/edit`}
         onUpdateStatus={onUpdateStatus}
         isUpdateLoading={isUpdateLoading}
         setShowConfirmationModal={setShowConfirmationModal}
         showConfirmationModal={showConfirmationModal}
       />
-      <InvoicesDetails />
+      <InvoicesDetails invoicesShow={invoicesShow} />
       <InvoicesShowMobileNavbar
+        invoicesShow={invoicesShow}
         editUrl={(id) => `/invoices/show/${id}/edit`}
         onUpdateStatus={onUpdateStatus}
         isUpdateLoading={isUpdateLoading}
@@ -79,10 +82,11 @@ export const InvoicesShow = () => {
         showConfirmationModal={showConfirmationModal}
       />
       <InvoicesConfirmDeletionModal
+        invoicesShow={invoicesShow}
         show={showConfirmationModal}
         setShowConfirmationModal={setShowConfirmationModal}
       />
-      <Outlet />
+      <Outlet context={invoicesShow} />
     </>
   );
 };

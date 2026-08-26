@@ -7,6 +7,7 @@ import type { Invoice } from "~/hooks/invoices/use-invoices-list";
 import { InvoicesListHeader } from "~/components/invoices/list/list-header";
 import InvoicesPager from "~/components/invoices/list/pager";
 import { InvoicesListGroup } from "~/components/invoices/list/list-group";
+import useInvoicesList from "~/hooks/invoices/use-invoices-list";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { client, headers } = createSupabaseServerClient(request);
@@ -31,14 +32,24 @@ export default function InvoicesLayout() {
 
   return (
     <>
-      {isListRoute && (
-        <>
-          <InvoicesListHeader initialData={initialData} />
-          <InvoicesListGroup initialData={initialData} />
-          <InvoicesPager initialData={initialData} />
-        </>
-      )}
+      {isListRoute && <InvoicesListContent initialData={initialData} />}
       <Outlet />
+    </>
+  );
+}
+
+function InvoicesListContent({
+  initialData,
+}: {
+  initialData: Parameters<typeof useInvoicesList>[0];
+}) {
+  const invoicesList = useInvoicesList(initialData);
+
+  return (
+    <>
+      <InvoicesListHeader invoicesList={invoicesList} />
+      <InvoicesListGroup invoicesList={invoicesList} />
+      <InvoicesPager invoicesList={invoicesList} />
     </>
   );
 }

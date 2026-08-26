@@ -1,19 +1,21 @@
 import { useNavigation, useNotification } from "@refinedev/core";
 import { Button, Modal } from "react-bootstrap";
 import useInvoiceDelete from "~/hooks/invoices/use-invoice-delete";
-import useInvoicesShow from "~/hooks/invoices/use-show";
+import type { InvoicesShow } from "~/hooks/invoices/use-show";
 
 type InvoicesConfirmDeletionModal = {
   show: boolean;
   setShowConfirmationModal: (value: boolean) => void;
+  invoicesShow: InvoicesShow;
 };
 
 const InvoicesConfirmDeletionModal = ({
   show,
   setShowConfirmationModal,
+  invoicesShow,
 }: InvoicesConfirmDeletionModal) => {
   const { deleteInvoice, isDeleteLoading } = useInvoiceDelete();
-  const { invoice } = useInvoicesShow();
+  const { invoice } = invoicesShow;
   const { list } = useNavigation();
   const { open } = useNotification();
 
