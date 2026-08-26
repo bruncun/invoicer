@@ -1,7 +1,11 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import * as cookie from "cookie";
-import { useLoaderData } from "@remix-run/react";
+import {
+  isRouteErrorResponse,
+  useLoaderData,
+  useRouteError,
+} from "@remix-run/react";
 import {
   Links,
   LiveReload,
@@ -25,6 +29,7 @@ import {
 } from "./utility/refine";
 import { httpDataProvider } from "./utility/refine/http-data-provider";
 import { ThemeProvider, type Theme } from "./hooks/use-theme";
+import FullScreenError from "./components/full-screen-error";
 
 export const meta: MetaFunction = () => [
   {
@@ -80,6 +85,27 @@ export default function App() {
         />
         <Scripts />
         <LiveReload />
+      </body>
+    </html>
+  );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  const status = isRouteErrorResponse(error) ? error.status : 500;
+
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <FullScreenError />
+        <p className="visually-hidden">Error status: {status}</p>
+        <Scripts />
       </body>
     </html>
   );
