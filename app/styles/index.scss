@@ -1,4 +1,13 @@
-@import "./bootstrap-icons";
+
+// Keep the Bootstrap Icons inline baseline for the SVG replacement.
+.bi {
+  display: inline-block;
+  line-height: inherit;
+}
+
+.bi > svg {
+  vertical-align: -0.125em;
+}
 
 @font-face {
   font-family: "IBM Plex Sans";
