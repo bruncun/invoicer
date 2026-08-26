@@ -1,5 +1,6 @@
 export const options = {
   useNewQueryKeys: true,
+  disableTelemetry: true,
   projectId: "AGpg3C-5yTuaG-cOKhCy",
 };
 
