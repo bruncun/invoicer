@@ -269,7 +269,13 @@ Deno.serve(async (req) => {
 */
 
 const styles = `
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap");
+@font-face {
+  font-family: "League Spartan";
+  src: url("/fonts/LeagueSpartan-Variable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 * {
   box-sizing: border-box;
@@ -280,7 +286,7 @@ html {
 }
 
 body {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "League Spartan", sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color: #475569;
