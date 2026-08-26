@@ -4,7 +4,6 @@ import {
   useParsed,
   useTranslate,
   useUserFriendlyName,
-  userFriendlyResourceName,
 } from "@refinedev/core";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -36,7 +35,8 @@ export function generateDefaultDocumentTitle(
   resource?: IResourceItem,
   action?: string,
   id?: string,
-  resourceName?: string
+  resourceName?: string,
+  getUserFriendlyName?: ReturnType<typeof useUserFriendlyName>
 ) {
   const actionPrefixMatcher = {
     create: "Create new ",
@@ -49,12 +49,11 @@ export function generateDefaultDocumentTitle(
   const identifier = resource?.identifier ?? resource?.name;
 
   const resourceNameFallback =
-    resource?.label ??
     resource?.meta?.label ??
-    userFriendlyResourceName(
+    getUserFriendlyName?.(
       identifier,
       action === "list" ? "plural" : "singular"
-    );
+    ) ?? identifier;
 
   const resourceNameWithFallback = resourceName ?? resourceNameFallback;
 
@@ -111,7 +110,6 @@ const Child = ({ handler }: Props) => {
 
   const identifier = resource?.identifier ?? resource?.name;
   const resourceName =
-    resource?.label ??
     resource?.meta?.label ??
     getUserFriendlyName(identifier, action === "list" ? "plural" : "singular");
 
@@ -121,7 +119,8 @@ const Child = ({ handler }: Props) => {
       resource!,
       action,
       `${id}`,
-      resourceName
+      resourceName,
+      getUserFriendlyName
     );
     if (handler) {
       document.title = handler({

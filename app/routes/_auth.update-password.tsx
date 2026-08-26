@@ -12,7 +12,7 @@ export default function UpdatePassword() {
     resolver: yupResolver(credentialsSchema.omit(["email"])),
   });
   const { handleSubmit } = methods;
-  const { mutate, isLoading } = useUpdatePassword();
+  const { mutate, isPending: isLoading } = useUpdatePassword();
   const { open } = useNotification();
 
   const onSubmit = async (data: InferType<typeof credentialsSchema>) =>

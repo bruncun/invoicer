@@ -7,7 +7,7 @@ import MobileNavbar from "../mobile-navbar";
 
 const Layout = ({ children }: PropsWithChildren) => {
   const { theme, toggleTheme } = useTheme();
-  const { mutate, isLoading } = useLogout();
+  const { mutate, isPending: isLoading } = useLogout();
   const { listUrl } = useNavigation();
   const invoicesListUrl = listUrl("invoices");
 

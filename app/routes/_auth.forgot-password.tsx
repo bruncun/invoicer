@@ -13,7 +13,7 @@ export default function ForgotPassword() {
     resolver: yupResolver(credentialsSchema.omit(["password", "rememberMe"])),
   });
   const { handleSubmit } = methods;
-  const { mutate, isLoading } = useForgotPassword();
+  const { mutate, isPending: isLoading } = useForgotPassword();
   const { open } = useNotification();
 
   const onSubmit = (data: InferType<typeof credentialsSchema>) =>

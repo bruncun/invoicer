@@ -10,7 +10,7 @@ import { FormProvider } from "react-hook-form";
 import Field from "~/components/field";
 
 export default function Login() {
-  const { mutate, isLoading } = useLogin();
+  const { mutate, isPending: isLoading } = useLogin();
   const methods = useForm<InferType<typeof credentialsSchema>>({
     resolver: yupResolver(credentialsSchema),
   });

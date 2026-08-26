@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import { createServerClient } from "@supabase/ssr";
 import { serialize } from "cookie";
 import { Database } from "~/types/supabase";

@@ -9,7 +9,7 @@ import { InferType } from "yup";
 import Field from "~/components/field";
 
 export default function Register() {
-  const { mutate: mutateRegister, isLoading: isRegisterLoading } =
+  const { mutate: mutateRegister, isPending: isRegisterLoading } =
     useRegister();
   const methods = useForm<InferType<typeof newCredentialsSchema>>({
     resolver: yupResolver(newCredentialsSchema),

@@ -14,7 +14,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { client, headers } = createSupabaseServerClient(request);
   const result = await dataProvider(client).getList<Invoice>({
     resource: "invoices",
-    pagination: { current: 1, pageSize: 10 },
+    pagination: { currentPage: 1, pageSize: 10 },
     filters: [{ field: "status", operator: "in", value: STATUSES }],
     sorters: [{ field: "payment_due", order: "asc" }],
     meta: { select: "*, items(*)" },

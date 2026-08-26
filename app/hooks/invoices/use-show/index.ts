@@ -9,7 +9,7 @@ export type InvoicesShow = {
 };
 
 const useInvoicesShow = (initialData?: GetOneResponse<InferType<typeof invoiceSchema>>) => {
-  const { queryResult } = useShow<
+  const { result, query } = useShow<
     InferType<typeof invoiceSchema>,
     HttpError,
     InferType<typeof invoiceSchema>
@@ -21,9 +21,8 @@ const useInvoicesShow = (initialData?: GetOneResponse<InferType<typeof invoiceSc
       initialData,
     },
   });
-  const { data, isLoading, isError } = queryResult;
-
-  const invoice = data?.data as InferType<typeof invoiceSchema>;
+  const { isLoading, isError } = query;
+  const invoice = result as InferType<typeof invoiceSchema> | undefined;
 
   if (!invoice && !isLoading) {
     throw new Response(null, {

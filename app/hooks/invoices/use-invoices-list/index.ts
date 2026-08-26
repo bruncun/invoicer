@@ -6,6 +6,9 @@ import { InferType } from "yup";
 
 export type Invoice = InferType<typeof invoiceSchema>;
 export type InvoicesList = ReturnType<typeof useList<Invoice, HttpError>> & {
+  data: GetListResponse<Invoice>;
+  isLoading: boolean;
+  isError: boolean;
   currentPage: number;
   pageSize: number;
   filters: Enums<"status">[];
@@ -24,7 +27,7 @@ const useInvoicesList = (initialData?: GetListResponse<Invoice>): InvoicesList =
     setFilters,
   } = useFilterPagination();
 
-  const invoicesList = useList<Invoice, HttpError>({
+  const invoicesQuery = useList<Invoice, HttpError>({
     resource: "invoices",
     filters: [
       {
@@ -40,7 +43,7 @@ const useInvoicesList = (initialData?: GetListResponse<Invoice>): InvoicesList =
       },
     ],
     pagination: {
-      current: currentPage,
+      currentPage,
       pageSize,
     },
     meta: {
@@ -52,14 +55,17 @@ const useInvoicesList = (initialData?: GetListResponse<Invoice>): InvoicesList =
   });
 
   return {
-    ...invoicesList,
+    ...invoicesQuery,
+    data: { data: invoicesQuery.result.data, total: invoicesQuery.result.total },
+    isLoading: invoicesQuery.query.isLoading,
+    isError: invoicesQuery.query.isError,
     currentPage,
     pageSize,
     filters,
     setCurrentPage,
     setPageSize,
     setFilters,
-  };
+  } as InvoicesList;
 };
 
 export default useInvoicesList;

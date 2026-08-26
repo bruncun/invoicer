@@ -1,4 +1,4 @@
-import type { AuthBindings } from "@refinedev/core";
+import type { AuthProvider as AuthBindings } from "@refinedev/core";
 import * as cookie from "cookie";
 import Cookies from "js-cookie";
 import { TOKEN_KEY } from "~/constants";

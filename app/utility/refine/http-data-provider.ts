@@ -13,7 +13,7 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
 export const httpDataProvider: DataProvider = {
   getList: (params) => {
     const query = new URLSearchParams({
-      current: String(params.pagination?.current ?? 1),
+      current: String(params.pagination?.currentPage ?? 1),
       pageSize: String(params.pagination?.pageSize ?? 10),
       filters: JSON.stringify(params.filters ?? []),
       sorters: JSON.stringify(params.sorters ?? []),
