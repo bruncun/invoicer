@@ -19,6 +19,7 @@ const useInvoicesShow = (initialData?: GetOneResponse<InferType<typeof invoiceSc
     },
     queryOptions: {
       initialData,
+      staleTime: 30_000,
     },
   });
   const { isLoading, isError } = query;

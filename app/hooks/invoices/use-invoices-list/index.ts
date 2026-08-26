@@ -50,7 +50,11 @@ const useInvoicesList = (initialData?: GetListResponse<Invoice>): InvoicesList =
       select: "*, items(*)",
     },
     queryOptions: {
-      initialData,
+      initialData:
+        currentPage === 1 && pageSize === 10 && filters.length === 0
+          ? initialData
+          : undefined,
+      staleTime: 30_000,
     },
   });
 
