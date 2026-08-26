@@ -1,11 +1,9 @@
 import { BaseKey, useUpdate } from "@refinedev/core";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import { dataProvider } from "~/utility/supabase/data-provider.server";
-import InvoicesModalForm from "~/components/invoices/modal-form";
 import InvoicesDetails from "~/components/invoices/show/details";
 import InvoicesDetailsHeader from "~/components/invoices/show/details-header";
-import useInvoicesEditModalForm from "~/hooks/invoices/use-edit-modal-form";
 import InvoicesConfirmDeletionModal from "~/components/invoices/show/confirm-deletion-modal";
 import useInvoicesShow from "~/hooks/invoices/use-show";
 import { useState } from "react";
@@ -31,13 +29,6 @@ export const InvoicesShow = () => {
     data: Invoice;
   };
   const { invoice, isLoading: isInvoicesLoading } = useInvoicesShow(initialData);
-  const invoicesModalEditForm = useInvoicesEditModalForm(
-    isInvoicesLoading,
-    invoice
-  );
-  const {
-    modal: { show },
-  } = invoicesModalEditForm;
   const { mutateAsync: mutateUpdateAsync } = useUpdate();
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
@@ -73,7 +64,7 @@ export const InvoicesShow = () => {
   return (
     <>
       <InvoicesDetailsHeader
-        modalShow={show}
+        editUrl={(id) => `/invoices/show/${id}/edit`}
         onUpdateStatus={onUpdateStatus}
         isUpdateLoading={isUpdateLoading}
         setShowConfirmationModal={setShowConfirmationModal}
@@ -81,25 +72,17 @@ export const InvoicesShow = () => {
       />
       <InvoicesDetails />
       <InvoicesShowMobileNavbar
-        modalShow={show}
+        editUrl={(id) => `/invoices/show/${id}/edit`}
         onUpdateStatus={onUpdateStatus}
         isUpdateLoading={isUpdateLoading}
         setShowConfirmationModal={setShowConfirmationModal}
         showConfirmationModal={showConfirmationModal}
       />
-      <InvoicesModalForm
-        title={
-          <>
-            Edit <span className="text-muted">#</span>
-            {invoice?.id}
-          </>
-        }
-        invoicesModalForm={invoicesModalEditForm}
-      />
       <InvoicesConfirmDeletionModal
         show={showConfirmationModal}
         setShowConfirmationModal={setShowConfirmationModal}
       />
+      <Outlet />
     </>
   );
 };

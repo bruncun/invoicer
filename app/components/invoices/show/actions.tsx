@@ -1,9 +1,10 @@
 import { Stack, Button } from "react-bootstrap";
+import { Link } from "@remix-run/react";
 import Skeleton from "~/components/skeleton";
 import useInvoicesShow from "~/hooks/invoices/use-show";
 
 type InvoiceActionsProps = {
-  modalShow: (id: number) => void;
+  editUrl: (id: number) => string;
   setShowConfirmationModal: (show: boolean) => void;
   onUpdateStatus: (status: "paid" | "pending") => void;
   showConfirmationModal: boolean;
@@ -12,7 +13,7 @@ type InvoiceActionsProps = {
 };
 
 const InvoiceActions = ({
-  modalShow,
+  editUrl,
   className,
   setShowConfirmationModal,
   onUpdateStatus,
@@ -42,7 +43,12 @@ const InvoiceActions = ({
         ) : (
           <>
             {invoice && invoice.id && invoice.status === "draft" && (
-              <Button variant="secondary" onClick={() => modalShow(invoice.id)}>
+              <Button
+                as={Link}
+                to={editUrl(invoice.id)}
+                prefetch="intent"
+                variant="secondary"
+              >
                 Edit
               </Button>
             )}

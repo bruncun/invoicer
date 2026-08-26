@@ -42,7 +42,6 @@
 @import "../../node_modules/bootstrap/scss/alert";
 @import "../../node_modules/bootstrap/scss/close";
 @import "../../node_modules/bootstrap/scss/toasts";
-@import "../../node_modules/bootstrap/scss/modal";
 @import "../../node_modules/bootstrap/scss/tooltip";
 @import "../../node_modules/bootstrap/scss/spinners";
 @import "../../node_modules/bootstrap/scss/offcanvas";
@@ -53,15 +52,11 @@
 @import "./bootstrap/reboot";
 @import "./bootstrap/card";
 @import "./bootstrap/dropdown";
-@import "./bootstrap/modal";
 @import "./bootstrap/pagination";
 @import "./bootstrap/tables";
 @import "./bootstrap/placeholders";
 
 @import "./color-mode-utilities";
 
-@import "../components/slide-over/styles";
 @import "../components/layout/styles";
-@import "../components/date-picker/styles";
-@import "../components/select/styles";
 @import "../components/toast-message/styles";

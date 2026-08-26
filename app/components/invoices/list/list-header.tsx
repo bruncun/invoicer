@@ -1,16 +1,15 @@
 import { Stack, Dropdown, Form, Button } from "react-bootstrap";
+import { Link } from "@remix-run/react";
 import Icon from "~/components/icon";
 import { STATUSES } from "~/constants";
 import useInvoicesList from "~/hooks/invoices/use-invoices-list";
 import { Enums } from "~/types/supabase";
 
 type InvoiceListHeaderProps = {
-  modalShow: () => void;
   initialData?: Parameters<typeof useInvoicesList>[0];
 };
 
 export const InvoicesListHeader = ({
-  modalShow,
   initialData,
 }: InvoiceListHeaderProps) => {
   const { data, filters, setFilters } = useInvoicesList(initialData);
@@ -51,7 +50,12 @@ export const InvoicesListHeader = ({
             </Form>
           </Dropdown.Menu>
         </Dropdown>
-        <Button onClick={() => modalShow()} className="position-relative">
+        <Button
+          as={Link}
+          to="/invoices/create"
+          prefetch="intent"
+          className="position-relative"
+        >
           <Icon
             name="plus-circle-fill"
             className="me-2 position-absolute fs-4 start-0 top-0 ms-2 mt-0"

@@ -9,7 +9,8 @@ import useInvoiceUpdate from "../use-update";
 
 const useInvoicesEditModalForm = (
   isInvoicesLoading: boolean,
-  invoice?: InferType<typeof invoiceSchema>
+  invoice?: InferType<typeof invoiceSchema>,
+  id?: string | number
 ) => {
   const { updateInvoice } = useInvoiceUpdate();
   const invoicesEditModalForm = useModalForm<
@@ -18,6 +19,8 @@ const useInvoicesEditModalForm = (
     InferType<typeof invoiceSchema>
   >({
     refineCoreProps: {
+      resource: "invoices",
+      id,
       action: "edit",
       successNotification: false,
       meta: {

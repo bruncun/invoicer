@@ -2,7 +2,7 @@ import InvoiceActions from "./actions";
 import MobileNavbar from "~/components/ui/mobile-navbar";
 
 type InvoicesShowMobileNavbarProps = {
-  modalShow: (id: number) => void;
+  editUrl: (id: number) => string;
   onUpdateStatus: (status: "pending" | "paid") => void;
   setShowConfirmationModal: (value: boolean) => void;
   showConfirmationModal: boolean;
@@ -10,7 +10,7 @@ type InvoicesShowMobileNavbarProps = {
 };
 
 const InvoicesShowMobileNavbar = ({
-  modalShow,
+  editUrl,
   onUpdateStatus,
   setShowConfirmationModal,
   isUpdateLoading,
@@ -18,7 +18,7 @@ const InvoicesShowMobileNavbar = ({
 }: InvoicesShowMobileNavbarProps) => (
   <MobileNavbar>
     <InvoiceActions
-      modalShow={modalShow}
+      editUrl={editUrl}
       setShowConfirmationModal={setShowConfirmationModal}
       onUpdateStatus={onUpdateStatus}
       showConfirmationModal={showConfirmationModal}

@@ -7,7 +7,7 @@ import { Link } from "@remix-run/react";
 import { useNavigation } from "@refinedev/core";
 
 type InvoicesDetailsHeaderProps = {
-  modalShow: (id: number) => void;
+  editUrl: (id: number) => string;
   setShowConfirmationModal: (show: boolean) => void;
   onUpdateStatus: (status: "paid" | "pending") => void;
   showConfirmationModal: boolean;
@@ -15,7 +15,7 @@ type InvoicesDetailsHeaderProps = {
 };
 
 export const InvoicesDetailsHeader = ({
-  modalShow,
+  editUrl,
   setShowConfirmationModal,
   onUpdateStatus,
   isUpdateLoading,
@@ -45,7 +45,7 @@ export const InvoicesDetailsHeader = ({
             </div>
             <InvoiceActions
               className="d-none d-md-flex"
-              modalShow={modalShow}
+              editUrl={editUrl}
               setShowConfirmationModal={setShowConfirmationModal}
               onUpdateStatus={onUpdateStatus}
               showConfirmationModal={showConfirmationModal}
