@@ -1,7 +1,7 @@
 import { BaseKey, useUpdate } from "@refinedev/core";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { dataProvider } from "@refinedev/supabase";
+import { dataProvider } from "~/utility/supabase/data-provider.server";
 import InvoicesModalForm from "~/components/invoices/modal-form";
 import InvoicesDetails from "~/components/invoices/show/details";
 import InvoicesDetailsHeader from "~/components/invoices/show/details-header";
@@ -9,7 +9,6 @@ import useInvoicesEditModalForm from "~/hooks/invoices/use-edit-modal-form";
 import InvoicesConfirmDeletionModal from "~/components/invoices/show/confirm-deletion-modal";
 import useInvoicesShow from "~/hooks/invoices/use-show";
 import { useState } from "react";
-import { supabaseClient } from "~/utility/supabase";
 import { createSupabaseServerClient } from "~/utility/supabase/server";
 import InvoicesShowMobileNavbar from "~/components/invoices/show/mobile-navbar";
 import type { Invoice } from "~/hooks/invoices/use-invoices-list";
@@ -46,8 +45,10 @@ export const InvoicesShow = () => {
   const onUpdateStatus = async (status: "paid" | "pending") => {
     setIsUpdateLoading(true);
     if (status === "pending") {
-      await supabaseClient.functions.invoke("send-invoice", {
-        body: invoice,
+      await fetch("/api/invoices/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(invoice),
       });
     }
     await mutateUpdateAsync({

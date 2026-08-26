@@ -2,20 +2,21 @@ import type { AuthBindings } from "@refinedev/core";
 import * as cookie from "cookie";
 import Cookies from "js-cookie";
 import { TOKEN_KEY } from "~/constants";
-import { supabaseClient } from "../supabase/client";
+
+const authRequest = async (operation: string, values: Record<string, unknown> = {}) => {
+  const response = await fetch("/api/auth", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ operation, ...values }),
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.error ?? "Authentication failed");
+  return result.data;
+};
 
 export const authProvider: AuthBindings = {
   login: async ({ email, password }) => {
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error)
-      return {
-        success: false,
-        error,
-      };
+    const data = await authRequest("login", { email, password });
 
     if (data?.session) {
       Cookies.set(TOKEN_KEY, data.session.access_token);
@@ -30,16 +31,7 @@ export const authProvider: AuthBindings = {
     };
   },
   logout: async () => {
-    const { error } = await supabaseClient.auth.signOut();
-
-    if (error)
-      return {
-        success: false,
-        error: {
-          message: error.message,
-          name: "LogoutError",
-        },
-      };
+    await authRequest("logout");
 
     Cookies.remove(TOKEN_KEY);
     return {
@@ -49,16 +41,7 @@ export const authProvider: AuthBindings = {
   },
   register: async ({ email, password }) => {
     try {
-      const { data, error } = await supabaseClient.auth.signUp({
-        email,
-        password,
-      });
-
-      if (error)
-        return {
-          success: false,
-          error,
-        };
+      const data = await authRequest("register", { email, password });
 
       if (data)
         return {
@@ -110,8 +93,11 @@ export const authProvider: AuthBindings = {
       };
     }
 
-    const { data } = await supabaseClient.auth.getUser(token);
-    const { user } = data;
+    if (request) {
+      return { authenticated: true };
+    }
+
+    const { user } = await authRequest("check");
 
     if (user)
       return {
@@ -130,18 +116,7 @@ export const authProvider: AuthBindings = {
   },
   forgotPassword: async ({ email }) => {
     try {
-      const { data, error } = await supabaseClient.auth.resetPasswordForEmail(
-        email,
-        {
-          redirectTo: `${window.location.origin}/update-password`,
-        }
-      );
-
-      if (error)
-        return {
-          success: false,
-          error,
-        };
+      const data = await authRequest("reset", { email });
 
       if (data)
         return {
@@ -164,15 +139,7 @@ export const authProvider: AuthBindings = {
   },
   updatePassword: async ({ password }) => {
     try {
-      const { data, error } = await supabaseClient.auth.updateUser({
-        password,
-      });
-
-      if (error)
-        return {
-          success: false,
-          error,
-        };
+      const data = await authRequest("update-password", { password });
 
       if (data)
         return {
@@ -194,12 +161,11 @@ export const authProvider: AuthBindings = {
     };
   },
   getPermissions: async () => {
-    const user = await supabaseClient.auth.getUser();
-
-    return user ? user.data.user?.role : null;
+    const user = await authRequest("identity");
+    return user?.role ?? null;
   },
   getIdentity: async () => {
-    const { data } = await supabaseClient.auth.getUser();
+    const data = await authRequest("identity");
 
     if (data?.user)
       return {

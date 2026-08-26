@@ -12,7 +12,6 @@ import {
 } from "@remix-run/react";
 import { Refine } from "@refinedev/core";
 import routerProvider from "@refinedev/remix-router";
-import { dataProvider } from "@refinedev/supabase";
 import styles from "~/index.css";
 import { ToastContainer } from "react-toastify";
 import DocumentTitleHandler from "./components/document-title-handler";
@@ -24,7 +23,7 @@ import {
   options,
   None,
 } from "./utility/refine";
-import { supabaseClient } from "./utility/supabase";
+import { httpDataProvider } from "./utility/refine/http-data-provider";
 import { ThemeProvider, type Theme } from "./hooks/use-theme";
 
 export const meta: MetaFunction = () => [
@@ -37,8 +36,6 @@ export const meta: MetaFunction = () => [
 export async function loader({ request }: LoaderFunctionArgs) {
   const theme = cookie.parse(request.headers.get("Cookie") ?? "").theme;
   return json({
-    SUPABASE_URL: process.env.SUPABASE_URL,
-    SUPABASE_KEY: process.env.SUPABASE_KEY,
     theme: theme === "dark" || theme === "light" ? theme : undefined,
   });
 }
@@ -58,7 +55,7 @@ export default function App() {
         <ThemeProvider initialTheme={env.theme as Theme | undefined}>
         <Refine
           routerProvider={routerProvider}
-          dataProvider={dataProvider(supabaseClient)}
+          dataProvider={httpDataProvider}
           authProvider={authProvider}
           notificationProvider={notificationProvider}
           resources={resources}

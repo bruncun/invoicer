@@ -5,7 +5,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { invoiceSchema } from "~/constants";
 import { InferType } from "yup";
 import useInvoiceCreate from "../use-invoice-create";
-import { supabaseClient } from "~/utility/supabase";
 
 const useInvoicesCreateModalForm = () => {
   const { createInvoice } = useInvoiceCreate();
@@ -48,11 +47,10 @@ const useInvoicesCreateModalForm = () => {
     try {
       const invoice = await createInvoice(newInvoice);
       if (isInvoicePending)
-        await supabaseClient.functions.invoke("send-invoice", {
-          body: {
-            ...newInvoice,
-            id: invoice.data.id,
-          },
+        await fetch("/api/invoices/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...newInvoice, id: invoice.data.id }),
         });
       open?.({
         description: `Invoice ${

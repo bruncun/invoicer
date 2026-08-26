@@ -1,6 +1,6 @@
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { dataProvider } from "@refinedev/supabase";
+import { dataProvider } from "~/utility/supabase/data-provider.server";
 import InvoicesModalForm from "~/components/invoices/modal-form";
 import useInvoicesCreateModalForm from "~/hooks/invoices/use-create-modal-form";
 import { InvoicesListHeader } from "~/components/invoices/list/list-header";
