@@ -15,7 +15,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
     pagination: { currentPage: 1, pageSize: 10 },
     filters: [{ field: "status", operator: "in", value: STATUSES }],
     sorters: [{ field: "payment_due", order: "asc" }],
-    meta: { select: "*, items(*)" },
+    meta: {
+      select: "id, description, payment_due, client_name, status, items(quantity, price)",
+    },
   });
 
   return json({ initialData: result }, { headers: headers() });
