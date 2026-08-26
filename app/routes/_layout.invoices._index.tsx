@@ -12,7 +12,7 @@ import type { Invoice } from "~/hooks/invoices/use-invoices-list";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { client, headers } = createSupabaseServerClient(request);
-  const result = await dataProvider(client).getList<Invoice>({
+  const result = await dataProvider(client, request).getList<Invoice>({
     resource: "invoices",
     pagination: { currentPage: 1, pageSize: 10 },
     filters: [{ field: "status", operator: "in", value: STATUSES }],

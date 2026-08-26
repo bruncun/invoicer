@@ -17,7 +17,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   if (!params.id) throw new Response("Invoice ID is required", { status: 400 });
 
   const { client, headers } = createSupabaseServerClient(request);
-  const result = await dataProvider(client).getOne<Invoice>({
+    const result = await dataProvider(client, request).getOne<Invoice>({
     resource: "invoices",
     id: params.id,
     meta: { select: "*, items(*)" },

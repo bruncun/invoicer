@@ -1,6 +1,15 @@
 import type { DataProvider } from "@refinedev/core";
+import Cookies from "js-cookie";
+import { isTokenExpired, TOKEN_KEY } from "~/utility/auth/token";
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
+  const token = Cookies.get(TOKEN_KEY);
+  if (token && isTokenExpired(token)) {
+    Cookies.remove(TOKEN_KEY);
+    window.location.assign(`/login?to=${encodeURIComponent(window.location.pathname)}`);
+    throw new Error("Session expired");
+  }
+
   const response = await fetch(url, {
     ...init,
     headers: { "Content-Type": "application/json", ...init?.headers },
