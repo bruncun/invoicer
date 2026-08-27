@@ -39,6 +39,7 @@ const Field = ({ name, label, ...props }: FieldProps) => {
           render={({ field: { onChange, value } }) => (
             <Form.Check
               type="checkbox"
+              id={name}
               label={label}
               checked={value}
               onChange={onChange}
