@@ -274,7 +274,6 @@ const styles = `
   src: url("/fonts/LeagueSpartan-Variable.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
-  font-display: swap;
 }
 
 * {
