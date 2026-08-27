@@ -9,6 +9,8 @@ const FullScreenError = () => (
           <div className="text-center mb-4">
             <img
               src={authLogo}
+              width={28}
+              height={26}
               alt="Invoicer"
               title="Invoicer"
               className="mb-4"

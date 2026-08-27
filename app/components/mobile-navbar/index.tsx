@@ -31,6 +31,8 @@ const MobileNavbar = ({
     >
       <img
         src={logoSvg}
+        width={28}
+        height={26}
         className="position-relative z-2"
         alt="Invoicer logo - a circle with a missing slice"
       />

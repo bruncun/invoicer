@@ -53,6 +53,8 @@ export const InvoicesListGroup = ({ invoicesList }: { invoicesList: InvoicesList
             >
               <img
                 src={emptyStateIllustration}
+                width={242}
+                height={200}
                 alt="An illustration of a person standing in a envelope. They are holding a speakerphone and are surrounded by floating envelopes and paper airplanes."
                 className="img-fluid mb-5"
               ></img>

@@ -24,6 +24,8 @@ const AuthLayout = ({ children, title, subtitle }: AuthLayoutProps) => {
             <div className="d-flex align-items-center flex-column w-100">
               <img
                 src={authLogo}
+                width={28}
+                height={26}
                 alt="Logo for Invoicer: a purple circle with a missing top slice."
                 title="Invoicer"
               />
