@@ -12,7 +12,12 @@ export const links: LinksFunction = () => [
 export default function InvoiceEdit() {
   const navigate = useNavigate();
   const { invoice, isLoading } = useOutletContext<InvoicesShow>();
-  const form = useInvoicesEditModalForm(isLoading, invoice, invoice?.id);
+  const form = useInvoicesEditModalForm(
+    isLoading,
+    invoice,
+    invoice?.id,
+    () => navigate("..")
+  );
 
   useEffect(() => {
     form.modal.show();

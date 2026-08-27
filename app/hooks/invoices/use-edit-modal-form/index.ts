@@ -10,7 +10,8 @@ import useInvoiceUpdate from "../use-update";
 const useInvoicesEditModalForm = (
   isInvoicesLoading: boolean,
   invoice?: InferType<typeof invoiceSchema>,
-  id?: string | number
+  id?: string | number,
+  onSuccess?: () => void
 ) => {
   const { updateInvoice } = useInvoiceUpdate();
   const invoicesEditModalForm = useModalForm<
@@ -75,7 +76,7 @@ const useInvoicesEditModalForm = (
         type: "success",
       });
 
-      close();
+      (onSuccess ?? close)();
       reset();
     } catch {
       open?.({
