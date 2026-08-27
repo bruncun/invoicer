@@ -8,7 +8,10 @@ export type InvoicesShow = {
   isError: boolean;
 };
 
-const useInvoicesShow = (initialData?: GetOneResponse<InferType<typeof invoiceSchema>>) => {
+const useInvoicesShow = (
+  initialData?: GetOneResponse<InferType<typeof invoiceSchema>>,
+  isNavigationPending = false
+) => {
   const { result, query } = useShow<
     InferType<typeof invoiceSchema>,
     HttpError,
@@ -23,16 +26,23 @@ const useInvoicesShow = (initialData?: GetOneResponse<InferType<typeof invoiceSc
     },
   });
   const { isLoading, isError } = query;
-  const invoice = result as InferType<typeof invoiceSchema> | undefined;
+  const invoice = isNavigationPending
+    ? undefined
+    : (result as InferType<typeof invoiceSchema> | undefined);
+  const isPending = isLoading || isNavigationPending;
 
-  if (!invoice && !isLoading) {
+  if (!invoice && !isPending) {
     throw new Response(null, {
       status: 404,
       statusText: "Invoice not found",
     });
   }
 
-  return { invoice, isLoading, isError };
+  return {
+    invoice,
+    isLoading: isPending,
+    isError,
+  };
 };
 
 export default useInvoicesShow;

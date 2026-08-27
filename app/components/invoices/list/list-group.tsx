@@ -5,23 +5,24 @@ import { invoiceSchema } from "~/constants";
 import { Col, Row } from "react-bootstrap";
 import emptyStateIllustration from "~/assets/illustration-empty-state.svg";
 
+export const InvoicesListSkeleton = () => (
+  <ul
+    data-testid="invoices-list"
+    className="list-unstyled my-3 mb-md-2 d-flex flex-column gap-2"
+  >
+    {new Array(10).fill(null).map((invoice, idx) => (
+      <li key={idx}>
+        <InvoicesListItem invoice={invoice} />
+      </li>
+    ))}
+  </ul>
+);
+
 export const InvoicesListGroup = ({ invoicesList }: { invoicesList: InvoicesList }) => {
   const { data, isLoading } = invoicesList;
   const invoices = data?.data as Array<InferType<typeof invoiceSchema>>;
 
-  if (isLoading)
-    return (
-      <ul
-        data-testid="invoices-list"
-        className="list-unstyled my-3 mb-md-2 d-flex flex-column gap-2"
-      >
-        {new Array(10).fill(null).map((invoice, idx) => (
-          <li key={idx}>
-            <InvoicesListItem invoice={invoice} />
-          </li>
-        ))}
-      </ul>
-    );
+  if (isLoading) return <InvoicesListSkeleton />;
 
   return (
     <>

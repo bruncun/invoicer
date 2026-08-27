@@ -1,12 +1,18 @@
 import { BaseKey, useUpdate } from "@refinedev/core";
-import { json, type LoaderFunctionArgs } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { defer, type LoaderFunctionArgs } from "@remix-run/node";
+import {
+  Await,
+  Outlet,
+  useLoaderData,
+  useNavigation,
+} from "@remix-run/react";
 import { dataProvider } from "~/utility/supabase/data-provider.server";
 import InvoicesDetails from "~/components/invoices/show/details";
 import InvoicesDetailsHeader from "~/components/invoices/show/details-header";
 import InvoicesConfirmDeletionModal from "~/components/invoices/show/confirm-deletion-modal";
 import useInvoicesShow from "~/hooks/invoices/use-show";
-import { useState } from "react";
+import type { InvoicesShow as InvoicesShowState } from "~/hooks/invoices/use-show";
+import { Suspense, useState } from "react";
 import { createSupabaseServerClient } from "~/utility/supabase/server";
 import InvoicesShowMobileNavbar from "~/components/invoices/show/mobile-navbar";
 import type { Invoice } from "~/hooks/invoices/use-invoices-list";
@@ -15,20 +21,41 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   if (!params.id) throw new Response("Invoice ID is required", { status: 400 });
 
   const { client, headers } = createSupabaseServerClient(request);
-    const result = await dataProvider(client, request).getOne<Invoice>({
+  const result = dataProvider(client, request).getOne<Invoice>({
     resource: "invoices",
     id: params.id,
     meta: { select: "*, items(*)" },
   });
 
-  return json(result, { headers: headers() });
+  return defer({ result }, { headers: headers() });
 }
 
 export const InvoicesShow = () => {
-  const initialData = useLoaderData<typeof loader>() as {
-    data: Invoice;
-  };
-  const invoicesShow = useInvoicesShow(initialData);
+  const { result } = useLoaderData<typeof loader>();
+  const { state } = useNavigation();
+
+  return (
+    <Suspense fallback={<InvoicesShowSkeleton />}>
+      <Await resolve={result}>
+        {(initialData) => (
+          <InvoicesShowContent
+            initialData={initialData as { data: Invoice }}
+            isNavigationPending={state !== "idle"}
+          />
+        )}
+      </Await>
+    </Suspense>
+  );
+};
+
+function InvoicesShowContent({
+  initialData,
+  isNavigationPending,
+}: {
+  initialData: { data: Invoice };
+  isNavigationPending: boolean;
+}) {
+  const invoicesShow = useInvoicesShow(initialData, isNavigationPending);
   const { invoice } = invoicesShow;
   const { mutateAsync: mutateUpdateAsync } = useUpdate();
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -90,5 +117,27 @@ export const InvoicesShow = () => {
     </>
   );
 };
+
+function InvoicesShowSkeleton() {
+  const invoicesShow: InvoicesShowState = {
+    invoice: undefined,
+    isLoading: true,
+    isError: false,
+  };
+
+  return (
+    <>
+      <InvoicesDetailsHeader
+        invoicesShow={invoicesShow}
+        editUrl={() => ""}
+        onUpdateStatus={() => undefined}
+        isUpdateLoading={false}
+        setShowConfirmationModal={() => undefined}
+        showConfirmationModal={false}
+      />
+      <InvoicesDetails invoicesShow={invoicesShow} />
+    </>
+  );
+}
 
 export default InvoicesShow;

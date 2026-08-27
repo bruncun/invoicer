@@ -17,7 +17,10 @@ export type InvoicesList = ReturnType<typeof useList<Invoice, HttpError>> & {
   setFilters: (filters: Enums<"status">[]) => void;
 };
 
-const useInvoicesList = (initialData?: GetListResponse<Invoice>): InvoicesList => {
+const useInvoicesList = (
+  initialData?: GetListResponse<Invoice>,
+  isNavigationPending = false
+): InvoicesList => {
   const {
     currentPage,
     pageSize,
@@ -61,7 +64,7 @@ const useInvoicesList = (initialData?: GetListResponse<Invoice>): InvoicesList =
   return {
     ...invoicesQuery,
     data: { data: invoicesQuery.result.data, total: invoicesQuery.result.total },
-    isLoading: invoicesQuery.query.isLoading,
+    isLoading: invoicesQuery.query.isLoading || isNavigationPending,
     isError: invoicesQuery.query.isError,
     currentPage,
     pageSize,

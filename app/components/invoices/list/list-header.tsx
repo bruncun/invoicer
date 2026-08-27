@@ -2,18 +2,20 @@ import { Stack, Dropdown, Form, Button } from "react-bootstrap";
 import { Link } from "@remix-run/react";
 import Icon from "~/components/icon";
 import { STATUSES } from "~/constants";
-import type { InvoicesList } from "~/hooks/invoices/use-invoices-list";
 import { Enums } from "~/types/supabase";
+import useFilterPagination from "~/hooks/invoices/use-filter-pagination";
+import type { Invoice } from "~/hooks/invoices/use-invoices-list";
 
 type InvoiceListHeaderProps = {
-  invoicesList: InvoicesList;
+  invoices?: Invoice[];
+  isPending?: boolean;
 };
 
 export const InvoicesListHeader = ({
-  invoicesList,
+  invoices = [],
+  isPending = false,
 }: InvoiceListHeaderProps) => {
-  const { data, filters, setFilters } = invoicesList;
-  const invoices = data?.data;
+  const { filters, setFilters } = useFilterPagination();
   const handleStatusChange = (status: Enums<"status">, checked: boolean) =>
     checked
       ? setFilters([...filters, status])
@@ -26,7 +28,7 @@ export const InvoicesListHeader = ({
         <Dropdown focusFirstItemOnShow>
           <Dropdown.Toggle
             variant="link"
-            disabled={invoices?.length === 0}
+            disabled={isPending || invoices.length === 0}
             className="user-select-none"
           >
             Filter
