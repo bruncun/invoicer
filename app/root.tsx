@@ -70,6 +70,7 @@ export default function App() {
           type="font/woff2"
           crossOrigin="anonymous"
         />
+        <link rel="preload" href={styles} as="style" />
         <style dangerouslySetInnerHTML={{ __html: criticalStyles }} />
         <Links />
       </head>
@@ -120,6 +121,7 @@ export function ErrorBoundary() {
           type="font/woff2"
           crossOrigin="anonymous"
         />
+        <link rel="preload" href={styles} as="style" />
         <style dangerouslySetInnerHTML={{ __html: criticalStyles }} />
         <Links />
       </head>
