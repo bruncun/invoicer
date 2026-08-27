@@ -3,3 +3,13 @@
   background-image: none;
   color: var(--bs-gray-600);
 }
+
+.border-primary-hover {
+  transition: border-color 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .border-primary-hover {
+    transition: none;
+  }
+}

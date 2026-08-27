@@ -58,7 +58,14 @@ const InvoicesModalForm = ({
             <ItemListSection />
           </form>
         }
-        footer={<InvoicesModalFooter invoicesModalForm={invoicesModalForm} />}
+        footer={(close) => (
+          <InvoicesModalFooter
+            invoicesModalForm={{
+              ...invoicesModalForm,
+              modal: { ...invoicesModalForm.modal, close },
+            }}
+          />
+        )}
       />
     </FormProvider>
   );

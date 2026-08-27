@@ -5,7 +5,26 @@
 }
 
 @include media-breakpoint-up(lg) {
+  .modal.fade .slide-over-modal-dialog {
+    transform: translateX(-100%);
+    transition: transform 0.2s ease-out;
+  }
+
+  .modal.show .slide-over-modal-dialog {
+    transform: translateX(0);
+  }
+
+  .modal.slide-over-modal-closing .slide-over-modal-dialog {
+    transform: translateX(-100%);
+  }
+
   .slide-over-modal-content {
     padding-left: 3.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal.fade .slide-over-modal-dialog {
+    transition: none;
   }
 }
