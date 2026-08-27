@@ -48,6 +48,7 @@ const safelist = {
     "table",
     "toast",
     "textarea",
+    "tooltip",
     "vstack",
     "optgroup",
     "gap-3",
@@ -69,6 +70,8 @@ const safelist = {
     /^table-/,
     /^text-(danger|success|warning|secondary)-emphasis$/,
     /^toast-/,
+    /^tooltip-/,
+    /^bs-tooltip-/,
   ],
   deep: [/^\.modal/, /^\.dropdown/, /^\.toast/],
 };
