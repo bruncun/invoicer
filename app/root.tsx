@@ -17,7 +17,6 @@ import {
 import { Refine } from "@refinedev/core";
 import routerProvider from "@refinedev/remix-router";
 import styles from "~/index.css";
-import { ToastContainer } from "react-toastify";
 import DocumentTitleHandler from "./components/document-title-handler";
 import { FilterPaginationProvider } from "./contexts/invoices/filter-pagination";
 import {
@@ -25,7 +24,7 @@ import {
   notificationProvider,
   resources,
   options,
-  None,
+  ToastContainer,
 } from "./utility/refine";
 import { httpDataProvider } from "./utility/refine/http-data-provider";
 import { ThemeProvider, type Theme } from "./hooks/use-theme";
@@ -68,11 +67,7 @@ export default function App() {
         >
           <FilterPaginationProvider>
             <Outlet />
-            <ToastContainer
-              transition={None}
-              autoClose={5000}
-              hideProgressBar
-            />
+            <ToastContainer />
             <DocumentTitleHandler />
           </FilterPaginationProvider>
         </Refine>

@@ -1,34 +1,82 @@
+import { useEffect, useState } from "react";
 import { NotificationProvider } from "@refinedev/core";
-import { Id, ToastOptions, cssTransition, toast } from "react-toastify";
+import { ToastContainer as BootstrapToastContainer } from "react-bootstrap";
 import { ToastMessage, ToastProps } from "~/components/toast-message";
 
-export const None = cssTransition({
-  enter: "fake-enter-animation",
-  exit: "fake-exit-animation",
-  collapse: true,
-  collapseDuration: 0,
-});
+type ToastNotification = ToastProps & {
+  id: string;
+  notificationKey?: string;
+};
 
-const toaster = (myProps: ToastProps, toastProps: ToastOptions): Id => {
-  return toast(<ToastMessage {...myProps} type={toastProps.type} />, {
-    ...toastProps,
+const notifications = new Map<string, ToastNotification>();
+const subscribers = new Set<() => void>();
+let notificationSequence = 0;
+
+const notifySubscribers = () => {
+  subscribers.forEach((subscriber) => subscriber());
+};
+
+const removeNotification = (id: string) => {
+  if (notifications.delete(id)) notifySubscribers();
+};
+
+const closeNotifications = (key: string) => {
+  let didRemoveNotification = false;
+
+  notifications.forEach((notification, id) => {
+    if (notification.id === key || notification.notificationKey === key) {
+      notifications.delete(id);
+      didRemoveNotification = true;
+    }
   });
+
+  if (didRemoveNotification) notifySubscribers();
 };
 
 export const notificationProvider: NotificationProvider = {
   open: (params) => {
-    const { key, description, type } = params;
-    if (type !== "progress") {
-      const toastId = `${key}_${Date.now()}`;
+    if (params.type === "progress") return;
 
-      toaster(
-        { description: description ?? "" },
-        {
-          toastId,
-          type,
-        }
-      );
-    }
+    const sequence = notificationSequence++;
+    const id = `notification_${Date.now()}_${sequence}`;
+
+    notifications.set(id, {
+      id,
+      notificationKey: params.key,
+      description: params.description ?? "",
+      type: params.type,
+    });
+    notifySubscribers();
   },
-  close: (key) => toast.dismiss(key),
+  close: closeNotifications,
+};
+
+export const ToastContainer = () => {
+  const [, setRenderVersion] = useState(0);
+
+  useEffect(() => {
+    const subscriber = () => setRenderVersion((version) => version + 1);
+    subscribers.add(subscriber);
+
+    return () => {
+      subscribers.delete(subscriber);
+    };
+  }, []);
+
+  return (
+    <BootstrapToastContainer
+      position="top-end"
+      containerPosition="fixed"
+      className="invoicer-toast-container px-3 py-4"
+    >
+      {Array.from(notifications.values()).map((notification) => (
+        <ToastMessage
+          key={notification.id}
+          description={notification.description}
+          type={notification.type}
+          onClose={() => removeNotification(notification.id)}
+        />
+      ))}
+    </BootstrapToastContainer>
+  );
 };

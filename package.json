@@ -46,7 +46,6 @@
     "react-dom": "^18.0.0",
     "react-hook-form": "^7.51.5",
     "react-imask": "^7.6.1",
-    "react-toastify": "^10.0.5",
     "yup": "^1.4.0"
   },
   "devDependencies": {

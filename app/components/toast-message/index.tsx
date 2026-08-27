@@ -1,17 +1,26 @@
-import { ToastOptions } from "react-toastify";
 import { Toast } from "react-bootstrap";
 
 export type ToastProps = {
   description: string;
+  type: "success" | "error";
+  onClose?: () => void;
 };
 
 export const ToastMessage = ({
   description,
   type,
-}: ToastProps & ToastOptions) => {
+  onClose,
+}: ToastProps) => {
   const color = type === "error" ? "danger" : "success";
   return (
-    <Toast bg={color} className="text-sans-serif w-100">
+    <Toast
+      bg={color}
+      className="text-sans-serif w-100"
+      autohide
+      animation={false}
+      delay={5000}
+      onClose={onClose}
+    >
       <Toast.Header
         closeButton={false}
         className={`justify-content-between d-flex text-${color}-emphasis fw-medium rounded-top`}
