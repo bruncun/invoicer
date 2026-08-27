@@ -21,7 +21,7 @@ const RowsPerPageControl = ({
 }) => (
   <div className="dropup d-xl-flex flex-nowrap align-items-center me-2 d-none">
     <Form.Label className="flex-shrink-0 mb-0 me-2">Rows per page</Form.Label>
-    <div style={{ width: "3.75rem" }}>
+    <div style={{ width: "3.75rem", minWidth: "4.5rem" }}>
       <Select
         value={pageSize.toString()}
         onChange={onChange}
