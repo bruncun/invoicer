@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { HttpError, useNotification } from "@refinedev/core";
+import { HttpError, useInvalidate, useNotification } from "@refinedev/core";
 import { useModalForm } from "@refinedev/react-hook-form";
 import { parseISO, formatDate, sub } from "date-fns";
 import { useEffect } from "react";
@@ -35,6 +35,7 @@ const useInvoicesEditModalForm = (
     setValue,
   } = invoicesEditModalForm;
   const { open } = useNotification();
+  const invalidate = useInvalidate();
 
   useEffect(() => {
     if (!isInvoicesLoading && invoice) {
@@ -61,6 +62,11 @@ const useInvoicesEditModalForm = (
   const onFinish = async (formData: InferType<typeof invoiceSchema>) => {
     try {
       await updateInvoice(formData);
+      await invalidate({
+        resource: "invoices",
+        id: formData.id,
+        invalidates: ["list", "detail"],
+      });
       open?.({
         description: `Invoice updated${
           formData.status === "draft" ? "" : " and sent"
