@@ -15,6 +15,7 @@ import { invoiceSchema } from "~/constants";
 import useItemsFieldArray from "~/hooks/invoices/use-items-field-array";
 import { formatCurrency } from "~/utility/formatters";
 import Field from "~/components/field";
+import InvoiceFormField from "~/components/invoice-form-field";
 
 const ItemListSection = () => {
   const {
@@ -50,7 +51,7 @@ const ItemListSection = () => {
               />
             </Col>
             <Col xs={{ span: 4 }} xl={{ span: 3 }}>
-              <Field
+              <InvoiceFormField
                 name={`items.${index}.price`}
                 label="Price"
                 type="currency"

@@ -1,5 +1,6 @@
 import { Col, Row, Stack } from "react-bootstrap";
 import Field from "~/components/field";
+import InvoiceFormField from "~/components/invoice-form-field";
 
 const BillToSection = () => {
   const paymentTermsOptions = [
@@ -30,10 +31,14 @@ const BillToSection = () => {
       <Stack gap={3} className="mb-4">
         <Row className="gx-3">
           <Col>
-            <Field name="invoice_date" type="date" label="Invoice Date" />
+            <InvoiceFormField
+              name="invoice_date"
+              type="date"
+              label="Invoice Date"
+            />
           </Col>
           <Col>
-            <Field
+            <InvoiceFormField
               type="select"
               name="payment_terms"
               label="Payment Terms"
