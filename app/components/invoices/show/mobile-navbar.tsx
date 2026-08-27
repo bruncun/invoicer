@@ -18,17 +18,21 @@ const InvoicesShowMobileNavbar = ({
   isUpdateLoading,
   showConfirmationModal,
   invoicesShow,
-}: InvoicesShowMobileNavbarProps) => (
-  <MobileNavbar>
-    <InvoiceActions
-      invoicesShow={invoicesShow}
-      editUrl={editUrl}
-      setShowConfirmationModal={setShowConfirmationModal}
-      onUpdateStatus={onUpdateStatus}
-      showConfirmationModal={showConfirmationModal}
-      isUpdateLoading={isUpdateLoading ?? false}
-    />
-  </MobileNavbar>
-);
+}: InvoicesShowMobileNavbarProps) => {
+  if (!invoicesShow.invoice) return null;
+
+  return (
+    <MobileNavbar>
+      <InvoiceActions
+        invoicesShow={invoicesShow}
+        editUrl={editUrl}
+        setShowConfirmationModal={setShowConfirmationModal}
+        onUpdateStatus={onUpdateStatus}
+        showConfirmationModal={showConfirmationModal}
+        isUpdateLoading={isUpdateLoading ?? false}
+      />
+    </MobileNavbar>
+  );
+};
 
 export default InvoicesShowMobileNavbar;
