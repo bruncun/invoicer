@@ -56,7 +56,8 @@ const DesktopNavbar = ({
         >
           <Button
             variant="dark"
-            className="rounded lh-1 pt-2"
+            className="rounded d-flex align-items-center justify-content-center p-0"
+            style={{ width: "2.5rem", height: "2.5rem" }}
             data-testid="theme-toggle"
             onClick={toggleTheme}
           >
@@ -65,6 +66,7 @@ const DesktopNavbar = ({
               className="fs-4"
               aria-hidden="true"
             ></Icon>
+            <span className="visually-hidden">Toggle theme</span>
           </Button>
         </OverlayTrigger>
         <OverlayTrigger
@@ -74,7 +76,8 @@ const DesktopNavbar = ({
         >
           <Button
             variant="dark"
-            className="rounded lh-1 pt-2"
+            className="rounded d-flex align-items-center justify-content-center p-0"
+            style={{ width: "2.5rem", height: "2.5rem" }}
             data-testid="logout"
             onClick={logout}
             disabled={isLoading}
@@ -88,6 +91,7 @@ const DesktopNavbar = ({
                 aria-hidden="true"
               ></Icon>
             )}
+            <span className="visually-hidden">Log out</span>
           </Button>
         </OverlayTrigger>
       </Stack>
