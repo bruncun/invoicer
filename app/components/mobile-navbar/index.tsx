@@ -46,11 +46,12 @@ const MobileNavbar = ({
         }}
       ></div>
     </Navbar.Brand>
-    <Nav className="flex-row me-3">
+    <Nav className="flex-row align-items-center me-3">
       <Nav.Item>
         <Button
           variant="dark"
-          className="rounded lh-1 pt-2 me-2"
+          className="rounded d-flex align-items-center justify-content-center p-0 me-2"
+          style={{ width: "2.5rem", height: "2.5rem" }}
           data-testid="theme-toggle"
           onClick={toggleTheme}
         >
@@ -58,12 +59,14 @@ const MobileNavbar = ({
             name={theme === "dark" ? "moon-stars-fill" : "sun-fill"}
             className="fs-5"
           ></Icon>
+          <span className="visually-hidden">Toggle theme</span>
         </Button>
       </Nav.Item>
       <Nav.Item>
         <Button
           variant="dark"
-          className="rounded lh-1 pt-2"
+          className="rounded d-flex align-items-center justify-content-center p-0"
+          style={{ width: "2.5rem", height: "2.5rem" }}
           data-testid="logout"
           onClick={logout}
           disabled={isLoading}
@@ -73,6 +76,7 @@ const MobileNavbar = ({
           ) : (
             <Icon name="box-arrow-right" className="fs-4"></Icon>
           )}
+          <span className="visually-hidden">Log out</span>
         </Button>
       </Nav.Item>
     </Nav>
