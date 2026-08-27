@@ -30,11 +30,11 @@ const InvoiceActions = ({
         {!invoice ? (
           <>
             <Skeleton
-              className="w-6 rounded-pill"
+              className="w-5 rounded-pill"
               style={{ height: "2.375rem" }}
             />
             <Skeleton
-              className="w-7 rounded-pill"
+              className="w-6 rounded-pill"
               style={{ height: "2.375rem" }}
             />
             <Skeleton

@@ -21,22 +21,26 @@ export const InvoicesDetails = ({ invoicesShow }: { invoicesShow: InvoicesShow }
             <FormattedId id={invoice?.id} size="lg"></FormattedId>
             <div className="clearfix mb-1"></div>
             <p className="text-truncate">
-              {invoice?.description ?? <Skeleton className="w-9" />}
+              {invoice?.description ?? <Skeleton className="w-10" />}
             </p>
           </Col>
           <Col xl={3}>
             <address className="text-md-end text-truncate">
-              <span>{invoice?.sender_street ?? <Skeleton />}</span>
-              <br />
               <span>
-                {invoice?.sender_city ?? <Skeleton className="w-7" />}
+                {invoice?.sender_street ?? <Skeleton className="w-7" />}
               </span>
               <br />
               <span>
-                {invoice?.sender_postcode ?? <Skeleton className="w-6" />}
+                {invoice?.sender_city ?? <Skeleton className="w-6" />}
               </span>
               <br />
-              <span>{invoice?.sender_country ?? <Skeleton />}</span>
+              <span>
+                {invoice?.sender_postcode ?? <Skeleton className="w-5" />}
+              </span>
+              <br />
+              <span>
+                {invoice?.sender_country ?? <Skeleton className="w-7" />}
+              </span>
             </address>
           </Col>
         </Row>
@@ -61,20 +65,24 @@ export const InvoicesDetails = ({ invoicesShow }: { invoicesShow: InvoicesShow }
               <dd>
                 <address className="text-truncate">
                   <span className="text-body-emphasis fw-medium">
-                    {invoice?.client_name ?? <Skeleton />}
-                  </span>
-                  <br />
-                  <span>{invoice?.client_street ?? <Skeleton />}</span>
-                  <br />
-                  <span>
-                    {invoice?.client_city ?? <Skeleton className="w-7" />}
+                    {invoice?.client_name ?? <Skeleton className="w-6" />}
                   </span>
                   <br />
                   <span>
-                    {invoice?.client_postcode ?? <Skeleton className="w-6" />}
+                    {invoice?.client_street ?? <Skeleton className="w-7" />}
                   </span>
                   <br />
-                  <span>{invoice?.client_country ?? <Skeleton />}</span>
+                  <span>
+                    {invoice?.client_city ?? <Skeleton className="w-6" />}
+                  </span>
+                  <br />
+                  <span>
+                    {invoice?.client_postcode ?? <Skeleton className="w-5" />}
+                  </span>
+                  <br />
+                  <span>
+                    {invoice?.client_country ?? <Skeleton className="w-6" />}
+                  </span>
                 </address>
               </dd>
             </Col>
@@ -82,7 +90,7 @@ export const InvoicesDetails = ({ invoicesShow }: { invoicesShow: InvoicesShow }
               <dt>Sent To</dt>
               <dd>
                 <span className="fw-medium text-body-emphasis text-truncate d-block">
-                  {invoice?.client_email ?? <Skeleton className="w-9" />}
+                  {invoice?.client_email ?? <Skeleton className="w-10" />}
                 </span>
               </dd>
             </Col>

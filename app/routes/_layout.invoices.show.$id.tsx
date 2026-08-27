@@ -136,6 +136,14 @@ function InvoicesShowSkeleton() {
         showConfirmationModal={false}
       />
       <InvoicesDetails invoicesShow={invoicesShow} />
+      <InvoicesShowMobileNavbar
+        invoicesShow={invoicesShow}
+        editUrl={() => ""}
+        onUpdateStatus={() => undefined}
+        isUpdateLoading={false}
+        setShowConfirmationModal={() => undefined}
+        showConfirmationModal={false}
+      />
     </>
   );
 }

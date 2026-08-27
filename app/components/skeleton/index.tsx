@@ -12,11 +12,15 @@ const Skeleton = ({
   className = "w-8 border-transparent",
   bg = "body-secondary",
 }: SkeletonProps) => (
-  <Placeholder animation="glow">
+  <Placeholder
+    animation="glow"
+    className="d-inline-block"
+    style={{ lineHeight: 0, verticalAlign: "middle" }}
+  >
     <Placeholder
       bg={bg}
       className={`d-inline-block ${className} p-0`}
-      style={style}
+      style={{ verticalAlign: "middle", ...style }}
     />
   </Placeholder>
 );

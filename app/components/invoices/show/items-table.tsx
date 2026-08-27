@@ -11,6 +11,8 @@ interface ItemsTableProps {
   isLoading: boolean;
 }
 
+const SKELETON_ITEM_COUNT = 4;
+
 const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => (
   <>
     <Card bg="body-secondary" className="rounded-bottom-0">
@@ -29,7 +31,7 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => (
           </thead>
           <tbody className="fw-medium">
             {isLoading
-              ? new Array(10)
+              ? new Array(SKELETON_ITEM_COUNT)
                   .fill(0)
                   .map((item, index) => <ItemsRow key={index} item={item} />)
               : invoice?.items.map((item, index) => (
@@ -38,22 +40,41 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => (
           </tbody>
         </Table>
         <Stack direction="vertical" gap={3} className="d-md-none">
-          {invoice?.items.map((item, index) => (
-            <div
-              key={index}
-              className="d-flex justify-content-between align-items-center"
-            >
-              <div>
-                <span className="fw-medium text-body-emphasis d-block text-truncate w-10">
-                  {item.name}
-                </span>
-                <span>
-                  {item.quantity} x {formatCurrency(item.price)}
-                </span>
-              </div>
-              <span>{formatCurrency(item.quantity * item.price)}</span>
-            </div>
-          ))}
+          {isLoading
+            ? new Array(SKELETON_ITEM_COUNT).fill(0).map((item, index) => (
+                <div
+                  key={index}
+                  className="d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                    <span className="fw-medium text-body-emphasis d-block text-truncate w-10">
+                      <Skeleton bg="secondary" className="w-5" />
+                    </span>
+                    <span>
+                      <Skeleton bg="secondary" className="w-6" />
+                    </span>
+                  </div>
+                  <span>
+                    <Skeleton bg="secondary" className="w-6" />
+                  </span>
+                </div>
+              ))
+            : invoice?.items.map((item, index) => (
+                <div
+                  key={index}
+                  className="d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                    <span className="fw-medium text-body-emphasis d-block text-truncate w-10">
+                      {item.name}
+                    </span>
+                    <span>
+                      {item.quantity} x {formatCurrency(item.price)}
+                    </span>
+                  </div>
+                  <span>{formatCurrency(item.quantity * item.price)}</span>
+                </div>
+              ))}
         </Stack>
       </Card.Body>
     </Card>

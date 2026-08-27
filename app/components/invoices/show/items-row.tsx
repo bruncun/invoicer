@@ -19,7 +19,7 @@ export const ItemsRow = ({ item }: ItemsRowProps) => {
     <tr>
       <td className="align-top text-body-emphasis fw-medium">
         <span className="text-truncate d-block">
-          {item?.name ?? <Skeleton bg="secondary" />}
+          {item?.name ?? <Skeleton bg="secondary" className="w-5" />}
         </span>
       </td>
       <td className="text-center">
@@ -34,7 +34,7 @@ export const ItemsRow = ({ item }: ItemsRowProps) => {
       </td>
       <td className="align-top text-body-emphasis fw-medium text-end">
         <span className="text-truncate d-block">
-          {formattedTotal ?? <Skeleton bg="secondary" className="w-7" />}
+          {formattedTotal ?? <Skeleton bg="secondary" className="w-6" />}
         </span>
       </td>
     </tr>

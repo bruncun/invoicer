@@ -20,7 +20,7 @@ const FormattedId = ({ id, className, size }: FormattedIdProps) => {
         </>
       ) : (
         <Skeleton
-          className="w-6"
+          className="w-4"
           {...(size === "lg" ? { style: { height: "1.125rem" } } : {})}
         />
       )}

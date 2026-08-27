@@ -78,12 +78,18 @@ const InvoicesListItem = ({ invoice }: InvoicesListItemProps) => {
             {invoice?.client_name ?? <Skeleton className="w-7" />}
           </span>
         </div>
-        <div className="d-flex justify-content-between align-items-center">
+        <div
+          className="d-flex justify-content-between align-items-center"
+          style={!invoice ? { height: "2.625rem" } : undefined}
+        >
           <div>
             <span className="d-block mb-2 lh-1">
               {invoice?.description ? `Due ${formattedDate}` : <Skeleton />}
             </span>
-            <Card.Title className="fs-6 mb-0 text-body-emphasis lh-1">
+            <Card.Title
+              className="fs-6 mb-0 text-body-emphasis lh-1"
+              style={!invoice ? { height: "1rem" } : undefined}
+            >
               {invoice?.items ? formattedTotal : <Skeleton className="w-6" />}
             </Card.Title>
           </div>
