@@ -12,7 +12,9 @@ import { createSupabaseServerClient } from "~/utility/supabase/server";
 import { STATUSES } from "~/constants";
 import type { Invoice } from "~/hooks/invoices/use-invoices-list";
 import { InvoicesListHeader } from "~/components/invoices/list/list-header";
-import InvoicesPager from "~/components/invoices/list/pager";
+import InvoicesPager, {
+  InvoicesPagerSkeleton,
+} from "~/components/invoices/list/pager";
 import {
   InvoicesListGroup,
   InvoicesListSkeleton,
@@ -55,7 +57,14 @@ export default function InvoicesLayout() {
               )}
             </Await>
           </Suspense>
-          <Suspense fallback={<InvoicesListSkeleton />}>
+          <Suspense
+            fallback={
+              <>
+                <InvoicesListSkeleton />
+                <InvoicesPagerSkeleton />
+              </>
+            }
+          >
             <Await resolve={initialData}>
               {(data) => (
                 <InvoicesListContent

@@ -13,6 +13,7 @@ type SelectProps = {
   options: { value: string; label: string }[];
   buttonClassName?: string;
   listboxOptionsStyle?: React.CSSProperties;
+  disabled?: boolean;
 };
 
 const Select = ({
@@ -21,6 +22,7 @@ const Select = ({
   options,
   buttonClassName = "",
   listboxOptionsStyle = {},
+  disabled = false,
 }: SelectProps) => {
   const optionsTable = options.reduce((acc, option) => {
     acc[option.value] = option.label;
@@ -28,7 +30,7 @@ const Select = ({
   }, {} as { [key: string]: string });
 
   return (
-    <Listbox value={value} onChange={onChange}>
+    <Listbox value={value} onChange={onChange} disabled={disabled}>
       <ListboxButton
         className={`form-select text-start w-100 ${buttonClassName}`}
       >

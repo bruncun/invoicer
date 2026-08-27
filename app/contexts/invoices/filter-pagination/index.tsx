@@ -19,6 +19,16 @@ const FilterPaginationProvider = ({ children }: { children: ReactNode }) => {
   const [pageSize, setPageSize] = useState<number>(10);
   const [filters, setFilters] = useState<Enums<"status">[]>([]);
 
+  const handlePageSizeChange = (value: number) => {
+    setPageSize(value);
+    setCurrentPage(1);
+  };
+
+  const handleFiltersChange = (value: Enums<"status">[]) => {
+    setFilters(value);
+    setCurrentPage(1);
+  };
+
   return (
     <FilterPaginationContext.Provider
       value={{
@@ -26,8 +36,8 @@ const FilterPaginationProvider = ({ children }: { children: ReactNode }) => {
         pageSize,
         filters,
         setCurrentPage,
-        setPageSize,
-        setFilters,
+        setPageSize: handlePageSizeChange,
+        setFilters: handleFiltersChange,
       }}
     >
       {children}
