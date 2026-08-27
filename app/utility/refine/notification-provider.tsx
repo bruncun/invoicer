@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-import { NotificationProvider } from "@refinedev/core";
-import { ToastContainer as BootstrapToastContainer } from "react-bootstrap";
-import { ToastMessage, ToastProps } from "~/components/toast-message";
+import type { NotificationProvider } from "@refinedev/core";
 
-type ToastNotification = ToastProps & {
+export type ToastNotification = {
   id: string;
   notificationKey?: string;
+  description: string;
+  type: "success" | "error";
 };
 
 const notifications = new Map<string, ToastNotification>();
@@ -16,7 +15,19 @@ const notifySubscribers = () => {
   subscribers.forEach((subscriber) => subscriber());
 };
 
-const removeNotification = (id: string) => {
+export const subscribeToNotifications = (subscriber: () => void) => {
+  subscribers.add(subscriber);
+
+  return () => {
+    subscribers.delete(subscriber);
+  };
+};
+
+export const hasNotifications = () => notifications.size > 0;
+
+export const getNotifications = () => Array.from(notifications.values());
+
+export const removeNotification = (id: string) => {
   if (notifications.delete(id)) notifySubscribers();
 };
 
@@ -49,34 +60,4 @@ export const notificationProvider: NotificationProvider = {
     notifySubscribers();
   },
   close: closeNotifications,
-};
-
-export const ToastContainer = () => {
-  const [, setRenderVersion] = useState(0);
-
-  useEffect(() => {
-    const subscriber = () => setRenderVersion((version) => version + 1);
-    subscribers.add(subscriber);
-
-    return () => {
-      subscribers.delete(subscriber);
-    };
-  }, []);
-
-  return (
-    <BootstrapToastContainer
-      position="top-end"
-      containerPosition="fixed"
-      className="invoicer-toast-container px-3 py-4"
-    >
-      {Array.from(notifications.values()).map((notification) => (
-        <ToastMessage
-          key={notification.id}
-          description={notification.description}
-          type={notification.type}
-          onClose={() => removeNotification(notification.id)}
-        />
-      ))}
-    </BootstrapToastContainer>
-  );
 };

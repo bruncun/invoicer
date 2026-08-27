@@ -24,11 +24,11 @@ import {
   notificationProvider,
   resources,
   options,
-  ToastContainer,
 } from "./utility/refine";
 import { httpDataProvider } from "./utility/refine/http-data-provider";
 import { ThemeProvider, type Theme } from "./hooks/use-theme";
 import FullScreenError from "./components/full-screen-error";
+import ToastHost from "./components/toast-host";
 
 export const meta: MetaFunction = () => [
   {
@@ -67,7 +67,7 @@ export default function App() {
         >
           <FilterPaginationProvider>
             <Outlet />
-            <ToastContainer />
+            <ToastHost />
             <DocumentTitleHandler />
           </FilterPaginationProvider>
         </Refine>

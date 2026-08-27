@@ -15,7 +15,7 @@ export const ToastMessage = ({
   return (
     <Toast
       bg={color}
-      className="text-sans-serif w-100"
+      className="text-sans-serif"
       autohide
       animation={false}
       delay={5000}
