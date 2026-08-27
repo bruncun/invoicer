@@ -28,7 +28,7 @@ export const InvoicesListHeader = ({
         <Dropdown focusFirstItemOnShow>
           <Dropdown.Toggle
             variant="link"
-            disabled={isPending || invoices.length === 0}
+            disabled={isPending}
             className="user-select-none"
           >
             Filter
