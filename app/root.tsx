@@ -41,6 +41,10 @@ export const meta: MetaFunction = () => [
     title: "Invoicer",
     icon: "",
   },
+  {
+    name: "description",
+    content: "Create, manage, and send professional invoices with Invoicer.",
+  },
 ];
 
 export async function loader({ request }: LoaderFunctionArgs) {

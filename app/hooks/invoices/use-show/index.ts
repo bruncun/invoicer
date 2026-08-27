@@ -9,8 +9,7 @@ export type InvoicesShow = {
 };
 
 const useInvoicesShow = (
-  initialData?: GetOneResponse<InferType<typeof invoiceSchema>>,
-  isNavigationPending = false
+  initialData?: GetOneResponse<InferType<typeof invoiceSchema>>
 ) => {
   const { result, query } = useShow<
     InferType<typeof invoiceSchema>,
@@ -26,10 +25,8 @@ const useInvoicesShow = (
     },
   });
   const { isLoading, isError } = query;
-  const invoice = isNavigationPending
-    ? undefined
-    : (result as InferType<typeof invoiceSchema> | undefined);
-  const isPending = isLoading || isNavigationPending;
+  const invoice = result as InferType<typeof invoiceSchema> | undefined;
+  const isPending = isLoading;
 
   if (!invoice && !isPending) {
     throw new Response(null, {

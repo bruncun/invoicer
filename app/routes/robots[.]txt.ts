@@ -1,0 +1,7 @@
+export function loader() {
+  return new Response("User-agent: *\nDisallow: /api/\n", {
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+    },
+  });
+}

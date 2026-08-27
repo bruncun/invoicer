@@ -4,7 +4,6 @@ import {
   Outlet,
   useLoaderData,
   useLocation,
-  useNavigation,
 } from "@remix-run/react";
 import { Suspense } from "react";
 import { dataProvider } from "~/utility/supabase/data-provider.server";
@@ -39,7 +38,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function InvoicesLayout() {
   const { initialData } = useLoaderData<typeof loader>();
   const { pathname } = useLocation();
-  const { state } = useNavigation();
   const isListRoute =
     pathname === "/invoices" || pathname === "/invoices/create";
 
@@ -52,7 +50,6 @@ export default function InvoicesLayout() {
               {(data) => (
                 <InvoicesListHeader
                   invoices={data.data}
-                  isPending={state !== "idle"}
                 />
               )}
             </Await>
@@ -69,7 +66,6 @@ export default function InvoicesLayout() {
               {(data) => (
                 <InvoicesListContent
                   initialData={data}
-                  isNavigationPending={state !== "idle"}
                 />
               )}
             </Await>
@@ -83,12 +79,10 @@ export default function InvoicesLayout() {
 
 function InvoicesListContent({
   initialData,
-  isNavigationPending,
 }: {
   initialData: Parameters<typeof useInvoicesList>[0];
-  isNavigationPending: boolean;
 }) {
-  const invoicesList = useInvoicesList(initialData, isNavigationPending);
+  const invoicesList = useInvoicesList(initialData);
 
   return (
     <>

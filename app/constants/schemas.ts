@@ -37,7 +37,13 @@ export const itemSchema = yup.object().shape({
     .min(3, "Item name must be at least 3 characters")
     .max(255, "Item name must be 255 characters or less")
     .required("Item name is required"),
-  price: yup.number().required("Price is required"),
+  price: yup
+    .number()
+    .transform((value, originalValue) =>
+      originalValue === "" ? undefined : value
+    )
+    .typeError("Price must be a number")
+    .required("Price is required"),
   quantity: yup
     .number()
     .typeError("Quantity must be a number")

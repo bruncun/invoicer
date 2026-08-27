@@ -18,8 +18,7 @@ export type InvoicesList = ReturnType<typeof useList<Invoice, HttpError>> & {
 };
 
 const useInvoicesList = (
-  initialData?: GetListResponse<Invoice>,
-  isNavigationPending = false
+  initialData?: GetListResponse<Invoice>
 ): InvoicesList => {
   const {
     currentPage,
@@ -64,7 +63,7 @@ const useInvoicesList = (
   return {
     ...invoicesQuery,
     data: { data: invoicesQuery.result.data, total: invoicesQuery.result.total },
-    isLoading: invoicesQuery.query.isLoading || isNavigationPending,
+    isLoading: invoicesQuery.query.isLoading,
     isError: invoicesQuery.query.isError,
     currentPage,
     pageSize,

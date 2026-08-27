@@ -48,9 +48,6 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
               className={`form-control ${error ? "is-invalid" : ""}`}
             />
           </FormGroup>
-          <Form.Control.Feedback type="invalid">
-            {error?.message}
-          </Form.Control.Feedback>
         </>
       )}
     />

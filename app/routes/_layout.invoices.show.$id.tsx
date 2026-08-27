@@ -4,7 +4,6 @@ import {
   Await,
   Outlet,
   useLoaderData,
-  useNavigation,
 } from "@remix-run/react";
 import { dataProvider } from "~/utility/supabase/data-provider.server";
 import InvoicesDetails from "~/components/invoices/show/details";
@@ -32,7 +31,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
 export const InvoicesShow = () => {
   const { result } = useLoaderData<typeof loader>();
-  const { state } = useNavigation();
 
   return (
     <Suspense fallback={<InvoicesShowSkeleton />}>
@@ -40,7 +38,6 @@ export const InvoicesShow = () => {
         {(initialData) => (
           <InvoicesShowContent
             initialData={initialData as { data: Invoice }}
-            isNavigationPending={state !== "idle"}
           />
         )}
       </Await>
@@ -50,12 +47,10 @@ export const InvoicesShow = () => {
 
 function InvoicesShowContent({
   initialData,
-  isNavigationPending,
 }: {
   initialData: { data: Invoice };
-  isNavigationPending: boolean;
 }) {
-  const invoicesShow = useInvoicesShow(initialData, isNavigationPending);
+  const invoicesShow = useInvoicesShow(initialData);
   const { invoice } = invoicesShow;
   const { mutateAsync: mutateUpdateAsync } = useUpdate();
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
