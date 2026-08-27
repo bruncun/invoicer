@@ -27,13 +27,15 @@ const Layout = ({ children }: PropsWithChildren) => {
         isLoading={isLoading}
         invoicesListUrl={invoicesListUrl}
       ></DesktopNavbar>
-      <Container className="py-3 py-lg-4 w-100">
-        <Row>
-          <Col lg={9} className="mx-auto">
-            {children}
-          </Col>
-        </Row>
-      </Container>
+      <main>
+        <Container className="py-3 py-lg-4 w-100">
+          <Row>
+            <Col lg={9} className="mx-auto">
+              {children}
+            </Col>
+          </Row>
+        </Container>
+      </main>
     </div>
   );
 };
