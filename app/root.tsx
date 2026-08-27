@@ -14,7 +14,6 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import { useEffect } from "react";
 import { Refine } from "@refinedev/core";
 import routerProvider from "@refinedev/remix-router";
 import styles from "~/index.css";
@@ -36,33 +35,6 @@ import ToastHost from "./components/toast-host";
 const criticalStyles = `
 @font-face{font-family:"League Spartan";src:url("/fonts/LeagueSpartan-Variable.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}html{background:#fff}html[data-bs-theme=dark]{background:#020617}body{margin:0;font-family:"League Spartan",sans-serif;font-size:1rem;line-height:1.5;color:#475569;background:#fff;-webkit-text-size-adjust:100%}[data-bs-theme=dark] body{color:#cbd5e1;background:#020617}*,*::before,*::after{box-sizing:border-box}.layout{min-height:100vh;padding-top:3.75rem;background:#f1f5f9}.container{width:100%;padding-right:1rem;padding-left:1rem;margin-right:auto;margin-left:auto}.row{display:flex;flex-wrap:wrap;margin-right:-.75rem;margin-left:-.75rem}.row>*{width:100%;padding-right:.75rem;padding-left:.75rem}.mx-auto{margin-right:auto!important;margin-left:auto!important}.w-100{width:100%!important}.py-3{padding-top:1rem!important;padding-bottom:1rem!important}.d-none{display:none!important}.d-flex{display:flex!important}.position-relative{position:relative!important}.position-fixed{position:fixed!important}.start-0{left:0!important}.top-0{top:0!important}.vh-100{height:100vh!important}.bg-dark{background:#0f172a!important}.bg-primary{background:#674dcf!important}.text-white{color:#fff!important}.text-center{text-align:center!important}.card{position:relative;display:flex;flex-direction:column;min-width:0;background:#fff;background-clip:border-box;border-radius:.5rem}.placeholder{display:inline-block;min-height:1em;vertical-align:middle;cursor:wait;background:#e2e8f0;opacity:1}.placeholder-glow .placeholder{animation:placeholder-glow 2s ease-in-out infinite}@keyframes placeholder-glow{50%{opacity:.5}}@media(min-width:992px){.layout{padding-top:0;padding-left:4.125rem}.container{max-width:960px;padding-right:1rem;padding-left:1rem}.d-lg-none{display:none!important}.d-lg-flex{display:flex!important}.py-lg-4{padding-top:1.5rem!important;padding-bottom:1.5rem!important}.col-lg-9{flex:0 0 auto;width:75%}}@media(min-width:1200px){.container{max-width:1140px}}
 `;
-
-function DeferredStylesheet() {
-  useEffect(() => {
-    const stylesheet = document.querySelector<HTMLLinkElement>(
-      'link[data-invoicer-styles="true"]'
-    );
-
-    if (stylesheet?.rel === "preload") stylesheet.rel = "stylesheet";
-  }, []);
-
-  return (
-    <>
-      <link
-        rel="preload"
-        as="style"
-        href={styles}
-        data-invoicer-styles="true"
-        onLoad={(event) => {
-          event.currentTarget.rel = "stylesheet";
-        }}
-      />
-      <noscript>
-        <link rel="stylesheet" href={styles} />
-      </noscript>
-    </>
-  );
-}
 
 export const meta: MetaFunction = () => [
   {
@@ -99,7 +71,6 @@ export default function App() {
           crossOrigin="anonymous"
         />
         <style dangerouslySetInnerHTML={{ __html: criticalStyles }} />
-        <DeferredStylesheet />
         <Links />
       </head>
       <body>
@@ -150,7 +121,6 @@ export function ErrorBoundary() {
           crossOrigin="anonymous"
         />
         <style dangerouslySetInnerHTML={{ __html: criticalStyles }} />
-        <DeferredStylesheet />
         <Links />
       </head>
       <body>
@@ -163,5 +133,5 @@ export function ErrorBoundary() {
 }
 
 export function links() {
-  return [];
+  return [{ rel: "stylesheet", href: styles }];
 }
