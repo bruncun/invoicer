@@ -32,6 +32,7 @@ const safelist = {
     "form-select",
     "hstack",
     "input",
+    "invalid-feedback",
     "is-invalid",
     "modal",
     "nav",
