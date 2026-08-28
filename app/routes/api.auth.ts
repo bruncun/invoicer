@@ -8,6 +8,19 @@ export async function action({ request }: ActionFunctionArgs) {
   const { client, headers } = createSupabaseServerClient(request);
   let result: any;
   if (body.operation === "login") result = await client.auth.signInWithPassword(body);
+  else if (body.operation === "demo-login") {
+    const email = process.env.DEMO_EMAIL;
+    const password = process.env.DEMO_PASSWORD;
+
+    if (!email || !password) {
+      return json(
+        { error: "Demo login is not configured" },
+        { status: 503, headers: headers() }
+      );
+    }
+
+    result = await client.auth.signInWithPassword({ email, password });
+  }
   else if (body.operation === "register") result = await client.auth.signUp(body);
   else if (body.operation === "logout") {
     const responseHeaders = headers();

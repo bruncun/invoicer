@@ -15,14 +15,18 @@ const authRequest = async (operation: string, values: Record<string, unknown> = 
 };
 
 export const authProvider: AuthBindings = {
-  login: async ({ email, password }) => {
-    const data = await authRequest("login", { email, password });
+  login: async (params) => {
+    const { email, password } = params ?? {};
+    const data = await authRequest(
+      email === undefined && password === undefined ? "demo-login" : "login",
+      email === undefined && password === undefined ? {} : { email, password }
+    );
 
     if (data?.session) {
       Cookies.set(TOKEN_KEY, data.session.access_token);
       return {
         success: true,
-        redirectTo: "/",
+        redirectTo: "/invoices",
       };
     }
 

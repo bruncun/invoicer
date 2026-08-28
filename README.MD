@@ -8,6 +8,8 @@ Invoicer is my solution to [Frontend Mentor's Invoice app](https://www.frontendm
 
 Create a `.env` file from `.env.example` and set the required Supabase values before starting the app. Set `RESEND_API_KEY` in the Supabase Edge Function environment before deploying `send-invoice`.
 
+The demo login uses `DEMO_EMAIL` and `DEMO_PASSWORD` on the server. Demo data is restored daily by the operational `reset-demo-data` Supabase Edge Function. See `supabase/functions/reset-demo-data/README.md` for deployment, dashboard invocation, and scheduling instructions.
+
 ### Running the development server.
 
 ```bash

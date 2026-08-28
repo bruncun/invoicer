@@ -1,6 +1,6 @@
 import { useLogin } from "@refinedev/core";
 import { Link } from "@remix-run/react";
-import { Button, Form, Stack } from "react-bootstrap";
+import { Alert, Button, Form, Stack } from "react-bootstrap";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { credentialsSchema } from "~/constants";
 import AuthLayout from "~/components/auth-layout";
@@ -8,9 +8,11 @@ import { InferType } from "yup";
 import { useForm } from "@refinedev/react-hook-form";
 import { FormProvider } from "react-hook-form";
 import Field from "~/components/field";
+import { useState } from "react";
 
 export default function Login() {
   const { mutate, isPending: isLoading } = useLogin();
+  const [demoError, setDemoError] = useState<string | null>(null);
   const methods = useForm<InferType<typeof credentialsSchema>>({
     resolver: yupResolver(credentialsSchema),
   });
@@ -19,14 +21,28 @@ export default function Login() {
   const onSubmit = (data: InferType<typeof credentialsSchema>) => mutate(data);
 
   return (
-    <AuthLayout
-      title="Login"
-      subtitle={
-        <p className="small text-body-secondary mb-4 mt-n3 text-center">
-          Demo login: <code>demo@example.com</code> / <code>Passw0rd!</code>
-        </p>
-      }
-    >
+    <AuthLayout title="Login">
+      <Button
+        variant="secondary"
+        type="button"
+        className="w-100 mb-3"
+        disabled={isLoading}
+        onClick={() => {
+          setDemoError(null);
+          mutate({}, {
+            onError: (error) =>
+              setDemoError(error.message ?? "Demo login failed"),
+          });
+        }}
+      >
+        {isLoading ? "Opening demo..." : "Try the demo"}
+      </Button>
+      {demoError && <Alert variant="danger" className="mb-3">{demoError}</Alert>}
+      <div className="d-flex align-items-center gap-2 mb-3">
+        <hr className="flex-grow-1" />
+        <span className="small text-body-secondary">or login</span>
+        <hr className="flex-grow-1" />
+      </div>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Stack direction="vertical" gap={3} className="mb-3">
