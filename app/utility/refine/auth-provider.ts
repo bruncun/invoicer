@@ -1,14 +1,24 @@
 import type { AuthProvider as AuthBindings } from "@refinedev/core";
-import * as cookie from "cookie";
-import Cookies from "js-cookie";
-import { TOKEN_KEY } from "~/constants";
+import { getTokenFromRequest, isTokenExpired } from "~/utility/auth/token";
 
-const authRequest = async (operation: string, values: Record<string, unknown> = {}) => {
-  const response = await fetch("/api/auth", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ operation, ...values }),
-  });
+const authRequest = async (
+  operation: string,
+  values: Record<string, unknown> = {},
+  request?: Request
+) => {
+  const response = await fetch(
+    request ? new URL("/api/auth", request.url).toString() : "/api/auth",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(request?.headers.get("Cookie")
+          ? { Cookie: request.headers.get("Cookie") as string }
+          : {}),
+      },
+      body: JSON.stringify({ operation, ...values }),
+    }
+  );
   const result = await response.json();
   if (!response.ok) throw new Error(result.error ?? "Authentication failed");
   return result.data;
@@ -23,7 +33,6 @@ export const authProvider: AuthBindings = {
     );
 
     if (data?.session) {
-      Cookies.set(TOKEN_KEY, data.session.access_token);
       return {
         success: true,
         redirectTo: "/invoices",
@@ -37,7 +46,6 @@ export const authProvider: AuthBindings = {
   logout: async () => {
     await authRequest("logout");
 
-    Cookies.remove(TOKEN_KEY);
     return {
       success: true,
       redirectTo: "/login",
@@ -69,54 +77,18 @@ export const authProvider: AuthBindings = {
   },
   onError: async (error) => error,
   check: async (request) => {
-    let token = undefined;
-    if (request) {
-      const hasCookie = request.headers.get("Cookie");
-      if (hasCookie) {
-        const parsedCookie = cookie.parse(request.headers.get("Cookie"));
-        token = parsedCookie[TOKEN_KEY];
-      }
-    } else {
-      const parsedCookie = Cookies.get(TOKEN_KEY);
-      token = parsedCookie;
+    if (isTokenExpired(getTokenFromRequest(request))) {
+      return unauthenticated(request);
     }
 
-    const pathname = request
-      ? new URL(request.url).pathname
-      : window.location.pathname;
-
-    if (!token) {
-      return {
-        authenticated: false,
-        error: {
-          message: "Check failed",
-          name: "Unauthenticated",
-        },
-        logout: true,
-        redirectTo: `/login?to=${pathname}`,
-      };
-    }
-
-    if (request) {
-      return { authenticated: true };
-    }
-
-    const { user } = await authRequest("check");
+    const { user } = await authRequest("check", {}, request);
 
     if (user)
       return {
         authenticated: true,
       };
 
-    return {
-      authenticated: false,
-      error: {
-        message: "Check failed",
-        name: "Unauthenticated",
-      },
-      logout: true,
-      redirectTo: `/login?to=${pathname}`,
-    };
+    return unauthenticated(request);
   },
   forgotPassword: async ({ email }) => {
     try {
@@ -180,3 +152,19 @@ export const authProvider: AuthBindings = {
     return null;
   },
 };
+
+function unauthenticated(request?: Request) {
+  const pathname = request
+    ? new URL(request.url).pathname
+    : window.location.pathname;
+
+  return {
+    authenticated: false,
+    error: {
+      message: "Check failed",
+      name: "Unauthenticated",
+    },
+    logout: true,
+    redirectTo: `/login?to=${pathname}`,
+  };
+}

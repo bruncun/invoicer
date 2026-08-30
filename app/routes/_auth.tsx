@@ -1,6 +1,7 @@
-import { LoaderFunctionArgs, redirect } from "@remix-run/node";
+import { json, LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
 import { authProvider } from "~/utility/refine/auth-provider";
+import { clearAuthCookieHeaders } from "~/utility/auth/token";
 
 export default function AuthLayout() {
   return <Outlet />;
@@ -18,5 +19,5 @@ export async function loader({ request }: LoaderFunctionArgs) {
     throw redirect(redirectTo ?? "/");
   }
 
-  return {};
+  return json({}, { headers: clearAuthCookieHeaders() });
 }

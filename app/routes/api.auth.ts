@@ -23,6 +23,10 @@ export async function action({ request }: ActionFunctionArgs) {
   }
   else if (body.operation === "register") result = await client.auth.signUp(body);
   else if (body.operation === "logout") {
+    result = await client.auth.signOut();
+    if (result.error) {
+      return json({ error: result.error.message }, { status: 400, headers: headers() });
+    }
     const responseHeaders = headers();
     responseHeaders.append(
       "Set-Cookie",
@@ -40,7 +44,24 @@ export async function action({ request }: ActionFunctionArgs) {
   else if (body.operation === "reset") result = await client.auth.resetPasswordForEmail(body.email);
   else if (body.operation === "update-password") result = await client.auth.updateUser({ password: body.password });
   else return json({ error: "Unsupported auth operation" }, { status: 400 });
-  if (result.error) return json({ error: result.error.message }, { status: 400, headers: headers() });
+  if (result.error) {
+    const isSessionCheck = body.operation === "check" || body.operation === "identity";
+    if (isSessionCheck) {
+      const responseHeaders = headers();
+      responseHeaders.append(
+        "Set-Cookie",
+        serialize(TOKEN_KEY, "", {
+          httpOnly: true,
+          sameSite: "lax",
+          path: "/",
+          maxAge: 0,
+        })
+      );
+      return json({ data: { user: null } }, { headers: responseHeaders });
+    }
+
+    return json({ error: result.error.message }, { status: 400, headers: headers() });
+  }
   const responseHeaders = headers();
   if (result.data?.session?.access_token) {
     responseHeaders.append("Set-Cookie", serialize(TOKEN_KEY, result.data.session.access_token, { httpOnly: true, sameSite: "lax", path: "/" }));

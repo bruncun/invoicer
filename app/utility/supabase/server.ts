@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { createServerClient } from "@supabase/ssr";
-import { serialize } from "cookie";
+import { parse, serialize } from "cookie";
 import { Database } from "~/types/supabase";
 import { TOKEN_KEY } from "~/constants";
 
@@ -17,10 +17,8 @@ export function createSupabaseServerClient(request: Request) {
   const { url, key } = getEnv();
   const setCookies: string[] = [];
   const cookies = request.headers.get("Cookie") ?? "";
-  const token = cookies
-    .split(";")
-    .map((item) => item.trim().split("="))
-    .find(([name]) => name === TOKEN_KEY)?.[1];
+  const parsedCookies = parse(cookies);
+  const token = parsedCookies[TOKEN_KEY];
 
   const client = createServerClient<Database>(url, key, {
     db: { schema: "public" },
@@ -29,13 +27,10 @@ export function createSupabaseServerClient(request: Request) {
       : undefined,
     cookies: {
       getAll() {
-        return cookies
-          .split(";")
-          .filter(Boolean)
-          .map((item) => {
-            const [name, ...value] = item.trim().split("=");
-            return { name, value: value.join("=") };
-          });
+        return Object.entries(parsedCookies).map(([name, value]) => ({
+          name,
+          value,
+        }));
       },
       setAll(items) {
         for (const { name, value, options } of items) {

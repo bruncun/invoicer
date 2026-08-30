@@ -21,4 +21,15 @@ export function isTokenExpired(token: string | undefined, now = Date.now()) {
   return !exp || exp * 1000 <= now;
 }
 
+export function clearAuthCookieHeaders() {
+  return {
+    "Set-Cookie": cookie.serialize(TOKEN_KEY, "", {
+      httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 0,
+    }),
+  };
+}
+
 export { TOKEN_KEY };

@@ -2,6 +2,7 @@ import { LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
 import Layout from "~/components/layout";
 import { authProvider } from "~/utility/refine/auth-provider";
+import { clearAuthCookieHeaders } from "~/utility/auth/token";
 
 export default function BaseLayout() {
   return (
@@ -20,7 +21,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { authenticated, redirectTo } = await authProvider.check(request);
 
   if (!authenticated) {
-    throw redirect(redirectTo ?? "/login");
+    throw redirect(redirectTo ?? "/login", {
+      headers: clearAuthCookieHeaders(),
+    });
   }
 
   return {};
