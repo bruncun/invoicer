@@ -1,6 +1,6 @@
 import { useNotification, useRegister } from "@refinedev/core";
 import { Link } from "@remix-run/react";
-import { Button, Form, Stack } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { newCredentialsSchema } from "~/constants/schemas";
@@ -33,7 +33,7 @@ export default function Register() {
     <AuthLayout title="Register">
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Stack direction="vertical" gap={3} className="mb-3">
+          <div className="vstack gap-3 mb-3">
             <Field
               name="email"
               type="email"
@@ -46,7 +46,7 @@ export default function Register() {
               label="Password"
               autoComplete="new-password"
             />
-          </Stack>
+          </div>
           <Button
             variant="primary"
             type="submit"

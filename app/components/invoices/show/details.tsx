@@ -1,4 +1,3 @@
-import { Card, Col, Row } from "react-bootstrap";
 import FormattedId from "~/components/formatted-id";
 import { formatDisplayDate } from "~/utility/formatters";
 import type { InvoicesShow } from "~/hooks/invoices/use-show";
@@ -14,17 +13,17 @@ export const InvoicesDetails = ({ invoicesShow }: { invoicesShow: InvoicesShow }
   );
 
   return (
-    <Card>
-      <Card.Body className="p-md-5">
-        <Row className="d-md-flex justify-content-between mb-3">
-          <Col xl={9}>
+    <div className="card">
+      <div className="card-body p-md-5">
+        <div className="row d-md-flex justify-content-between mb-3">
+          <div className="col-xl-9">
             <FormattedId id={invoice?.id} size="lg"></FormattedId>
             <div className="clearfix mb-1"></div>
             <p className="text-truncate">
               {invoice?.description ?? <Skeleton className="w-10" />}
             </p>
-          </Col>
-          <Col xl={3}>
+          </div>
+          <div className="col-xl-3">
             <address className="text-md-end text-truncate">
               <span>
                 {invoice?.sender_street ?? <Skeleton className="w-7" />}
@@ -42,11 +41,11 @@ export const InvoicesDetails = ({ invoicesShow }: { invoicesShow: InvoicesShow }
                 {invoice?.sender_country ?? <Skeleton className="w-7" />}
               </span>
             </address>
-          </Col>
-        </Row>
+          </div>
+        </div>
         <dl className="mb-5">
-          <Row>
-            <Col xs={{ span: 6 }} md={{ span: 4 }}>
+          <div className="row">
+            <div className="col-6 col-md-4">
               <dt>Invoice Date</dt>
               <dd className="mb-4 text-body-emphasis fw-medium">
                 {(invoice && formatDisplayDate(invoice?.created_at)) ?? (
@@ -59,8 +58,8 @@ export const InvoicesDetails = ({ invoicesShow }: { invoicesShow: InvoicesShow }
                   <Skeleton className="w-7" />
                 )}
               </dd>
-            </Col>
-            <Col xs={6} md={4}>
+            </div>
+            <div className="col-6 col-md-4">
               <dt>Bill To</dt>
               <dd>
                 <address className="text-truncate">
@@ -85,20 +84,20 @@ export const InvoicesDetails = ({ invoicesShow }: { invoicesShow: InvoicesShow }
                   </span>
                 </address>
               </dd>
-            </Col>
-            <Col md={4}>
+            </div>
+            <div className="col-md-4">
               <dt>Sent To</dt>
               <dd>
                 <span className="fw-medium text-body-emphasis text-truncate d-block">
                   {invoice?.client_email ?? <Skeleton className="w-10" />}
                 </span>
               </dd>
-            </Col>
-          </Row>
+            </div>
+          </div>
         </dl>
         <ItemsTable invoice={invoice} total={total} isLoading={isLoading} />
-      </Card.Body>
-    </Card>
+      </div>
+    </div>
   );
 };
 

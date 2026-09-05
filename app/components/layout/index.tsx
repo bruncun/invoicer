@@ -1,4 +1,3 @@
-import { Col, Container, Row } from "react-bootstrap";
 import { PropsWithChildren } from "react";
 import { useLogout, useNavigation } from "@refinedev/core";
 import useTheme from "~/hooks/use-theme";
@@ -28,13 +27,13 @@ const Layout = ({ children }: PropsWithChildren) => {
         invoicesListUrl={invoicesListUrl}
       ></DesktopNavbar>
       <main>
-        <Container className="py-3 py-lg-4 w-100">
-          <Row>
-            <Col lg={9} className="mx-auto">
+        <div className="container py-3 py-lg-4 w-100">
+          <div className="row">
+            <div className="col-lg-9 mx-auto">
               {children}
-            </Col>
-          </Row>
-        </Container>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   );

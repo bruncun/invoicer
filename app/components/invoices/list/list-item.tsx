@@ -1,4 +1,4 @@
-import { Button, Card } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useNavigation } from "@refinedev/core";
 import { Link } from "@remix-run/react";
 import FormattedId from "~/components/formatted-id";
@@ -24,17 +24,13 @@ const InvoicesListItem = ({ invoice }: InvoicesListItemProps) => {
     formattedDate = formatDisplayDate(invoice?.payment_due ?? "");
   }
 
-  return (
-    <Card
-      as={invoice ? Link : "div"}
-      {...(invoice
-        ? { to: showUrl("invoices", invoice.id), prefetch: "intent" as const }
-        : {})}
-      className={`border border-transparent ${
-        invoice ? "border-primary-hover cursor-pointer" : ""
-      }`}
-    >
-      <Card.Body className="d-xl-flex justify-content-between align-items-center px-xl-4 py-xl-2 d-none border border-transparent">
+  const className = `card border border-transparent ${
+    invoice ? "border-primary-hover cursor-pointer" : ""
+  }`;
+
+  const content = (
+    <>
+      <div className="card-body d-xl-flex justify-content-between align-items-center px-xl-4 py-xl-2 d-none border border-transparent">
         <div className="me-3 ms-3 w-7">
           <FormattedId id={invoice?.id}></FormattedId>
         </div>
@@ -68,12 +64,12 @@ const InvoicesListItem = ({ invoice }: InvoicesListItemProps) => {
         >
           <Icon name="chevron-right"></Icon>
         </Button>
-      </Card.Body>
-      <Card.Body className="d-xl-none justify-content-between align-items-start">
+      </div>
+      <div className="card-body d-xl-none justify-content-between align-items-start">
         <div className="d-flex justify-content-between mb-2 d-xl-none lh-1">
-          <Card.Title className="fs-6">
+          <h2 className="card-title h5 fs-6">
             <FormattedId id={invoice?.id}></FormattedId>
-          </Card.Title>
+          </h2>
           <span className="text-truncate d-inline-block w-10 text-end">
             {invoice?.client_name ?? <Skeleton className="w-7" />}
           </span>
@@ -86,19 +82,31 @@ const InvoicesListItem = ({ invoice }: InvoicesListItemProps) => {
             <span className="d-block mb-2 lh-1">
               {invoice?.description ? `Due ${formattedDate}` : <Skeleton />}
             </span>
-            <Card.Title
-              className="fs-6 mb-0 text-body-emphasis lh-1"
+            <div
+              className="card-title fs-6 mb-0 text-body-emphasis lh-1"
               style={!invoice ? { height: "1rem" } : undefined}
             >
               {invoice?.items ? formattedTotal : <Skeleton className="w-6" />}
-            </Card.Title>
+            </div>
           </div>
           <div>
             <StatusBadge status={invoice?.status} />
           </div>
         </div>
-      </Card.Body>
-    </Card>
+      </div>
+    </>
+  );
+
+  return invoice ? (
+    <Link
+      to={showUrl("invoices", invoice.id)}
+      prefetch="intent"
+      className={className}
+    >
+      {content}
+    </Link>
+  ) : (
+    <div className={className}>{content}</div>
   );
 };
 

@@ -1,8 +1,4 @@
 import {
-  Alert,
-  Stack,
-  Row,
-  Col,
   OverlayTrigger,
   Tooltip,
   Button,
@@ -32,32 +28,32 @@ const ItemListSection = () => {
     <>
       <h5 className="text-muted mb-3 lh-lg">Item List</h5>
       {errors.items?.root && (
-        <Alert variant="danger">
+        <div role="alert" className="alert alert-danger">
           {(errors as any)?.items?.root?.message as string}
-        </Alert>
+        </div>
       )}
       {fields.map((item, index) => (
-        <Stack key={item.id} gap={3} className="mb-4">
-          <Row className="gx-3">
-            <Col xs={{ span: 12 }} xl={{ span: 4 }} className="mb-3 mb-xl-0">
+        <div key={item.id} className="vstack gap-3 mb-4">
+          <div className="row gx-3">
+            <div className="col-12 col-xl-4 mb-3 mb-xl-0">
               <Field name={`items.${index}.name`} label="Item Name" />
-            </Col>
-            <Col xs={{ span: 3 }} xl={{ span: 2 }}>
+            </div>
+            <div className="col-3 col-xl-2">
               <Field
                 name={`items.${index}.quantity`}
                 label="Quantity"
                 type="number"
                 min={1}
               />
-            </Col>
-            <Col xs={{ span: 4 }} xl={{ span: 3 }}>
+            </div>
+            <div className="col-4 col-xl-3">
               <InvoiceFormField
                 name={`items.${index}.price`}
                 label="Price"
                 type="currency"
               />
-            </Col>
-            <Col xs={{ span: 3 }} xl={{ span: 2 }}>
+            </div>
+            <div className="col-3 col-xl-2">
               <Form.Group>
                 <Form.Label>Total</Form.Label>
                 <span
@@ -67,12 +63,8 @@ const ItemListSection = () => {
                   {formatCurrency(items[index].quantity * items[index].price)}
                 </span>
               </Form.Group>
-            </Col>
-            <Col
-              xs={{ span: 2 }}
-              xl={{ span: 1 }}
-              className="pt-2 justify-content-end d-flex"
-            >
+            </div>
+            <div className="col-2 col-xl-1 pt-2 justify-content-end d-flex">
               <OverlayTrigger
                 overlay={<Tooltip id="delete-tooltip">Delete Item</Tooltip>}
               >
@@ -84,9 +76,9 @@ const ItemListSection = () => {
                   <Icon name="trash" aria-hidden="true"></Icon>
                 </Button>
               </OverlayTrigger>
-            </Col>
-          </Row>
-        </Stack>
+            </div>
+          </div>
+        </div>
       ))}
       <Button variant="secondary" className="w-100" onClick={onNewItemClick}>
         <Icon name="plus-lg" className="me-2" aria-hidden="true" />

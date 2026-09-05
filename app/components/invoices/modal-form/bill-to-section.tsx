@@ -1,4 +1,3 @@
-import { Col, Row, Stack } from "react-bootstrap";
 import Field from "~/components/field";
 import InvoiceFormField from "~/components/invoice-form-field";
 
@@ -12,42 +11,42 @@ const BillToSection = () => {
   return (
     <>
       <h6 className="text-primary mb-2">Bill To</h6>
-      <Stack gap={3} className="mb-5">
+      <div className="vstack gap-3 mb-5">
         <Field name="client_name" label="Client's Name" />
         <Field name="client_email" label="Client's Email" />
         <Field name="client_street" label="Street Address" />
-        <Row className="gx-3">
-          <Col xs={{ span: 6 }} xl={{ span: 4 }} className="mb-3 mb-xl-0">
+        <div className="row gx-3">
+          <div className="col-6 col-xl-4 mb-3 mb-xl-0">
             <Field name="client_city" label="City" />
-          </Col>
-          <Col xs={{ span: 6 }} xl={{ span: 4 }} className="mb-3 mb-xl-0">
+          </div>
+          <div className="col-6 col-xl-4 mb-3 mb-xl-0">
             <Field name="client_postcode" label="Post Code" />
-          </Col>
-          <Col>
+          </div>
+          <div className="col">
             <Field name="client_country" label="Country" />
-          </Col>
-        </Row>
-      </Stack>
-      <Stack gap={3} className="mb-4">
-        <Row className="gx-3">
-          <Col>
+          </div>
+        </div>
+      </div>
+      <div className="vstack gap-3 mb-4">
+        <div className="row gx-3">
+          <div className="col">
             <InvoiceFormField
               name="invoice_date"
               type="date"
               label="Invoice Date"
             />
-          </Col>
-          <Col>
+          </div>
+          <div className="col">
             <InvoiceFormField
               type="select"
               name="payment_terms"
               label="Payment Terms"
               options={paymentTermsOptions}
             />
-          </Col>
-        </Row>
+          </div>
+        </div>
         <Field name="description" label="Project Description" />
-      </Stack>
+      </div>
     </>
   );
 };

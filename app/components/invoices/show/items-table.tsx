@@ -1,4 +1,3 @@
-import { Card, Stack, Table } from "react-bootstrap";
 import { formatCurrency } from "~/utility/formatters";
 import Skeleton from "~/components/skeleton";
 import type { InferType } from "yup";
@@ -15,10 +14,10 @@ const SKELETON_ITEM_COUNT = 4;
 
 const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => (
   <>
-    <Card bg="body-secondary" className="rounded-bottom-0">
-      <Card.Body>
-        <Table
-          className="d-none d-md-table text-body-tertiary"
+    <div className="card bg-body-secondary rounded-bottom-0">
+      <div className="card-body">
+        <table
+          className="table d-none d-md-table text-body-tertiary"
           style={{ tableLayout: "fixed" }}
         >
           <thead>
@@ -38,8 +37,8 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => (
                   <ItemsRow key={index} item={item} />
                 ))}
           </tbody>
-        </Table>
-        <Stack direction="vertical" gap={3} className="d-md-none">
+        </table>
+        <div className="vstack gap-3 d-md-none">
           {isLoading
             ? new Array(SKELETON_ITEM_COUNT).fill(0).map((item, index) => (
                 <div
@@ -75,11 +74,11 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => (
                   <span>{formatCurrency(item.quantity * item.price)}</span>
                 </div>
               ))}
-        </Stack>
-      </Card.Body>
-    </Card>
-    <Card bg="secondary" className="rounded-top-0 mb-6 mb-md-0 text-white">
-      <Card.Body className="px-lg-4 mx-lg-2">
+        </div>
+      </div>
+    </div>
+    <div className="card bg-secondary rounded-top-0 mb-6 mb-md-0 text-white">
+      <div className="card-body px-lg-4 mx-lg-2">
         <div className="d-flex justify-content-between align-items-center">
           <span className="mb-0">Amount Due</span>
           {(total && (
@@ -94,8 +93,8 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => (
             />
           )}
         </div>
-      </Card.Body>
-    </Card>
+      </div>
+    </div>
   </>
 );
 

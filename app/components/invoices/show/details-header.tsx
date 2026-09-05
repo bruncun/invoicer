@@ -1,4 +1,3 @@
-import { Button, Card } from "react-bootstrap";
 import Icon from "~/components/icon";
 import { StatusBadge } from "~/components/status-badge";
 import type { InvoicesShow } from "~/hooks/invoices/use-show";
@@ -36,8 +35,8 @@ export const InvoicesDetailsHeader = ({
         <Icon name="chevron-left" className="me-2" aria-hidden="true" />
         Go back
       </Link>
-      <Card className="mb-2">
-        <Card.Body className="px-sm-5 py-3">
+      <div className="card mb-2">
+        <div className="card-body px-sm-5 py-3">
           <dl className="d-flex justify-content-between align-items-center">
             <div className="d-flex align-items-center justify-content-sm-between w-100 justify-content-sm-start w-sm-auto">
               <dt className="me-3 mb-0">Status</dt>
@@ -55,8 +54,8 @@ export const InvoicesDetailsHeader = ({
               isUpdateLoading={isUpdateLoading}
             />
           </dl>
-        </Card.Body>
-      </Card>
+        </div>
+      </div>
     </>
   );
 };

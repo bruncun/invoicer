@@ -1,8 +1,6 @@
 import {
   Button,
   OverlayTrigger,
-  Spinner,
-  Stack,
   Tooltip,
 } from "react-bootstrap";
 import Icon from "../icon";
@@ -48,7 +46,7 @@ const DesktopNavbar = ({
       ></div>
     </Link>
     <div className="mt-auto px-2 pb-2">
-      <Stack direction="vertical" gap={3}>
+      <div className="vstack gap-3">
         <OverlayTrigger
           placement="right"
           delay={TOOLTIP_SHOW}
@@ -83,7 +81,10 @@ const DesktopNavbar = ({
             disabled={isLoading}
           >
             {isLoading ? (
-              <Spinner size="sm" color="body-emphasis"></Spinner>
+              <span
+                role="status"
+                className="spinner-border spinner-border-sm text-body-emphasis"
+              />
             ) : (
               <Icon
                 name="box-arrow-right"
@@ -94,7 +95,7 @@ const DesktopNavbar = ({
             <span className="visually-hidden">Log out</span>
           </Button>
         </OverlayTrigger>
-      </Stack>
+      </div>
     </div>
   </div>
 );

@@ -1,6 +1,6 @@
 import { HttpError } from "@refinedev/core";
 import { UseModalFormReturnType } from "@refinedev/react-hook-form";
-import { Button, Stack } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import type { InferType } from "yup";
 import { invoiceSchema } from "~/constants/schemas";
 
@@ -42,7 +42,7 @@ const InvoicesModalFooter = ({
       <Button variant="link" onClick={close} className="ms-0 my-0 me-2">
         Cancel
       </Button>
-      <Stack direction="horizontal" gap={2} className="m-0">
+      <div className="hstack gap-2 m-0">
         <Button
           variant="secondary"
           form="invoice-form"
@@ -66,7 +66,7 @@ const InvoicesModalFooter = ({
         >
           {isSubmitting && status === "pending" ? "Sending..." : "Save & Send"}
         </Button>
-      </Stack>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Stack, Dropdown, Form, Button } from "react-bootstrap";
+import { Dropdown, Form, Button } from "react-bootstrap";
 import { Link } from "@remix-run/react";
 import Icon from "~/components/icon";
 import { STATUSES } from "~/constants/constants";
@@ -24,7 +24,7 @@ export const InvoicesListHeader = ({
   return (
     <div className="d-flex justify-content-between align-items-center">
       <h1 className="fs-4 mb-0 lh-1">Invoices</h1>
-      <Stack direction="horizontal" gap={2}>
+      <div className="hstack gap-2">
         <Dropdown focusFirstItemOnShow>
           <Dropdown.Toggle
             variant="link"
@@ -66,7 +66,7 @@ export const InvoicesListHeader = ({
           <span className="ms-4 ps-1">New </span>
           <span className="d-none d-sm-inline-block">Invoice</span>
         </Button>
-      </Stack>
+      </div>
     </div>
   );
 };

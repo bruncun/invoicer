@@ -1,4 +1,4 @@
-import { Stack, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { Link } from "@remix-run/react";
 import type { InvoicesShow } from "~/hooks/invoices/use-show";
 
@@ -27,7 +27,7 @@ const InvoiceActions = ({
 
   return (
     <div className="d-flex justify-content-end w-100">
-      <Stack direction="horizontal" gap={2} className={className}>
+      <div className={`hstack gap-2 ${className ?? ""}`}>
         {invoice.id && invoice.status === "draft" && (
           <Button
             as={Link}
@@ -62,7 +62,7 @@ const InvoiceActions = ({
             {isUpdateLoading ? "Sending..." : "Send Invoice"}
           </Button>
         )}
-      </Stack>
+      </div>
     </div>
   );
 };

@@ -2,7 +2,6 @@ import InvoicesListItem from "./list-item";
 import type { InvoicesList } from "~/hooks/invoices/use-invoices-list";
 import type { InferType } from "yup";
 import { invoiceSchema } from "~/constants/schemas";
-import { Col, Row } from "react-bootstrap";
 import emptyStateIllustration from "~/assets/illustration-empty-state.svg";
 
 export const InvoicesListSkeleton = () => (
@@ -42,15 +41,8 @@ export const InvoicesListGroup = ({ invoicesList }: { invoicesList: InvoicesList
           className="d-flex align-items-center justify-content-center flex-grow-1 mt-7 mt-xl-9"
           data-testid="empty-state"
         >
-          <Row className="w-100">
-            <Col
-              xs={{ span: 9 }}
-              sm={{ span: 7 }}
-              md={{ span: 5 }}
-              lg={{ span: 4 }}
-              xl={{ span: 5 }}
-              className="text-center mx-auto"
-            >
+          <div className="row w-100">
+            <div className="col-9 col-sm-7 col-md-5 col-lg-4 col-xl-5 text-center mx-auto">
               <img
                 src={emptyStateIllustration}
                 width={242}
@@ -62,8 +54,8 @@ export const InvoicesListGroup = ({ invoicesList }: { invoicesList: InvoicesList
               <p className="text-muted mb-7">
                 Start by creating a new invoice.
               </p>
-            </Col>
-          </Row>
+            </div>
+          </div>
         </div>
       )}
     </>

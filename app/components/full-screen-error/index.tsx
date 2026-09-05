@@ -1,11 +1,10 @@
-import { Col, Container, Row } from "react-bootstrap";
 import authLogo from "~/assets/auth-logo.svg";
 
 const FullScreenError = () => (
   <div className="light-bg-gray-100 dark-bg-gray-950 min-vh-100 d-flex align-items-center">
-    <Container>
-      <Row>
-        <Col xs={12} md={8} lg={6} xl={5} className="mx-auto">
+    <div className="container">
+      <div className="row">
+        <div className="col-12 col-md-8 col-lg-6 col-xl-5 mx-auto">
           <div className="text-center mb-4">
             <img
               src={authLogo}
@@ -23,9 +22,9 @@ const FullScreenError = () => (
             </h1>
             <p className="text-muted mb-0">Sorry, please try again.</p>
           </div>
-        </Col>
-      </Row>
-    </Container>
+        </div>
+      </div>
+    </div>
   </div>
 );
 

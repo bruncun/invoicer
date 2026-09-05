@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForgotPassword, useNotification } from "@refinedev/core";
 import { Link } from "@remix-run/react";
-import { Button, Form, Stack } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { FormProvider, useForm } from "react-hook-form";
 import type { InferType } from "yup";
 import AuthLayout from "~/components/auth-layout";
@@ -32,9 +32,9 @@ export default function ForgotPassword() {
     <AuthLayout title="Forgot Password">
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Stack direction="vertical" gap={3} className="mb-3">
+          <div className="vstack gap-3 mb-3">
             <Field name="email" type="email" label="Email" />
-          </Stack>
+          </div>
           <Button
             variant="primary"
             type="submit"

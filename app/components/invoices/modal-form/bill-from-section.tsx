@@ -1,35 +1,34 @@
-import { Col, Row, Stack } from "react-bootstrap";
 import Field from "~/components/field";
 
 const BillFromSection = () => (
   <>
     <h6 className="text-primary mb-2">Bill From</h6>
-    <Stack gap={3} className="mb-5">
+    <div className="vstack gap-3 mb-5">
       <Field
         autoComplete="address"
         name="sender_street"
         label="Street Address"
       />
-      <Row className="gx-3">
-        <Col xs={{ span: 6 }} xl={{ span: 4 }} className="mb-3 mb-xl-0">
+      <div className="row gx-3">
+        <div className="col-6 col-xl-4 mb-3 mb-xl-0">
           <Field
             autoComplete="address-level2"
             name="sender_city"
             label="City"
           />
-        </Col>
-        <Col xs={{ span: 6 }} xl={{ span: 4 }} className="mb-3 mb-xl-0">
+        </div>
+        <div className="col-6 col-xl-4 mb-3 mb-xl-0">
           <Field
             name="sender_postcode"
             autoComplete="postal-code"
             label="Post Code"
           />
-        </Col>
-        <Col>
+        </div>
+        <div className="col">
           <Field name="sender_country" autoComplete="country" label="Country" />
-        </Col>
-      </Row>
-    </Stack>
+        </div>
+      </div>
+    </div>
   </>
 );
 

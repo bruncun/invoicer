@@ -1,4 +1,3 @@
-import { Badge } from "react-bootstrap";
 import Icon from "../icon";
 import Skeleton from "../skeleton";
 
@@ -22,9 +21,8 @@ export const StatusBadge = ({ status }: StatusBadgeProps) => {
     );
 
   return (
-    <Badge
-      bg={`${badgeColor}-subtle`}
-      className={`text-${badgeColor}-emphasis fs-6 text-capitalize d-flex align-items-center justify-content-center w-8`}
+    <span
+      className={`badge bg-${badgeColor}-subtle text-${badgeColor}-emphasis fs-6 text-capitalize d-flex align-items-center justify-content-center w-8`}
     >
       <Icon
         name="circle-fill"
@@ -33,6 +31,6 @@ export const StatusBadge = ({ status }: StatusBadgeProps) => {
         aria-hidden="true"
       ></Icon>
       {status}
-    </Badge>
+    </span>
   );
 };

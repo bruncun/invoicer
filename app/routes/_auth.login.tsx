@@ -1,6 +1,6 @@
 import { useLogin } from "@refinedev/core";
 import { Link } from "@remix-run/react";
-import { Alert, Button, Form, Stack } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { credentialsSchema } from "~/constants/schemas";
 import AuthLayout from "~/components/auth-layout";
@@ -37,7 +37,11 @@ export default function Login() {
       >
         {isLoading ? "Opening demo..." : "Try the demo"}
       </Button>
-      {demoError && <Alert variant="danger" className="mb-3">{demoError}</Alert>}
+      {demoError && (
+        <div role="alert" className="alert alert-danger mb-3">
+          {demoError}
+        </div>
+      )}
       <div className="d-flex align-items-center gap-2 mb-3">
         <hr className="flex-grow-1" />
         <span className="small text-body-secondary">or login</span>
@@ -45,14 +49,14 @@ export default function Login() {
       </div>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Stack direction="vertical" gap={3} className="mb-3">
+          <div className="vstack gap-3 mb-3">
             <Field name="email" type="email" label="Email" />
             <Field name="password" type="password" label="Password" />
             <div className="d-flex justify-content-between">
               <Field name="remember" type="checkbox" label="Remember me" />
               <Link to="/forgot-password">Forgot password?</Link>
             </div>
-          </Stack>
+          </div>
           <Button
             variant="primary"
             type="submit"

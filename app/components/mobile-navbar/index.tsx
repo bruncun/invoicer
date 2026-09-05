@@ -1,4 +1,4 @@
-import { Button, Nav, Navbar, Spinner } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Icon from "../icon";
 import { Link } from "@remix-run/react";
 import logoSvg from "~/assets/logo.svg";
@@ -18,15 +18,9 @@ const MobileNavbar = ({
   logout,
   isLoading,
 }: MobileNavbarProps) => (
-  <Navbar
-    expand="lg"
-    bg="dark"
-    className="d-lg-none z-3 rounded-bottom-4 rounded-bottom-md-0"
-    fixed="top"
-  >
-    <Navbar.Brand
-      className="bg-primary text-white p-3 lh-1 border-top border-bottom border-transparent position-relative overflow-hidden rounded-bottom-start-4 rounded-bottom-end-4"
-      as={Link}
+  <nav className="navbar navbar-expand-lg bg-dark fixed-top d-lg-none z-3 rounded-bottom-4 rounded-bottom-md-0">
+    <Link
+      className="navbar-brand bg-primary text-white p-3 lh-1 border-top border-bottom border-transparent position-relative overflow-hidden rounded-bottom-start-4 rounded-bottom-end-4"
       to={invoicesListUrl}
     >
       <img
@@ -45,9 +39,9 @@ const MobileNavbar = ({
           backgroundColor: "#9277FF",
         }}
       ></div>
-    </Navbar.Brand>
-    <Nav className="flex-row align-items-center me-3">
-      <Nav.Item>
+    </Link>
+    <div className="navbar-nav flex-row align-items-center me-3">
+      <div>
         <Button
           variant="dark"
           className="rounded d-flex align-items-center justify-content-center p-0 me-2"
@@ -61,8 +55,8 @@ const MobileNavbar = ({
           ></Icon>
           <span className="visually-hidden">Toggle theme</span>
         </Button>
-      </Nav.Item>
-      <Nav.Item>
+      </div>
+      <div>
         <Button
           variant="dark"
           className="rounded d-flex align-items-center justify-content-center p-0"
@@ -72,15 +66,18 @@ const MobileNavbar = ({
           disabled={isLoading}
         >
           {isLoading ? (
-            <Spinner size="sm" color="body-emphasis"></Spinner>
+            <span
+              role="status"
+              className="spinner-border spinner-border-sm text-body-emphasis"
+            />
           ) : (
             <Icon name="box-arrow-right" className="fs-4"></Icon>
           )}
           <span className="visually-hidden">Log out</span>
         </Button>
-      </Nav.Item>
-    </Nav>
-  </Navbar>
+      </div>
+    </div>
+  </nav>
 );
 
 export default MobileNavbar;
