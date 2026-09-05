@@ -1,7 +1,8 @@
 import { vitePlugin as remix } from "@remix-run/dev";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { defineConfig } from "vite";
+import { visualizer } from "rollup-plugin-visualizer";
+import { defineConfig, type PluginOption } from "vite";
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 
@@ -18,5 +19,14 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-  plugins: [remix()],
+  plugins: [
+    remix(),
+    visualizer({
+      emitFile: true,
+      filename: "stats.html",
+      open: false,
+      gzipSize: true,
+      brotliSize: true,
+    }) as PluginOption,
+  ],
 });
