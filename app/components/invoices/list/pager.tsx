@@ -1,8 +1,8 @@
 import { Button, Form } from "react-bootstrap";
 import Icon from "~/components/icon";
+import Select from "~/components/select";
 import Skeleton from "~/components/skeleton";
 import type { InvoicesList } from "~/hooks/invoices/use-invoices-list";
-import Select from "~/components/select";
 import useFilterPagination from "~/hooks/invoices/use-filter-pagination";
 
 const PAGE_SIZE_OPTIONS = [10, 20, 50, 100].map((size) => ({
@@ -18,23 +18,25 @@ const RowsPerPageControl = ({
   pageSize?: number;
   isLoading?: boolean;
   onChange?: (value: string) => void;
-}) => (
-  <div className="dropup d-xl-flex flex-nowrap align-items-center me-2 d-none">
-    <Form.Label className="flex-shrink-0 mb-0 me-2">Rows per page</Form.Label>
-    <div style={{ width: "3.75rem", minWidth: "4.5rem" }}>
-      <Select
-        value={pageSize.toString()}
-        onChange={onChange}
-        options={PAGE_SIZE_OPTIONS}
-        disabled={isLoading}
-        buttonClassName="text-start w-100 border-transparent rows-per-page-select"
-        listboxOptionsStyle={{
-          bottom: "2.75rem",
-        }}
-      />
+}) => {
+  return (
+    <div className="dropup d-xl-flex flex-nowrap align-items-center me-2 d-none">
+      <Form.Label className="flex-shrink-0 mb-0 me-2">Rows per page</Form.Label>
+      <div style={{ width: "3.75rem", minWidth: "4.5rem" }}>
+        <Select
+          value={pageSize}
+          onChange={onChange}
+          options={PAGE_SIZE_OPTIONS}
+          disabled={isLoading}
+          drop="up"
+          ariaLabel="Rows per page"
+          buttonClassName="border-transparent rows-per-page-select"
+          menuClassName="rows-per-page-menu"
+        />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export const InvoicesPagerSkeleton = () => {
   const { pageSize } = useFilterPagination();

@@ -1,3 +1,22 @@
+.select-toggle.btn {
+  color: var(--bs-emphasis-color);
+  background-color: var(--bs-body-bg-emphasis);
+  border-color: var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  text-decoration: none;
+}
+
+.select-toggle.btn:hover {
+  color: var(--bs-emphasis-color);
+  background-color: var(--bs-body-bg-emphasis);
+  border-color: var(--bs-border-color);
+}
+
 .listbox-options {
   margin-top: 2px;
+}
+
+.listbox-options .dropdown-item:focus {
+  outline: 0;
+  box-shadow: none;
 }

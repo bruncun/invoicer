@@ -1,19 +1,18 @@
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOptions,
-  ListboxOption,
-} from "@headlessui/react";
-import { Fragment } from "react/jsx-runtime";
+import { Dropdown } from "react-bootstrap";
+import type { CSSProperties } from "react";
 import Icon from "../icon";
+import { type SelectOption, useSelect } from "./use-select";
 
 type SelectProps = {
   value?: string | number;
   onChange: (value: string) => void;
-  options: { value: string; label: string }[];
+  options: SelectOption[];
   buttonClassName?: string;
-  listboxOptionsStyle?: React.CSSProperties;
+  menuClassName?: string;
+  listboxOptionsStyle?: CSSProperties;
   disabled?: boolean;
+  drop?: "up" | "down";
+  ariaLabel?: string;
 };
 
 const Select = ({
@@ -21,51 +20,101 @@ const Select = ({
   onChange,
   options,
   buttonClassName = "",
+  menuClassName = "",
   listboxOptionsStyle = {},
   disabled = false,
+  drop = "down",
+  ariaLabel,
 }: SelectProps) => {
-  const optionsTable = options.reduce((acc, option) => {
-    acc[option.value] = option.label;
-    return acc;
-  }, {} as { [key: string]: string });
+  const selectedOption = options.find(
+    (option) => option.value === value?.toString()
+  );
+  const {
+    controlRef,
+    toggleRef,
+    optionRefs,
+    isOpen,
+    highlightedIndex,
+    setHighlightedIndex,
+    setIsOpen,
+    selectOption,
+    handleKeyDown,
+  } = useSelect({ value, onChange, options, disabled });
 
   return (
-    <Listbox value={value} onChange={onChange} disabled={disabled}>
-      <ListboxButton
-        className={`form-select text-start w-100 ${buttonClassName}`}
+    <div ref={controlRef}>
+      <Dropdown
+        drop={drop}
+        show={isOpen}
+        autoClose
+        onToggle={(nextShow) => {
+          setIsOpen(nextShow);
+          if (nextShow) {
+            setHighlightedIndex(
+              Math.max(
+                options.findIndex(
+                  (option) => option.value === value?.toString()
+                ),
+                0
+              )
+            );
+          }
+        }}
       >
-        {optionsTable[value as unknown as keyof typeof optionsTable]}
-      </ListboxButton>
-      <ListboxOptions
-        className="dropdown-menu show d-grid gap-1 p-2 rounded-3 text-body-emphasis border outline-0 listbox-options"
-        style={{ width: "var(--button-width)", ...listboxOptionsStyle }}
-      >
-        {options.map((option) => (
-          <ListboxOption key={option.value} value={option.value} as={Fragment}>
-            {({ focus, selected }) => (
-              <div
-                className={`dropdown-item rounded-2 px-2 ${
-                  selected ? "bg-primary text-white" : ""
-                } 
-                          ${
-                            focus && !selected
-                              ? "bg-body-tertiary text-body-emphasis"
-                              : ""
-                          }`}
-              >
-                <Icon
-                  name="check-lg"
-                  className={`text-primary me-2 ${
-                    selected ? "text-white" : "opacity-0"
+        <Dropdown.Toggle
+          ref={toggleRef}
+          variant="link"
+          disabled={disabled}
+          aria-label={ariaLabel}
+          className={`form-select select-toggle text-start w-100 ${buttonClassName}`}
+          onKeyDownCapture={handleKeyDown}
+        >
+          {selectedOption?.label}
+        </Dropdown.Toggle>
+        {isOpen && (
+          <Dropdown.Menu
+            role="listbox"
+            className={`d-grid gap-1 p-2 rounded-3 text-body-emphasis border outline-0 listbox-options ${menuClassName}`}
+            style={{ minWidth: "100%", ...listboxOptionsStyle }}
+            onKeyDownCapture={handleKeyDown}
+          >
+            {options.map((option, optionIndex) => {
+              const isSelected = option.value === value?.toString();
+
+              return (
+                <Dropdown.Item
+                  key={option.value}
+                  eventKey={option.value}
+                  ref={(element: HTMLAnchorElement | null) => {
+                    optionRefs.current[optionIndex] = element;
+                  }}
+                  role="option"
+                  aria-selected={isSelected}
+                  active={isSelected}
+                  className={`rounded-2 px-2 ${
+                    highlightedIndex === optionIndex && !isSelected
+                      ? "bg-body-tertiary text-body-emphasis"
+                      : ""
                   }`}
-                />
-                {option.label}
-              </div>
-            )}
-          </ListboxOption>
-        ))}
-      </ListboxOptions>
-    </Listbox>
+                  onFocus={() => setHighlightedIndex(optionIndex)}
+                  onMouseEnter={() => setHighlightedIndex(optionIndex)}
+                  onClick={() => selectOption(optionIndex)}
+                >
+                  <Icon
+                    name="check-lg"
+                    className={`text-primary me-2 ${
+                      isSelected ? "text-white" : "opacity-0"
+                    }`}
+                    aria-hidden="true"
+                  />
+                  {option.label}
+                </Dropdown.Item>
+              );
+            })}
+          </Dropdown.Menu>
+        )}
+      </Dropdown>
+    </div>
   );
 };
 

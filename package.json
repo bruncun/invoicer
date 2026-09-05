@@ -16,7 +16,6 @@
     "refine": "refine"
   },
   "dependencies": {
-    "@headlessui/react": "^2.1.0",
     "@hookform/resolvers": "^3.4.2",
     "@refinedev/cli": "^2.16.52",
     "@refinedev/core": "^5.0.12",
