@@ -1,4 +1,4 @@
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import { useNavigate, useOutletContext } from "@remix-run/react";
 import { useEffect } from "react";
 import InvoicesModalForm from "~/components/invoices/modal-form";
@@ -7,6 +7,14 @@ import type { InvoicesShow } from "~/hooks/invoices/use-show";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: "/invoice-form.css" },
+];
+
+export const meta: MetaFunction = ({ params }) => [
+  { title: `#${params.id} Edit Invoice | Invoicer` },
+  {
+    name: "description",
+    content: "Create, manage, and send professional invoices with Invoicer.",
+  },
 ];
 
 export default function InvoiceEdit() {

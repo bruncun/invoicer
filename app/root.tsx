@@ -17,7 +17,6 @@ import {
 import { Refine } from "@refinedev/core";
 import routerProvider from "@refinedev/remix-router";
 import styles from "./index.css?raw";
-import DocumentTitleHandler from "./components/document-title-handler";
 import { FilterPaginationProvider } from "./contexts/invoices/filter-pagination";
 import {
   authProvider,
@@ -80,7 +79,6 @@ export default function App() {
           <FilterPaginationProvider>
             <Outlet />
             <ToastHost />
-            <DocumentTitleHandler />
           </FilterPaginationProvider>
         </Refine>
         </ThemeProvider>

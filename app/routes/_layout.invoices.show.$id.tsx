@@ -3,6 +3,7 @@ import {
   defer,
   type LinksFunction,
   type LoaderFunctionArgs,
+  type MetaFunction,
 } from "@remix-run/node";
 import {
   Await,
@@ -22,6 +23,14 @@ import type { Invoice } from "~/hooks/invoices/use-invoices-list";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: "/invoice-details.css" },
+];
+
+export const meta: MetaFunction = ({ params }) => [
+  { title: `#${params.id} Show Invoice | Invoicer` },
+  {
+    name: "description",
+    content: "Create, manage, and send professional invoices with Invoicer.",
+  },
 ];
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
