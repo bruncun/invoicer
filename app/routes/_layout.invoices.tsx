@@ -45,15 +45,7 @@ export default function InvoicesLayout() {
     <>
       {isListRoute && (
         <>
-          <Suspense fallback={<InvoicesListHeader isPending />}>
-            <Await resolve={initialData}>
-              {(data) => (
-                <InvoicesListHeader
-                  invoices={data.data}
-                />
-              )}
-            </Await>
-          </Suspense>
+          <InvoicesListHeader />
           <Suspense
             fallback={
               <>

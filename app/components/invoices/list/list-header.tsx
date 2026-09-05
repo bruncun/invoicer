@@ -4,17 +4,8 @@ import Icon from "~/components/icon";
 import { STATUSES } from "~/constants/constants";
 import { Enums } from "~/types/supabase";
 import useFilterPagination from "~/hooks/invoices/use-filter-pagination";
-import type { Invoice } from "~/hooks/invoices/use-invoices-list";
 
-type InvoiceListHeaderProps = {
-  invoices?: Invoice[];
-  isPending?: boolean;
-};
-
-export const InvoicesListHeader = ({
-  invoices = [],
-  isPending = false,
-}: InvoiceListHeaderProps) => {
+export const InvoicesListHeader = () => {
   const { filters, setFilters } = useFilterPagination();
   const handleStatusChange = (status: Enums<"status">, checked: boolean) =>
     checked
@@ -28,7 +19,6 @@ export const InvoicesListHeader = ({
         <Dropdown focusFirstItemOnShow>
           <Dropdown.Toggle
             variant="link"
-            disabled={isPending}
             className="user-select-none"
           >
             Filter
