@@ -9,6 +9,7 @@ const cssFiles = [
   "public/invoice-details.css",
   "public/invoice-form.css",
   "public/toast.css",
+  "public/tooltip.css",
 ];
 
 // React-Bootstrap and Headless UI create some class names from props or state.
