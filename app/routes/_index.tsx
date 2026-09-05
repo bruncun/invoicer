@@ -1,6 +1,6 @@
 import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
-import { authProvider } from "~/utility/refine/auth-provider";
 import { clearAuthCookieHeaders } from "~/utility/auth/token";
+import { getSessionUser } from "~/utility/auth/session.server";
 
 /**
  * Since we don't have any routes for the index page, we're redirecting the user to the first resource.
@@ -8,8 +8,8 @@ import { clearAuthCookieHeaders } from "~/utility/auth/token";
  * This can also be done using the `loader` function and `redirect`.
  */
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { authenticated } = await authProvider.check(request);
-  throw redirect(authenticated ? "/invoices" : "/login", {
-    headers: authenticated ? undefined : clearAuthCookieHeaders(),
+  const user = await getSessionUser(request);
+  throw redirect(user ? "/invoices" : "/login", {
+    headers: user ? undefined : clearAuthCookieHeaders(),
   });
 }

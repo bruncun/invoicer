@@ -1,7 +1,7 @@
 import { json, LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
-import { authProvider } from "~/utility/refine/auth-provider";
 import { clearAuthCookieHeaders } from "~/utility/auth/token";
+import { getSessionUser } from "~/utility/auth/session.server";
 
 export default function AuthLayout() {
   return <Outlet />;
@@ -13,10 +13,10 @@ export default function AuthLayout() {
  * But, server-side redirects are more performant.
  */
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { authenticated, redirectTo } = await authProvider.check(request);
+  const user = await getSessionUser(request);
 
-  if (authenticated) {
-    throw redirect(redirectTo ?? "/");
+  if (user) {
+    throw redirect("/");
   }
 
   return json({}, { headers: clearAuthCookieHeaders() });

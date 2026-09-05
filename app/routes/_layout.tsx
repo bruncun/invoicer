@@ -1,8 +1,8 @@
 import { LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
 import Layout from "~/components/layout";
-import { authProvider } from "~/utility/refine/auth-provider";
 import { clearAuthCookieHeaders } from "~/utility/auth/token";
+import { getSessionUser, loginUrl } from "~/utility/auth/session.server";
 
 export default function BaseLayout() {
   return (
@@ -18,10 +18,10 @@ export default function BaseLayout() {
  * This is applied for all routes that are nested under this layout (_protected).
  */
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { authenticated, redirectTo } = await authProvider.check(request);
+  const user = await getSessionUser(request);
 
-  if (!authenticated) {
-    throw redirect(redirectTo ?? "/login", {
+  if (!user) {
+    throw redirect(loginUrl(request), {
       headers: clearAuthCookieHeaders(),
     });
   }
