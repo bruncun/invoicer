@@ -10,7 +10,7 @@
     "dev:css": "npm run generate:css -- --watch",
     "build:refine": "refine build",
     "build:css": "npm run generate:css && node scripts/purge-css.mjs",
-    "generate:css": "sass app/styles/index.scss app/index.css --style=compressed && sass app/styles/invoice-form.scss public/invoice-form.css --style=compressed && sass app/styles/toast.scss public/toast.css --style=compressed",
+    "generate:css": "sass app/styles/index.scss app/index.css --style=compressed && sass app/styles/invoice-details.scss public/invoice-details.css --style=compressed && sass app/styles/invoice-form.scss public/invoice-form.css --style=compressed && sass app/styles/toast.scss public/toast.css --style=compressed",
     "start": "refine start ./build/index.js",
     "refine": "refine"
   },

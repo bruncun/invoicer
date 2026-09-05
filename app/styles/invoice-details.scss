@@ -1,0 +1,14 @@
+// Styles used only by the invoice detail route and its edit modal.
+// Shared variables and utility classes come from app/index.css.
+@import "../../node_modules/bootstrap/scss/functions";
+@import "./bootstrap/variables";
+@import "./bootstrap/variables-dark";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/maps";
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/bootstrap/scss/transitions";
+@import "../../node_modules/bootstrap/scss/tables";
+@import "../../node_modules/bootstrap/scss/close";
+@import "../../node_modules/bootstrap/scss/modal";
+@import "./bootstrap/tables";
+@import "./bootstrap/modal";

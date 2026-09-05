@@ -6,6 +6,7 @@ import { PurgeCSS } from "purgecss";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const cssFiles = [
   "app/index.css",
+  "public/invoice-details.css",
   "public/invoice-form.css",
   "public/toast.css",
 ];

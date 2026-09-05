@@ -1,5 +1,9 @@
 import { BaseKey, useUpdate } from "@refinedev/core";
-import { defer, type LoaderFunctionArgs } from "@remix-run/node";
+import {
+  defer,
+  type LinksFunction,
+  type LoaderFunctionArgs,
+} from "@remix-run/node";
 import {
   Await,
   Outlet,
@@ -15,6 +19,10 @@ import { Suspense, useState } from "react";
 import { createSupabaseServerClient } from "~/utility/supabase/server";
 import InvoicesShowMobileNavbar from "~/components/invoices/show/mobile-navbar";
 import type { Invoice } from "~/hooks/invoices/use-invoices-list";
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: "/invoice-details.css" },
+];
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   if (!params.id) throw new Response("Invoice ID is required", { status: 400 });
