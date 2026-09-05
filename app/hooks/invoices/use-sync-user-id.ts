@@ -1,8 +1,8 @@
 import { UseGetIdentityReturnType } from "@refinedev/core/dist/hooks/auth/useGetIdentity";
 import { useEffect } from "react";
 import { UseFormSetValue } from "react-hook-form";
-import { InferType } from "yup";
-import { invoiceSchema } from "~/constants";
+import type { InferType } from "yup";
+import { invoiceSchema } from "~/constants/schemas";
 
 function useSyncUserId(
   setValue: UseFormSetValue<InferType<typeof invoiceSchema>>,

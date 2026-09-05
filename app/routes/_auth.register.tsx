@@ -3,9 +3,9 @@ import { Link } from "@remix-run/react";
 import { Button, Form, Stack } from "react-bootstrap";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { newCredentialsSchema } from "~/constants";
+import { newCredentialsSchema } from "~/constants/schemas";
 import AuthLayout from "~/components/auth-layout";
-import { InferType } from "yup";
+import type { InferType } from "yup";
 import Field from "~/components/field";
 
 export default function Register() {

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { InferType } from "yup";
-import { invoiceSchema } from "~/constants";
+import type { InferType } from "yup";
+import { invoiceSchema } from "~/constants/schemas";
 import { invoiceAction } from "~/utility/invoices/action";
 
 const useInvoiceCreate = () => {

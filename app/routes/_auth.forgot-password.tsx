@@ -3,10 +3,10 @@ import { useForgotPassword, useNotification } from "@refinedev/core";
 import { Link } from "@remix-run/react";
 import { Button, Form, Stack } from "react-bootstrap";
 import { FormProvider, useForm } from "react-hook-form";
-import { InferType } from "yup";
+import type { InferType } from "yup";
 import AuthLayout from "~/components/auth-layout";
 import Field from "~/components/field";
-import { credentialsSchema } from "~/constants";
+import { credentialsSchema } from "~/constants/schemas";
 
 export default function ForgotPassword() {
   const methods = useForm<InferType<typeof credentialsSchema>>({

@@ -3,7 +3,7 @@ import "dotenv/config";
 import { createServerClient } from "@supabase/ssr";
 import { parse, serialize } from "cookie";
 import { Database } from "~/types/supabase";
-import { TOKEN_KEY } from "~/constants";
+import { TOKEN_KEY } from "~/constants/constants";
 
 const getEnv = () => {
   const env = process.env;

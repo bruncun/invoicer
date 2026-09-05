@@ -1,8 +1,8 @@
 import { HttpError } from "@refinedev/core";
 import { UseModalFormReturnType } from "@refinedev/react-hook-form";
 import { FormProvider } from "react-hook-form";
-import { InferType } from "yup";
-import { invoiceSchema } from "~/constants";
+import type { InferType } from "yup";
+import { invoiceSchema } from "~/constants/schemas";
 import { ReactNode } from "react";
 import useSyncStatus from "~/hooks/invoices/use-sync-status";
 import useSyncPaymentDue from "~/hooks/invoices/use-sync-payment-due";

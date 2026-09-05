@@ -1,7 +1,7 @@
 import { Stack, Dropdown, Form, Button } from "react-bootstrap";
 import { Link } from "@remix-run/react";
 import Icon from "~/components/icon";
-import { STATUSES } from "~/constants";
+import { STATUSES } from "~/constants/constants";
 import { Enums } from "~/types/supabase";
 import useFilterPagination from "~/hooks/invoices/use-filter-pagination";
 import type { Invoice } from "~/hooks/invoices/use-invoices-list";

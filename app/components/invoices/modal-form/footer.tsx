@@ -1,8 +1,8 @@
 import { HttpError } from "@refinedev/core";
 import { UseModalFormReturnType } from "@refinedev/react-hook-form";
 import { Button, Stack } from "react-bootstrap";
-import { InferType } from "yup";
-import { invoiceSchema } from "~/constants";
+import type { InferType } from "yup";
+import { invoiceSchema } from "~/constants/schemas";
 
 type InvoicesModalFooterProps = {
   invoicesModalForm: UseModalFormReturnType<

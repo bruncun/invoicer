@@ -1,9 +1,16 @@
 import * as yup from "yup";
-import { constants, PAYMENT_TERMS } from "./constants";
-import { Enums } from "~/types/supabase";
-import { STATUSES } from "~/constants";
+import { PAYMENT_TERMS, STATUSES } from "./constants";
+import type { Enums } from "~/types/supabase";
 
-const { validString, validEmail } = constants;
+yup.addMethod(yup.string, "postcode", function (message: string) {
+  return this.test("is-postcode", message, (value) => {
+    const postcodeRegex = /^[A-Za-z0-9]{3,}$/;
+    return postcodeRegex.test(value || "");
+  });
+});
+
+const validString = yup.string().trim();
+const validEmail = validString.email("Invalid email address");
 
 const validPassword = yup
   .string()

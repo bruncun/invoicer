@@ -3,8 +3,8 @@ import { HttpError, useInvalidate, useNotification } from "@refinedev/core";
 import { useModalForm } from "@refinedev/react-hook-form";
 import { parseISO, formatDate, sub } from "date-fns";
 import { useEffect } from "react";
-import { InferType } from "yup";
-import { invoiceSchema } from "~/constants";
+import type { InferType } from "yup";
+import { invoiceSchema } from "~/constants/schemas";
 import useInvoiceUpdate from "../use-update";
 
 const useInvoicesEditModalForm = (

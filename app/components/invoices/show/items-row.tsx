@@ -1,7 +1,7 @@
 import { formatCurrency } from "~/utility/formatters";
 import Skeleton from "~/components/skeleton";
-import { InferType } from "yup";
-import { itemSchema } from "~/constants";
+import type { InferType } from "yup";
+import { itemSchema } from "~/constants/schemas";
 
 interface ItemsRowProps {
   item?: InferType<typeof itemSchema>;

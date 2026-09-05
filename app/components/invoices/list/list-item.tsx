@@ -6,8 +6,8 @@ import Icon from "~/components/icon";
 import { StatusBadge } from "~/components/status-badge";
 import { formatCurrency, formatDisplayDate } from "~/utility/formatters";
 import Skeleton from "~/components/skeleton";
-import { InferType } from "yup";
-import { invoiceSchema } from "~/constants";
+import type { InferType } from "yup";
+import { invoiceSchema } from "~/constants/schemas";
 
 type InvoicesListItemProps = {
   invoice?: InferType<typeof invoiceSchema>;

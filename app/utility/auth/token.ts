@@ -1,5 +1,5 @@
 import * as cookie from "cookie";
-import { TOKEN_KEY } from "~/constants";
+import { TOKEN_KEY } from "~/constants/constants";
 
 function decodePayload(token: string): { exp?: number } | null {
   try {

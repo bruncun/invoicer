@@ -9,9 +9,9 @@ import {
   Form,
 } from "react-bootstrap";
 import { useFormContext } from "react-hook-form";
-import { InferType } from "yup";
+import type { InferType } from "yup";
 import Icon from "~/components/icon";
-import { invoiceSchema } from "~/constants";
+import { invoiceSchema } from "~/constants/schemas";
 import useItemsFieldArray from "~/hooks/invoices/use-items-field-array";
 import { formatCurrency } from "~/utility/formatters";
 import Field from "~/components/field";

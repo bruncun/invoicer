@@ -1,7 +1,7 @@
 import { Control } from "react-hook-form";
 import { useFieldArray } from "react-hook-form";
-import { InferType } from "yup";
-import { invoiceSchema } from "~/constants";
+import type { InferType } from "yup";
+import { invoiceSchema } from "~/constants/schemas";
 
 const useItemsFieldArray = (
   control: Control<InferType<typeof invoiceSchema>>

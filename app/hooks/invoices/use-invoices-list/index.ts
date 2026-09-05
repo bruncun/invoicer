@@ -1,8 +1,9 @@
 import { useList, HttpError, GetListResponse } from "@refinedev/core";
-import { invoiceSchema, STATUSES } from "~/constants";
+import { STATUSES } from "~/constants/constants";
+import { invoiceSchema } from "~/constants/schemas";
 import useFilterPagination from "../use-filter-pagination";
 import { Enums } from "~/types/supabase";
-import { InferType } from "yup";
+import type { InferType } from "yup";
 
 export type Invoice = InferType<typeof invoiceSchema>;
 export type InvoicesList = ReturnType<typeof useList<Invoice, HttpError>> & {

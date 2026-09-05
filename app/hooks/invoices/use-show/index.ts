@@ -1,6 +1,6 @@
 import { GetOneResponse, HttpError, useShow } from "@refinedev/core";
-import { InferType } from "yup";
-import { invoiceSchema } from "~/constants";
+import type { InferType } from "yup";
+import { invoiceSchema } from "~/constants/schemas";
 
 export type InvoicesShow = {
   invoice: InferType<typeof invoiceSchema> | undefined;

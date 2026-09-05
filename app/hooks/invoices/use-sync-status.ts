@@ -1,7 +1,7 @@
 import { UseModalFormReturnType } from "@refinedev/react-hook-form";
 import { useEffect } from "react";
-import { InferType } from "yup";
-import { invoiceSchema } from "~/constants";
+import type { InferType } from "yup";
+import { invoiceSchema } from "~/constants/schemas";
 
 const useSyncStatus = (
   invoicesModalForm: UseModalFormReturnType<InferType<typeof invoiceSchema>>,

@@ -1,8 +1,8 @@
 import { Card, Stack, Table } from "react-bootstrap";
 import { formatCurrency } from "~/utility/formatters";
 import Skeleton from "~/components/skeleton";
-import { InferType } from "yup";
-import { invoiceSchema } from "~/constants";
+import type { InferType } from "yup";
+import { invoiceSchema } from "~/constants/schemas";
 import ItemsRow from "./items-row";
 
 interface ItemsTableProps {

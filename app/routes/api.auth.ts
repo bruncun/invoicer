@@ -1,7 +1,7 @@
 import { json, type ActionFunctionArgs } from "@remix-run/node";
 import { serialize } from "cookie";
 import { createSupabaseServerClient } from "~/utility/supabase/server";
-import { TOKEN_KEY } from "~/constants";
+import { TOKEN_KEY } from "~/constants/constants";
 
 export async function action({ request }: ActionFunctionArgs) {
   const body = await request.json();

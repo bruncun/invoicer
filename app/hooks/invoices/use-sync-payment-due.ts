@@ -5,8 +5,8 @@ import {
   UseFormSetValue,
   UseFormGetValues,
 } from "react-hook-form";
-import { InferType } from "yup";
-import { invoiceSchema } from "~/constants";
+import type { InferType } from "yup";
+import { invoiceSchema } from "~/constants/schemas";
 
 function useSyncPaymentDue(
   watch: UseFormWatch<InferType<typeof invoiceSchema>>,

@@ -2,8 +2,8 @@ import { useModalForm } from "@refinedev/react-hook-form";
 import { formatDate } from "date-fns";
 import { HttpError, useNotification, useNavigation } from "@refinedev/core";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { invoiceSchema } from "~/constants";
-import { InferType } from "yup";
+import { invoiceSchema } from "~/constants/schemas";
+import type { InferType } from "yup";
 import useInvoiceCreate from "../use-invoice-create";
 
 const useInvoicesCreateModalForm = () => {

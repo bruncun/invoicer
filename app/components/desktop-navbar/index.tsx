@@ -8,7 +8,7 @@ import {
 import Icon from "../icon";
 import { Link } from "@remix-run/react";
 import logoSvg from "~/assets/logo.svg";
-import { TOOLTIP_SHOW } from "~/constants";
+import { TOOLTIP_SHOW } from "~/constants/constants";
 
 type DesktopNavbarProps = {
   theme: string;

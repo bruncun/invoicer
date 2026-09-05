@@ -1,7 +1,7 @@
 import InvoicesListItem from "./list-item";
 import type { InvoicesList } from "~/hooks/invoices/use-invoices-list";
-import { InferType } from "yup";
-import { invoiceSchema } from "~/constants";
+import type { InferType } from "yup";
+import { invoiceSchema } from "~/constants/schemas";
 import { Col, Row } from "react-bootstrap";
 import emptyStateIllustration from "~/assets/illustration-empty-state.svg";
 

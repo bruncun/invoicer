@@ -8,7 +8,7 @@ import {
 import { Suspense } from "react";
 import { dataProvider } from "~/utility/supabase/data-provider.server";
 import { createSupabaseServerClient } from "~/utility/supabase/server";
-import { STATUSES } from "~/constants";
+import { STATUSES } from "~/constants/constants";
 import type { Invoice } from "~/hooks/invoices/use-invoices-list";
 import { InvoicesListHeader } from "~/components/invoices/list/list-header";
 import InvoicesPager, {

@@ -1,10 +1,10 @@
 import { useNotification, useUpdatePassword } from "@refinedev/core";
 import { Button, Form } from "react-bootstrap";
 import { FormProvider, useForm } from "react-hook-form";
-import { credentialsSchema } from "~/constants";
+import { credentialsSchema } from "~/constants/schemas";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AuthLayout from "~/components/auth-layout";
-import { InferType } from "yup";
+import type { InferType } from "yup";
 import Field from "~/components/field";
 
 export default function UpdatePassword() {
