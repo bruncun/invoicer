@@ -82,8 +82,8 @@ const result = await new PurgeCSS().purge({
   content: [resolve(root, "app/**/*.{js,jsx,ts,tsx}")],
   css: cssFiles.map((file) => resolve(root, file)),
   fontFace: false,
-  keyframes: false,
-  variables: false,
+  keyframes: true,
+  variables: true,
   safelist,
   sourceMap: false,
 });
