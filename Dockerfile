@@ -34,8 +34,8 @@ FROM base AS runner
 ENV NODE_ENV production
 
 COPY --from=production-deps --chown=refine:nodejs /app/refine/node_modules ./node_modules
-COPY --from=builder --chown=refine:nodejs /app/refine/build ./build
-COPY --from=builder --chown=refine:nodejs /app/refine/public ./public
+COPY --from=builder --chown=refine:nodejs /app/refine/build/server ./build/server
+COPY --from=builder --chown=refine:nodejs /app/refine/build/client ./build/client
 COPY --from=builder --chown=refine:nodejs /app/refine/package.json ./package.json
 
 USER refine

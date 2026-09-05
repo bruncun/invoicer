@@ -2,16 +2,17 @@
   "name": "invoice-app",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "sideEffects": false,
   "scripts": {
     "build": "run-s build:css build:refine",
     "dev": "run-p \"dev:*\"",
-    "dev:refine": "refine dev",
+    "dev:refine": "remix vite:dev",
     "dev:css": "npm run generate:css -- --watch",
-    "build:refine": "refine build",
+    "build:refine": "remix vite:build",
     "build:css": "npm run generate:css && node scripts/purge-css.mjs",
     "generate:css": "sass app/styles/index.scss app/index.css --style=compressed && sass app/styles/invoice-details.scss public/invoice-details.css --style=compressed && sass app/styles/invoice-form.scss public/invoice-form.css --style=compressed && sass app/styles/toast.scss public/toast.css --style=compressed",
-    "start": "refine start ./build/index.js",
+    "start": "remix-serve ./build/server/index.js",
     "refine": "refine"
   },
   "dependencies": {
@@ -59,7 +60,8 @@
     "purgecss": "^8.0.0",
     "sass": "^1.77.2",
     "supabase": "^1.167.4",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "vite": "^5.2.11"
   },
   "refine": {
     "projectId": "AGpg3C-5yTuaG-cOKhCy"
