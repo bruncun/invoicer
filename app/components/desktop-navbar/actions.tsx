@@ -1,12 +1,11 @@
 import type { ReactElement } from "react";
 import { Button } from "react-bootstrap";
+import { Form, useNavigation } from "@remix-run/react";
 import Icon from "../icon";
 
 export type DesktopNavbarActionsProps = {
   theme: string;
   toggleTheme: () => void;
-  logout: () => void;
-  isLoading: boolean;
 };
 
 type DesktopNavbarActionsPropsWithWrapper = DesktopNavbarActionsProps & {
@@ -16,10 +15,12 @@ type DesktopNavbarActionsPropsWithWrapper = DesktopNavbarActionsProps & {
 export default function DesktopNavbarActions({
   theme,
   toggleTheme,
-  logout,
-  isLoading,
   wrap,
 }: DesktopNavbarActionsPropsWithWrapper) {
+  const navigation = useNavigation();
+  const isLoggingOut =
+    navigation.state === "submitting" && navigation.formAction === "/logout";
+
   const themeButton = (
     <Button
       variant="dark"
@@ -38,24 +39,26 @@ export default function DesktopNavbarActions({
   );
 
   const logoutButton = (
-    <Button
-      variant="dark"
-      className="rounded d-flex align-items-center justify-content-center p-0"
-      style={{ width: "2.5rem", height: "2.5rem" }}
-      data-testid="logout"
-      onClick={logout}
-      disabled={isLoading}
-    >
-      {isLoading ? (
-        <span
-          role="status"
-          className="spinner-border spinner-border-sm text-white"
-        />
-      ) : (
-        <Icon name="box-arrow-right" className="fs-4" aria-hidden="true" />
-      )}
-      <span className="visually-hidden">Log out</span>
-    </Button>
+    <Form action="/logout" method="post">
+      <Button
+        variant="dark"
+        type="submit"
+        className="rounded d-flex align-items-center justify-content-center p-0"
+        style={{ width: "2.5rem", height: "2.5rem" }}
+        data-testid="logout"
+        disabled={isLoggingOut}
+      >
+        {isLoggingOut ? (
+          <span
+            role="status"
+            className="spinner-border spinner-border-sm text-white"
+          />
+        ) : (
+          <Icon name="box-arrow-right" className="fs-4" aria-hidden="true" />
+        )}
+        <span className="visually-hidden">Log out</span>
+      </Button>
+    </Form>
   );
 
   return (

@@ -5,20 +5,19 @@ import {
   useLoaderData,
   useLocation,
 } from "@remix-run/react";
-import { Suspense } from "react";
+import { lazy, Suspense } from "react";
+import { FilterPaginationProvider } from "~/contexts/invoices/filter-pagination";
 import { dataProvider } from "~/utility/supabase/data-provider.server";
 import { createSupabaseServerClient } from "~/utility/supabase/server";
 import { STATUSES } from "~/constants/constants";
 import type { Invoice } from "~/hooks/invoices/use-invoices-list";
 import { InvoicesListHeader } from "~/components/invoices/list/list-header";
-import InvoicesPager, {
-  InvoicesPagerSkeleton,
-} from "~/components/invoices/list/pager";
-import {
-  InvoicesListGroup,
-  InvoicesListSkeleton,
-} from "~/components/invoices/list/list-group";
-import useInvoicesList from "~/hooks/invoices/use-invoices-list";
+import { InvoicesListLoadingState } from "~/components/invoices/list/loading-state";
+
+const LazyRefineProvider = lazy(() => import("~/components/refine-provider"));
+const LazyInvoicesListContent = lazy(
+  () => import("~/components/invoices/list/content")
+);
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { client, headers } = createSupabaseServerClient(request);
@@ -42,44 +41,24 @@ export default function InvoicesLayout() {
     pathname === "/invoices" || pathname === "/invoices/create";
 
   return (
-    <>
-      {isListRoute && (
-        <>
-          <InvoicesListHeader />
-          <Suspense
-            fallback={
-              <>
-                <InvoicesListSkeleton />
-                <InvoicesPagerSkeleton />
-              </>
-            }
-          >
+    <FilterPaginationProvider>
+      {isListRoute && <InvoicesListHeader />}
+      <Suspense
+        fallback={
+          isListRoute ? (
+            <InvoicesListLoadingState />
+          ) : null
+        }
+      >
+        <LazyRefineProvider>
+          {isListRoute && (
             <Await resolve={initialData}>
-              {(data) => (
-                <InvoicesListContent
-                  initialData={data}
-                />
-              )}
+              {(data) => <LazyInvoicesListContent initialData={data} />}
             </Await>
-          </Suspense>
-        </>
-      )}
-      <Outlet />
-    </>
-  );
-}
-
-function InvoicesListContent({
-  initialData,
-}: {
-  initialData: Parameters<typeof useInvoicesList>[0];
-}) {
-  const invoicesList = useInvoicesList(initialData);
-
-  return (
-    <>
-      <InvoicesListGroup invoicesList={invoicesList} />
-      <InvoicesPager invoicesList={invoicesList} />
-    </>
+          )}
+          <Outlet />
+        </LazyRefineProvider>
+      </Suspense>
+    </FilterPaginationProvider>
   );
 }

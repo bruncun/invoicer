@@ -41,15 +41,11 @@ const loadTooltipStylesheet = () => {
 };
 
 type DesktopNavbarProps = DesktopNavbarActionsProps & {
-  invoicesListUrl: string;
 };
 
 const DesktopNavbar = ({
   theme,
   toggleTheme,
-  logout,
-  isLoading,
-  invoicesListUrl,
 }: DesktopNavbarProps) => {
   const [tooltipsReady, setTooltipsReady] = useState(false);
   const prefetchTooltips = useCallback(() => {
@@ -69,14 +65,12 @@ const DesktopNavbar = ({
   const actions = {
     theme,
     toggleTheme,
-    logout,
-    isLoading,
   };
 
   return (
     <div className="d-lg-flex flex-column flex-shrink-0 d-none bg-dark z-3 vh-100 position-fixed start-0 top-0 rounded-top-end-4 rounded-bottom-end-4">
       <Link
-        to={invoicesListUrl}
+        to="/"
         className="d-block py-3 text-decoration-none bg-primary text-white text-center position-relative rounded-top-end-4 rounded-bottom-end-4 overflow-hidden"
       >
         <img

@@ -14,20 +14,9 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import { Refine } from "@refinedev/core";
-import routerProvider from "@refinedev/remix-router";
 import styles from "./index.css?raw";
-import { FilterPaginationProvider } from "./contexts/invoices/filter-pagination";
-import {
-  authProvider,
-  notificationProvider,
-  resources,
-  options,
-} from "./utility/refine";
-import { httpDataProvider } from "./utility/refine/http-data-provider";
 import { ThemeProvider, type Theme } from "./hooks/use-theme";
 import FullScreenError from "./components/full-screen-error";
-import ToastHost from "./components/toast-host";
 
 export const meta: MetaFunction = () => [
   {
@@ -68,19 +57,7 @@ export default function App() {
       </head>
       <body>
         <ThemeProvider initialTheme={env.theme as Theme | undefined}>
-        <Refine
-          routerProvider={routerProvider}
-          dataProvider={httpDataProvider}
-          authProvider={authProvider}
-          notificationProvider={notificationProvider}
-          resources={resources}
-          options={options}
-        >
-          <FilterPaginationProvider>
-            <Outlet />
-            <ToastHost />
-          </FilterPaginationProvider>
-        </Refine>
+          <Outlet />
         </ThemeProvider>
         <ScrollRestoration />
         <script

@@ -1,27 +1,26 @@
 import { Button } from "react-bootstrap";
 import Icon from "../icon";
-import { Link } from "@remix-run/react";
+import { Form, Link, useNavigation } from "@remix-run/react";
 import logoSvg from "~/assets/logo.svg";
 
 type MobileNavbarProps = {
   theme: string;
   toggleTheme: () => void;
-  logout: () => void;
-  isLoading: boolean;
-  invoicesListUrl: string;
 };
 
 const MobileNavbar = ({
   theme,
-  invoicesListUrl,
   toggleTheme,
-  logout,
-  isLoading,
-}: MobileNavbarProps) => (
-  <nav className="navbar navbar-expand-lg bg-dark fixed-top d-lg-none z-3 rounded-bottom-4 rounded-bottom-md-0">
+}: MobileNavbarProps) => {
+  const navigation = useNavigation();
+  const isLoggingOut =
+    navigation.state === "submitting" && navigation.formAction === "/logout";
+
+  return (
+    <nav className="navbar navbar-expand-lg bg-dark fixed-top d-lg-none z-3 rounded-bottom-4 rounded-bottom-md-0">
     <Link
       className="navbar-brand bg-primary text-white p-3 lh-1 border-top border-bottom border-transparent position-relative overflow-hidden rounded-bottom-start-4 rounded-bottom-end-4"
-      to={invoicesListUrl}
+      to="/"
     >
       <img
         src={logoSvg}
@@ -56,16 +55,16 @@ const MobileNavbar = ({
           <span className="visually-hidden">Toggle theme</span>
         </Button>
       </div>
-      <div>
+      <Form action="/logout" method="post">
         <Button
           variant="dark"
+          type="submit"
           className="rounded d-flex align-items-center justify-content-center p-0"
           style={{ width: "2.5rem", height: "2.5rem" }}
           data-testid="logout"
-          onClick={logout}
-          disabled={isLoading}
+          disabled={isLoggingOut}
         >
-          {isLoading ? (
+          {isLoggingOut ? (
             <span
               role="status"
               className="spinner-border spinner-border-sm text-white"
@@ -75,9 +74,10 @@ const MobileNavbar = ({
           )}
           <span className="visually-hidden">Log out</span>
         </Button>
-      </div>
+      </Form>
     </div>
-  </nav>
-);
+    </nav>
+  );
+};
 
 export default MobileNavbar;
