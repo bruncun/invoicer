@@ -26,6 +26,10 @@
   color: var(--bs-emphasis-color);
 }
 
+.rows-per-page-menu .dropdown-item.active {
+  color: var(--bs-white);
+}
+
 .rows-per-page-menu .dropdown-item:focus {
   outline: 0;
   box-shadow: none;
