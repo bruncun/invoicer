@@ -316,10 +316,8 @@ $theme-colors: (
   "primary": $primary,
   "secondary": $secondary,
   "success": $success,
-  "info": $info,
   "warning": $warning,
   "danger": $danger,
-  "light": $light,
   "dark": $dark,
 );
 // scss-docs-end theme-colors-map
@@ -510,7 +508,6 @@ $container-max-widths: (
   md: 720px,
   lg: 960px,
   xl: 1140px,
-  xxl: 1320px,
 );
 // scss-docs-end container-max-widths
 
@@ -645,8 +642,6 @@ $h6-font-size: $font-size-base;
 // scss-docs-start font-sizes
 $font-sizes: (
   0: 0,
-  1: $h1-font-size,
-  2: $h2-font-size,
   3: $h3-font-size,
   4: $h4-font-size,
   5: $h5-font-size,
@@ -665,12 +660,6 @@ $headings-color: $dark;
 
 // scss-docs-start display-headings
 $display-font-sizes: (
-  1: 5rem,
-  2: 4.5rem,
-  3: 4rem,
-  4: 3.5rem,
-  5: 3rem,
-  6: 2.5rem,
 );
 
 $display-font-family: null;
@@ -782,12 +771,6 @@ $table-bg-scale: -80%;
 
 // scss-docs-start table-loop
 $table-variants: (
-  "primary": shift-color($primary, $table-bg-scale),
-  "secondary": shift-color($secondary, $table-bg-scale),
-  "success": shift-color($success, $table-bg-scale),
-  "info": shift-color($info, $table-bg-scale),
-  "warning": shift-color($warning, $table-bg-scale),
-  "danger": shift-color($danger, $table-bg-scale),
   "light": $light,
   "dark": $dark,
 );
