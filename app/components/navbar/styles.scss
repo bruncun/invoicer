@@ -1,0 +1,102 @@
+.app-navbar {
+  align-items: center;
+  border-bottom-left-radius: var(--bs-border-radius-xl);
+  border-bottom-right-radius: var(--bs-border-radius-xl);
+}
+
+.app-navbar-brand {
+  background-color: var(--bs-primary);
+  border-bottom-left-radius: var(--bs-border-radius-xl);
+  border-bottom-right-radius: var(--bs-border-radius-xl);
+  border-bottom: var(--bs-border-width) var(--bs-border-style) transparent;
+  border-top: var(--bs-border-width) var(--bs-border-style) transparent;
+  color: var(--bs-white);
+  line-height: 1;
+  margin-right: 1rem;
+  overflow: hidden;
+  padding: 1rem;
+  position: relative;
+}
+
+.app-navbar-logo-accent {
+  background-color: #9277ff;
+  border-bottom-left-radius: var(--bs-border-radius-xxl);
+  border-top-left-radius: var(--bs-border-radius-xxl);
+  height: 3.75rem;
+  left: 50%;
+  opacity: 0.5;
+  position: absolute;
+  top: 100%;
+  transform: translate(-50%, -50%);
+  width: 3.75rem;
+}
+
+.app-navbar-actions {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin-right: 1rem;
+}
+
+.app-navbar-theme-button {
+  margin-right: 0.5rem;
+}
+
+.app-navbar-theme-icon {
+  font-size: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .app-navbar {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+@media (min-width: 992px) {
+  .app-navbar {
+    align-items: stretch;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: var(--bs-border-radius-xl);
+    border-top-right-radius: var(--bs-border-radius-xl);
+    bottom: 0;
+    flex-direction: column;
+    left: 0;
+    right: auto;
+  }
+
+  .app-navbar-brand {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: var(--bs-border-radius-xl);
+    border-top-right-radius: var(--bs-border-radius-xl);
+    display: block;
+    margin-right: 0;
+    padding: 1rem 0;
+    text-align: center;
+  }
+
+  .app-navbar-logo {
+    margin: 0.25rem 0;
+  }
+
+  .app-navbar-logo-accent {
+    height: 4.125rem;
+    width: 4.125rem;
+  }
+
+  .app-navbar-actions {
+    flex-direction: column;
+    gap: 1rem;
+    margin-right: 0;
+    margin-top: auto;
+    padding: 0 0.5rem 0.5rem;
+  }
+
+  .app-navbar-theme-button {
+    margin-right: 0;
+  }
+
+  .app-navbar-theme-icon {
+    font-size: 1.5rem;
+  }
+}

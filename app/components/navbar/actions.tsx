@@ -1,22 +1,22 @@
 import type { ReactElement } from "react";
-import { Button } from "react-bootstrap";
 import { Form, useNavigation } from "@remix-run/react";
-import Icon from "../icon";
+import { Button } from "react-bootstrap";
+import Icon from "~/components/icon";
 
-export type DesktopNavbarActionsProps = {
+export type NavbarActionsProps = {
   theme: string;
   toggleTheme: () => void;
 };
 
-type DesktopNavbarActionsPropsWithWrapper = DesktopNavbarActionsProps & {
+type NavbarActionsWithWrapperProps = NavbarActionsProps & {
   wrap?: (action: "theme" | "logout", button: ReactElement) => ReactElement;
 };
 
-export default function DesktopNavbarActions({
+export default function NavbarActions({
   theme,
   toggleTheme,
   wrap,
-}: DesktopNavbarActionsPropsWithWrapper) {
+}: NavbarActionsWithWrapperProps) {
   const navigation = useNavigation();
   const isLoggingOut =
     navigation.state === "submitting" && navigation.formAction === "/logout";
@@ -24,16 +24,16 @@ export default function DesktopNavbarActions({
   const themeButton = (
     <Button
       variant="dark"
-      className="rounded d-flex align-items-center justify-content-center p-0"
+      className="app-navbar-theme-button rounded d-flex align-items-center justify-content-center p-0"
       style={{ width: "2.5rem", height: "2.5rem" }}
       data-testid="theme-toggle"
       onClick={toggleTheme}
     >
       <Icon
         name={theme === "dark" ? "moon-stars-fill" : "sun-fill"}
-        className="fs-4"
+        className="app-navbar-theme-icon"
         aria-hidden="true"
-      ></Icon>
+      />
       <span className="visually-hidden">Toggle theme</span>
     </Button>
   );

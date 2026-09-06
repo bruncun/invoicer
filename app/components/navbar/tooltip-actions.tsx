@@ -1,14 +1,10 @@
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { TOOLTIP_SHOW } from "~/constants/constants";
-import DesktopNavbarActions, {
-  type DesktopNavbarActionsProps,
-} from "./actions";
+import NavbarActions, { type NavbarActionsProps } from "./actions";
 
-export default function DesktopNavbarTooltipActions(
-  props: DesktopNavbarActionsProps
-) {
+export default function TooltipNavbarActions(props: NavbarActionsProps) {
   return (
-    <DesktopNavbarActions
+    <NavbarActions
       {...props}
       wrap={(action, button) => (
         <OverlayTrigger
@@ -17,6 +13,7 @@ export default function DesktopNavbarTooltipActions(
           delay={TOOLTIP_SHOW}
           overlay={
             <Tooltip
+              className="d-none d-lg-block"
               id={action === "theme" ? "theme-toggle-tooltip" : "logout-tooltip"}
             >
               {action === "theme" ? "Toggle Theme" : "Logout"}
