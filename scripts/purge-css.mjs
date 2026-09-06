@@ -31,7 +31,6 @@ const safelist = {
     "fixed-top",
     "form-control",
     "form-label",
-    "form-select",
     "hstack",
     "input",
     "invalid-feedback",
@@ -50,7 +49,6 @@ const safelist = {
     "spinner-border",
     "table",
     "toast",
-    "textarea",
     "tooltip",
     "vstack",
     "optgroup",
@@ -59,17 +57,21 @@ const safelist = {
     /^badge-/,
     /^bg-(body-secondary|dark|danger|secondary|success|warning|white)(-subtle)?$/,
     /^bi-/,
-    /^btn-/,
-    /^card-/,
+    // Keep only the Button variants React-Bootstrap generates in the app.
+    // `btn-danger` is used by the invoice deletion action.
+    /^btn-(close(?:-white)?|dark|danger|link|primary|secondary)$/,
     /^col(?:-(sm|md|lg|xl|xxl))?(?:-\d+)?$/,
     /^container(?:-(sm|md|lg|xl|xxl|fluid))?$/,
-    /^dropdown-/,
-    /^form-/,
+    /^dropdown-(center|item(?:-text)?|menu|toggle)$/,
+    // `Form.Check` generates its Bootstrap classes at runtime. Keep this
+    // family, but do not retain unrelated form features such as ranges,
+    // floating labels, and size variants that are not used by the app shell.
+    /^form-check/,
     /^modal-/,
     /^nav-/,
-    /^navbar-/,
+    /^navbar-expand-lg$/,
     /^placeholder-/,
-    /^spinner-/,
+    /^spinner-border/,
     /^table-/,
     /^text-(danger|success|warning|secondary)-emphasis$/,
     /^toast-/,
@@ -79,6 +81,21 @@ const safelist = {
   deep: [/^\.modal/, /^\.dropdown/, /^\.toast/],
 };
 
+// Some unused Bootstrap selectors match source file names (for example,
+// `list-group.tsx`). Reject them explicitly instead of retaining their CSS.
+const blocklist = [
+  /^dropdown-menu-/,
+  "dropdown-divider",
+  "dropdown-header",
+  /^navbar-expand(?:-(?!lg$).*)?$/,
+  "navbar-nav-scroll",
+  /^card-header(?:-|$)/,
+  /^card-img(?:-|$)/,
+  "list-group",
+  "progress",
+  "sub",
+];
+
 const result = await new PurgeCSS().purge({
   content: [resolve(root, "app/**/*.{js,jsx,ts,tsx}")],
   css: cssFiles.map((file) => resolve(root, file)),
@@ -86,6 +103,7 @@ const result = await new PurgeCSS().purge({
   keyframes: true,
   variables: true,
   safelist,
+  blocklist,
   sourceMap: false,
 });
 
