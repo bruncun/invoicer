@@ -2,7 +2,7 @@ import { json, LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
 import { lazy, Suspense } from "react";
 import { clearAuthCookieHeaders } from "~/utility/auth/token";
-import { getSessionUser } from "~/utility/auth/session.server";
+import { getSessionClaims } from "~/utility/auth/session.server";
 
 const LazyRefineProvider = lazy(() => import("~/components/refine-provider"));
 
@@ -22,9 +22,9 @@ export default function AuthLayout() {
  * But, server-side redirects are more performant.
  */
 export async function loader({ request }: LoaderFunctionArgs) {
-  const user = await getSessionUser(request);
+  const claims = await getSessionClaims(request);
 
-  if (user) {
+  if (claims) {
     throw redirect("/");
   }
 

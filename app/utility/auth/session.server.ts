@@ -1,4 +1,3 @@
-import { getTokenFromRequest, isTokenExpired } from "~/utility/auth/token";
 import { createSupabaseServerClient } from "~/utility/supabase/server";
 
 /**
@@ -6,15 +5,12 @@ import { createSupabaseServerClient } from "~/utility/supabase/server";
  *
  * This must stay server-only because it reads the HTTP-only session cookie.
  */
-export async function getSessionUser(request: Request) {
-  if (isTokenExpired(getTokenFromRequest(request))) return null;
-
+export async function getSessionClaims(request: Request) {
   const { client } = createSupabaseServerClient(request);
-  const {
-    data: { user },
-  } = await client.auth.getUser();
+  const { data, error } = await client.auth.getClaims();
 
-  return user;
+  if (error || !data?.claims?.sub) return null;
+  return data.claims;
 }
 
 export function loginUrl(request: Request) {
