@@ -93,7 +93,7 @@ function InvoicesPagerSkeleton() {
                 type="button"
                 disabled
                 aria-label="Rows per page"
-                className="form-select select-toggle text-start w-100 border-transparent rows-per-page-select btn btn-link dropdown-toggle"
+                className="form-select select-toggle text-start w-100 border-transparent rows-per-page-select btn btn-link text-nowrap"
               >
                 10
               </button>

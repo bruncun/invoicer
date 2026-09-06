@@ -4,13 +4,17 @@ import Icon from "~/components/icon";
 import Skeleton from "~/components/skeleton";
 import type { InvoicesList } from "~/hooks/invoices/use-invoices-list";
 import useFilterPagination from "~/hooks/invoices/use-filter-pagination";
+import { loadDropdownStyles } from "./load-dropdown-styles";
 
 let rowsPerPageSelectPromise:
   | Promise<typeof import("./rows-per-page-select")>
   | undefined;
 
 const loadRowsPerPageSelect = () =>
-  (rowsPerPageSelectPromise ??= import("./rows-per-page-select"));
+  (rowsPerPageSelectPromise ??= Promise.all([
+    import("./rows-per-page-select"),
+    loadDropdownStyles(),
+  ]).then(([module]) => module));
 
 const LazyRowsPerPageSelect = lazy(loadRowsPerPageSelect);
 
@@ -84,7 +88,7 @@ function RowsPerPageButton({
       aria-label="Rows per page"
       aria-haspopup="listbox"
       aria-expanded={false}
-      className="form-select select-toggle text-start w-100 border-transparent rows-per-page-select btn btn-link dropdown-toggle"
+      className="form-select select-toggle text-start w-100 border-transparent rows-per-page-select btn btn-link text-nowrap"
       onPointerEnter={onIntent}
       onFocus={onIntent}
       onClick={onClick}

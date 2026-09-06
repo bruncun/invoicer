@@ -2,11 +2,15 @@ import { lazy, Suspense, useCallback, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "@remix-run/react";
 import Icon from "~/components/icon";
+import { loadDropdownStyles } from "./load-dropdown-styles";
 
 let filterDropdownPromise: Promise<typeof import("./filter-dropdown")> | undefined;
 
 const loadFilterDropdown = () =>
-  (filterDropdownPromise ??= import("./filter-dropdown"));
+  (filterDropdownPromise ??= Promise.all([
+    import("./filter-dropdown"),
+    loadDropdownStyles(),
+  ]).then(([module]) => module));
 
 const LazyFilterDropdown = lazy(loadFilterDropdown);
 
@@ -64,7 +68,7 @@ function FilterButton({
   return (
     <Button
       variant="link"
-      className="user-select-none dropdown-toggle"
+      className="user-select-none text-nowrap"
       aria-haspopup="menu"
       aria-expanded={false}
       onPointerEnter={onIntent}

@@ -1,0 +1,15 @@
+@import "../../node_modules/bootstrap/scss/functions";
+@import "./bootstrap/variables";
+@import "./bootstrap/variables-dark";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/maps";
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/bootstrap/scss/dropdown";
+@import "../components/select/styles";
+@import "../components/invoices/list/dropdown-styles";
+
+// Match the app's light and dark surface colors without loading the global
+// color-mode utility bundle into this deferred stylesheet.
+.dropdown-menu {
+  --bs-dropdown-bg: var(--bs-body-bg);
+}
