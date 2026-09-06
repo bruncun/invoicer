@@ -68,7 +68,7 @@ const MobileNavbar = ({
           {isLoading ? (
             <span
               role="status"
-              className="spinner-border spinner-border-sm text-body-emphasis"
+              className="spinner-border spinner-border-sm text-white"
             />
           ) : (
             <Icon name="box-arrow-right" className="fs-4"></Icon>
