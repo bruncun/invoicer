@@ -14,9 +14,14 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import styles from "./index.css?raw";
 import { ThemeProvider, type Theme } from "./hooks/use-theme";
 import FullScreenError from "./components/full-screen-error";
+
+const getServerInjectedCriticalCss = () =>
+  typeof document === "undefined"
+    ? ""
+    : document.querySelector<HTMLStyleElement>('style[data-critical-css="true"]')
+        ?.textContent ?? "";
 
 export const meta: MetaFunction = () => [
   {
@@ -52,7 +57,10 @@ export default function App() {
           type="font/woff2"
           crossOrigin="anonymous"
         />
-        <style dangerouslySetInnerHTML={{ __html: styles }} />
+        <style
+          data-critical-css="true"
+          dangerouslySetInnerHTML={{ __html: getServerInjectedCriticalCss() }}
+        />
         <Links />
       </head>
       <body>
@@ -89,7 +97,10 @@ export function ErrorBoundary() {
           type="font/woff2"
           crossOrigin="anonymous"
         />
-        <style dangerouslySetInnerHTML={{ __html: styles }} />
+        <style
+          data-critical-css="true"
+          dangerouslySetInnerHTML={{ __html: getServerInjectedCriticalCss() }}
+        />
         <Links />
       </head>
       <body>

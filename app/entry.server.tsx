@@ -10,10 +10,50 @@ import type { AppLoadContext, EntryContext } from "@remix-run/node";
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
-import { PassThrough } from "node:stream";
+import { PassThrough, Transform } from "node:stream";
+import { StringDecoder } from "node:string_decoder";
 import { renderToPipeableStream } from "react-dom/server";
+import criticalCss from "./index.css?raw";
 
 const ABORT_DELAY = 5_000;
+const CRITICAL_CSS_PLACEHOLDER = '<style data-critical-css="true"></style>';
+const CRITICAL_CSS_ELEMENT = `<style data-critical-css="true">${criticalCss.replace(
+  /<\/style/gi,
+  "<\\/style"
+)}</style>`;
+
+function injectCriticalCss(stream: PassThrough) {
+  const decoder = new StringDecoder("utf8");
+  let buffer = "";
+
+  return stream.pipe(
+    new Transform({
+      transform(chunk, _encoding, callback) {
+        buffer += decoder.write(chunk);
+
+        const placeholderIndex = buffer.indexOf(CRITICAL_CSS_PLACEHOLDER);
+        if (placeholderIndex >= 0) {
+          this.push(
+            buffer.slice(0, placeholderIndex) +
+              CRITICAL_CSS_ELEMENT +
+              buffer.slice(placeholderIndex + CRITICAL_CSS_PLACEHOLDER.length)
+          );
+          buffer = "";
+        } else if (buffer.length > CRITICAL_CSS_PLACEHOLDER.length) {
+          this.push(buffer.slice(0, -CRITICAL_CSS_PLACEHOLDER.length));
+          buffer = buffer.slice(-CRITICAL_CSS_PLACEHOLDER.length);
+        }
+
+        callback();
+      },
+      flush(callback) {
+        buffer += decoder.end();
+        this.push(buffer);
+        callback();
+      },
+    })
+  );
+}
 
 export default function handleRequest(
   request: Request,
@@ -58,7 +98,7 @@ function handleBotRequest(
         onAllReady() {
           shellRendered = true;
           const body = new PassThrough();
-          const stream = createReadableStreamFromReadable(body);
+          const stream = createReadableStreamFromReadable(injectCriticalCss(body));
 
           responseHeaders.set("Content-Type", "text/html");
 
@@ -108,7 +148,7 @@ function handleBrowserRequest(
         onShellReady() {
           shellRendered = true;
           const body = new PassThrough();
-          const stream = createReadableStreamFromReadable(body);
+          const stream = createReadableStreamFromReadable(injectCriticalCss(body));
 
           responseHeaders.set("Content-Type", "text/html");
 
