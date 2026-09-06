@@ -13,6 +13,7 @@ type SelectProps = {
   disabled?: boolean;
   drop?: "up" | "down";
   ariaLabel?: string;
+  initiallyOpen?: boolean;
 };
 
 const Select = ({
@@ -25,6 +26,7 @@ const Select = ({
   disabled = false,
   drop = "down",
   ariaLabel,
+  initiallyOpen = false,
 }: SelectProps) => {
   const selectedOption = options.find(
     (option) => option.value === value?.toString()
@@ -39,7 +41,7 @@ const Select = ({
     setIsOpen,
     selectOption,
     handleKeyDown,
-  } = useSelect({ value, onChange, options, disabled });
+  } = useSelect({ value, onChange, options, disabled, initiallyOpen });
 
   return (
     <div ref={controlRef}>

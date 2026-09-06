@@ -11,6 +11,7 @@ type UseSelectProps = {
   onChange: (value: string) => void;
   options: SelectOption[];
   disabled?: boolean;
+  initiallyOpen?: boolean;
 };
 
 export const useSelect = ({
@@ -18,12 +19,13 @@ export const useSelect = ({
   onChange,
   options,
   disabled = false,
+  initiallyOpen = false,
 }: UseSelectProps) => {
   const selectedIndex = Math.max(
     options.findIndex((option) => option.value === value?.toString()),
     0
   );
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(initiallyOpen);
   const [highlightedIndex, setHighlightedIndex] = useState(selectedIndex);
   const controlRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);

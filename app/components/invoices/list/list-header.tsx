@@ -1,47 +1,40 @@
-import { Dropdown, Form, Button } from "react-bootstrap";
+import { lazy, Suspense, useCallback, useState } from "react";
+import { Button } from "react-bootstrap";
 import { Link } from "@remix-run/react";
 import Icon from "~/components/icon";
-import { STATUSES } from "~/constants/constants";
-import { Enums } from "~/types/supabase";
-import useFilterPagination from "~/hooks/invoices/use-filter-pagination";
+
+let filterDropdownPromise: Promise<typeof import("./filter-dropdown")> | undefined;
+
+const loadFilterDropdown = () =>
+  (filterDropdownPromise ??= import("./filter-dropdown"));
+
+const LazyFilterDropdown = lazy(loadFilterDropdown);
 
 export const InvoicesListHeader = () => {
-  const { filters, setFilters } = useFilterPagination();
-  const handleStatusChange = (status: Enums<"status">, checked: boolean) =>
-    checked
-      ? setFilters([...filters, status])
-      : setFilters(filters.filter((filter) => filter !== status));
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const prepareFilter = useCallback(() => {
+    void loadFilterDropdown();
+  }, []);
+  const openFilter = useCallback(() => {
+    prepareFilter();
+    setIsFilterOpen(true);
+  }, [prepareFilter]);
 
   return (
     <div className="d-flex justify-content-between align-items-center">
       <h1 className="fs-4 mb-0 lh-1">Invoices</h1>
       <div className="hstack gap-2">
-        <Dropdown focusFirstItemOnShow>
-          <Dropdown.Toggle
-            variant="link"
-            className="user-select-none"
-          >
-            Filter
-            <span className="d-none d-sm-inline-block">&nbsp;by Status</span>
-            <Icon name="chevron-down ms-2" aria-hidden="true"></Icon>
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Form className="px-3 py-2">
-              {STATUSES.map((status) => (
-                <Form.Check
-                  key={status}
-                  label={status.charAt(0).toUpperCase() + status.slice(1)}
-                  id={status}
-                  value={status}
-                  checked={filters.includes(status)}
-                  onChange={({ target: { checked } }) =>
-                    handleStatusChange(status, checked)
-                  }
-                ></Form.Check>
-              ))}
-            </Form>
-          </Dropdown.Menu>
-        </Dropdown>
+        {isFilterOpen ? (
+          <Suspense fallback={<FilterButton onIntent={prepareFilter} onClick={openFilter} />}>
+            <LazyFilterDropdown
+              show={isFilterOpen}
+              onShowChange={setIsFilterOpen}
+              onIntent={prepareFilter}
+            />
+          </Suspense>
+        ) : (
+          <FilterButton onIntent={prepareFilter} onClick={openFilter} />
+        )}
         <Button
           as={Link}
           to="/invoices/create"
@@ -60,3 +53,27 @@ export const InvoicesListHeader = () => {
     </div>
   );
 };
+
+function FilterButton({
+  onIntent,
+  onClick,
+}: {
+  onIntent: () => void;
+  onClick: () => void;
+}) {
+  return (
+    <Button
+      variant="link"
+      className="user-select-none dropdown-toggle"
+      aria-haspopup="menu"
+      aria-expanded={false}
+      onPointerEnter={onIntent}
+      onFocus={onIntent}
+      onClick={onClick}
+    >
+      Filter
+      <span className="d-none d-sm-inline-block">&nbsp;by Status</span>
+      <Icon name="chevron-down ms-2" aria-hidden="true" />
+    </Button>
+  );
+}

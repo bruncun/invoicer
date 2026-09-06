@@ -3,7 +3,6 @@ import FormattedId from "~/components/formatted-id";
 import Icon from "~/components/icon";
 import Skeleton from "~/components/skeleton";
 import { StatusBadge } from "~/components/status-badge";
-import { InvoicesPagerSkeleton } from "./pager";
 
 function InvoiceListItemSkeleton() {
   return (
@@ -76,5 +75,42 @@ export function InvoicesListLoadingState() {
       </ul>
       <InvoicesPagerSkeleton />
     </>
+  );
+}
+
+function InvoicesPagerSkeleton() {
+  return (
+    <div className="d-flex justify-content-between align-items-center">
+      <div className="d-flex align-items-center justify-content-between w-100">
+        <span className="text-muted fs-6 lh-1 d-xl-inline-block d-none">
+          <Skeleton className="w-11 bg-secondary" style={{ width: "8rem" }} />
+        </span>
+        <div className="d-flex flex-nowrap align-items-center w-100 w-xl-auto flex-shrink-0">
+          <div className="dropup d-xl-flex flex-nowrap align-items-center me-2 d-none">
+            <label className="form-label flex-shrink-0 mb-0 me-2">Rows per page</label>
+            <div style={{ width: "3.75rem", minWidth: "4.5rem" }}>
+              <button
+                type="button"
+                disabled
+                aria-label="Rows per page"
+                className="form-select select-toggle text-start w-100 border-transparent rows-per-page-select btn btn-link dropdown-toggle"
+              >
+                10
+              </button>
+            </div>
+          </div>
+          <div className="d-flex justify-content-between w-100 d-xl-inline-block w-xl-auto">
+            <Button variant="link" className="rounded-3" disabled>
+              <Icon name="arrow-left me-2" />
+              Previous
+            </Button>
+            <Button variant="link" className="rounded-3" disabled>
+              Next
+              <Icon name="arrow-right ms-2" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

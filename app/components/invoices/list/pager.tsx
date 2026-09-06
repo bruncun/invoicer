@@ -1,14 +1,18 @@
-import { Button, Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { lazy, Suspense, useCallback, useState } from "react";
 import Icon from "~/components/icon";
-import Select from "~/components/select";
 import Skeleton from "~/components/skeleton";
 import type { InvoicesList } from "~/hooks/invoices/use-invoices-list";
 import useFilterPagination from "~/hooks/invoices/use-filter-pagination";
 
-const PAGE_SIZE_OPTIONS = [10, 20, 50, 100].map((size) => ({
-  value: size.toString(),
-  label: size.toString(),
-}));
+let rowsPerPageSelectPromise:
+  | Promise<typeof import("./rows-per-page-select")>
+  | undefined;
+
+const loadRowsPerPageSelect = () =>
+  (rowsPerPageSelectPromise ??= import("./rows-per-page-select"));
+
+const LazyRowsPerPageSelect = lazy(loadRowsPerPageSelect);
 
 const RowsPerPageControl = ({
   pageSize = 10,
@@ -19,24 +23,76 @@ const RowsPerPageControl = ({
   isLoading?: boolean;
   onChange?: (value: string) => void;
 }) => {
+  const [isSelectOpen, setIsSelectOpen] = useState(false);
+  const prepareSelect = useCallback(() => {
+    void loadRowsPerPageSelect();
+  }, []);
+  const openSelect = useCallback(() => {
+    prepareSelect();
+    setIsSelectOpen(true);
+  }, [prepareSelect]);
+
   return (
     <div className="dropup d-xl-flex flex-nowrap align-items-center me-2 d-none">
-      <Form.Label className="flex-shrink-0 mb-0 me-2">Rows per page</Form.Label>
+      <label className="form-label flex-shrink-0 mb-0 me-2">Rows per page</label>
       <div style={{ width: "3.75rem", minWidth: "4.5rem" }}>
-        <Select
-          value={pageSize}
-          onChange={onChange}
-          options={PAGE_SIZE_OPTIONS}
-          disabled={isLoading}
-          drop="up"
-          ariaLabel="Rows per page"
-          buttonClassName="border-transparent rows-per-page-select"
-          menuClassName="rows-per-page-menu"
-        />
+        {isSelectOpen ? (
+          <Suspense
+            fallback={
+              <RowsPerPageButton
+                pageSize={pageSize}
+                disabled={isLoading}
+                onIntent={prepareSelect}
+                onClick={openSelect}
+              />
+            }
+          >
+            <LazyRowsPerPageSelect
+              pageSize={pageSize}
+              isLoading={isLoading}
+              onChange={onChange}
+            />
+          </Suspense>
+        ) : (
+          <RowsPerPageButton
+            pageSize={pageSize}
+            disabled={isLoading}
+            onIntent={prepareSelect}
+            onClick={openSelect}
+          />
+        )}
       </div>
     </div>
   );
 };
+
+function RowsPerPageButton({
+  pageSize,
+  disabled,
+  onIntent,
+  onClick,
+}: {
+  pageSize: number;
+  disabled: boolean;
+  onIntent: () => void;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      disabled={disabled}
+      aria-label="Rows per page"
+      aria-haspopup="listbox"
+      aria-expanded={false}
+      className="form-select select-toggle text-start w-100 border-transparent rows-per-page-select btn btn-link dropdown-toggle"
+      onPointerEnter={onIntent}
+      onFocus={onIntent}
+      onClick={onClick}
+    >
+      {pageSize}
+    </button>
+  );
+}
 
 export const InvoicesPagerSkeleton = () => {
   const { pageSize } = useFilterPagination();
