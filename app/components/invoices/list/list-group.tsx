@@ -10,7 +10,7 @@ export const InvoicesListSkeleton = () => (
     className="list-unstyled my-3 mb-md-2 d-flex flex-column gap-2"
   >
     {new Array(10).fill(null).map((invoice, idx) => (
-      <li key={idx}>
+      <li key={idx} className="invoice-list-deferred-content">
         <InvoicesListItem invoice={invoice} />
       </li>
     ))}
@@ -31,7 +31,7 @@ export const InvoicesListGroup = ({ invoicesList }: { invoicesList: InvoicesList
           className="list-unstyled my-3 mb-md-2 d-flex flex-column gap-2"
         >
           {invoices.map((invoice) => (
-            <li key={invoice.id}>
+            <li key={invoice.id} className="invoice-list-deferred-content">
               <InvoicesListItem invoice={invoice} />
             </li>
           ))}

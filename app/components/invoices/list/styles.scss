@@ -2,6 +2,23 @@
   transition: border-color 0.15s ease-in-out;
 }
 
+.invoice-list-deferred-content {
+  content-visibility: auto;
+  contain-intrinsic-block-size: auto 134px;
+}
+
+.invoice-list-pager-deferred {
+  content-visibility: auto;
+  contain-intrinsic-block-size: auto 38px;
+}
+
+@include media-breakpoint-up(xl) {
+  .invoice-list-deferred-content,
+  .invoice-list-pager-deferred {
+    content-visibility: visible;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .border-primary-hover {
     transition: none;

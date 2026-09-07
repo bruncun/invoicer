@@ -68,7 +68,7 @@ export function InvoicesListLoadingState() {
         className="list-unstyled my-3 mb-md-2 d-flex flex-column gap-2"
       >
         {new Array(10).fill(null).map((_, index) => (
-          <li key={index}>
+          <li key={index} className="invoice-list-deferred-content">
             <InvoiceListItemSkeleton />
           </li>
         ))}
@@ -80,7 +80,7 @@ export function InvoicesListLoadingState() {
 
 function InvoicesPagerSkeleton() {
   return (
-    <div className="d-flex justify-content-between align-items-center">
+    <div className="invoice-list-pager-deferred d-flex justify-content-between align-items-center">
       <div className="d-flex align-items-center justify-content-between w-100">
         <span className="text-muted fs-6 lh-1 d-xl-inline-block d-none">
           <Skeleton className="w-11 bg-secondary" style={{ width: "8rem" }} />

@@ -102,7 +102,7 @@ export const InvoicesPagerSkeleton = () => {
   const { pageSize } = useFilterPagination();
 
   return (
-    <div className="d-flex justify-content-between align-items-center">
+    <div className="invoice-list-pager-deferred d-flex justify-content-between align-items-center">
       <div className="d-flex align-items-center justify-content-between w-100">
         <span className="text-muted fs-6 lh-1 d-xl-inline-block d-none">
           <Skeleton className="w-11 bg-secondary" style={{ width: "8rem" }} />
@@ -146,7 +146,7 @@ export const InvoicesPager = ({ invoicesList }: { invoicesList: InvoicesList }) 
   if (total === 0 && !isLoading) return null;
 
   return (
-    <div className="d-flex justify-content-between align-items-center">
+    <div className="invoice-list-pager-deferred d-flex justify-content-between align-items-center">
       <div className="d-flex align-items-center justify-content-between w-100">
         <span className="text-muted fs-6 lh-1 d-xl-inline-block d-none">
           {isLoading ? (
