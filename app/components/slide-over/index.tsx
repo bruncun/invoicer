@@ -1,7 +1,5 @@
 import { Modal } from "react-bootstrap";
-import { ReactNode, useEffect, useRef, useState } from "react";
-
-const EXIT_TRANSITION_DURATION = 200;
+import { ReactNode, useEffect, useState } from "react";
 
 type SlideOverProps = {
   title: ReactNode;
@@ -13,34 +11,24 @@ type SlideOverProps = {
 
 const SlideOver = ({ title, body, footer, visible, close }: SlideOverProps) => {
   const [isClosing, setIsClosing] = useState(false);
-  const closeTimeout = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     if (visible) setIsClosing(false);
   }, [visible]);
 
-  useEffect(
-    () => () => {
-      if (closeTimeout.current) clearTimeout(closeTimeout.current);
-    },
-    []
-  );
-
   const requestClose = () => {
     if (isClosing) return;
 
     setIsClosing(true);
-    closeTimeout.current = setTimeout(() => {
-      close();
-    }, EXIT_TRANSITION_DURATION);
   };
 
   return (
     <Modal
       size="lg"
-      show={visible}
+      show={visible && !isClosing}
       fullscreen="md-down"
       onHide={requestClose}
+      onExited={close}
       className={`z-3 z-md-2${isClosing ? " slide-over-modal-closing" : ""}`}
       backdropClassName="z-2"
       dialogClassName="ms-md-0 mt-0 mb-0 min-vh-xl-100 slide-over-modal-dialog"
