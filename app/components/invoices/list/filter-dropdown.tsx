@@ -34,7 +34,7 @@ export default function FilterDropdown({
         onFocus={onIntent}
       >
         Filter
-        <span className="d-none d-sm-inline-block">&nbsp;by Status</span>
+        <span className="d-none d-md-inline-block">&nbsp;by Status</span>
         <Icon name="chevron-down ms-2" aria-hidden="true" />
       </Dropdown.Toggle>
       <Dropdown.Menu>

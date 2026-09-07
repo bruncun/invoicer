@@ -42,7 +42,7 @@ export const InvoicesListGroup = ({ invoicesList }: { invoicesList: InvoicesList
           data-testid="empty-state"
         >
           <div className="row w-100">
-            <div className="col-9 col-sm-7 col-md-5 col-lg-4 col-xl-5 text-center mx-auto">
+            <div className="col-9 col-md-5 text-center mx-auto">
               <img
                 src={emptyStateIllustration}
                 width={242}

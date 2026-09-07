@@ -81,6 +81,14 @@ $utilities: map-merge(
         100: 100dvh,
       ),
     ),
+    "navbar-offset": (
+      property: padding-left,
+      class: ps,
+      responsive: true,
+      values: (
+        navbar: 4.125rem,
+      ),
+    ),
     "z-index": (
       property: z-index,
       responsive: true,

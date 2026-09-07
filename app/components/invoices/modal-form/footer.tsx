@@ -54,7 +54,7 @@ const InvoicesModalFooter = ({
           ) : (
             <>
               Save
-              <span className="d-none d-sm-inline-block">&nbsp;as Draft</span>
+              <span className="d-none d-md-inline-block">&nbsp;as Draft</span>
             </>
           )}
         </Button>

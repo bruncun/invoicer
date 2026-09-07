@@ -46,14 +46,14 @@
   font-size: 1.25rem;
 }
 
-@media (min-width: 768px) {
+@include media-breakpoint-up(md) {
   .app-navbar {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
 }
 
-@media (min-width: 992px) {
+@include media-breakpoint-up(xl) {
   .app-navbar {
     align-items: stretch;
     border-bottom-left-radius: 0;

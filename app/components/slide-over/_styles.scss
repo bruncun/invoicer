@@ -4,7 +4,7 @@
   }
 }
 
-@include media-breakpoint-up(lg) {
+@include media-breakpoint-up(xl) {
   .modal.fade .slide-over-modal-dialog {
     transform: translateX(-100%);
     transition: transform 0.2s ease-out;

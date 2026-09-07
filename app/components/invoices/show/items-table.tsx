@@ -78,7 +78,7 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => (
       </div>
     </div>
     <div className="card bg-secondary rounded-top-0 mb-6 mb-md-0 text-white">
-      <div className="card-body px-lg-4 mx-lg-2">
+      <div className="card-body px-xl-4 mx-xl-2">
         <div className="d-flex justify-content-between align-items-center">
           <span className="mb-0">Amount Due</span>
           {(total && (

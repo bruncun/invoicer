@@ -60,8 +60,8 @@ const safelist = {
     // Keep only the Button variants React-Bootstrap generates in the app.
     // `btn-danger` is used by the invoice deletion action.
     /^btn-(close(?:-white)?|dark|danger|link|primary|secondary)$/,
-    /^col(?:-(sm|md|lg|xl|xxl))?(?:-\d+)?$/,
-    /^container(?:-(sm|md|lg|xl|xxl|fluid))?$/,
+    /^col(?:-(md|xl))?(?:-\d+)?$/,
+    /^container(?:-(md|xl|fluid))?$/,
     /^dropdown-(center|item(?:-text)?|menu|toggle)$/,
     // `Form.Check` generates its Bootstrap classes at runtime. Keep this
     // family, but do not retain unrelated form features such as ranges,
@@ -69,7 +69,7 @@ const safelist = {
     /^form-check/,
     /^modal-/,
     /^nav-/,
-    /^navbar-expand-lg$/,
+    /^navbar-expand-xl$/,
     /^placeholder-/,
     /^spinner-border/,
     /^table-/,
@@ -87,7 +87,7 @@ const blocklist = [
   /^dropdown-menu-/,
   "dropdown-divider",
   "dropdown-header",
-  /^navbar-expand(?:-(?!lg$).*)?$/,
+  /^navbar-expand(?:-(?!xl$).*)?$/,
   "navbar-nav-scroll",
   /^card-header(?:-|$)/,
   /^card-img(?:-|$)/,

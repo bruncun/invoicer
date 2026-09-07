@@ -14,7 +14,7 @@ const AuthLayout = ({ children, title, subtitle }: AuthLayoutProps) => {
     <div className="light-bg-gray-100 dark-bg-gray-950 ps-xl-navbar position-relative min-dvh-100">
       <div className="container align-items-center position-absolute top-50 start-50 translate-middle w-100">
         <div className="row">
-          <div className="col-md-8 col-lg-6 col-xl-4 mx-auto">
+          <div className="col-md-8 col-xl-4 mx-auto">
             <div className="d-flex align-items-center flex-column w-100">
               <img
                 src={authLogo}

@@ -1,7 +1,7 @@
 .layout {
   padding-top: 3.75rem;
 
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(xl) {
     padding-left: 4.125rem;
     padding-top: 0;
   }

@@ -51,7 +51,7 @@ export const InvoicesListHeader = () => {
             aria-hidden="true"
           ></Icon>
           <span className="ms-4 ps-1">New </span>
-          <span className="d-none d-sm-inline-block">Invoice</span>
+          <span className="d-none d-md-inline-block">Invoice</span>
         </Button>
       </div>
     </div>
@@ -76,7 +76,7 @@ function FilterButton({
       onClick={onClick}
     >
       Filter
-      <span className="d-none d-sm-inline-block">&nbsp;by Status</span>
+      <span className="d-none d-md-inline-block">&nbsp;by Status</span>
       <Icon name="chevron-down ms-2" aria-hidden="true" />
     </Button>
   );

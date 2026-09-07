@@ -53,7 +53,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
     if (
       tooltipsReady ||
       typeof window === "undefined" ||
-      !window.matchMedia("(min-width: 992px)").matches
+      !window.matchMedia("(min-width: 1440px)").matches
     ) {
       return;
     }
@@ -66,7 +66,7 @@ const Navbar = ({ theme, toggleTheme }: NavbarProps) => {
   const actions = { theme, toggleTheme };
 
   return (
-    <nav className="app-navbar navbar navbar-expand-lg bg-dark fixed-top z-3">
+    <nav className="app-navbar navbar navbar-expand-xl bg-dark fixed-top z-3">
       <Link className="app-navbar-brand" to="/">
         <img
           src={logoSvg}

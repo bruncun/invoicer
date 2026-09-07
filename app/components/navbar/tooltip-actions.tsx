@@ -13,7 +13,7 @@ export default function TooltipNavbarActions(props: NavbarActionsProps) {
           delay={TOOLTIP_SHOW}
           overlay={
             <Tooltip
-              className="d-none d-lg-block"
+              className="d-none d-xl-block"
               id={action === "theme" ? "theme-toggle-tooltip" : "logout-tooltip"}
             >
               {action === "theme" ? "Toggle Theme" : "Logout"}
