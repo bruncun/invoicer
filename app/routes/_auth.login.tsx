@@ -13,12 +13,18 @@ import { useState } from "react";
 export default function Login() {
   const { mutate, isPending: isLoading } = useLogin();
   const [demoError, setDemoError] = useState<string | null>(null);
+  const [pendingAction, setPendingAction] = useState<"demo" | "login" | null>(
+    null,
+  );
   const methods = useForm<InferType<typeof credentialsSchema>>({
     resolver: yupResolver(credentialsSchema),
   });
   const { handleSubmit } = methods;
 
-  const onSubmit = (data: InferType<typeof credentialsSchema>) => mutate(data);
+  const onSubmit = (data: InferType<typeof credentialsSchema>) => {
+    setPendingAction("login");
+    mutate(data, { onSettled: () => setPendingAction(null) });
+  };
 
   return (
     <AuthLayout title="Login">
@@ -29,13 +35,15 @@ export default function Login() {
         disabled={isLoading}
         onClick={() => {
           setDemoError(null);
+          setPendingAction("demo");
           mutate({}, {
             onError: (error) =>
               setDemoError(error.message ?? "Demo login failed"),
+            onSettled: () => setPendingAction(null),
           });
         }}
       >
-        {isLoading ? "Opening demo..." : "Try the demo"}
+        {isLoading && pendingAction === "demo" ? "Opening demo..." : "Try the demo"}
       </Button>
       {demoError && (
         <div role="alert" className="alert alert-danger mb-3">
@@ -63,7 +71,7 @@ export default function Login() {
             className="w-100"
             disabled={isLoading}
           >
-            {isLoading ? "Logging in..." : "Login"}
+            {isLoading && pendingAction === "login" ? "Logging in..." : "Login"}
           </Button>
           <Link to="/register" className="d-block mt-3 text-center">
             Don't have an account? Register
