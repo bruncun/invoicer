@@ -21,6 +21,10 @@ const LazyInvoicesListContent = lazy(
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { client, headers } = createSupabaseServerClient(request);
+  const { data: claimsData } = await client.auth.getClaims();
+  const isDemoUser =
+    Boolean(process.env.DEMO_EMAIL) &&
+    claimsData?.claims.email === process.env.DEMO_EMAIL;
   const result = dataProvider(client, request).getList<Invoice>({
     resource: "invoices",
     pagination: { currentPage: 1, pageSize: 10 },
@@ -31,11 +35,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
     },
   });
 
-  return defer({ initialData: result }, { headers: headers() });
+  return defer({ initialData: result, isDemoUser }, { headers: headers() });
 }
 
 export default function InvoicesLayout() {
-  const { initialData } = useLoaderData<typeof loader>();
+  const { initialData, isDemoUser } = useLoaderData<typeof loader>();
   const { pathname } = useLocation();
   const isListRoute =
     pathname === "/invoices" || pathname === "/invoices/create";
@@ -46,14 +50,19 @@ export default function InvoicesLayout() {
       <Suspense
         fallback={
           isListRoute ? (
-            <InvoicesListLoadingState />
+            <InvoicesListLoadingState showSkeleton={isDemoUser} />
           ) : null
         }
       >
         <LazyRefineProvider>
           {isListRoute && (
             <Await resolve={initialData}>
-              {(data) => <LazyInvoicesListContent initialData={data} />}
+              {(data) => (
+                <LazyInvoicesListContent
+                  initialData={data}
+                  isDemoUser={isDemoUser}
+                />
+              )}
             </Await>
           )}
           <Outlet />

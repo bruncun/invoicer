@@ -60,7 +60,29 @@ function InvoiceListItemSkeleton() {
   );
 }
 
-export function InvoicesListLoadingState() {
+function InvoicesListSpinner() {
+  return (
+    <div
+      className="d-flex align-items-center justify-content-center flex-grow-1 mt-7 mt-xl-9"
+      role="status"
+    >
+      <div className="row w-100">
+        <div className="col-9 col-md-5 text-center mx-auto">
+          <span className="spinner-border spinner-border-sm text-primary" />
+          <span className="visually-hidden">Loading invoices</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function InvoicesListLoadingState({
+  showSkeleton,
+}: {
+  showSkeleton: boolean;
+}) {
+  if (!showSkeleton) return <InvoicesListSpinner />;
+
   return (
     <>
       <ul

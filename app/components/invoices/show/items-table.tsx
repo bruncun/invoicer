@@ -10,7 +10,7 @@ interface ItemsTableProps {
   isLoading: boolean;
 }
 
-const SKELETON_ITEM_COUNT = 4;
+const SKELETON_ITEM_COUNT = 1;
 
 const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => (
   <>

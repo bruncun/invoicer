@@ -3,6 +3,7 @@ import type { InvoicesList } from "~/hooks/invoices/use-invoices-list";
 import type { InferType } from "yup";
 import { invoiceSchema } from "~/constants/schemas";
 import emptyStateIllustration from "~/assets/illustration-empty-state.svg";
+import { InvoicesListLoadingState } from "./loading-state";
 
 export const InvoicesListSkeleton = () => (
   <ul
@@ -17,11 +18,23 @@ export const InvoicesListSkeleton = () => (
   </ul>
 );
 
-export const InvoicesListGroup = ({ invoicesList }: { invoicesList: InvoicesList }) => {
+export const InvoicesListGroup = ({
+  invoicesList,
+  isDemoUser,
+}: {
+  invoicesList: InvoicesList;
+  isDemoUser: boolean;
+}) => {
   const { data, isLoading } = invoicesList;
   const invoices = data?.data as Array<InferType<typeof invoiceSchema>>;
 
-  if (isLoading) return <InvoicesListSkeleton />;
+  if (isLoading) {
+    return isDemoUser ? (
+      <InvoicesListSkeleton />
+    ) : (
+      <InvoicesListLoadingState showSkeleton={false} />
+    );
+  }
 
   return (
     <>
