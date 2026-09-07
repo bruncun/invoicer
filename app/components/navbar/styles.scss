@@ -46,13 +46,6 @@
   font-size: 1.25rem;
 }
 
-@include media-breakpoint-up(md) {
-  .app-navbar {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-}
-
 @include media-breakpoint-up(xl) {
   .app-navbar {
     align-items: stretch;
@@ -62,6 +55,7 @@
     bottom: 0;
     flex-direction: column;
     left: 0;
+    width: 4.125rem;
     right: auto;
   }
 
