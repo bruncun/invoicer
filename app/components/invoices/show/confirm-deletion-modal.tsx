@@ -1,4 +1,4 @@
-import { useNavigation, useNotification } from "@refinedev/core";
+import { useInvalidate, useNavigation, useNotification } from "@refinedev/core";
 import { Button, Modal } from "react-bootstrap";
 import useInvoiceDelete from "~/hooks/invoices/use-invoice-delete";
 import type { InvoicesShow } from "~/hooks/invoices/use-show";
@@ -18,9 +18,11 @@ const InvoicesConfirmDeletionModal = ({
   const { invoice } = invoicesShow;
   const { list } = useNavigation();
   const { open } = useNotification();
+  const invalidate = useInvalidate();
 
   const onDelete = async () => {
     await deleteInvoice(invoice);
+    await invalidate({ resource: "invoices", invalidates: ["list"] });
     list("invoices");
     open?.({
       description: "Invoice deleted",
