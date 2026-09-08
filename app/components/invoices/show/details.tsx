@@ -20,7 +20,7 @@ export const InvoicesDetails = ({ invoicesShow }: { invoicesShow: InvoicesShow }
             <FormattedId id={invoice?.id} size="lg"></FormattedId>
             <div className="clearfix mb-1"></div>
             <p className="text-truncate">
-              {invoice?.description ?? <Skeleton className="w-10" />}
+              {invoice?.description ?? <Skeleton className="w-8" />}
             </p>
           </div>
           <div className="col-md-4">
@@ -64,7 +64,7 @@ export const InvoicesDetails = ({ invoicesShow }: { invoicesShow: InvoicesShow }
               <dd>
                 <address className="text-truncate">
                   <span className="text-body-emphasis fw-medium">
-                    {invoice?.client_name ?? <Skeleton className="w-6" />}
+                    {invoice?.client_name ?? <Skeleton className="w-7" />}
                   </span>
                   <br />
                   <span>
@@ -80,7 +80,7 @@ export const InvoicesDetails = ({ invoicesShow }: { invoicesShow: InvoicesShow }
                   </span>
                   <br />
                   <span>
-                    {invoice?.client_country ?? <Skeleton className="w-6" />}
+                    {invoice?.client_country ?? <Skeleton className="w-7" />}
                   </span>
                 </address>
               </dd>

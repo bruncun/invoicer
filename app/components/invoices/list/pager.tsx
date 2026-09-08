@@ -152,7 +152,7 @@ export const InvoicesPager = ({ invoicesList }: { invoicesList: InvoicesList }) 
           {isLoading ? (
             <Skeleton
               className="w-11 bg-secondary"
-              style={{ width: "18rem" }}
+              style={{ width: "6rem" }}
             />
           ) : (
             <>

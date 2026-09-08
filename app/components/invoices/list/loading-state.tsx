@@ -18,7 +18,7 @@ function InvoiceListItemSkeleton() {
           <Skeleton className="w-7" />
         </span>
         <span className="flex-grow-1 justify-content-end d-flex fw-medium text-body-emphasis fs-0">
-          <Skeleton className="w-6" />
+          <Skeleton className="w-7" />
         </span>
         <div className="ms-5 me-3">
           <StatusBadge />
@@ -33,7 +33,7 @@ function InvoiceListItemSkeleton() {
             <FormattedId />
           </h2>
           <span className="text-truncate d-inline-block w-10 text-end">
-            <Skeleton className="w-7" />
+            <Skeleton className="w-8" />
           </span>
         </div>
         <div
@@ -48,7 +48,7 @@ function InvoiceListItemSkeleton() {
               className="card-title fs-6 mb-0 text-body-emphasis lh-1"
               style={{ height: "1rem" }}
             >
-              <Skeleton className="w-6" />
+              <Skeleton className="w-7" />
             </div>
           </div>
           <div>
@@ -105,7 +105,7 @@ function InvoicesPagerSkeleton() {
     <div className="invoice-list-pager-deferred d-flex justify-content-between align-items-center">
       <div className="d-flex align-items-center justify-content-between w-100">
         <span className="text-muted fs-6 lh-1 d-xl-inline-block d-none">
-          <Skeleton className="w-11 bg-secondary" style={{ width: "8rem" }} />
+          <Skeleton className="w-11 bg-secondary" style={{ width: "6rem" }} />
         </span>
         <div className="d-flex flex-nowrap align-items-center w-100 w-xl-auto flex-shrink-0">
           <div className="dropup d-xl-flex flex-nowrap align-items-center me-2 d-none">

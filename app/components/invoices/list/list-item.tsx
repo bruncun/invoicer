@@ -53,7 +53,7 @@ const InvoicesListItem = ({ invoice }: InvoicesListItemProps) => {
             invoice ? "" : "fs-0"
           }`}
         >
-          {invoice?.items ? formattedTotal : <Skeleton className="w-6" />}
+          {invoice?.items ? formattedTotal : <Skeleton className="w-7" />}
         </span>
         <div className="ms-5 me-3">
           <StatusBadge status={invoice?.status} />
@@ -71,7 +71,7 @@ const InvoicesListItem = ({ invoice }: InvoicesListItemProps) => {
             <FormattedId id={invoice?.id}></FormattedId>
           </h2>
           <span className="text-truncate d-inline-block w-10 text-end">
-            {invoice?.client_name ?? <Skeleton className="w-7" />}
+            {invoice?.client_name ?? <Skeleton className="w-8" />}
           </span>
         </div>
         <div
@@ -86,7 +86,7 @@ const InvoicesListItem = ({ invoice }: InvoicesListItemProps) => {
               className="card-title fs-6 mb-0 text-body-emphasis lh-1"
               style={!invoice ? { height: "1rem" } : undefined}
             >
-              {invoice?.items ? formattedTotal : <Skeleton className="w-6" />}
+              {invoice?.items ? formattedTotal : <Skeleton className="w-7" />}
             </div>
           </div>
           <div>

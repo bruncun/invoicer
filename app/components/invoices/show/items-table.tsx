@@ -47,14 +47,14 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => (
                 >
                   <div>
                     <span className="fw-medium text-body-emphasis d-block text-truncate w-10">
-                      <Skeleton bg="secondary" className="w-5" />
+                      <Skeleton bg="secondary" className="w-8" />
                     </span>
                     <span>
-                      <Skeleton bg="secondary" className="w-6" />
+                      <Skeleton bg="secondary" className="w-8" />
                     </span>
                   </div>
                   <span>
-                    <Skeleton bg="secondary" className="w-6" />
+                    <Skeleton bg="secondary" className="w-7" />
                   </span>
                 </div>
               ))
