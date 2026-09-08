@@ -27,15 +27,19 @@ const InvoicesModalFooter = ({
   } = invoicesModalForm;
   const status = getValues("status");
 
-  const onSaveAsDraft = () =>
-    status === "draft"
-      ? handleSubmit(onFinish)()
-      : setValue("status", "draft", { shouldDirty: true });
+  const onSaveAsDraft = () => {
+    if (status !== "draft") {
+      setValue("status", "draft", { shouldDirty: true });
+    }
+    handleSubmit(onFinish)();
+  };
 
-  const onSubmit = () =>
-    status === "pending"
-      ? handleSubmit(onFinish)()
-      : setValue("status", "pending", { shouldDirty: true });
+  const onSubmit = () => {
+    if (status !== "pending") {
+      setValue("status", "pending", { shouldDirty: true });
+    }
+    handleSubmit(onFinish)();
+  };
 
   return (
     <div className="justify-content-between d-flex m-0 w-100">
@@ -45,7 +49,7 @@ const InvoicesModalFooter = ({
       <div className="hstack gap-2 m-0">
         <Button
           variant="secondary"
-          form="invoice-form"
+          type="button"
           onClick={onSaveAsDraft}
           disabled={isSubmitting}
         >
@@ -60,7 +64,7 @@ const InvoicesModalFooter = ({
         </Button>
         <Button
           variant="primary"
-          form="invoice-form"
+          type="button"
           onClick={onSubmit}
           disabled={isSubmitting}
         >

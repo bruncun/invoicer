@@ -4,7 +4,6 @@ import { FormProvider } from "react-hook-form";
 import type { InferType } from "yup";
 import { invoiceSchema } from "~/constants/schemas";
 import { ReactNode } from "react";
-import useSyncStatus from "~/hooks/invoices/use-sync-status";
 import useSyncPaymentDue from "~/hooks/invoices/use-sync-payment-due";
 import { useGetIdentity } from "@refinedev/core";
 import useSyncUserId from "~/hooks/invoices/use-sync-user-id";
@@ -42,7 +41,6 @@ const InvoicesModalForm = ({
   } = invoicesModalForm;
 
   useSyncUserId(setValue, identity);
-  useSyncStatus(invoicesModalForm, onFinish);
   useSyncPaymentDue(watch, setValue, getValues);
 
   return (
