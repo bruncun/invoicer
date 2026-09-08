@@ -16,14 +16,14 @@ export const InvoicesDetails = ({ invoicesShow }: { invoicesShow: InvoicesShow }
     <div className="card">
       <div className="card-body p-md-5">
         <div className="row d-md-flex justify-content-between mb-3">
-          <div className="col-xl-9">
+          <div className="col-md-8">
             <FormattedId id={invoice?.id} size="lg"></FormattedId>
             <div className="clearfix mb-1"></div>
             <p className="text-truncate">
               {invoice?.description ?? <Skeleton className="w-10" />}
             </p>
           </div>
-          <div className="col-xl-3">
+          <div className="col-md-4">
             <address className="text-md-end text-truncate">
               <span>
                 {invoice?.sender_street ?? <Skeleton className="w-7" />}
