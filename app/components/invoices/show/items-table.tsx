@@ -81,7 +81,7 @@ const ItemsTable = ({ invoice, total, isLoading }: ItemsTableProps) => (
       <div className="card-body px-xl-4 mx-xl-2">
         <div className="d-flex justify-content-between align-items-center">
           <span className="mb-0">Amount Due</span>
-          {(total && (
+          {(total !== undefined && (
             <span className="fw-medium fs-4 text-truncate">
               {formatCurrency(total)}
             </span>
