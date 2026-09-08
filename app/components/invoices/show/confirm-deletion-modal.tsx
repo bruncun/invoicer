@@ -22,7 +22,11 @@ const InvoicesConfirmDeletionModal = ({
 
   const onDelete = async () => {
     await deleteInvoice(invoice);
-    await invalidate({ resource: "invoices", invalidates: ["list"] });
+    await invalidate({
+      resource: "invoices",
+      invalidates: ["list"],
+      invalidationFilters: { type: "all", refetchType: "all" },
+    });
     list("invoices");
     open?.({
       description: "Invoice deleted",
