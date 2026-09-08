@@ -65,8 +65,7 @@ const useInvoicesEditModalForm = (
       await updateInvoice(formData);
       await invalidate({
         resource: "invoices",
-        id: formData.id,
-        invalidates: ["list", "detail"],
+        invalidates: ["resourceAll"],
       });
       open?.({
         description: `Invoice updated${
